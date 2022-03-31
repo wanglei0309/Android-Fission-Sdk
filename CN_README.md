@@ -1306,7 +1306,8 @@ FemalePhysiology参数说明如下：
    心率记录\
    计步记录\
    血氧记录\
-   血压记录
+   血压记录\
+   实时流数据
 
 SDK需要添加回调监听，然后调用同步数据的方法。详情请参考demo，示例代码如下：
 * 获取实时测量数据
@@ -1685,3 +1686,867 @@ BloodPressureRecord血氧记录包含以下内容：
         public int  pbMin; //最小心率
         public long utc;  // 测试时间
 ```
+* 获取实时流数据
+```
+    /**
+     * 流数据读取成功
+     * @param streamData
+     */
+    public abstract void readStreamDataSuccess(StreamData streamData);
+
+    /**
+     * 流数据读取失败
+     * @param msg
+     */
+    public abstract void readStreamDataFail(String msg);
+
+    FissionSdkBleManage.getInstance().setDataStream(Integer.parseInt(content));
+```
+StreamData实时流数据包含以下内容：
+```
+    private int number;
+
+    /**
+     * 心率
+     */
+    private int heartRate;
+
+    /**
+     * 心率等级
+     */
+    private int level;
+
+    /**
+     *  计步数
+     */
+    private int step;
+
+    /**
+     *  距离
+     */
+    private int distance;
+
+    /**
+     *  卡路里
+     */
+    private int calorie;
+```
+#### 12，回调监听
+SDK的所有操作需要添加回调监听， 不然无法得到操作的执行状态。主要用到的有以下监听：
+* BleScanResultListener, 唯一监听，新的监听回调覆盖旧的。
+```
+    public interface BleScanResultListener {
+
+        /**
+         * 蓝牙扫描成功， 返回扫描结果
+         * @param scanResult
+         */
+        void onScanResult(ScanResult scanResult);
+
+        /**
+         * 蓝牙扫描失败， 返回异常信息
+         * @param throwable
+         */
+        void onScanFailure(Throwable throwable);
+
+        /**
+         *  蓝牙扫描结束
+         */
+        void onScanFinish();
+    }
+```
+异常错误信息如下：
+```
+      <!-- Ble scan error messages -->
+      <string name="error_bluetooth_not_available">Bluetooth is not available</string>
+      <string name="error_bluetooth_disabled">Enable bluetooth and try again</string>
+      <string name="error_location_permission_missing">On Android 6.0 location permission is required. Please enable it in phone settings</string>
+      <string name="error_location_services_disabled">Location services need to be enabled on Android 6.0</string>
+      <string name="error_scan_failed_already_started">Scan with the same filters is already started</string>
+      <string name="error_scan_failed_application_registration_failed">Failed to register application for bluetooth scan</string>
+      <string name="error_scan_failed_feature_unsupported">Scan with specified parameters is not supported</string>
+      <string name="error_scan_failed_internal_error">Scan failed due to internal error</string>
+      <string name="error_scan_failed_out_of_hardware_resources">Scan cannot start due to limited hardware resources</string>
+      <string name="error_undocumented_scan_throttle">Android 7+ does not allow more scans.</string>
+      <string name="error_undocumented_scan_throttle_retry">Try in %d seconds</string>
+      <string name="error_bluetooth_cannot_start">Unable to start scanning</string>
+      <string name="error_unknown_error">Unknown error</string>
+```
+* BleConnectListener，唯一监听，新的监听回调覆盖旧的。
+```
+    public interface BleConnectListener {
+        /**
+         * BLE 连接状态变化
+         * @param newState
+         */
+        void onConnectionStateChange(RxBleConnection.RxBleConnectionState newState);
+
+        /**
+         * BLE 连接失败
+         * @param throwable
+         */
+        void onConnectionFailure(Throwable throwable);
+
+        /**
+         * Ble 连接成功后， 绑定中/发现服务（取决于是否需要绑定）
+         */
+        void onBinding();
+
+        /**
+         * 绑定成功/发现服务成功 （真正意义上的连接成功，可以正常通讯）
+         * @param name 未启用，为空字符串
+         */
+        void onBindSucceeded(String address, String name);
+
+        /**
+         * 绑定失败
+         * @param code
+         */
+        void onBindFailed(int code);
+    }
+```
+绑定失败错误码：
+```
+    /**
+     *  绑定指令返回code
+     */
+    int BIND_SUCCESS_1 = 1, BIND_SUCCESS_5 = 5, BIND_SUCCESS_6 = 6,       //绑定成功
+            BIND_FAIL_REPEAT = 2,         //设备已被绑定
+            BIND_FAIL_KEY_ERROR =4,       //绑定秘钥错误
+            BIND_FAIL_USER_REJECT =0,     //用户拒绝
+            BIND_FAIL_OUT_TIME =3;        //超时
+```
+以下三个监听可以添加多个监听对象，在需要接收的地方添加。如果添加多次需要App自己处理多次回调带来的问题。建议是做个中间层来处理，添加一个回调监听，然后回调之后自己分发给需要接收的地方。
+* FissionAtCmdResultListener/FissionBigDataCmdResultListener
+这个监听主要处理一些简单指令的功能，类似App主动发起的功能和设备主动发起的功能。指令执行成功时，会回调发送指令同名的方法。具体回调方法名参考上文功能模块的代码示例。详情请参考demo。
+```
+  FissionSdkBleManage.getInstance().addCmdResultListener(new FissionAtCmdResultListener() {
+            @Override
+            public void sendSuccess(String cmdId) {
+              //指令发送成功，代表SDK已经发送成功，不代表设备端接收成功。
+
+            }
+
+            @Override
+            public void sendFail(String cmdId) {
+              //指令发送失败，SDK指令未能发送出去。
+
+            }
+
+            @Override
+            public void onResultTimeout(String cmdId) {
+               //指令发送成功， 设备端超时没有回复
+            }
+
+            @Override
+            public void onResultError(String errorMsg) {
+              //指令发送成功， 设备端回复的数据处理异常
+            }
+
+            //重写需要监听的方法，示例如下
+            /**
+             *  查找设备
+             */
+            @Override
+            public void findDevice(){
+              super.findDevice();
+              //设备查找指令执行成功
+            }
+        });
+    }
+
+    FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
+              @Override
+              public void sendSuccess(String cmdId) {
+                //指令发送成功，代表SDK已经发送成功，不代表设备端接收成功。
+
+              }
+
+              @Override
+              public void sendFail(String cmdId) {
+                //指令发送失败，SDK指令未能发送出去。
+
+              }
+
+              @Override
+              public void onResultTimeout(String cmdId) {
+                 //指令发送成功， 设备端超时没有回复
+              }
+
+              @Override
+              public void onResultError(String errorMsg) {
+                //指令发送成功， 设备端回复的数据处理异常
+              }
+
+              //重写需要监听的方法，示例如下
+              @Override
+              public void incomingCall() {
+                  super.incomingCall();
+                //来电提醒功能指令执行成功
+              }
+          });
+      }
+```
+* FissionFmDataResultListener,上文有流数据监听功能的使用示例，详情请参考demo。
+```
+    private FissionFmDataResultListener fmDataResultListener =new FissionFmDataResultListener() {
+            @Override
+            public void readStreamDataSuccess(StreamData streamData) {
+
+            }
+
+            @Override
+            public void readStreamDataFail(String msg) {
+
+            }
+
+            @Override
+            public void sendSuccess(String cmdId) {
+
+            }
+
+            @Override
+            public void sendFail(String cmdId) {
+
+            }
+
+            @Override
+            public void onResultTimeout(String cmdId) {
+
+            }
+
+            @Override
+            public void onResultError(String errorMsg) {
+
+            }
+        };
+        FissionSdkBleManage.getInstance().addCmdResultListener(fmDataResultListener);
+```
+#### 13，DFU升级
+该功能比较复杂，用错误的文件进行升级，可能导致手表设备变砖无法使用。使用此功能时，请务必跟裂变的工程师沟通确认获取正确的升级包。
+DFU升级主要包含以下几个功能：
+> 固件升级\
+  表盘升级\
+  自定义表盘升级\
+  固件UI升级\
+  运动推送功能
+
+    DFU功能需要在AndroidManifest中注册``` <service android:name="com.realsil.sdk.dfu.DfuService"/> ```详情请参考demo。
+
+* 固件升级
+
+    使用**HardWareInfo**读取到固件版本号和适配号去请求服务器，查询是否有新的固件版本需要更新。如果有新版本固件，需要App自行下载固件bin文件到手机本地。然后使用以下示例代码进行升级：
+    ```
+        FissionSdkBleManage.getInstance().startDfu(this, filePath, FissionConstant.OTA_TYPE_FIRMWARE, new DfuAdapter.DfuHelperCallback() {
+                     @Override
+                     public void onStateChanged(int i) {
+                         super.onStateChanged(i);
+                     }
+
+                     @Override
+                     public void onTargetInfoChanged(OtaDeviceInfo otaDeviceInfo) {
+                         super.onTargetInfoChanged(otaDeviceInfo);
+                     }
+
+                     @Override
+                     public void onError(int i, int i1) {
+                         super.onError(i, i1);
+                         //处理升级失败
+                     }
+
+                     @Override
+                     public void onProcessStateChanged(int i, Throughput throughput) {
+                         super.onProcessStateChanged(i, throughput);
+                     }
+
+                     @Override
+                     public void onProgressChanged(DfuProgressInfo dfuProgressInfo) {
+                         super.onProgressChanged(dfuProgressInfo);
+                         //升级中，刷新进度条
+                     }
+                 });
+    ```
+    注意：**filePath** 下载保存到手机的文件地址需要确保能够正常找到文件。注意用户授权。
+* 表盘升级
+
+    使用**HardWareInfo**读取到固件版本号和适配号去请求服务器，查询支持的表盘列表。如果有自持的表盘可以下载，需要App自行下载表盘bin文件到手机本地。
+    表盘升级使用的方法和固件升级一样**startDfu**，请将**FissionConstant.OTA_TYPE_FIRMWARE**替换成**FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL**。
+* 自定义表盘升级
+
+    目前仅支持固定样式的原始表盘，详细代码请参考demo工程**CustomDialActivity**。主要示例代码如下：
+    ```
+        FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
+                @Override
+                public void sendSuccess(String cmdId) {
+
+                }
+
+                @Override
+                public void sendFail(String cmdId) {
+
+                }
+
+                @Override
+                public void onResultTimeout(String cmdId) {
+
+                }
+
+                @Override
+                public void onResultError(String errorMsg) {
+
+                }
+
+                @Override
+                public void onUpdateDialProgress(int state, int progress) {
+                    super.onUpdateDialProgress(state, progress);
+                    LogUtils.d("wl", "自定义表盘推送："+progress);
+                }
+            });
+
+        Bitmap bitmap = ((BitmapDrawable) iv_watch_face.getDrawable()).getBitmap();
+        dialModel = new FissionDialUtil.DialModel();
+        dialModel.setDialWidth(240);
+        dialModel.setDialHeight(280);
+        dialModel.setPreviewImage(bitmap);
+        dialModel.setBackgroundImage(bitmap);
+        dialModel.setDialPosition(1);
+        dialModel.setPreImageWidth(240 / 3 * 2);
+        dialModel.setPreImageHeight(187);
+        dialModel.setDialPosition(stylePosition_middle);
+        dialModel.setDialStyleColor(getResources().getColor(R.color.public_custom_dial_8));
+        Bitmap thumbBitmap2 = ImageScalingUtil.extractMiniThumb(dialModel.getPreviewImage(),
+                dialModel.getPreImageWidth(), dialModel.getPreImageHeight());
+        File file = new File(getPath() + File.separator + "customDial.bin");
+        dialModel.setFile(file);
+        setDiaModel(dialModel);
+
+        private void setDiaModel(FissionDialUtil.DialModel dialModel)  {
+            Bitmap bitmap1 = getPreviewImageBitmap(this,dialModel);
+            iv_watch_face2.setImageBitmap(bitmap1);
+            byte[] resultData =  FissionDialUtil.getDiaInfoBinData(this,dialModel);
+            FissionSdkBleManage.getInstance().startDial(resultData, FissionEnum.WRITE_DIAL_DATA);
+       }
+    ```
+* 运动推送功能
+
+    使用**HardWareInfo**读取到固件版本号和适配号去请求服务器，查询设备支持的运动类型，如果有支持的运动推送，需要App自行下载保存，然后转换成 **byte[]** 字节数组的形式。详细代码请参考demo工程 **PushSportModeActivity** 使用sdk以下的代码推送：
+```
+    byte[] resultData =  FissionDialUtil.inputBin(this,name);
+    FissionSdkBleManage.getInstance().startDial(resultData, FissionEnum.WRITE_SPORT_DATA);
+```
+
+* 固件UI升级（更新中...）
+
+### 五、SDK常量说明
+* AT指令
+```
+    /**
+     * AT指令
+     */
+    public interface AtCmd {
+        String AT_CMD_READ_BATTERY        = "GBS";         // 电量充电状态
+        String AT_CMD_READ_DEVICE_VERSION = "GSV";  // 读取设备版本号
+        String AT_CMD_READ_GPV            = "GPV";             // 获取协议版本
+        String AT_CMD_READ_TIME           = "GUT";            // 获取 UTC 时间
+        String AT_CMD_READ_TIMEZONE       = "GTZ";        // 获取时区
+
+        String AT_CMD_CDC             = "CDC";                  //断开连接
+        String AT_CMD_SET_TIME        = "SUT";             // 设置时间
+        String AT_CMD_SET_TIMEZONE    = "STZ";         // 设置时区
+        String AT_CMD_SET_SCREEN_KEEP = "SBT";         // 设置亮屏时长
+        String AT_CMD_GET_SCREEN_KEEP = "GBT";         // 获取亮屏时长
+        String AT_CMD_SET_TIME_MODEL  = "SHM";       // 设置时间显示模式
+        String AT_CMD_SET_LANG        = "SLG";             // 语言设置
+        String AT_CMD_SET_UNIT        = "SDU";             // 0：英制单位 1：公制单位
+        String AT_CMD_SET_SFP         = "SFP";              //设置女性生理周期
+        String AT_CMD_SET_SMI         = "SMI";                    //启动某种提示功能
+        String AT_CMD_CVS             = "CVS";                  // 振动提醒开关
+        String AT_CMD_CWS             = "CWS";                  // 抬腕亮屏开关
+        String AT_CMD_CPM             = "CPM";                  // 进入退出拍照模式
+        String AT_CMD_CFD             = "CFD";                  // 启动关闭监测数据流
+        String AT_CMD_CCS             = "CCS";                  // 高速连接低速连接
+        String AT_CMD_CHD             = "CHD";                  // 心率模式开关
+        String AT_CMD_TTP             = "TTP";                  // 即时拍照（C->H）
+        String AT_CMD_TFD             = "TFD";                  // 查找设备
+        String AT_CMD_TFP             = "TFP";                  // 查找手机
+        String AT_CMD_DFP             = "DFP";                  // 放弃查找手机
+        String AT_CMD_GRH             = "GRH";                  // 当天静息心率
+        //    String AT_CMD_DHU = "DHU";                  // 手环拒接电话
+    //    String AT_CMD_PHU = "PHU";                  // 手机拒接电话
+        String AT_CMD_RST             = "RST";                  // 重启设备
+        String AT_CMD_RES             = "RES";                  // 恢复出厂设置
+        String AT_CMD_OFF             = "OFF";                  // 软关机
+        String AT_CMD_OTA             = "OTA";                  // 启动 OTA 升级
+        String AT_CMD_CSC             = "CSC";                  // 安全确认
+        String AT_CMD_AUT             = "AUT";                  // 启动自检模式
+        String AT_CMD_CLU             = "CLU";                  // 清除用户信息
+        String AT_CMD_CLS             = "CLS";                  // 清除运动数据
+        String AT_CMD_JMP             = "JMP";                  // 界面跳转
+        String AT_CMD_MCS             = "MCS";                  // 音乐控制同步
+        String AT_CMD_MTV             = "MTV";                  // 手环发给手机MTU
+        String AT_CMD_MTU             = "MTU";                  // 手机发给环MTU
+        String AT_CMD_SPS             = "SPS";                  // 手机系统标识
+        String AT_CMD_GAI             = "GAI";                  // 未使用闹铃id
+        String AT_CMD_GPS             = "GPS";                  // GPS模式
+        String AT_CMD_SUM             = "SUM";                  // ota升级类型
+
+        String AT_CMD_FSS = "FSS";                   //功能开关状态同步，上下都可以互相发送
+
+        String AT_CMD_PCC = "PCC";                    //从手机端接听/挂断电话
+        String AT_CMD_DCC = "DCC";                    //从手环端接听/挂断电话
+        String AT_CMD_ETM = "ETM";                    //生产测试模式
+        String AT_CMD_STU = "STU";                    //设置温度单位
+        String AT_CMD_BDQ = "BDQ";                    //递交秘钥
+        String AT_CMD_BDC = "BDC";                    //解绑
+        String AT_CMD_SWF = "SWF";                    //切换到指定表盘
+        String AT_CMD_NRS = "NRS";                    //下一次的状态
+        String AT_CMD_ICF = "ICF";                    //会导致报错
+        String AT_PARA    = "INVAL PARA";                    //参数错误
+        String AT_CMD_ESS = "ESS";
+        String AT_CMD_ICM = "ICM";  //来电快捷回复
+
+    }
+```
+* 大数据指令
+```
+    public interface BigDataCmdID {
+        String CMD_ID_READ_HARDWARE = "0101";        // 获取设备硬件信息
+        String CMD_ID_GET_MEASURE_INFO = "0102";     // 获取当日活动测量数据
+        String CMD_ID_GET_SYSTEM_INFO = "0103";      // 获取当前系统动态信息
+        String CMD_ID_DAYS_REPORT = "0110";         // 获取每日活动统计
+        String CMD_ID_ST_HOURS_REPORT = "0111";     // 获取整点活动统计
+        String CMD_ID_ST_SLEEP_REPORT = "0112";     // 获取睡眠统计报告
+        String CMD_ID_ST_SLEEP_RECORD = "0113";     // 获取睡眠状态记录
+        String CMD_ID_GET_SLEEP_CUR_REPORT = "0116"; //获取当前睡眠实时统计报告
+        String CMD_ID_GET_SLEEP_CUR_RECORD = "0117";     // 获取当前睡眠实时状态记录
+        String CMD_ID_EXERCISE_LIST = "0114";       // 获取运动记录列表
+        String CMD_ID_EXERCISE_REPORT = "0115";     // 获取运动统计报告
+        String CMD_ID_HEART_RATE_RECORD = "0180";   // 获取心率记录
+        String CMD_ID_ST_STEPS_RECORD = "0181";     // 获取计步记录
+        String CMD_ID_ST_SPO2_RECORD = "0182";      // 获取血氧记录
+        String CMD_ID_ST_BLOOD_PRESSURE_RECORD = "0183";      // 获取血压记录
+        String CMD_ID_EXERCISE_DETAIL = "0184";     // 运动详情记录
+        String CMD_ID_ST_EXER_GPS_DETAIL = "0185";     // 运动定位记录
+        String CMD_ID_PERSONAL_INFO = "0200";           // 用户个人信息
+        String CMD_ID_GET_TIMING_INFO = "0201";         // 记事提醒/闹铃信息
+        String CMD_ID_GET_CUSTOM_INFO = "0202";         // 用户习惯数据
+        String CMD_ID_SEDENTARY_PARA = "0203";          // 久坐判定参数
+        String CMD_ID_GET_HRLEV_ALGO_PARA = "0204";     // 心率等级判定参数
+        String CMD_ID_GET_DRINK_WATER_PARA = "0205";     // 喝水提醒参数
+        String CMD_GET_DONT_DISTURB_PARA = "0206";   // 勿扰参数
+        String CMD_ID_GET_HR_CHECK_PARA = "0207";       // 心率检测时间段参数
+        String CMD_ID_GET_LIFTWRIST_PARA = "0208";      // 抬腕亮屏时间段参数
+        String CMD_ID_GET_TARGET_SET = "0209";          // 运动目标参数
+        String CMD_ID_GET_HR_WARN_PARA = "020B";    // 心率异常警告get
+        String CMD_ID_GET_MESSAGE_TYPE_PARA = "0210";   // 推送消息开关参数
+        String CMD_ID_GET_HAND_MEASURE_INFO = "0118";       // 获取当前手动测量数据
+        String CMD_ID_GET_FEMALE_PARAM = "020A";
+        // String CMD_ID_ST_FLASH_ACCESS = "02F0";      // 片外 flash 空间数据块
+        //String CMD_ID_ST_FLASH_ACCESS = "02E0";      // 片外 flash 空间数据块
+        String CMD_ID_SET_PERSONAL_INFO = "0300";     // 设置用户个人信息
+        String CMD_ID_ST_TIMING_INFO = "0301";        // 设置记事提醒/闹铃信息
+        String CMD_ID_ST_CUSTOM_INFO = "0302";        // 设置用户习惯数据
+        String CMD_ID_ST_SEDENTARY_PARA = "0303";     // 久坐判定参数
+        String CMD_ID_ST_HRLEV_ALGO_PARA = "0304";    // 心率等级判定参数
+        String CMD_ID_ST_HR_WARN_PARA = "030B";    // 心率等级判定参数
+        String CMD_ID_SET_HRLEV_ALGO_PARA = "0305";   // 心率等级判定参数
+        String CMD_ID_ST_DRINK_WATER_PARA = "0305";   // 喝水提醒参数
+        String CMD_ST_DONT_DISTURB_PARA = "0306";  // 勿扰参数
+        String CMD_ID_ST_HR_CHECK_PARA = "0307";      // 心率检测时间段参数
+        String CMD_ID_ST_LIFTWRIST_PARA = "0308";     // 抬腕亮屏时间段参数
+        String CMD_ID_ST_TARGET_SET = "0309";         // 运动目标参数
+        String CMD_ID_ST_MESSAGE_TYPE_PARA = "0310";   // 推送消息开关参数
+        String CMD_ID_ST_FEMALE_PARAM = "030A";         //设置女性生理周期
+        String CMD_ID_APPS_MESS = "0401";             // App 社交消息推送
+        String CMD_ID_SET_WEATHER_MESS = "0402";      // App 天气消息推送
+        String CMD_ID_SET_WEATHER_DETAIL_MESS = "0405";      // App 天气消息详情推送
+        String CMD_ID_SET_LOCATION_INFORMATION = "0406";      // App 推送手机定位信息
+        String CMD_ID_STRU_CALL_DATA = "0403";        // APP 来电消息推送
+        String CMD_ID_STRU_MUSIC_CONT = "0404";       // App 推送当前歌曲信息
+        String CMD_ID_ST_CUS_DIAL_DATA = "03F0";       // App 写入自定义表盘数据
+        String CMD_ID_ST_CUS_SPORT_DATA = "03F1";       // App 写入自定义运动推送数据
+        //设置当天天气
+        String CMD_ID_STRU_SINGLE_WEATHER = "0405";       //天气
+        String CMD_ID_ST_GPS_DATA = "02A0";  //GPS互联
+        String CMD_ID_SET_QUICK_REPLY_DATA = "0350";  //设置快捷回复数据
+        String CMD_ID_GET_QUICK_REPLY_DATA = "0250";  //获取快捷回复数据
+        String CMD_ID_ST_FLASH_ACCESS = "03E0";      // 向片外 flash空间写入指定数据
+    }
+```
+* FissionEnum
+```
+    /**
+         * 支持功能
+         */
+        String SUPPORT_ZONE = "support_zone";//是否支持时区
+
+        /**
+         * 天气
+         */
+        int WT_SUNNY               = 0,//晴
+            WT_PARTLY_CLOUDY       = 1,//多云
+            WT_WIND                = 2,//风
+            WT_CLOUDY              = 3,//阴天
+            WT_LIGHT_RAIN          = 4,//小雨
+            WT_HEAVY_RAIN          = 5,//大雨
+            WT_SNOW                = 6,//中雪
+            WT_THUNDER_SHOWER      = 7,//雷阵雨
+            WT_SUNNY_NIGHT         = 8,//夜间晴
+            WT_PARTLY_CLOUDY_NIGHT = 9,//夜间多云
+            WT_SANDSTORM           = 10,//沙尘暴
+            WT_SHOWERS             = 11,//阵雨
+            WT_NIGHT_SHOWERS       = 12,//夜间阵雨
+            WT_SLEET               = 13,//雨夹雪
+            WT_SMOG                = 14,//雾霾
+            WT_LIGHT_SNOW          = 15,//小雪
+            WT_HEAVY_SNOW          = 16,//大雪
+            WT_UNKNOWN             = 255;
+
+        /**
+         * 语言
+         */
+        int LG_CHN        = 0,//中文
+            LG_EN         = 1,//英文
+            LG_JP         = 2,//日语
+            LG_FRENCH     = 3,//法语
+            LG_GERMAN     = 4,//德语
+            LG_SPANISH    = 5,//西班牙语
+            LG_ITALIAN    = 6,//意大利语
+            LG_PORTUGUESE = 7,//葡萄牙语
+            LG_RUSSIAN    = 8,//俄语
+            LG_CZECH      = 9,//捷克语
+            LG_POLISH     = 10,//波兰语
+            LG_TR_CHN     = 11,//繁体中文
+            LG_ARABIC     = 12,//阿拉伯语
+            LG_TURKISH    = 13,//土耳其语
+            LG_VIETNAMESE = 14,//越南语
+            LG_KOREAN     = 15,//韩语
+            LG_HEBREW     = 16,//希伯来语
+            LG_THAI       = 17,//泰语
+            LG_INDONESIAN = 18,//印度尼西亚语
+            LG_DUTCH      = 19,//荷兰语
+            LG_GREEK      = 20;//希腊语
+        //功能开关状态同步
+        int SC_BODY                = 1,
+            SC_VIBRATION           = 2,
+            SC_DND                 = 3,
+            SC_ALARM1              = 4,
+            SC_ALARM2              = 5,
+            SC_ALARM3              = 6,
+            SC_ALARM4              = 7,
+            SC_ALARM5              = 8,
+            SC_LOW_BLOOD           = 9,
+            SC_DAY_TARGET          = 10,
+            SC_WEEK_TARGET         = 11,
+            SC_SELF_ENCOURAGEMENT  = 12,
+            SC_HEAR_RATE_EXCEEDED  = 13,
+            SC_WEAR_NOTIFICATION   = 14,
+            SC_CAMERA_MODE         = 15,//拍照模式开关状态
+            SC_BATTERY_STATUS      = 16,
+            SC_MUSIC               = 17,
+            SC_BRIGHT_SCREEN_TIME  = 18,
+            SC_WRIST_SCREEN_ENABLE = 19,
+            SC_CUR_BATTERY_PERCENT = 20,//电池当前百分比
+            SC_SWITCH_WATER        = 21,//喝水提醒开关
+            SC_SWITCH_SIT_DOW      = 22,//久坐提醒开关
+            SC_OTA_PERCENT         = 23,//OTA百分比
+            SC_PHONE_SILENT        = 24;//手机静音
+
+        int WRITE_DIAL_DATA  = 1, //写入表盘数据
+            WRITE_SPORT_DATA = 2; //写入运动推送数据
+
+        //自定义表盘升级状态
+        int CUS_DIAL_UPDATE_SUCCESS = 0,
+            CUS_DIAL_UPDATE_FAILED  = -1;
+
+        //运动类型
+        int SPORT_WALK                = 0,
+            SPORT_RUNNING             = 1,
+            SPORT_MOUNTAINEERING      = 2,
+            SPORT_CYCLING             = 3,
+            SPORT_FOOTBALL            = 4,
+            SPORT_SWIMMING            = 5,
+            SPORT_BASKETBALL          = 6,
+            SPORT_NO_DESIGNATION      = 7,
+            SPORT_OUTDOOR_RUNNING     = 8,
+            SPORT_INDOOR_RUNNING      = 9,
+            SPORT_REDUCE_FAT_RUNNING  = 10,
+            SPORT_OUTDOOR_WALKING     = 11,
+            SPORT_INDOOR_WALKING      = 12,
+            SPORT_OUTDOOR_CYCLE       = 13,
+            SPORT_INDOOR_CYCLING      = 14,
+            SPORT_FREE_TRAINING       = 15,
+            SPORT_FITNESS_TRAINING    = 16,
+            SPORT_BADMINTON           = 17,
+            SPORT_VOLLEYBALL          = 18,
+            SPORT_PING_PONG           = 19,
+            SPORT_ELLIPTICAL          = 20,
+            SPORT_ROWING_MACHINE      = 21,
+            SPORT_YOGA                = 22,
+            SPORT_STRENGTH_TRAINING   = 23,
+            SPORT_CRICKET             = 24,
+            SPORT_JUMP_ROPE           = 25,
+            SPORT_AEROBIC_EXERCISE    = 26,
+            SPORT_DANCING             = 27,
+            SPORT_TAICHI              = 28,
+            SPORT_AUTO_RUNNING        = 29,
+            SPORT_AUTO_WALKING        = 30,
+            SPORT_INDOOR_WALK         = 31,
+            SPORT_STEP_TRAINING       = 32,
+            SPORT_HORSE_RIDING        = 33,
+            SPORT_HOCKEY              = 34,
+            SPORT_INDOOR_CYCLE        = 35,
+            SPORT_SHUTTLECOCK         = 36,
+            SPORT_BOXING              = 37,
+            SPORT_OUTDOOR_WALK        = 38,
+            SPORT_TRAIL_RUNNING       = 39,
+            SPORT_SKIING              = 40,
+            SPORT_GYMNASTICS          = 41,
+            SPORT_ICE_HOCKEY          = 42,
+            SPORT_TAEKWONDO           = 43,
+            SPORT_VO2MAX_TEST         = 44,
+            SPORT_AIR_WALKER          = 45,
+            SPORT_HIKING              = 46,
+            SPORT_TENNIS              = 47,
+            SPORT_DANCE               = 48,
+            SPORT_ATHLETICS           = 49,
+            SPORT_WAIST_TRAINING      = 50,
+            SPORT_KARATE              = 51,
+            SPORT_COOL_DOWN           = 52,
+            SPORT_CROSS_TRAINING      = 53,
+            SPORT_PILATES             = 54,
+            SPORT_CROSS_FIT           = 55,
+            SPORT_FUNCTIONAL_TRAINING = 56,
+            SPORT_PHYSICAL_TRAINING   = 57,
+            SPORT_ARCHERY             = 58,
+            SPORT_FLEXIBILITY         = 59,
+            SPORT_MIXED_CARDIO        = 60,
+            SPORT_LATIN_DANCE         = 61,
+            SPORT_STREET_DANCE        = 62,
+            SPORT_KICKBOXING          = 63,
+            SPORT_BARRE               = 64,
+            SPORT_AUSTRALIAN_FOOTBALL = 65,
+            SPORT_MARTIAL_ARTS        = 66,
+            SPORT_STAIRS              = 67,
+            SPORT_HANDBALL            = 68,
+            SPORT_BASEBALL            = 69,
+            SPORT_BOWLING             = 70,
+            SPORT_RACQUETBALL         = 71,
+            SPORT_CURLING             = 72,
+            SPORT_HUNTING             = 73,
+            SPORT_SNOWBOARDING        = 74,
+            SPORT_PLAY                = 75,
+            SPORT_AMERICAN_FOOTBALL   = 76,
+            SPORT_HAND_CYCLING        = 77,
+            SPORT_FISHING             = 78,
+            SPORT_DISC                = 79,
+            SPORT_RUGBY               = 80,
+            SPORT_GOLF                = 81,
+            SPORT_FOLK_DANCE          = 82,
+            SPORT_DOWNHILL_SKIING     = 83,
+            SPORT_SNOW                = 84,
+            SPORT_MIND_BODY           = 85,
+            SPORT_CORE_TRAINING       = 86,
+            SPORT_SKATING             = 87,
+            SPORT_FITNESS_GAMING      = 88,
+            SPORT_AEROBICS            = 89,
+            SPORT_GROUP_TRAINING      = 90,
+            SPORT_KENDO               = 91,
+            SPORT_LACROSSE            = 92,
+            SPORT_ROLLING             = 93,
+            SPORT_WRESTLING           = 94,
+            SPORT_FENCING             = 95,
+            SPORT_SOFTBALL            = 96,
+            SPORT_SINGLE_BAR          = 97,
+            SPORT_PARALLEL_BARS       = 98,
+            SPORT_ROLLER_SKATING      = 99,
+            SPORT_HULA_HOOP           = 100,
+            SPORT_DARTS               = 101,
+            SPORT_PICKLE_BALL         = 102,
+            SPORT_SIT_UP              = 103,
+            SPORT_HIIT                = 104,
+            SPORT_TREADMILL           = 106,
+            SPORT_BOATING             = 107,
+            SPORT_JUDO                = 108,
+            SPORT_TRAMPOLINE          = 109,
+            SPORT_SKATEBOARDING       = 110,
+            SPORT_HOVERBOARD          = 111,
+            SPORT_BLADING             = 112,
+            SPORT_PARKOUR             = 113,
+            SPORT_DIVING              = 114,
+            SPORT_SURFING             = 115,
+            SPORT_SNORKELING          = 116,
+            SPORT_PULL_UP             = 117,
+            SPORT_PUSH_UP             = 118,
+            SPORT_PLANKING            = 119,
+            SPORT_ROCK_CLIMBING       = 120,
+            SPORT_HIGH_JUMP           = 121,
+            SPORT_BUNGEE_JUMPING      = 122,
+            SPORT_LONG_JUMP           = 123,
+            SPORT_SHOOTING            = 124,
+            SPORT_MARATHON            = 125;
+
+        static int getWeatherCode(int weatherCode, String deviceName) {
+            int weatherCodes = FissionEnum.WT_SUNNY;
+            try {
+                switch (weatherCode) {
+                    case 0://未知
+                        if (deviceName.contains("LW39") || deviceName.contains("DIZO Watch 2 Sports") || deviceName.contains("G20")) {
+                            weatherCodes = FissionEnum.WT_UNKNOWN;
+                        } else {
+
+                        }
+                    case 1:// 晴天
+                        weatherCodes = FissionEnum.WT_SUNNY;
+                        break;
+                    case 2:// 多云
+                        weatherCodes = FissionEnum.WT_PARTLY_CLOUDY;
+                        break;
+                    case 3:// 阴天
+                        weatherCodes = FissionEnum.WT_CLOUDY;
+                        break;
+                    case 4:// 阵雨
+                        weatherCodes = FissionEnum.WT_SHOWERS;
+                        break;
+                    case 5:// 雷阵雨、雷阵雨伴有冰雹
+                        weatherCodes = FissionEnum.WT_THUNDER_SHOWER;
+                        break;
+                    case 6:// 小雨
+                        weatherCodes = FissionEnum.WT_LIGHT_RAIN;
+                        break;
+                    case 7:// 中雨
+                    case 9:// 暴雨
+                    case 8:// 大雨
+                        weatherCodes = FissionEnum.WT_HEAVY_RAIN;
+                        break;
+                    case 10:// 雨夹雪、冻雨
+                        weatherCodes = FissionEnum.WT_SLEET;
+                        break;
+                    case 11:// 小雪
+                        weatherCodes = FissionEnum.WT_LIGHT_SNOW;
+                        break;
+                    case 12:// 大雪
+                    case 13:// 暴雪
+                        if (deviceName.contains("LW39") || deviceName.contains("DIZO Watch 2 Sports")) {
+                            weatherCodes = FissionEnum.WT_HEAVY_SNOW;
+                        } else {
+                            weatherCodes = FissionEnum.WT_LIGHT_SNOW;
+                        }
+                        break;
+                    case 14:// 沙尘暴、浮尘
+                        weatherCodes = FissionEnum.WT_SANDSTORM;
+                        break;
+                    case 15:// 雾、雾霾
+                        weatherCodes = FissionEnum.WT_SMOG;
+                        break;
+                    default:
+                        weatherCodes = FissionEnum.WT_UNKNOWN;
+                        break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return weatherCodes;
+        }
+
+        //语言
+        //语言
+        static int getFissionLg(int languageType) {
+            int lgType = 0;
+            switch (languageType) {
+                case 0:
+                    lgType = FissionEnum.LG_EN;
+                    break;
+                case 1:
+                    lgType = FissionEnum.LG_CHN;
+                    break;
+                case 2:
+                    lgType = FissionEnum.LG_TR_CHN;
+                    break;
+                case 3:
+                    lgType = FissionEnum.LG_JP;
+                    break;
+                case 4:
+                    //法语
+                    lgType = FissionEnum.LG_FRENCH;
+                    break;
+                case 5:
+                    //德语
+                    lgType = FissionEnum.LG_GERMAN;
+                    break;
+                case 6:
+                    //意大利
+                    lgType = FissionEnum.LG_ITALIAN;
+                    break;
+                case 7:
+                    //西班牙
+                    lgType = FissionEnum.LG_SPANISH;
+                    break;
+                case 8:
+                    //俄语
+                    lgType = FissionEnum.LG_RUSSIAN;
+                    break;
+                case 9:
+                    //葡萄牙
+                    lgType = FissionEnum.LG_PORTUGUESE;
+                    break;
+                case 18:
+                    //捷克语
+                    lgType = FissionEnum.LG_CZECH;
+                    break;
+                case 12:
+                    //波兰语
+                    lgType = LG_POLISH;
+                    break;
+            }
+            return lgType;
+        }
+```
+* FissionConstant
+```
+    /**
+     * 指令发送失败
+     */
+    int SEND_CMD_ERROR = 404;
+    /**
+     *  AT 绑定指令返回code
+     */
+    int BIND_SUCCESS_1 = 1, BIND_SUCCESS_5 = 5, BIND_SUCCESS_6 = 6,       //绑定成功
+            BIND_FAIL_REPEAT = 2,         //设备已被绑定
+            BIND_FAIL_KEY_ERROR =4,       //绑定秘钥错误
+            BIND_FAIL_USER_REJECT =0,     //用户拒绝
+            BIND_FAIL_OUT_TIME =3;        //超时
+
+    /**
+     *  OTA type
+     *                 0 升级固件
+     *                 1.升级默认动态表盘
+     *                 2.升级小字库 3.升级大字库 4.升级UI图片资源 5.同时升级2，3，4
+     *                 6.推送运动模式
+     *                 255.放弃当前升级
+     *                 10+n 升级动态表盘n
+     *                 20+n 升级自定义表盘n
+     */
+    int OTA_TYPE_FIRMWARE = 0, OTA_TYPE_DEFAULT_DYNAMIC_DIAL = 1, OTA_TYPE_SMALL_FONT = 2, OTA_TYPE_LARGE_FONT =3,
+
+    OTA_TYPE_UI = 4, OTA_TYPE_FONT_AND_UI = 5, OTA_TYPE_SPORT = 6, OTA_TYPE_CANCEL = 255, OTA_TYPE_DYNAMIC_DIAL =10, OTA_TYPE_CUSTOMIZE_DIAL = 20;
+```
+### 六、FAQ
+  智能穿戴类App业内常见问题：
+
+  1. 蓝牙连接稳定性和自动重连不上问题。
+
+    裂变基于RxAndroidBle蓝牙库做的二次开发， 蓝牙开发中长遇见的搜不到设备，无法连接，133连接不上等等异常场景都做过系统的优化。百万级用户使用稳定，连接投诉率可以对标业内同行。
+
+  2. 来电提醒、App消息提醒手表接收不到问题。
+
+    系统适配方案，异常处理方案都很成熟。（已适配Android12）
+
+  3. 权限引导及保活机制
+
+    SDK暂时不包含，如果客户需要，可以单独定制SDK。一般由App开发者自行实现。
+
+  4. App功耗优化
+
+    SDK重连机制支持自动切换高、低频重连，有效降低连接功耗。 Ble搜索支持持续、非持续性扫描适用于各种场景，有效降低蓝牙带来的耗电。
