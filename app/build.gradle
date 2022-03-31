@@ -1,14 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-//    signingConfigs {
-//        release {
-//            storeFile file('E:\\anywear\\harlan_harlan123.jks')
-//            storePassword 'harlan123'
-//            keyPassword 'harlan123'
-//            keyAlias 'key0'
-//        }
-//    }
     compileSdkVersion 31
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
