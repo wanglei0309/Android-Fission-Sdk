@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/tv_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:text="0bpm"
+            android:textSize="40sp" />
+
+        <com.szfission.wear.demo.GridChartView
+            android:id="@+id/gridChart"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_below="@+id/tv_heart"
+            android:layout_marginTop="10dp"
+            app:centerLineColor="@android:color/holo_red_dark"
+            app:centerLineSize="2dp"
+            app:centerMarginTop="20dp"
+            app:gridLineColor="#BCBCBC"
+            app:gridLineSize="0.5dp"
+            app:maxValue="300"
+            app:startAutoMovingMarginRight="20dp"
+            app:unitValue="50"
+            app:xItemWidth="5dp"
+            app:xLineSize="1dp"
+            app:xTextMarginTop="5dp"
+            app:xTextSize="12sp"
+            app:yLineSize="1dp"
+            app:yTextMarginRight="5dp"
+            app:yTextSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_times"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gridChart"
+            android:layout_centerHorizontal="true"
+            android:text="Times(s)" />
+
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/tv_times"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/test_heart_rate_start"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+
+</LinearLayout>

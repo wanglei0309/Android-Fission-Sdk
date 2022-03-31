@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/tvId"
+        style="@style/setUserInfoLabel"
+        android:text="ID" />
+
+    <EditText
+        android:id="@+id/etId"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvId"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvId"
+        android:inputType="number"
+        android:maxLength="11" />
+
+    <TextView
+        android:id="@+id/tvNickname"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tvId"
+        android:text="昵称" />
+
+    <EditText
+        android:id="@+id/etNickname"
+        style="@style/BackgroundEditText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvNickname"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_age"
+         />
+
+    <TextView
+        android:id="@+id/tv_sex"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tvNickname"
+        android:text="性别" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/tv_sex"
+        android:layout_alignTop="@+id/tv_sex"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_male"
+            style="@style/RadioButton"
+            android:checked="true"
+            android:text="男" />
+
+        <RadioButton
+            android:id="@+id/rb_female"
+            style="@style/RadioButton"
+            android:layout_marginLeft="10dp"
+            android:text="女" />
+    </RadioGroup>
+
+
+    <TextView
+        android:id="@+id/tv_age"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_sex"
+        android:text="年龄" />
+
+
+    <TextView
+        android:id="@+id/tv_height"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_age"
+        android:text="身高" />
+
+    <TextView
+        android:id="@+id/tv_weight"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_height"
+        android:text="体重" />
+
+    <TextView
+        android:id="@+id/tv_stride_length"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_weight"
+        android:text="步幅" />
+
+    <EditText
+        android:id="@+id/et_age"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_age"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_age"
+        android:inputType="number"
+        android:maxLength="3" />
+
+    <EditText
+        android:id="@+id/et_height"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_height"
+        android:layout_alignRight="@id/et_age"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_height"
+        android:inputType="number"
+        android:maxLength="3" />
+
+    <TextView
+        android:id="@+id/tv_height_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_height"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/et_age"
+        android:text="cm"
+        android:textColor="#989898" />
+
+    <EditText
+        android:id="@+id/et_weight"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_weight"
+        android:layout_alignLeft="@id/et_age"
+        android:layout_alignRight="@id/et_age"
+        android:inputType="number"
+        android:maxLength="3" />
+
+    <TextView
+        android:id="@+id/tv_weight_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_weight"
+        android:layout_alignLeft="@+id/tv_height_unit"
+        android:text="kg"
+        android:textColor="#989898" />
+
+    <TextView
+        android:id="@+id/tv_stride_length_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_stride_length"
+        android:layout_alignLeft="@+id/tv_height_unit"
+        android:text="cm"
+        android:textColor="#989898" />
+
+    <EditText
+        android:id="@+id/et_stride_length"
+        style="@style/BackgroundEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_stride_length"
+        android:layout_alignLeft="@id/et_age"
+        android:layout_alignRight="@id/et_age"
+        android:inputType="number"
+        android:maxLength="3" />
+
+
+    <TextView
+        android:id="@+id/tvTimeZone"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_stride_length"
+        android:text="时区" />
+
+    <EditText
+        android:id="@+id/etTimeZone"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvTimeZone"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_age"
+        android:inputType="number"
+        android:maxLength="2" />
+
+
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etTimeZone"
+        android:layout_marginTop="50dp"
+        android:text="设置"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_get"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_send"
+        android:layout_marginTop="20dp"
+        android:text="查询个人信息"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="15dp">
+
+    <include
+        android:id="@+id/cmdLayout"
+        layout="@layout/cmdlayout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp" />
+
+    <include android:id="@+id/scTimingInfo"
+        layout="@layout/sc_time_info"
+        android:layout_below="@+id/cmdLayout"
+        android:layout_above="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/set"
+        android:layout_above="@+id/btn_get"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_get"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="查询"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

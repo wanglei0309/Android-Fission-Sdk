@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <Spinner
+        android:layout_marginTop="20dp"
+        android:id="@+id/spinnerTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"/>
+
+
+    <TextView
+        android:id="@+id/tvSingleWeather"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:textColor="#000000"
+        style="@style/setTimingInfo"
+        android:textSize="18sp"
+        android:text="天气：晴天" />
+
+
+    <TextView
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:textColor="#000000"
+        style="@style/setTimingInfo"
+        android:text="空气质量等级：良好" />
+
+    <TextView
+        android:textSize="18sp"
+        android:id="@+id/tvCurTmp"
+        android:layout_gravity="center"
+        android:textColor="#000000"
+        style="@style/setTimingInfo"
+        android:text="气温：26" />
+
+    <TextView
+        android:textSize="18sp"
+        android:id="@+id/tvHighTmp"
+        android:layout_gravity="center"
+        android:textColor="#000000"
+        style="@style/setTimingInfo"
+        android:text="气温：26" />
+
+
+    <TextView
+        android:textSize="18sp"
+        android:id="@+id/tvLowTmp"
+        android:layout_gravity="center"
+        android:textColor="#000000"
+        style="@style/setTimingInfo"
+        android:text="气温：26" />
+
+
+<!--    <TextView-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="#000000"-->
+<!--        style="@style/setTimingInfo"-->
+<!--        android:text="体感温度：35" />-->
+
+<!--    <TextView-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="#000000"-->
+<!--        style="@style/setTimingInfo"-->
+<!--        android:text="日出：07:25" />-->
+
+<!--    <TextView-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="#000000"-->
+<!--        style="@style/setTimingInfo"-->
+<!--        android:text="日落：19:26" />-->
+
+<!--    <TextView-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="#000000"-->
+<!--        style="@style/setTimingInfo"-->
+<!--        android:text="湿度：60%" />-->
+
+<!--    <TextView-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="#000000"-->
+<!--        style="@style/setTimingInfo"-->
+<!--        android:text="风向:东南风" />-->
+
+<!--    <TextView-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="#000000"-->
+<!--        style="@style/setTimingInfo"-->
+<!--        android:text="风速度：8m/s" />-->
+
+<!--    <TextView-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="#000000"-->
+<!--        style="@style/setTimingInfo"-->
+<!--        android:text="最近两小时降水概率：20%" />-->
+
+<!--    <TextView-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="#000000"-->
+<!--        style="@style/setTimingInfo"-->
+<!--        android:text="降水量：30mm" />-->
+
+<!--    <TextView-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="#000000"-->
+<!--        style="@style/setTimingInfo"-->
+<!--        android:text="气压：100 百帕" />-->
+
+<!--    <TextView-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="#000000"-->
+<!--        style="@style/setTimingInfo"-->
+<!--        android:text="能见度：100m" />-->
+
+<!--    <TextView-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="#000000"-->
+<!--        style="@style/setTimingInfo"-->
+<!--        android:text="紫外线指数：2" />-->
+
+    <Button
+        android:id="@+id/btnData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="随机数据"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="设置"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+
+</LinearLayout>

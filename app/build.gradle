@@ -1,0 +1,104 @@
+apply plugin: 'com.android.application'
+
+android {
+//    signingConfigs {
+//        release {
+//            storeFile file('E:\\anywear\\harlan_harlan123.jks')
+//            storePassword 'harlan123'
+//            keyPassword 'harlan123'
+//            keyAlias 'key0'
+//        }
+//    }
+    compileSdkVersion 31
+    defaultConfig {
+        applicationId rootProject.ext.android.applicationId
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'arm64-v8a' ,'x86', 'armeabi-v7a', 'x86_64'
+        }
+//        signingConfig signingConfigs.release
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets{
+        main{
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildToolsVersion '30.0.3'
+}
+
+repositories {
+    flatDir {
+        dirs  file('libs')
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+
+    api rootProject.ext.dependencies["eventbus"]
+
+
+    implementation 'com.google.android.material:material:1.4.0'
+//    implementation project(path: ':rtk-bbpro-core-1.6.1')
+//    implementation project(path: ':rtk-core-1.2.1')
+//    implementation project(path: ':rtk-dfu-3.3.9')
+
+//    implementation (name:'fissionsdk-release', ext:'aar')
+    api rootProject.ext.dependencies["utilcodex"]
+
+    implementation 'org.xutils:xutils:3.5.0'
+    implementation 'com.tencent.bugly:crashreport:3.3.7'
+    implementation 'com.tencent.bugly:nativecrashreport:3.8.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
+//    implementation project(path: ':fissionsdk')
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+//    implementation project(path: ':fissionsdk_v2')
+    implementation files('libs/rtk-bbpro-core-1.6.9.jar')
+    implementation files('libs/rtk-core-1.2.8.jar')
+    implementation files('libs/rtk-dfu-3.4.1.jar')
+
+    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'support-annotations'
+    }
+    implementation('com.journeyapps:zxing-android-embedded:4.2.0') { transitive = false }
+    implementation 'com.google.zxing:core:3.3.0'
+    implementation(name: 'fissionsdk_v2-release', ext: 'aar')
+    implementation(name: 'fissionsdk-release', ext: 'aar')
+    api rootProject.ext.dependencies["rx-java2"]
+    api rootProject.ext.dependencies["rx-android2"]
+
+    implementation('com.github.bumptech.glide:glide:4.12.0')
+    implementation('com.github.yalantis:ucrop:2.2.6-native')
+    implementation 'com.github.HuanTanSheng:EasyPhotos:3.1.3'
+
+    //rx
+    api rootProject.ext.dependencies["rxpermissions2"]
+    api rootProject.ext.dependencies["rxble"]
+    api rootProject.ext.dependencies["replaying"]
+    api rootProject.ext.dependencies["utilcodex"]
+}

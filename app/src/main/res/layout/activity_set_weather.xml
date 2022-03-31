@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:padding="5dp">
+
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="选择推送天数" />
+
+    <Spinner
+        android:padding="20dp"
+        android:id="@+id/spinnerTime"
+        android:layout_below="@+id/tvTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleWeather"
+        android:layout_above="@+id/suiji"
+        android:layout_below="@+id/spinnerTime"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"/>
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvWeather"-->
+<!--        style="@style/setUserInfoLabel"-->
+<!--        android:text="天气"-->
+<!--        android:layout_below="@+id/tvTime"/>-->
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinnerWeather"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignTop="@+id/tvWeather"-->
+<!--        android:layout_alignLeft="@+id/spinnerTime"/>-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvMin"-->
+<!--        style="@style/setUserInfoLabel"-->
+<!--        android:text="最低温度"-->
+<!--        android:layout_below="@+id/tvWeather"/>-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/etMin"-->
+<!--        style="@style/BackgroundEditText"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:text="12"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignBaseline="@+id/tvMin"-->
+<!--        android:layout_alignLeft="@+id/spinnerTime"-->
+<!--        android:inputType="number"-->
+<!--        />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvMax"-->
+<!--        style="@style/setUserInfoLabel"-->
+<!--        android:text="最高温度"-->
+<!--        android:layout_below="@+id/tvMin"/>-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/etMax"-->
+<!--        style="@style/BackgroundEditText"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="20"-->
+<!--        android:layout_alignBaseline="@+id/tvMax"-->
+<!--        android:layout_alignLeft="@+id/spinnerTime"-->
+<!--        android:inputType="number"-->
+<!--        />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvAirQuality"-->
+<!--        style="@style/setUserInfoLabel"-->
+<!--        android:text="空气质量"-->
+<!--        android:layout_below="@+id/tvMax"/>-->
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinnerAirQuality"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignTop="@+id/tvAirQuality"-->
+<!--        android:layout_alignLeft="@+id/spinnerTime"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvPm25"-->
+<!--        style="@style/setUserInfoLabel"-->
+<!--        android:text="PM2.5"-->
+<!--        android:layout_below="@+id/tvAirQuality"/>-->
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinnerPm25"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignTop="@+id/tvPm25"-->
+<!--        android:layout_alignLeft="@+id/spinnerTime"/>-->
+
+
+    <Button
+        android:text="随机数据"
+        android:id="@+id/suiji"
+        android:layout_above="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:textColor="@color/material_white"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true"
+        android:text="设置"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+
+</RelativeLayout>

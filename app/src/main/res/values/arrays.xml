@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="messageType">
+        <item>没有</item>
+        <item>电话</item>
+        <item>短信</item>
+        <item>微信</item>
+        <item>QQ</item>
+        <item>Facebook</item>
+        <item>Twitter</item>
+        <item>linkedln</item>
+        <item>Whatsapp</item>
+        <item>line</item>
+        <item>Instagram</item>
+        <item>Snapchat</item>
+        <item>Skype</item>
+        <item>Gmail</item>
+        <item>Outlook</item>
+        <item>Messenger</item>
+        <item>Viber</item>
+        <item>googletalk</item>
+        <item>vkontakte</item>
+        <item>imo</item>
+        <item>imobeta</item>
+        <item>imolite</item>
+        <item>chatapp</item>
+        <item>kik</item>
+        <item>skred</item>
+        <item>telegramx</item>
+        <item>beechat</item>
+        <item>teamtalk</item>
+        <item>kakao</item>
+        <item>ftalk</item>
+        <item>rimet</item>
+        <item>wework</item>
+        <item>hongbao</item>
+        <item>missedcall</item>
+        <item>calender</item>
+        <item>applemusic</item>
+        <item>googlemaps</item>
+        <item>likee</item>
+        <item>messages</item>
+        <item>mono</item>
+        <item>odnoklassniki</item>
+        <item>privat</item>
+        <item>youtube</item>
+        <item>youtubemusic</item>
+        <item>zoom</item>
+        <item>telegram</item>
+        <item>tiktok</item>
+
+
+    </string-array>
+
+    <string-array name="index">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="police">
+        <item>响闹</item>
+        <item>稍后提醒</item>
+        <item>结束响闹</item>
+    </string-array>
+
+    <string-array name="sport">
+        <item>冰球</item>
+        <item>马术</item>
+        <item>step Training</item>
+    </string-array>
+</resources>

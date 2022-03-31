@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_read_version"
+            style="@style/optionButton"
+            android:text="@string/FUNC_GET_VERSION" />
+
+        <Button
+            android:id="@+id/btn_read_battery"
+            style="@style/optionButton"
+            android:text="@string/FUNC_GET_BATTERY" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_read_gpv"
+            style="@style/optionButton"
+            android:text="@string/FUNC_GET_GPV" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnGetTimezone"
+            style="@style/optionButton"
+            android:text="@string/FUNC_GET_TIMEZONE" />
+
+
+        <Button
+            android:id="@+id/btnSetTimezone"
+            style="@style/optionButton"
+            android:text="@string/FUNC_SET_TIMEZONE" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/btnGetTime"
+            style="@style/optionButton"
+            android:text="@string/FUNC_GET_TIME" />
+
+        <Button
+            android:id="@+id/btnSetTime"
+            style="@style/optionButton"
+            android:text="@string/FUNC_SET_TIME" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSetLang"
+            style="@style/optionButton"
+            android:text="@string/FUNC_SET_LANG" />
+
+        <Button
+            android:id="@+id/btnSetUnit"
+            style="@style/optionButton"
+            android:text="@string/FUNC_SET_UNIT" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnVibration"
+            style="@style/optionButton"
+            android:text="@string/FUNC_VIBRATION" />
+
+        <Button
+            android:id="@+id/btnSetWristBrightScreen"
+            style="@style/optionButton"
+            android:text="@string/FUNC_SET_WRIST_BRIGHT_SCREEN" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSetDataStream"
+            style="@style/optionButton"
+            android:text="@string/FUNC_SET_DATA_STREAM" />
+
+        <Button
+            android:id="@+id/btnSetHighSpeedConnect"
+            style="@style/optionButton"
+            android:text="@string/FUNC_SET_HIGH_SPEED_CONNECT" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSetHR"
+            style="@style/optionButton"
+            android:text="@string/FUNC_SWITCH_HR_RATE" />
+
+        <Button
+            android:id="@+id/btnCamera"
+            style="@style/optionButton"
+            android:text="@string/FUNC_CAMERA" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnFindDevice"
+            style="@style/optionButton"
+            android:text="@string/FUNC_FIND_DEVICE" />
+
+        <Button
+            android:id="@+id/btnRebootDevice"
+            style="@style/optionButton"
+            android:text="@string/FUNC_REBOOT_DEVICE" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnReset"
+            style="@style/optionButton"
+            android:text="@string/FUNC_RESET" />
+
+        <Button
+            android:id="@+id/btnShutDown"
+            style="@style/optionButton"
+            android:text="@string/FUNC_SHUTDOWN" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnOTA"
+            style="@style/optionButton"
+            android:text="@string/FUNC_OTA" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnSafetyConfirm"
+            style="@style/optionButton"
+            android:text="@string/FUNC_SAFETY_CONFIRM" />
+        <Button
+            android:id="@+id/btnSelfInspectionMode"
+            style="@style/optionButton"
+            android:text="@string/FUNC_SELF_INSPECTION_MODE" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnClearUserInfo"
+            style="@style/optionButton"
+            android:text="@string/FUNC_CLEAR_USER_INFO" />
+
+        <Button
+            android:id="@+id/btnClearSport"
+            style="@style/optionButton"
+            android:text="@string/FUNC_CLEAR_SPORT" />
+    </LinearLayout>
+
+</LinearLayout>

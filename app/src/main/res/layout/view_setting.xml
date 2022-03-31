@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_set_user_info"
+            style="@style/optionButton"
+            android:text="Set user information" />
+
+        <Button
+            android:id="@+id/btn_set_sedentary_reminder"
+            style="@style/optionButton"
+            android:text="Set sedentary reminder" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_set_hr_percentage"
+            style="@style/optionButton"
+            android:text="Set HR Percentage" />
+
+        <Button
+            android:id="@+id/btn_clear_data"
+            style="@style/optionButton"
+            android:text="Clear tracker data" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_turn_on_high_speed"
+            style="@style/optionButton"
+            android:text="Turn on high speed mode" />
+
+        <Button
+            android:id="@+id/btn_turn_off_high_speed"
+            style="@style/optionButton"
+            android:text="Turn off high speed mode" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_power_off"
+            style="@style/optionButton"
+            android:text="Tracker power off" />
+
+        <Button
+            android:id="@+id/btn_set_time_formats"
+            style="@style/optionButton"
+            android:text="Set time formats" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnMeasureHR"
+            style="@style/optionButton"
+            android:text="@string/measure_hr_open" />
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

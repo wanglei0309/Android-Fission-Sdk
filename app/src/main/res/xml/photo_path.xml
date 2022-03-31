@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+    <external-path
+        name="external_storage_app"
+        path="Android/data/com/szfission/wear/demo" />
+
+    <external-path
+        name="external_storage"
+        path="." />
+
+    <external-path
+        name="my_images"
+        path="Android/data/${applicationId}/pictures" />
+
+    <external-path
+        name="camera"
+        path="pictures" />
+</paths>

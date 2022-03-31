@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/tv_switch"
+        style="@style/setUserInfoLabel"
+        android:text="开关" />
+
+    <Switch
+        android:id="@+id/switch_open"
+        android:layout_toRightOf="@id/tv_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_switch"
+        android:layout_marginLeft="10dp"
+       />
+
+
+    <TextView
+        android:id="@+id/tv_b1"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_switch"
+        android:text="持续检测时间" />
+
+    <EditText
+        android:id="@+id/etMaxHr"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b1"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_b2"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <TextView
+        android:id="@+id/tv_b1_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b1"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/etMaxHr"
+        android:text="分"
+        android:textColor="#989898" />
+
+    <TextView
+        android:id="@+id/tv_b2"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b1"
+        android:text="目标步数" />
+
+
+    <TextView
+        android:id="@+id/tv_b3"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b2"
+        android:text="检测起始时间" />
+
+    <TextView
+        android:id="@+id/tv_b4"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b3"
+        android:text="检测结束时间" />
+
+    
+    <EditText
+        android:id="@+id/etModerate"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b2"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_b2"
+        android:inputType="number"
+        android:maxLength="5" />
+
+    <EditText
+        android:id="@+id/etVigorous"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b3"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_b3"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <EditText
+        android:id="@+id/etMaxHr2"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b4"
+        android:layout_alignLeft="@id/etModerate"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etMaxHr2"
+        android:layout_marginTop="50dp"
+        android:text="@string/set"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_get"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_send"
+        android:layout_marginTop="20dp"
+        android:text="查询"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

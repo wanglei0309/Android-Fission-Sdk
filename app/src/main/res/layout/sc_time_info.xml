@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+
+        <TextView
+            android:id="@+id/noUseId"
+            style="@style/setTimingInfo"
+            android:text="未使用闹铃ID:" />
+        <TextView
+            android:layout_below="@+id/noUseId"
+            android:id="@+id/tvIndex"
+            style="@style/setTimingInfo"
+            android:text="序号" />
+
+        <Spinner
+            android:id="@+id/editTextIndex"
+            android:layout_toEndOf="@id/tvIndex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvIndex"
+            android:layout_marginStart="10dp"
+            />
+
+        <TextView
+            android:layout_below="@+id/editTextIndex"
+            android:id="@+id/tv_switch"
+            style="@style/setTimingInfo"
+            android:text="闹钟有效性" />
+
+        <Switch
+            android:id="@+id/switch_open"
+            android:layout_toEndOf="@id/tv_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_switch"
+            android:layout_marginStart="10dp"
+            />
+
+
+        <TextView
+            style="@style/setTimingInfo"
+            android:id="@+id/tvType"
+            android:layout_below="@+id/switch_open"
+            android:text="闹铃类别" />
+
+        <RadioGroup
+            android:layout_marginTop="10dp"
+            android:id="@+id/radioGroup"
+            android:layout_toEndOf="@+id/tvType"
+            android:layout_below="@+id/tv_switch"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+
+                android:id="@+id/radioBtn1"
+                android:text="备忘提醒"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/radioBtn2"
+                android:text="定时闹钟"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </RadioGroup>
+
+
+
+        <TextView
+            android:layout_below="@+id/radioGroup"
+            android:id="@+id/tv_timing_switch"
+            style="@style/setTimingInfo"
+            android:text="闹铃开关" />
+
+        <Switch
+            android:id="@+id/timing_switch"
+            android:layout_toEndOf="@id/tv_timing_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_timing_switch"
+            android:layout_marginStart="10dp"
+            />
+
+        <TextView
+            android:layout_below="@+id/timing_switch"
+            android:id="@+id/tv_timing_110"
+            style="@style/setTimingInfo"
+            android:text="报警状态" />
+
+        <Spinner
+            android:id="@+id/spinner_110"
+            android:layout_below="@+id/timing_switch"
+            android:layout_toEndOf="@id/tv_timing_110"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            />
+
+
+
+
+        <TextView
+            android:layout_below="@+id/tv_timing_110"
+            android:id="@+id/tv_later_notify"
+            style="@style/setTimingInfo"
+            android:text="是否支持稍后提醒(默认支持)" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup_notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_later_notify"
+            android:layout_toEndOf="@+id/tv_later_notify"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioBtn3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支持" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="不支持" />
+
+
+        </RadioGroup>
+
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textColor="#333333"
+            android:layout_below="@+id/radioGroup_notify"
+            android:id="@+id/tv_repeat"
+            android:text="重复(多选):" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleWeek"
+            android:layout_margin="5dp"
+            android:layout_alignBaseline="@+id/tv_repeat"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
+
+
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_below="@+id/recycleWeek"
+            android:id="@+id/tv_set_time"
+            android:text="设置时间" />
+
+        <TextView
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:layout_margin="@dimen/dp_10"
+            android:id="@+id/tvDateResult"
+            android:text="暂未设置时间,默认为0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_set_time"
+            android:layout_toEndOf="@+id/tv_set_time"/>
+
+
+<!--        <TextView-->
+<!--            android:layout_margin="@dimen/dp_10"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:gravity="center"-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_below="@+id/tv_set_time"-->
+<!--            android:text="提醒次数：" />-->
+
+
+<!--        <EditText-->
+<!--            android:id="@+id/editRemark"-->
+<!--            android:layout_margin="@dimen/dp_10"-->
+<!--            android:layout_toEndOf="@+id/tv_set_time"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            style="@style/BackgroundEditText"-->
+<!--            android:maxLength="12"-->
+<!--            android:layout_marginEnd="@dimen/dp_10"-->
+<!--            android:layout_below="@+id/tv_set_time"/>-->
+
+
+        <TextView
+            android:layout_margin="@dimen/dp_10"
+            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_below="@+id/tv_set_time"
+            android:text="备注信息：" />
+
+
+        <EditText
+            android:id="@+id/editRemark"
+            android:layout_margin="@dimen/dp_10"
+            android:layout_toEndOf="@+id/tv_set_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/BackgroundEditText"
+            android:maxLength="12"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_below="@+id/tv_set_time"/>
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

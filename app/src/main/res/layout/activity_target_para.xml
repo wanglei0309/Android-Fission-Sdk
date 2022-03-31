@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/tv_switch"
+        style="@style/setUserInfoLabel"
+        android:text="目标步数计步开关" />
+
+    <Switch
+        android:id="@+id/switch_open"
+        android:layout_toEndOf="@id/tv_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_switch"
+        android:layout_marginStart="10dp"
+        />
+
+    <TextView
+        android:layout_below="@+id/tv_switch"
+        android:id="@+id/tv_switch1"
+        style="@style/setUserInfoLabel"
+        android:text="目标卡路里开关" />
+
+    <Switch
+        android:id="@+id/switch_open1"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@id/tv_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_switch"
+        android:layout_marginStart="10dp"
+        />
+
+    <TextView
+        android:layout_below="@+id/tv_switch1"
+        android:id="@+id/tv_switch2"
+        style="@style/setUserInfoLabel"
+        android:text="目标距离开关" />
+
+    <Switch
+        android:id="@+id/switch_open2"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@id/tv_switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_switch1"
+        android:layout_marginStart="10dp"
+        />
+
+    <TextView
+        android:layout_below="@+id/tv_switch2"
+        android:id="@+id/tv_switch3"
+        style="@style/setUserInfoLabel"
+        android:text="目标锻炼开关" />
+
+    <Switch
+        android:id="@+id/switch_open3"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@id/tv_switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_switch2"
+        android:layout_marginStart="10dp"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_b1"
+        style="@style/setUserInfoLabel"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_switch3"
+        android:text="目标步数" />
+
+    <EditText
+        android:id="@+id/etStep"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b1"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b1"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <TextView
+        android:id="@+id/tv_b1_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b1"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/etStep"
+        android:text="分"
+        android:visibility="invisible"
+        android:textColor="#989898" />
+
+
+
+
+    <TextView
+        android:id="@+id/tv_b3"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b1"
+        android:text="目标卡路里消耗" />
+
+    <TextView
+        android:id="@+id/tv_b4"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b3"
+        android:text="目标里程数" />
+
+    <TextView
+        android:id="@+id/tv_b5"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b4"
+        android:text="目标运动时间" />
+
+
+    <EditText
+        android:id="@+id/etCalorie"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b3"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b3"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <EditText
+        android:id="@+id/etDistance"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b4"
+        android:layout_alignStart="@id/etStep"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <EditText
+        android:id="@+id/etSportTime"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b5"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b5"
+        android:inputType="number"
+        android:maxLength="4" />
+
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etDistance"
+        android:layout_marginTop="50dp"
+        android:text="@string/set"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_get"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_send"
+        android:layout_marginTop="20dp"
+        android:text="查询"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

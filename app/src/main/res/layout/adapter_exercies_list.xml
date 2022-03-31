@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/bg_edit_text_rectangle"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_margin="5dp"
+        android:id="@+id/curUtc"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_margin="5dp"
+        android:id="@+id/tvStartTime"
+        android:layout_width="wrap_content"
+        android:textSize="16sp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:id="@+id/tvEndTime"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvSportTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvSportStep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvAvgHr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvSportCalorie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvSportDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvSportAvgStride"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvSportSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvTotalTrackDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvNotTrackDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvHasTrackDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvWarmupTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvFatTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvAeTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvHighAeTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="18sp"
+        android:id="@+id/tvAnTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

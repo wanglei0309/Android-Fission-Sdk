@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ib_close"
+        android:layout_marginTop="5dp"
+        android:text="Set HR percentage"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/ib_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+        android:padding="5dp"
+        android:src="@drawable/ic_close" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/ib_close"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/tv_b1"
+        style="@style/setHRPercentageLabel"
+        android:layout_below="@+id/view_line"
+        android:text="B1(&#060;&#061;Light)" />
+
+    <EditText
+        android:id="@+id/et_value1"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b1"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_b2"
+        android:inputType="number"
+        android:maxLength="3" />
+    <TextView
+        android:id="@+id/tv_b1_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b1"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/et_value1"
+        android:text="%"
+        android:textColor="#989898" />
+
+    <TextView
+        android:id="@+id/tv_b2"
+        style="@style/setHRPercentageLabel"
+        android:layout_below="@+id/tv_b1"
+        android:text="B2(&#060;&#061;Moderate)" />
+
+
+    <TextView
+        android:id="@+id/tv_b3"
+        style="@style/setHRPercentageLabel"
+        android:layout_below="@+id/tv_b2"
+        android:text="B3(&#060;&#061;Vigorous)" />
+
+    <TextView
+        android:id="@+id/tv_b4"
+        style="@style/setHRPercentageLabel"
+        android:layout_below="@+id/tv_b3"
+        android:text="B4(&#060;&#061;Max HR)" />
+
+    <TextView
+        android:id="@+id/tv_max_hr"
+        style="@style/setHRPercentageLabel"
+        android:layout_below="@+id/tv_b4"
+        android:text="Max HR" />
+
+    <EditText
+        android:id="@+id/et_max_hr"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_max_hr"
+        android:layout_alignLeft="@id/et_value2"
+        android:layout_alignRight="@id/et_value2"
+        android:inputType="number"
+        android:maxLength="3" />
+
+    <TextView
+        android:id="@+id/tv_b5"
+        style="@style/setHRPercentageLabel"
+        android:layout_below="@+id/tv_max_hr"
+        android:text="T1\n(for Anti-repetitive)" />
+
+    <EditText
+        android:id="@+id/et_value2"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b2"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_b2"
+        android:inputType="number"
+        android:maxLength="3" />
+
+    <TextView
+        android:id="@+id/tv_b2_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b2"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/et_value2"
+        android:text="%"
+        android:textColor="#989898" />
+
+    <EditText
+        android:id="@+id/et_value3"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b3"
+        android:layout_alignRight="@id/et_value2"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_b3"
+        android:inputType="number"
+        android:maxLength="3" />
+
+    <TextView
+        android:id="@+id/tv_b3_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b3"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/et_value2"
+        android:text="%"
+        android:textColor="#989898" />
+
+    <EditText
+        android:id="@+id/et_value4"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b4"
+        android:layout_alignLeft="@id/et_value2"
+        android:layout_alignRight="@id/et_value2"
+        android:inputType="number"
+        android:maxLength="3" />
+
+    <TextView
+        android:id="@+id/tv_b4_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b4"
+        android:layout_alignLeft="@+id/tv_b3_unit"
+        android:text="%"
+        android:textColor="#989898" />
+
+
+
+    <EditText
+        android:id="@+id/et_t1"
+        style="@style/BackgroundEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b5"
+        android:layout_alignLeft="@id/et_value2"
+        android:layout_alignRight="@id/et_value2"
+        android:inputType="number"
+        android:maxLength="3" />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_t1"
+        android:layout_marginTop="50dp"
+        android:text="Send"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

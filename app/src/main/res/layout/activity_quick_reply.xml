@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:padding="16dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/ed_data1"
+                android:hint="请输入快捷回复内容1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <EditText
+                android:id="@+id/ed_data2"
+                android:hint="请输入快捷回复内容2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <EditText
+                android:id="@+id/ed_data3"
+                android:hint="请输入快捷回复内容3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <EditText
+                android:id="@+id/ed_data4"
+                android:hint="请输入快捷回复内容4"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <EditText
+                android:id="@+id/ed_data5"
+                android:hint="请输入快捷回复内容5"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <EditText
+                android:id="@+id/ed_data6"
+                android:hint="请输入快捷回复内容6"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <EditText
+                android:id="@+id/ed_data7"
+                android:hint="请输入快捷回复内容7"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <EditText
+                android:id="@+id/ed_data8"
+                android:hint="请输入快捷回复内容8"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <EditText
+                android:id="@+id/ed_data9"
+                android:hint="请输入快捷回复内容9"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <EditText
+                android:id="@+id/ed_data10"
+                android:hint="请输入快捷回复内容10"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <Button
+                android:id="@+id/btn_set"
+                android:text="设置"
+                android:layout_gravity="center"
+                android:layout_width="160dp"
+                android:layout_height="50dp"/>
+
+            <Button
+                android:id="@+id/btn_get"
+                android:text="查询"
+                android:layout_gravity="center"
+                android:layout_width="160dp"
+                android:layout_height="50dp"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

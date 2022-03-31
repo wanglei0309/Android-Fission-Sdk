@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="15dp">
+
+
+    <TextView
+        android:id="@+id/tv_b1"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_switch"
+        android:text="max hr" />
+
+    <EditText
+        android:id="@+id/etMaxHr"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b1"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_b2"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/tv_b1_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b1"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/etMaxHr"
+        android:text="分"
+        android:textColor="#989898" />
+
+    <TextView
+        android:id="@+id/tv_b2"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b1"
+        android:text="moderate" />
+
+
+    <TextView
+        android:id="@+id/tv_b3"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b2"
+        android:text="vigorous" />
+
+    <TextView
+        android:id="@+id/tv_b4"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b3"
+        android:text="max hr" />
+
+
+    <EditText
+        android:id="@+id/etModerate"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b2"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_b2"
+        android:inputType="number"
+        android:maxLength="5" />
+
+    <EditText
+        android:id="@+id/etVigorous"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b3"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_b3"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <EditText
+        android:id="@+id/etMaxHr2"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b4"
+        android:layout_alignLeft="@id/etModerate"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <TextView
+        android:id="@+id/tv_b5"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b4"
+        android:text="最高心率值" />
+
+    <EditText
+        android:id="@+id/etHighHr"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b5"
+        android:layout_alignLeft="@id/etModerate"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <TextView
+        android:id="@+id/tv_b6"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b5"
+        android:text="新等级" />
+
+    <EditText
+        android:id="@+id/etNewLevel"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b6"
+        android:layout_alignLeft="@id/etModerate"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_b6"
+        android:layout_marginTop="50dp"
+        android:text="@string/set"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_get"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_send"
+        android:layout_marginTop="20dp"
+        android:text="查询心率等级参数"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

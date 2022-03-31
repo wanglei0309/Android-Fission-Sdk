@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp">
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/setUserInfoLabel"
+        android:text="歌曲名称" />
+
+    <EditText
+        android:id="@+id/etName"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvName"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvName"
+      />
+
+    <TextView
+        android:id="@+id/tvSinger"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/etName"
+        android:text="演唱者" />
+
+    <EditText
+        android:id="@+id/etSinger"
+        style="@style/BackgroundEditText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvSinger"
+        android:layout_alignLeft="@+id/etName"
+         />
+
+    <TextView
+        android:id="@+id/tvTime"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/etSinger"
+        android:text="歌曲总时长" />
+
+    <EditText
+        android:id="@+id/etTime"
+        style="@style/BackgroundEditText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_alignBaseline="@+id/tvTime"
+        android:layout_alignStart="@+id/etName"
+        />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/etTime"
+        android:text="专辑名" />
+
+    <EditText
+        android:id="@+id/etTitle"
+        style="@style/BackgroundEditText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvTitle"
+        android:layout_alignStart="@+id/etName"
+        />
+
+    <TextView
+        android:id="@+id/tvPlayAppName"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/etTitle"
+        android:text="播放 app 名称" />
+
+    <EditText
+        android:id="@+id/etPlayAppName"
+        style="@style/BackgroundEditText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvPlayAppName"
+        android:layout_alignStart="@+id/etName"
+        />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etPlayAppName"
+        android:layout_marginTop="50dp"
+        android:text="设置"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

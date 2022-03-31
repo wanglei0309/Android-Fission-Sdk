@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/tvType"
+        style="@style/setUserInfoLabel"
+        android:text="消息类型" />
+
+    <Spinner
+        android:id="@+id/spinnerType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvType"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvType" />
+
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/spinnerType"
+        android:text="联系人" />
+
+    <EditText
+        android:id="@+id/etName"
+        style="@style/BackgroundEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvName"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvName" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/etName"
+        android:text="内容" />
+
+    <EditText
+        android:id="@+id/etContent"
+        style="@style/BackgroundEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvContent"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvContent"
+        android:gravity="left|top"
+        android:lines="3" />
+
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etContent"
+        android:layout_marginTop="50dp"
+        android:text="@string/set"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+
+</RelativeLayout>
