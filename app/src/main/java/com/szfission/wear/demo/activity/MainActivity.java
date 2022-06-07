@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -26,6 +29,7 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
 import com.fission.wear.sdk.v2.bean.StreamData;
@@ -34,6 +38,7 @@ import com.fission.wear.sdk.v2.callback.BleConnectListener;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionFmDataResultListener;
+import com.fission.wear.sdk.v2.callback.FissionRawDataResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.parse.BigDataParseManage;
 import com.fission.wear.sdk.v2.parse.ParseDataListener;
@@ -41,6 +46,7 @@ import com.fission.wear.sdk.v2.service.BleComService;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.polidea.rxandroidble2.RxBleConnection;
+import com.szfission.wear.demo.App;
 import com.szfission.wear.demo.C;
 import com.szfission.wear.demo.ConnectedStateEvent;
 import com.szfission.wear.demo.DataMessageEvent;
@@ -65,6 +71,7 @@ import com.szfission.wear.sdk.bean.ExerciseList;
 import com.szfission.wear.sdk.bean.ExerciseReport;
 import com.szfission.wear.sdk.bean.ExerciseReportDetail;
 import com.szfission.wear.sdk.bean.HandMeasureInfoBean;
+import com.szfission.wear.sdk.bean.HardWareInfo;
 import com.szfission.wear.sdk.bean.HeartRateRecord;
 import com.szfission.wear.sdk.bean.HoursReport;
 import com.szfission.wear.sdk.bean.HrWarnPara;
@@ -107,11 +114,13 @@ import java.util.TimeZone;
 import static com.szfission.wear.demo.ModelConstant.FUNC_CAMERA_MODEL;
 import static com.szfission.wear.demo.ModelConstant.FUNC_CLEAR_SPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_CLEAR_USER_INFO;
+import static com.szfission.wear.demo.ModelConstant.FUNC_COMPRESS_CMD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_FIND_DEVICE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_FLASH_WRITE_CMD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_APPS_MESS;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BATTERY;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BLOODPRESSURE_RECORD;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BURIED_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_CUR_SLEEP_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_DAYS_REPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_DETAIL;
@@ -135,6 +144,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SPO2_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_STEPS_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_TIME;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_TIMEZONE;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_UI_VERSION;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_VERSION;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GIVE_UP_FIND_DEVICE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GPS_SPORT_CMD;
@@ -231,6 +241,33 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
     long startTime = 0;
     long endTime = (int) (System.currentTimeMillis() / 1000);
 
+    private BaseCmdResultListener mRawDataListener = new FissionRawDataResultListener() {
+        @Override
+        public void onRawDataResult(String result) {
+            App.logData.add(result);
+        }
+
+        @Override
+        public void sendSuccess(String cmdId) {
+
+        }
+
+        @Override
+        public void sendFail(String cmdId) {
+
+        }
+
+        @Override
+        public void onResultTimeout(String cmdId) {
+
+        }
+
+        @Override
+        public void onResultError(String errorMsg) {
+
+        }
+    };
+
     private BaseCmdResultListener mAtCmdListener = new FissionAtCmdResultListener() {
         @Override
         public void sendSuccess(String cmdId) {
@@ -278,6 +315,12 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         @Override
         public void onResultError(String errorMsg) {
 
+        }
+
+        @Override
+        public void getHardwareInfo(HardWareInfo hardWareInfo) {
+            super.getHardwareInfo(hardWareInfo);
+            App.mHardWareInfo = hardWareInfo;
         }
 
         @Override
@@ -383,6 +426,13 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             logList.add(handMeasureInfoBeans!=null ?handMeasureInfoBeans.toString() :"null");
             logAdapter.notifyDataSetChanged();
         }
+
+        @Override
+        public void getBuriedData(String filepath) {
+            super.getBuriedData(filepath);
+            logList.add(filepath);
+            logAdapter.notifyDataSetChanged();
+        }
     };
 
     private FissionFmDataResultListener fmDataResultListener =new FissionFmDataResultListener() {
@@ -453,11 +503,14 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                 startActivity(intent);
 //                List<byte[]> list = new ArrayList<>();
 //
-//                list.add(StringUtil.hexToByteArray("ff ff 42 47 01 00 81 17 03 38 00 00 00 00 00 00 00 00 fc a4".replace(" ", "")));
-//                list.add(StringUtil.hexToByteArray("00 f2 48 de 3a 62 01 01 40 00 8c 04 3a 62 44 a6 3a 62 90 00 c4 00 58 00 00 48 01 00 20 00 02 00 0a 00 03 00 03 00 01 00 06 00 02 00 0c 00 03 00 04 00 01 00 07 00 03 00 03 00 01 00 05 00 02 00 05 00 03 00 03 00 01 00 0d ff ff ff ff ff 04 ed 00 e0 cc f3 21 00 a5 a5 a5 a5 ed ff ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0f 20 00 04 cf 21 00 00 00 00 00 8b eb 00 00 ac e3 00 00 00 00 00 61 00 c6 c8 46 00 00 80 47 00 00 80 47 00 00 20 41 00 e0 25 45 00 00 00 00 00 00 00 00 96 ea c0 3e 48 15 3a 43 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00".replace(" ", "")));
-//                list.add(StringUtil.hexToByteArray("01 e4 03 00 01 00 05 00 02 00 02 00 01 00 05 00 03 00 04 00 01 00 03 00 03 00 03 00 01 00 08 00 03 00 04 00 01 00 01 00 00 00 cf 00 01 00 20 00 02 00 05 00 03 00 04 00 01 00 04 00 03 00 03 00 01 00 05 00 03 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00".replace(" ", "")));
-//                list.add(StringUtil.hexToByteArray("02 d6 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00".replace(" ", "")));
-//                list.add(StringUtil.hexToByteArray("03 38 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00".replace(" ", "")));
+//                list.add(StringUtil.hexToByteArray("ff ff 42 47 01 00 81 84 05 c0 62 73 76 df 62 73 87 94 f7 93".replace(" ", "")));
+//                list.add(StringUtil.hexToByteArray("00 f2 1b 77 73 62 df 76 73 62 3c 00 3c 00 0c 00 04 00 73 05 00 00 03 00 3d 00 2b 92 00 00 00 00 00 00 04 00 00 00 00 66 00 00 00 00 00 00 02 00 00 00 00 54 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 46 00 00 00 00 00 00 02 00 00 00 00 55 00 00 00 00 00 00 02 00 00 00 00 59 00 00 00 00 00 00 03 00 00 00 00 5c 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4f 00 00 00 00 00 00 02 00 00 00 00 4d 00 00 00 00 00 00 02 00 00 00 00 51 00 00 00 00 00 00 02 00 00 00 00 56 00 00 00 00 00 00 02 00 00 00 00 51 00 00 00 00 00 00 02 00 00 00 00 4e 00 00 00 00 00 00 02 00 00 00 00 49 00 00 00 00 00 00 02 00 00 00 00 48 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 4b".replace(" ", "")));
+//                list.add(StringUtil.hexToByteArray("01 e4 00 00 00 00 00 00 02 00 00 00 00 49 00 00 00 00 00 00 02 00 00 00 00 48 00 00 00 00 00 00 02 00 00 00 00 56 00 00 00 00 00 00 02 00 00 00 00 4b 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4b 00 00 00 00 00 00 03 00 00 00 00 5b 00 00 00 00 00 00 02 00 00 00 00 57 00 00 00 00 00 00 02 00 00 00 00 51 00 00 00 00 00 00 02 00 00 00 00 53 00 00 00 00 00 00 02 00 00 00 00 4d 00 00 00 00 00 00 02 00 00 00 00 48 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 56 00 00 00 00 00 00 02 00 00 00 00 57 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 49 00 00".replace(" ", "")));
+//                list.add(StringUtil.hexToByteArray("02 d6 00 00 00 00 02 00 00 00 00 48 00 00 00 00 00 00 02 00 00 00 00 4d 00 00 00 00 00 00 02 00 00 00 00 4e 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 03 00 00 00 00 56 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 00 00 00 00 02 00 00 00 00 4e 00 00 00 00 00 00 02 00 00 00 00 49 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 b7 05 00 00 02 00 38 00 29 59 00 00 18 05 00 00 04 00 40 00 2e 69 00 00 00 00 00 00 02 00 00 00 00 6b 00 00 00 00".replace(" ", "")));
+//                list.add(StringUtil.hexToByteArray("03 c8 00 00 02 00 00 00 00 45 00 00 2b 85 73 62 df 76 73 62 3c 00 0b 00 0c 00 04 00 00 00 00 00 02 00 00 00 00 4b 00 00 00 00 00 00 03 00 00 00 00 5f 00 00 00 00 00 00 05 00 00 00 00 73 00 00 00 00 00 00 03 00 00 00 00 7b 00 00 00 00 00 00 02 00 00 00 00 45 00 00 00 00 00 00 02 00 00 00 00 44 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 4f 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 5c 00 00 1c 04 00 00 01 00 50 00 39 5b 00 00 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff".replace(" ", "")));
+//                list.add(StringUtil.hexToByteArray("04 ba ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff".replace(" ", "")));
+//                list.add(StringUtil.hexToByteArray("05 ac ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff".replace(" ", "")));
+//                list.add(StringUtil.hexToByteArray("05 c0 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff".replace(" ", "")));
 //                BigDataParse bigDataParse = new BigDataParse();
 //                for(int i=0; i<list.size(); i++){
 ////                    ArrayList<Integer> dataArray = new ArrayList<>(StringUtil.bytesToArrayList(list.get(i)));
@@ -523,6 +576,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 
         initDate();
 
+        addCmdResultListener(mRawDataListener);
         addCmdResultListener(mAtCmdListener);
         addCmdResultListener(mBigDataCmdListener);
         addCmdResultListener(fmDataResultListener);
@@ -536,6 +590,12 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 //                        AnyWear.getVersion();
                         FissionSdkBleManage.getInstance().getDeviceVersion();
                         break;
+
+                    case FUNC_GET_UI_VERSION:
+//                        AnyWear.getVersion();
+                        FissionSdkBleManage.getInstance().getUiVersion();
+                        break;
+
                     case FUNC_GET_BATTERY:
 //                        FissionSdk.getInstance().getBattery();
                         FissionSdkBleManage.getInstance().getDeviceBattery();
@@ -717,6 +777,9 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         break;
                     case FUNC_FLASH_WRITE_CMD:
                         startActivity(new Intent(context, WriteFlashDataActivity.class));
+                        break;
+                    case FUNC_COMPRESS_CMD:
+                        startActivity(new Intent(context, CompressDataActivity.class));
                         break;
                     case FUNC_SAFETY_CONFIRM:
                         showEditDialog(FUNC_SAFETY_CONFIRM);
@@ -988,6 +1051,20 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 
                     case FUNC_QUICK_REPLY_INFO:
                         startActivity(new Intent(context, QuickReplyActivity.class));
+                        break;
+
+                    case FUNC_GET_BURIED_DATA:
+                        if (Build.VERSION.SDK_INT >= 30 ){
+                            // 先判断有没有权限
+                            if (Environment.isExternalStorageManager()) {
+                                FissionSdkBleManage.getInstance().getBuriedData();
+                                ToastUtils.showLong("获取设备埋点数据");
+                            } else {
+                                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                                intent.setData(Uri.parse("package:" +getApplication().getPackageName()));
+                                startActivity(intent);
+                            }
+                        }
                         break;
 
                     case FUNC_GET_HAND_MEASURE_INFO:

@@ -13,11 +13,13 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_BREAK_DEVICE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_CAMERA_MODEL;
 import static com.szfission.wear.demo.ModelConstant.FUNC_CLEAR_SPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_CLEAR_USER_INFO;
+import static com.szfission.wear.demo.ModelConstant.FUNC_COMPRESS_CMD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_FIND_DEVICE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_FLASH_WRITE_CMD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_APPS_MESS;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BATTERY;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BLOODPRESSURE_RECORD;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BURIED_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_CUR_SLEEP_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_DAYS_REPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_DETAIL;
@@ -41,6 +43,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SPO2_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_STEPS_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_TIME;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_TIMEZONE;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_UI_VERSION;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_VERSION;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GIVE_UP_FIND_DEVICE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GPS_SPORT_CMD;
@@ -201,6 +204,7 @@ public class HomeViewModel extends ViewModel {
      */
 
     public ArrayList<ArrayList<FuncBean>> getFuncBeans() {
+        childList1.add(new FuncBean(R.string.FUNC_GET_UI_VERSION, FUNC_GET_UI_VERSION));
         childList1.add(new FuncBean(R.string.FUNC_GET_VERSION, FUNC_GET_VERSION));
         childList1.add(new FuncBean(R.string.FUNC_GET_BATTERY, FUNC_GET_BATTERY));
         childList1.add(new FuncBean(R.string.FUNC_GET_GPV, FUNC_GET_GPV));
@@ -242,6 +246,7 @@ public class HomeViewModel extends ViewModel {
         childList2.add(new FuncBean(R.string.FUNC_PUSH_CUSTOM_SPORT, FUNC_PUSH_CUSTOM_SPORT));
         childList2.add(new FuncBean(R.string.FUNC_GPS_SPORT_CMD, FUNC_GPS_SPORT_CMD));
         childList2.add(new FuncBean(R.string.FUNC_FLASH_WRITE_CMD, FUNC_FLASH_WRITE_CMD));
+        childList2.add(new FuncBean(R.string.FUNC_COMPRESS_CMD, FUNC_COMPRESS_CMD));
 
 
         childList3.add(new FuncBean(R.string.FUNC_GET_HARDWARE_INFO, FUNC_GET_HARDWARE_INFO));
@@ -278,6 +283,7 @@ public class HomeViewModel extends ViewModel {
         childList3.add(new FuncBean(R.string.FUNC_LOCATION_INFORMATION, FUNC_LOCATION_INFORMATION));
         childList3.add(new FuncBean(R.string.FUNC_GET_HAND_MEASURE_INFO, FUNC_GET_HAND_MEASURE_INFO));
         childList3.add(new FuncBean(R.string.FUNC_QUICK_REPLY_CMD, FUNC_QUICK_REPLY_INFO));
+        childList3.add(new FuncBean(R.string.FUNC_GET_BURIED_DATA, FUNC_GET_BURIED_DATA));
 
         childList4.add(new FuncBean(R.string.FUNC_GET_SEDENTARY_DRINK_PARA,FUNC_GET_SEDENTARY_DRINK_PARA));
 

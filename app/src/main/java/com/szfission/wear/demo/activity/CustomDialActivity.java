@@ -24,11 +24,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 
+import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.bumptech.glide.Glide;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
+import com.fission.wear.sdk.v2.utils.QuickLZUtils;
+import com.szfission.wear.demo.App;
 import com.szfission.wear.demo.C;
 import com.szfission.wear.demo.FissionSdk;
 import com.szfission.wear.demo.ModelConstant;
@@ -39,7 +44,9 @@ import com.szfission.wear.demo.util.PhotoUtils;
 import com.szfission.wear.sdk.constant.FissionEnum;
 import com.szfission.wear.sdk.util.FissionDialUtil;
 import com.szfission.wear.sdk.util.ImageScalingUtil;
+import com.szfission.wear.sdk.util.StringUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.yalantis.ucrop.UCrop;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -70,6 +77,8 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     Button btn_get_pic1;
     @ViewInject(R.id.btn_get_pic2)
     Button btn_get_pic2;
+    @ViewInject(R.id.btn_get_pic3)
+    Button btn_get_pic3;
     @ViewInject(R.id.iv_watch3)
     ImageView iv_watch3;
     @ViewInject(R.id.bar_R)
@@ -83,9 +92,13 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     @ViewInject(R.id.yanse2)
     TextView yanse2;
     FissionDialUtil.DialModel dialModel;
+    com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel dialModel2;
 
-
-
+    int dialWidth = 320;
+    int dialHeight = 390;
+    int thumbnailWidth = 320;
+    int thumbnailHigh = 390;
+    int dialShape = 0;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +108,13 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
         colorMatrix = new ColorMatrix();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        if(App.mHardWareInfo!=null){
+            dialWidth = App.mHardWareInfo.getDeviceWidth();
+            dialHeight = App.mHardWareInfo.getDeviceHigh();
+            thumbnailWidth = App.mHardWareInfo.getThumbnailWidth();
+            thumbnailHigh = App.mHardWareInfo.getThumbnailHigh();
+            dialShape = App.mHardWareInfo.getDialShape();
+        }
 
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
             @Override
@@ -144,17 +164,15 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
             @Override
             public void onClick(View v) {
                 Bitmap bitmap = ((BitmapDrawable) iv_watch_face.getDrawable()).getBitmap();
-
-
-//
                 dialModel = new FissionDialUtil.DialModel();
-                dialModel.setDialWidth(240);
-                dialModel.setDialHeight(280);
+                dialModel.setDialShape(dialShape);
+                dialModel.setDialWidth(dialWidth);
+                dialModel.setDialHeight(dialHeight);
                 dialModel.setPreviewImage(bitmap);
                 dialModel.setBackgroundImage(bitmap);
                 dialModel.setDialPosition(1);
-                dialModel.setPreImageWidth(240 / 3 * 2);
-                dialModel.setPreImageHeight(187);
+                dialModel.setPreImageWidth(thumbnailWidth);
+                dialModel.setPreImageHeight(thumbnailHigh);
                 dialModel.setDialPosition(stylePosition_middle);
                 dialModel.setDialStyleColor(getResources().getColor(R.color.public_custom_dial_8));
                 Bitmap thumbBitmap2 = ImageScalingUtil.extractMiniThumb(dialModel.getPreviewImage(),
@@ -164,6 +182,34 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
                 File file = new File(getPath() + File.separator + "customDial.bin");
                 dialModel.setFile(file);
                 setDiaModel(dialModel);
+
+
+
+            }
+        });
+
+        btn_get_pic3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap bitmap = ((BitmapDrawable) iv_watch_face.getDrawable()).getBitmap();
+                dialModel2 = new com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel();
+                dialModel2.setDialShape(dialShape);
+                dialModel2.setDialWidth(dialWidth);
+                dialModel2.setDialHeight(dialHeight);
+                dialModel2.setPreviewImage(bitmap);
+                dialModel2.setBackgroundImage(bitmap);
+                dialModel2.setDialPosition(1);
+                dialModel2.setPreImageWidth(thumbnailWidth);
+                dialModel2.setPreImageHeight(thumbnailHigh);
+                dialModel2.setDialPosition(stylePosition_middle);
+                dialModel2.setDialStyleColor(getResources().getColor(R.color.public_custom_dial_8));
+                Bitmap thumbBitmap2 = ImageScalingUtil.extractMiniThumb(dialModel2.getPreviewImage(),
+                        dialModel2.getPreImageWidth(), dialModel2.getPreImageHeight());
+
+
+                File file = new File(getPath() + File.separator + "customDial.bin");
+                dialModel2.setFile(file);
+                setDiaModelCompress(dialModel2);
 
 
 
@@ -208,7 +254,23 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
         iv_watch_face2.setImageBitmap(bitmap1);
         byte[] resultData =  FissionDialUtil.getDiaInfoBinData(this,dialModel);
 //        FissionSdk.getInstance().startDial(resultData, FissionEnum.WRITE_DIAL_DATA);
+        LogUtils.d("wl", "相册自定义表盘字节大小："+resultData.length);
         FissionSdkBleManage.getInstance().startDial(resultData, FissionEnum.WRITE_DIAL_DATA);
+    }
+
+    private void setDiaModelCompress(com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel dialModel)  {
+        Bitmap bitmap1 = com.fission.wear.sdk.v2.utils.FissionDialUtil.getPreviewImageBitmap(this,dialModel);
+        iv_watch_face2.setImageBitmap(bitmap1);
+        byte[] resultData = com.fission.wear.sdk.v2.utils.FissionDialUtil.getDiaInfoBinData(this, dialModel);
+        byte[] outData = QuickLZUtils.compressFission(resultData);
+//        String filePath = Environment.getExternalStorageDirectory()+"/custom_dial_1.bin";
+//        String filePath2 = Environment.getExternalStorageDirectory()+"/custom_dial_2.bin";
+//        FileUtils.createFileByDeleteOldFile(filePath);
+//        FileUtils.createFileByDeleteOldFile(filePath2);
+//        FileIOUtils.writeFileFromBytesByStream (filePath, resultData);
+//        FileIOUtils.writeFileFromBytesByStream (filePath2, outData);
+//        ToastUtils.showLong("自定义表盘打包成功");
+        FissionSdkBleManage.getInstance().startDial(outData, FissionEnum.WRITE_DIAL_DATA_V2);
     }
 
     private void startDfu(String absolutePath) {
@@ -272,9 +334,10 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
         if (resultCode == RESULT_OK && requestCode == C.RC_CAMERA) {//【拍照
             Uri file = CameraPhotoHelper.getOutputMediaFileUri(this);
             if (file != null) {
-                filePath = UriUtils.uri2File(file).getAbsolutePath();
-                LogUtils.d("获取路径",filePath);
-                Glide.with(this).load(filePath).into(iv_watch_face);
+//                filePath = UriUtils.uri2File(file).getAbsolutePath();
+//                LogUtils.d("获取路径",filePath);
+//                Glide.with(this).load(filePath).into(iv_watch_face);
+                CameraPhotoHelper.cropImage(this, file, dialWidth, dialHeight, false);
             }
 
 
@@ -282,13 +345,18 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
         } else if (resultCode == RESULT_OK && requestCode == C.RC_CHOOSE) {//选择照片
             LogUtils.d("获取getData"+data.getData());
             if (data.getData() != null) {
-               File ff =  UriUtils.uri2File(data.getData());
-                LogUtils.d("获取路径",ff.getAbsolutePath());
-                Glide.with(this).load(data.getData()).into(iv_watch_face);
+//               File ff =  UriUtils.uri2File(data.getData());
+//                LogUtils.d("获取路径",ff.getAbsolutePath());
+//                Glide.with(this).load(data.getData()).into(iv_watch_face);
 //                saveFile(this,((BitmapDrawable)iv_watch_face.getDrawable()).getBitmap());
+                CameraPhotoHelper.cropImage(this, data.getData(), dialWidth, dialHeight, false);
             }
-
-//            CameraPhotoHelper.cropImage(this, data.getData(), 480, 480, true);
+        }else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            Uri bgUri = UCrop.getOutput(data);
+            Glide.with(this).load(bgUri).into(iv_watch_face);
+            LogUtils.d("clx", "_-------" + bgUri);
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            LogUtils.e("clx", "------裁剪错误" + data);
         }
     }
 

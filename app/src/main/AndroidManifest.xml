@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -30,6 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true"
+        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true">
 
         <provider
@@ -77,9 +79,11 @@
         <activity android:name=".activity.SetWeatherDetailActivity" />
         <activity android:name=".activity.SetLcInfoActivity" />
         <activity android:name=".activity.QuickReplyActivity" />
+        <activity android:name=".activity.CompressDataActivity" />
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
 
         <!-- 调整二维码扫描界面为竖屏 -->

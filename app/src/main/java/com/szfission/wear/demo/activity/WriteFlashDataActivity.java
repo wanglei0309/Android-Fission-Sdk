@@ -1,5 +1,6 @@
 package com.szfission.wear.demo.activity;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,13 +18,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
@@ -38,6 +43,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * 推送当前歌曲信息
@@ -68,13 +74,26 @@ public class WriteFlashDataActivity extends BaseActivity {
         llChooseFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-               Uri uri = Uri.parse(path);
-                intent.setDataAndType(uri, "*/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(intent, 1);
+                if (Build.VERSION.SDK_INT >= 30 ){
+                    // 先判断有没有权限
+                    if (Environment.isExternalStorageManager()) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        Uri uri = Uri.parse(path);
+                        intent.setDataAndType(uri, "*/*");
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        startActivityForResult(intent, 1);
+                    } else {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                        intent.setData(Uri.parse("package:" +getApplication().getPackageName()));
+                        startActivity(intent);
+                    }
+                }else{
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    Uri uri = Uri.parse(path);
+                    intent.setDataAndType(uri, "*/*");
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(intent, 1);
+                }
             }
         });
 
@@ -114,7 +133,7 @@ public class WriteFlashDataActivity extends BaseActivity {
       }else {
           String address = filePath.substring(filePath.length()-12, filePath.length()-4);
           LogUtils.d("wl", "flash data 文件地址截取:"+address);
-          FissionSdkBleManage.getInstance().startOtaUi(FileIOUtils.readFile2BytesByStream(filePath),address);
+          FissionSdkBleManage.getInstance().startOtaUi(FileIOUtils.readFile2BytesByStream(filePath),address,"393-03");
       }
     }
 

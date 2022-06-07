@@ -2,6 +2,7 @@ package com.szfission.wear.demo.activity;
 
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 
+import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.szfission.wear.demo.DataMessageEvent;
@@ -56,8 +60,24 @@ public class PushSportModeActivity extends BaseActivity{
                    setDiaModel("Hockey.bin");
                 }else if (type == 1){
                     setDiaModel("Horse Riding.bin");
-                }else {
+                }else if (type == 2){
                     setDiaModel("step Training.bin");
+                }else if (type == 3){
+                    setDiaModel("91.bin");
+                }else if (type == 4){
+                    setDiaModel("51.bin");
+                }else if (type == 5){
+                    setDiaModel("50.bin");
+                }else if (type == 6){
+                    setDiaModel("15.bin");
+                }else if (type == 7){
+                    setDiaModel("55.bin");
+                }else if (type == 8){
+                    setDiaModel("56.bin");
+                }else if (type == 9){
+                    setDiaModel("97.bin");
+                }else if (type == 10){
+                    setDiaModel("110.bin");
                 }
             }
         });
@@ -98,7 +118,7 @@ public class PushSportModeActivity extends BaseActivity{
 
     private void setDiaModel(String name)  {
         byte[] resultData =  FissionDialUtil.inputBin(this,name);
-//        FissionSdk.getInstance().startDial(resultData, FissionEnum.WRITE_SPORT_DATA);
+        FissionSdk.getInstance().startDial(resultData, FissionEnum.WRITE_SPORT_DATA);
         FissionSdkBleManage.getInstance().startDial(resultData, FissionEnum.WRITE_SPORT_DATA);
     }
 
@@ -120,6 +140,5 @@ public class PushSportModeActivity extends BaseActivity{
     public void onEvent(DataMessageEvent event) {
         pushProgress.setText("升级进度:"+event.getMessageContent());
     }
-
 
 }

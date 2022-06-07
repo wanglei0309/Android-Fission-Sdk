@@ -110,5 +110,7 @@
     <string name="FUNC_GPS_SPORT_CMD">GPS运动数据交互</string>
     <string name="FUNC_QUICK_REPLY_CMD">快捷回复</string>
     <string name="FUNC_FLASH_WRITE_CMD">向片外 flash空间写入指定数据</string>
-
+    <string name="FUNC_COMPRESS_CMD">文件压缩传输</string>
+    <string name="FUNC_GET_UI_VERSION">获取UI版本</string>
+    <string name="FUNC_GET_BURIED_DATA">获取设备埋点数据</string>
 </resources>

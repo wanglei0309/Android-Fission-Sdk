@@ -44,6 +44,16 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white" />
 
+    <Button
+        android:id="@+id/btn_get_pic3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_watch_thumb"
+        android:layout_marginTop="50dp"
+        android:text="生成图片并推送(压缩数据)"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
 
     <LinearLayout
         android:layout_width="match_parent"

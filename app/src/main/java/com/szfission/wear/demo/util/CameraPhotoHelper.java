@@ -13,11 +13,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.szfission.wear.demo.C;
+import com.szfission.wear.demo.R;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
 
@@ -213,7 +215,7 @@ public class CameraPhotoHelper {
         //手动设置高级选项
         UCrop.Options options = new UCrop.Options();
 //        options.setCompressionFormat(Bitmap.CompressFormat.PNG);//图片类型
-//        options.setCompressionQuality(100); //图片质量
+        options.setCompressionQuality(100); //图片质量
         options.setToolbarTitle("Crop");//设置标题栏文字
         options.setToolbarWidgetColor(Color.parseColor("#FFFFFF"));//标题字的颜色以及按钮颜色
 //        options.setDimmedLayerColor(Color.parseColor("#00FFFFFF"));//设置裁剪外颜色
@@ -228,8 +230,10 @@ public class CameraPhotoHelper {
         options.setCropFrameColor(Color.WHITE);//设置裁剪框的颜色
 //        options.setFreeStyleCropEnabled(true);//调整边框大小
         options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);//设置裁剪图片可操作的手势
-//        options.setToolbarColor(ActivityCompat.getColor(activity, R.color.material_white));
-//        options.setStatusBarColor(ActivityCompat.getColor(activity, R.color.material_white));    //设置状态栏颜色
+        options.setToolbarColor(ActivityCompat.getColor(activity, R.color.colorPrimary));
+        options.setStatusBarColor(ActivityCompat.getColor(activity, R.color.colorPrimary));    //设置状态栏颜色
+
+        //设置Toolbar返回按钮图片
         uCrop.withOptions(options);
         uCrop.start(activity);
     }

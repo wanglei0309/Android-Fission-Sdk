@@ -45,11 +45,16 @@ public class CommunicatGpsActivity extends BaseActivity{
     Button stopSport;
     @ViewInject(R.id.pushSport)
     Button pushSport;
+    @ViewInject(R.id.getSportState)
+    Button getSportState;
     @ViewInject(R.id.tv_result)
     TextView tv_result;
     @ViewInject(R.id.spinnerType)
     Spinner spinner;
     long curGpsTime = System.currentTimeMillis()/1000;
+
+    long startTime = 0;
+    int duration = 0;
 
     private CommunicatGps mCommunicatGps;
     @Override
@@ -129,7 +134,14 @@ public class CommunicatGpsActivity extends BaseActivity{
             public void replyControlGpsSportResult(ControlGpsSportInfo controlGpsSportInfo) {
                 super.replyControlGpsSportResult(controlGpsSportInfo);
                 LogUtils.d("wl", "设备端控制运动状态："+controlGpsSportInfo.getSportState());
-                FissionSdkBleManage.getInstance().replyControlGpsSportResult(controlGpsSportInfo.getSportType(), controlGpsSportInfo.getSportState(), FissionConstant.GPS_SPORT_RESULT_NORMAL_EXECUTION);
+                FissionSdkBleManage.getInstance().replyControlGpsSportResult(controlGpsSportInfo.getSportType(), controlGpsSportInfo.getSportState(), FissionConstant.GPS_SPORT_RESULT_NORMAL_EXECUTION, controlGpsSportInfo.getDuration());
+            }
+
+            @Override
+            public void getSportState(int state) {
+                super.getSportState(state);
+                LogUtils.d("wl", "获取当前运动状态："+state);
+                tv_result.setText("获取当前运动状态："+state);
             }
         });
 
@@ -140,7 +152,8 @@ public class CommunicatGpsActivity extends BaseActivity{
 //                    LogUtils.d("开启运动状态"+s);
 //                }
 //            });
-            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_START);
+            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_START, 0);
+            startTime = System.currentTimeMillis();
         });
 
         pauseSport.setOnClickListener(v -> {
@@ -150,15 +163,18 @@ public class CommunicatGpsActivity extends BaseActivity{
 //                    LogUtils.d("开启运动状态"+s);
 //                }
 //            });
-            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_PAUSE);
+            duration = (int)(System.currentTimeMillis()-startTime)/1000;
+            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_PAUSE, duration);
         });
 
         continueSport.setOnClickListener(v -> {
-            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_CONTINUE);
+            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_CONTINUE, duration);
+            startTime = System.currentTimeMillis();
         });
 
         stopSport.setOnClickListener(v -> {
-            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_STOP);
+            duration = duration+(int)(System.currentTimeMillis()-startTime)/1000;
+            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_STOP, duration);
         });
 
         pushSport.setOnClickListener(v -> {
@@ -184,6 +200,10 @@ public class CommunicatGpsActivity extends BaseActivity{
 //            });
             FissionSdkBleManage.getInstance().sendGpsCommand(mCommunicatGps);
         });
+        getSportState.setOnClickListener(v -> {
+            FissionSdkBleManage.getInstance().getSportState();
+        });
+
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.szfission.wear.demo;
 
 import android.app.Application;
+import android.os.Environment;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.AnyWearConfig;
+import com.szfission.wear.sdk.bean.HardWareInfo;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import org.xutils.x;
@@ -18,6 +21,7 @@ public class App extends Application {
     public static List<String> logData;
     public static List<String> logSingleData;
 
+    public static HardWareInfo mHardWareInfo;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -38,5 +42,11 @@ public class App extends Application {
 
         FissionSdkBleManage.getInstance().initFissionSdk(this);
         FissionSdkBleManage.getInstance().setDebug(true);
+
+        LogUtils.getConfig().setConsoleSwitch(BuildConfig.DEBUG);
+        LogUtils.getConfig().setLog2FileSwitch(true);
+        LogUtils.getConfig().setSaveDays(3);
+        LogUtils.getConfig().setFilePrefix("HeartRate");
+        LogUtils.getConfig().setDir(Environment.getExternalStorageDirectory());
     }
 }

@@ -252,7 +252,7 @@ public class SetWeatherDetailActivity extends BaseActivity {
                 tvSingleWeather.setText("当天天气:大雪");
                 break;
             case 18:// 未知天气
-                weatherCodes = 17;
+                weatherCodes = 255;
                 tvSingleWeather.setText("当天天气:未知天气");
                 break;
         }

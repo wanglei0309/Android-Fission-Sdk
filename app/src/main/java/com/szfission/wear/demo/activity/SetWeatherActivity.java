@@ -63,7 +63,7 @@ List<WeatherParam> weatherParams = new ArrayList<>();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        String[] spinnerItems = {"第一天", "第二天", "第三天","第四天","第五天","第六天","第七天"};
+        String[] spinnerItems = {"第一天", "第二天", "第三天","第四天","第五天","第六天","第七天","第八天"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, spinnerItems);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -128,7 +128,7 @@ List<WeatherParam> weatherParams = new ArrayList<>();
         });
 
 
-        for (int i = 0;i<7;i++){
+        for (int i = 0;i<8;i++){
             WeatherParam detail = new WeatherParam();
             detail.setLowestTemperature(getRandom(-30,20));
             detail.setMaximumTemperature(getRandom(-10,40));
@@ -156,7 +156,7 @@ List<WeatherParam> weatherParams = new ArrayList<>();
     private void setData() {
         todayWeatherDetails.clear();
         weatherAdapter.getData().clear();
-        for (int i = 0;i<7;i++){
+        for (int i = 0;i<8;i++){
             WeatherParam detail = new WeatherParam();
             detail.setLowestTemperature(getRandom(-30,20));
             detail.setMaximumTemperature(getRandom(-10,40));
@@ -184,6 +184,9 @@ List<WeatherParam> weatherParams = new ArrayList<>();
     private int getRandom(int small, int bigNum) {
         int num = -1;
         num = random.nextInt(bigNum)%(bigNum - small + 1)+small ;  //产生幸运数
+        if(num ==17){
+            num = 255;
+        }
         return num;
     }
 

@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -104,13 +105,26 @@ public class OTAUpdateActivity extends BaseActivity {
         llChooseFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-               Uri uri = Uri.parse(path);
-                intent.setDataAndType(uri, "*/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(intent, 1);
+                if (Build.VERSION.SDK_INT >= 30 ){
+                    // 先判断有没有权限
+                    if (Environment.isExternalStorageManager()) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        Uri uri = Uri.parse(path);
+                        intent.setDataAndType(uri, "*/*");
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        startActivityForResult(intent, 1);
+                    } else {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                        intent.setData(Uri.parse("package:" +getApplication().getPackageName()));
+                        startActivity(intent);
+                    }
+                }else{
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    Uri uri = Uri.parse(path);
+                    intent.setDataAndType(uri, "*/*");
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(intent, 1);
+                }
             }
         });
 
@@ -192,7 +206,7 @@ public class OTAUpdateActivity extends BaseActivity {
       }else {
 //          OtaUtils.startDfu(this,filePath,true);
 //          OtaUtils.startDfu(this, filePath, FissionConstant.OTA_TYPE_FIRMWARE);
-          FissionSdkBleManage.getInstance().startDfu(this, filePath, FissionConstant.OTA_TYPE_FIRMWARE, new DfuAdapter.DfuHelperCallback() {
+          FissionSdkBleManage.getInstance().startDfu(this, filePath, FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL, new DfuAdapter.DfuHelperCallback() {
               @Override
               public void onStateChanged(int i) {
                   super.onStateChanged(i);

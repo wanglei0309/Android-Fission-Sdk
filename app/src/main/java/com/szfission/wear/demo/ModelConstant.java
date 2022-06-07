@@ -20,6 +20,7 @@ public  class ModelConstant {
     public static final int FUNC_PUSH_CUSTOM_SPORT = 1502;
     public static final int FUNC_GPS_SPORT_CMD = 1503;
     public static final int FUNC_FLASH_WRITE_CMD = 1504;
+    public static final int FUNC_COMPRESS_CMD = 1505;
     public static final int FUNC_CAMERA = 16;
     public static final int FUNC_FIND_DEVICE = 17;
     public static final int FUNC_GIVE_UP_FIND_DEVICE = 171;
@@ -41,8 +42,7 @@ public  class ModelConstant {
     public static final int FUNC_SET_TIMING_INFO =33 ;
     public static final int FUNC_SET_PROMPT = 34;
     public static final int FUNC_GET_RESTING_HR = 35;
-
-
+    public static final int FUNC_GET_UI_VERSION =36;
 
 
     public static final int FUNC_GET_HARDWARE_INFO = 100;
@@ -80,7 +80,7 @@ public  class ModelConstant {
     public static final int FUNC_GET_EXERCISE_GPS = 127;
     public  static final int FUNC_GET_HAND_MEASURE_INFO = 128;
     public  static final int FUNC_QUICK_REPLY_INFO = 129;
-
+    public  static final int FUNC_GET_BURIED_DATA = 130;
 
 
 
