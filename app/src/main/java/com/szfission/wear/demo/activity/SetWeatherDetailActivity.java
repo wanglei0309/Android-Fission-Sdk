@@ -1,5 +1,6 @@
 package com.szfission.wear.demo.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -108,7 +109,7 @@ public class SetWeatherDetailActivity extends BaseActivity {
         });
 
 
-        String[] spinnerItems = {"晴天", "多云", "大风","阴天","小雨","大雨","中雪","雷阵雨","夜间晴","夜间多云","沙尘暴","阵雨","夜间阵雨","雨夹雪","雾霾","小雪","大雪","未知天气"};
+        String[] spinnerItems = {"晴天", "多云", "大风","阴天","小雨","大雨","中雪","雷阵雨","夜间晴","夜间多云","沙尘暴","阵雨","夜间阵雨","雨夹雪","雾霾","小雪","大雪","中雨","暴雨","未知天气"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, spinnerItems);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -133,7 +134,7 @@ public class SetWeatherDetailActivity extends BaseActivity {
         lowTmp = getLowTemp(-30, 21);
         highTmp = getLowTemp(-10,40);
         curTmp = getLowTemp(-30,40);
-        weatherCode = getLowTemp(1,18);
+        weatherCode = getLowTemp(1,19);
         weatherCode = getWeather(weatherCode);
         FsLogUtil.d("查询low" + lowTmp);
         tvLowTmp.setText("最低气温："+lowTmp );
@@ -160,6 +161,7 @@ public class SetWeatherDetailActivity extends BaseActivity {
 //        });
 
     }
+
 
     private int getLowTemp(int small, int bignum) {
         int num = -1;
@@ -250,8 +252,15 @@ public class SetWeatherDetailActivity extends BaseActivity {
             case 17:// 大雪
                 weatherCodes = 16;
                 tvSingleWeather.setText("当天天气:大雪");
+            case 18:// 小雪
+                weatherCodes = 17;
+                tvSingleWeather.setText("当天天气:中雨");
                 break;
-            case 18:// 未知天气
+            case 19:// 大雪
+                weatherCodes = 18;
+                tvSingleWeather.setText("当天天气:暴雨");
+                break;
+            case 255:// 未知天气
                 weatherCodes = 255;
                 tvSingleWeather.setText("当天天气:未知天气");
                 break;

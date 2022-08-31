@@ -372,10 +372,10 @@ public class SetTimingInfoActivity extends BaseActivity {
             }
         });
         List<FissionAlarm> lw33s = new ArrayList<>();
-        FissionAlarm alarmLw33 = new FissionAlarm(0,1,true,System.currentTimeMillis()+60000,weekResult);
+        FissionAlarm alarmLw33 = new FissionAlarm(0,1,true,System.currentTimeMillis()+60000,weekResult, "起床");
         lw33s.add(alarmLw33);
         for (int i = 1;i<5;i++){
-            lw33s.add(new FissionAlarm(i,1,true,System.currentTimeMillis()+i*120000,weekResult));
+            lw33s.add(new FissionAlarm(i,1,true,System.currentTimeMillis()+i*120000,weekResult, "开会这名字够长了吧"+i));
         }
 
         FissionSdkBleManage.getInstance().setAlarmInfos(lw33s);

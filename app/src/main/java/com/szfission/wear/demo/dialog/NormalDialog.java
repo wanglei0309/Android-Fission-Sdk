@@ -38,7 +38,8 @@ public class NormalDialog extends Dialog {
                     array = new String[]{"英制", "公制"};
                     break;
                 case ModelConstant.FUNC_SET_LANG:
-                    array  = new String[]{"中文", "英文", "日语", "法语", "德语", "西班牙", "意大利", "葡萄牙", "俄语", "捷克", "波兰", "繁体中文"};
+                    array  = new String[]{"中文", "英文", "日语", "法语", "德语", "西班牙", "意大利", "葡萄牙", "俄语", "捷克", "波兰", "繁体中文", "阿拉伯语",
+                            "土耳其语","越南语", "韩语", "希伯来语", "泰语", "印度尼西亚语", "荷兰语", "希腊语", "瑞典语", "罗马尼亚语"};
                     break;
                 case ModelConstant.FUNC_SET_FEMALE_PHYSIOLOGY:
                     array = new String[]{"未启用", "怀孕期", "月经期", "安全期", "排卵期", "排卵日"};;
@@ -66,6 +67,7 @@ public class NormalDialog extends Dialog {
                     setContent(context, "设置时区", "8");
                     break;
                 case ModelConstant.FUNC_SET_DATA_STREAM:
+                case ModelConstant.FUNC_SET_DATA_STREAM2:
                     setContent(context, "请输入流时间（毫秒，0为关闭", "1000");
                     break;
                 case ModelConstant.FUNC_SAFETY_CONFIRM:

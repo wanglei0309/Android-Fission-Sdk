@@ -67,16 +67,7 @@
     </string-array>
 
     <string-array name="sport">
-        <item>冰球</item>
-        <item>马术</item>
-        <item>step Training</item>
-        <item>HIIT</item>
-        <item>澳式足球</item>
-        <item>芭蕾</item>
-        <item>板球</item>
-        <item>棒球</item>
-        <item>保龄球</item>
-        <item>蹦床</item>
-        <item>蹦极</item>
+        <item>户外跑步</item>
+        <item>户外健走</item>
     </string-array>
 </resources>

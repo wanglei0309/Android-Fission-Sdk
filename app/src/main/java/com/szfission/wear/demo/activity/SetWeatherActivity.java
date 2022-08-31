@@ -69,7 +69,7 @@ List<WeatherParam> weatherParams = new ArrayList<>();
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTime.setAdapter(spinnerAdapter);
 
-        spinnerItems = new String[]{"晴", "多云", "风", "阴天", "小雨", "大雨", "雪", "雷阵雨", "晴晚上", "多云晚上", "沙尘暴", "阵雨", "阵雨晚上", "雨夹雪", "雾霾", "未知天气"};
+        spinnerItems = new String[]{"晴", "多云", "风", "阴天", "小雨", "大雨", "雪", "雷阵雨", "晴晚上", "多云晚上", "沙尘暴", "阵雨", "阵雨晚上", "雨夹雪", "雾霾","小雪", "大雪", "中雨", "暴雨", "未知天气"};
         spinnerAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, spinnerItems);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -133,7 +133,7 @@ List<WeatherParam> weatherParams = new ArrayList<>();
             detail.setLowestTemperature(getRandom(-30,20));
             detail.setMaximumTemperature(getRandom(-10,40));
             detail.setIndex(i);
-            detail.setWeather(getRandom(1,18));
+            detail.setWeather(getRandom(0,18));
             todayWeatherDetails.add(detail);
             weatherAdapter.addData(detail);
         }

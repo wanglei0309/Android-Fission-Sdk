@@ -1,8 +1,10 @@
 package com.szfission.wear.demo.activity;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -12,6 +14,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.android.internal.telephony.ITelephony;
@@ -29,8 +34,11 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.bean.FssStatus;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
 import com.fission.wear.sdk.v2.bean.StreamData;
 import com.fission.wear.sdk.v2.callback.BaseCmdResultListener;
@@ -40,9 +48,12 @@ import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionFmDataResultListener;
 import com.fission.wear.sdk.v2.callback.FissionRawDataResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
+import com.fission.wear.sdk.v2.constant.SpKey;
 import com.fission.wear.sdk.v2.parse.BigDataParseManage;
 import com.fission.wear.sdk.v2.parse.ParseDataListener;
 import com.fission.wear.sdk.v2.service.BleComService;
+import com.fission.wear.sdk.v2.utils.AudioUtils;
+import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.polidea.rxandroidble2.RxBleConnection;
@@ -128,6 +139,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_GPS;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_LIST;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_REPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXER_GPS_DETAIL;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_FLASH_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_GPV;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HAND_MEASURE_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HARDWARE_INFO;
@@ -152,6 +164,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_LOCATION_INFORMATION;
 import static com.szfission.wear.demo.ModelConstant.FUNC_MUSIC_CONTROL;
 import static com.szfission.wear.demo.ModelConstant.FUNC_MUSIC_PROGRESS;
 import static com.szfission.wear.demo.ModelConstant.FUNC_MUSIC_VOLUME;
+import static com.szfission.wear.demo.ModelConstant.FUNC_ONLINE_DIAL_PUSH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_OTA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PAGE_SKIP;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_DIAL;
@@ -162,6 +175,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_RESET;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SAFETY_CONFIRM;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SELF_INSPECTION_MODE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM2;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DONT_DISTURB_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DRINK_WATER_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_FEMALE_PHYSIOLOGY;
@@ -184,6 +198,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_SHUTDOWN;
 import static com.szfission.wear.demo.ModelConstant.FUNC_STRU_CALL_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_STRU_MUSIC_CONT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SWITCH_HR_RATE;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SYN_PHONE_BOOK;
 import static com.szfission.wear.demo.ModelConstant.FUNC_VIBRATION;
 import static com.szfission.wear.demo.ModelConstant.FUNC_WEATHER;
 import static com.szfission.wear.demo.ModelConstant.FUNC_WEATHER_DETAIL;
@@ -294,6 +309,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             super.setTimes(times);
             LogUtils.d("wl", "上层回调setTimes："+times);
         }
+
     };
 
     private BaseCmdResultListener mBigDataCmdListener = new FissionBigDataCmdResultListener() {
@@ -321,6 +337,8 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         public void getHardwareInfo(HardWareInfo hardWareInfo) {
             super.getHardwareInfo(hardWareInfo);
             App.mHardWareInfo = hardWareInfo;
+            logList.add(hardWareInfo!=null ?hardWareInfo.toString() :"null");
+            logAdapter.notifyDataSetChanged();
         }
 
         @Override
@@ -433,6 +451,13 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             logList.add(filepath);
             logAdapter.notifyDataSetChanged();
         }
+
+        @Override
+        public void getFlashData(String filepath) {
+            super.getFlashData(filepath);
+            logList.add(filepath);
+            logAdapter.notifyDataSetChanged();
+        }
     };
 
     private FissionFmDataResultListener fmDataResultListener =new FissionFmDataResultListener() {
@@ -482,6 +507,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         super.onCreate(savedInstanceState);
         context = this;
         registerActivityResult();
+//        connectDevice();
 
         tvAppVersion.setText(MessageFormat.format("{0}({1})", AppUtils.getAppVersionName(), AppUtils.getAppVersionCode()));
 
@@ -493,14 +519,19 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                 intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                 // 开始扫描
                 intentIntegrator.initiateScan();
+//                AudioUtils.enableVoiceAssistant();
+//                AudioUtils.enableMainAudio(MainActivity.this);
             }
         });
 
         tv_menstrual_period.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                AudioUtils.disabledMainAudio(MainActivity.this);
+
                 Intent intent = new Intent(MainActivity.this, MenstrualPeriodActivity.class);
                 startActivity(intent);
+
 //                List<byte[]> list = new ArrayList<>();
 //
 //                list.add(StringUtil.hexToByteArray("ff ff 42 47 01 00 81 84 05 c0 62 73 76 df 62 73 87 94 f7 93".replace(" ", "")));
@@ -552,7 +583,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         FsLogUtil.d("获取当天时间" + cal.getTimeInMillis() / 1000);
 
         Objects.requireNonNull(getSupportActionBar()).hide();
-//        validPermission();
+        validPermission();
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
         logList = new ArrayList<>();
@@ -683,6 +714,11 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     case FUNC_SET_DATA_STREAM:
                         showEditDialog(FUNC_SET_DATA_STREAM);
                         break;
+
+                    case FUNC_SET_DATA_STREAM2:
+                        showEditDialog(FUNC_SET_DATA_STREAM2);
+                        break;
+
                     case FUNC_SET_HIGH_SPEED_CONNECT:
                         showCheckModelDialog(FUNC_SET_HIGH_SPEED_CONNECT);
                         break;
@@ -780,6 +816,9 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         break;
                     case FUNC_COMPRESS_CMD:
                         startActivity(new Intent(context, CompressDataActivity.class));
+                        break;
+                    case FUNC_ONLINE_DIAL_PUSH:
+                        startActivity(new Intent(context, OnlineDialPushActivity.class));
                         break;
                     case FUNC_SAFETY_CONFIRM:
                         showEditDialog(FUNC_SAFETY_CONFIRM);
@@ -1067,6 +1106,14 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         }
                         break;
 
+                    case FUNC_SYN_PHONE_BOOK:
+                        startActivity(new Intent(context, PhoneBookActivity.class));
+                        break;
+
+                    case FUNC_GET_FLASH_DATA:
+                        FissionSdkBleManage.getInstance().getFlashData();
+                        break;
+
                     case FUNC_GET_HAND_MEASURE_INFO:
                         //手动测量记录
 //                        FissionSdk.getInstance().getHandMeasureInfo(startTime,endTime);
@@ -1292,6 +1339,10 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 //                    });
                     FissionSdkBleManage.getInstance().setPageSkip(content);
                     break;
+
+                case FUNC_SET_DATA_STREAM2:
+                    FissionSdkBleManage.getInstance().setDataStream2(Integer.parseInt(content));
+                    break;
             }
         });
     }
@@ -1309,58 +1360,66 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     showLog(R.string.device_connecting,deviceName);
                     connectSuccessfully = true;
                     tvActionConnect.setText(R.string.disconnect);
-                    FissionSdk.getInstance().connectDevice(deviceAddress, true, "", new BleConnectListener() {
-                        @Override
-                        public void onConnectionStateChange(RxBleConnection.RxBleConnectionState newState) {
-                            LogUtils.d("wl", "FissionSdk_v2----onConnectionStateChange: "+newState.toString());
-                            if (newState == RxBleConnection.RxBleConnectionState.CONNECTED) {
-                                connectSuccessfully = true;
-                                tvDeviceStatus.setText(deviceName);
-                                tvActionConnect.setText(R.string.disconnect);
-                                showLog(R.string.connected,"连接成功:连接设备------"+deviceName);
-                            } else if (newState == RxBleConnection.RxBleConnectionState.DISCONNECTED) {
-                                FsLogUtil.d("成功断开了设备");
-                                connectSuccessfully = false;
-                                tvDeviceStatus.setText(R.string.disconnected);
-                                tvActionConnect.setText(R.string.connect);
-                                showLog(R.string.disconnected,"断开连接成功:断开连接设备------"+deviceName);
-                            }else if (newState == RxBleConnection.RxBleConnectionState.CONNECTING){
-                                tvDeviceStatus.setText("正在连接" + deviceName);
-                                tvActionConnect.setText(R.string.disconnect);
-                            }
-                        }
-
-                        @Override
-                        public void onBinding() {
-                            LogUtils.d("wl", "---onBinding--");
-                        }
-
-                        @Override
-                        public void onBindSucceeded(String address, String name) {
-                            LogUtils.d("wl", "---onBindSucceeded--");
-                            SharedPreferencesUtil.getInstance().setBluetoothAddress(address);
-                        }
-
-                        @Override
-                        public void onBindFailed(int code) {
-                            LogUtils.d("wl", "---onBindFailed--");
-                            if(code == FissionConstant.BIND_FAIL_KEY_ERROR){ //绑定秘钥出错，重置秘钥
-                                long time = System.currentTimeMillis();
-                                int lastTime = (int) (time % 10000);
-                                int bindKey = AnyWear.bindDevice((int) (lastTime), deviceAddress);
-                                SharedPreferencesUtil.getInstance().setFissionKey(lastTime + "," + bindKey);
-                            }
-                        }
-
-                        @Override
-                        public void onConnectionFailure(Throwable throwable) {
-
-                        }
-                    });
+                    if(!TextUtils.isEmpty(deviceName) && deviceName.contains("LW71")){
+                        SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, true);
+                    }else{
+                        SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, false);
+                    }
+                    connectDevice();
                 }
             }
             // 获取解析结果
+        });
+    }
 
+    private void connectDevice(){
+        FissionSdk.getInstance().connectDevice(deviceAddress, true, "", new BleConnectListener() {
+            @Override
+            public void onConnectionStateChange(RxBleConnection.RxBleConnectionState newState) {
+                LogUtils.d("wl", "FissionSdk_v2----onConnectionStateChange: "+newState.toString());
+                if (newState == RxBleConnection.RxBleConnectionState.CONNECTED) {
+                    connectSuccessfully = true;
+                    tvDeviceStatus.setText(deviceName);
+                    tvActionConnect.setText(R.string.disconnect);
+                    showLog(R.string.connected,"连接成功:连接设备------"+deviceName);
+                } else if (newState == RxBleConnection.RxBleConnectionState.DISCONNECTED) {
+                    FsLogUtil.d("成功断开了设备");
+                    connectSuccessfully = false;
+                    tvDeviceStatus.setText(R.string.disconnected);
+                    tvActionConnect.setText(R.string.connect);
+                    showLog(R.string.disconnected,"断开连接成功:断开连接设备------"+deviceName);
+                }else if (newState == RxBleConnection.RxBleConnectionState.CONNECTING){
+                    tvDeviceStatus.setText("正在连接" + deviceName);
+                    tvActionConnect.setText(R.string.disconnect);
+                }
+            }
+
+            @Override
+            public void onBinding() {
+                LogUtils.d("wl", "---onBinding--");
+            }
+
+            @Override
+            public void onBindSucceeded(String address, String name) {
+                LogUtils.d("wl", "---onBindSucceeded--");
+                SharedPreferencesUtil.getInstance().setBluetoothAddress(address);
+            }
+
+            @Override
+            public void onBindFailed(int code) {
+                LogUtils.d("wl", "---onBindFailed--");
+                if(code == FissionConstant.BIND_FAIL_KEY_ERROR){ //绑定秘钥出错，重置秘钥
+                    long time = System.currentTimeMillis();
+                    int lastTime = (int) (time % 10000);
+                    int bindKey = AnyWear.bindDevice((int) (lastTime), deviceAddress);
+                    SharedPreferencesUtil.getInstance().setFissionKey(lastTime + "," + bindKey);
+                }
+            }
+
+            @Override
+            public void onConnectionFailure(Throwable throwable) {
+
+            }
         });
     }
 
@@ -1419,8 +1478,33 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                 }
             }
         }).setType(new boolean[]{true, true, true, true, true, true}).build();
+
+        IntentFilter mediafilter = new IntentFilter();
+//拦截按键KeyEvent.KEYCODE_MEDIA_NEXT、KeyEvent.KEYCODE_MEDIA_PREVIOUS、KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
+        mediafilter.addAction(Intent.ACTION_MEDIA_BUTTON);
+        mediafilter.setPriority(100);//设置优先级，优先级太低可能被拦截，收不到信息。一般默认优先级为0，通话优先级为1，该优先级的值域是-1000到1000。
+        registerReceiver(mediaButtonReceiver, mediafilter);
     }
 
+    private BroadcastReceiver mediaButtonReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean isActionMediaButton = Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction());  //判断是不是耳机按键事件
+            if(!isActionMediaButton) return;
+            KeyEvent event = (KeyEvent)intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);  //判断有没有耳机按键事件
+            if(event==null) return;
+//过滤按下事件
+            boolean isActionUp = (event.getAction()==KeyEvent.ACTION_UP);
+            if(!isActionUp) return;
+//避免在Receiver里做长时间的处理，使得程序在CPU使用率过高的情况下出错，把信息发给handlera处理。
+            int keyCode = event.getKeyCode();
+            long eventTime = event.getEventTime()-event.getDownTime();//按键按下到松开的时长
+//终止广播(不让别的程序收到此广播，免受干扰)
+            App.logData.add("---onReceive---"+keyCode+",按键时长："+eventTime);
+            abortBroadcast();
+        }
+    };
 
     private void addCurLog(int type, String result) {
         logList.clear();
@@ -1505,16 +1589,28 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
-    private boolean validPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
-            return false;
+    private void validPermission() {
+        PermissionUtils.permission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).callback(new PermissionUtils.FullCallback() {
+            @Override
+            public void onGranted(@NonNull List<String> granted) {
+            }
+
+            @Override
+            public void onDenied(@NonNull List<String> deniedForever, @NonNull List<String> denied) {
+                Toast.makeText(MainActivity.this,"没有权限,请检查权限",Toast.LENGTH_SHORT).show();
+            }
+        }).request();
+
+        if (Build.VERSION.SDK_INT >= 30 ){
+            // 先判断有没有权限
+            if (Environment.isExternalStorageManager()) {
+
+            } else {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.setData(Uri.parse("package:" +getApplication().getPackageName()));
+                startActivity(intent);
+            }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
-            return false;
-        }
-        return true;
     }
 
     public static boolean isSameDay(long millis1, long millis2) {
@@ -1572,6 +1668,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             tvDeviceStatus.setText(event.getName());
             tvActionConnect.setText(R.string.disconnect);
             showLog(R.string.connected,"连接成功:连接设备------"+event.getName());
+            FissionSdkBleManage.getInstance().getDeviceVersion();
         } else if (event.getState() == C.DISCONNECT) {
             FsLogUtil.d("成功断开了设备");
             connectSuccessfully = false;
@@ -1787,6 +1884,19 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        LogUtils.d("---onKeyLongPress---"+keyCode);
+        App.logData.add("---onKeyLongPress---"+keyCode);
+        return super.onKeyLongPress(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        App.logData.add("---onKeyDown---"+keyCode);
+        return super.onKeyDown(keyCode, event);
     }
 
 }

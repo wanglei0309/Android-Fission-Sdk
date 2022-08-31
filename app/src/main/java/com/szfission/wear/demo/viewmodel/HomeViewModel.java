@@ -27,6 +27,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_GPS;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_LIST;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_REPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXER_GPS_DETAIL;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_FLASH_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_GPV;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HAND_MEASURE_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HARDWARE_INFO;
@@ -51,6 +52,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_LOCATION_INFORMATION;
 import static com.szfission.wear.demo.ModelConstant.FUNC_MUSIC_CONTROL;
 import static com.szfission.wear.demo.ModelConstant.FUNC_MUSIC_PROGRESS;
 import static com.szfission.wear.demo.ModelConstant.FUNC_MUSIC_VOLUME;
+import static com.szfission.wear.demo.ModelConstant.FUNC_ONLINE_DIAL_PUSH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_OTA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PAGE_SKIP;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_DIAL;
@@ -61,6 +63,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_RESET;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SAFETY_CONFIRM;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SELF_INSPECTION_MODE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM2;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DONT_DISTURB_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DRINK_WATER_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_FEMALE_PHYSIOLOGY;
@@ -82,6 +85,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_SHUTDOWN;
 import static com.szfission.wear.demo.ModelConstant.FUNC_STRU_CALL_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_STRU_MUSIC_CONT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SWITCH_HR_RATE;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SYN_PHONE_BOOK;
 import static com.szfission.wear.demo.ModelConstant.FUNC_VIBRATION;
 import static com.szfission.wear.demo.ModelConstant.FUNC_WEATHER;
 import static com.szfission.wear.demo.ModelConstant.FUNC_WEATHER_DETAIL;
@@ -204,6 +208,11 @@ public class HomeViewModel extends ViewModel {
      */
 
     public ArrayList<ArrayList<FuncBean>> getFuncBeans() {
+        childList1.clear();
+        childList2.clear();
+        childList3.clear();
+        childList4.clear();
+
         childList1.add(new FuncBean(R.string.FUNC_GET_UI_VERSION, FUNC_GET_UI_VERSION));
         childList1.add(new FuncBean(R.string.FUNC_GET_VERSION, FUNC_GET_VERSION));
         childList1.add(new FuncBean(R.string.FUNC_GET_BATTERY, FUNC_GET_BATTERY));
@@ -240,6 +249,7 @@ public class HomeViewModel extends ViewModel {
 
 
         childList2.add(new FuncBean(R.string.FUNC_SET_DATA_STREAM, FUNC_SET_DATA_STREAM));
+        childList2.add(new FuncBean(R.string.FUNC_MSG_TASK, FUNC_SET_DATA_STREAM2));
         childList2.add(new FuncBean(R.string.FUNC_SWITCH_HR_RATE, FUNC_SWITCH_HR_RATE));
         childList2.add(new FuncBean(R.string.FUNC_OTA, FUNC_OTA));
         childList2.add(new FuncBean(R.string.FUNC_PUSH_CUSTOM_DIAL, FUNC_PUSH_CUSTOM_DIAL));
@@ -247,7 +257,7 @@ public class HomeViewModel extends ViewModel {
         childList2.add(new FuncBean(R.string.FUNC_GPS_SPORT_CMD, FUNC_GPS_SPORT_CMD));
         childList2.add(new FuncBean(R.string.FUNC_FLASH_WRITE_CMD, FUNC_FLASH_WRITE_CMD));
         childList2.add(new FuncBean(R.string.FUNC_COMPRESS_CMD, FUNC_COMPRESS_CMD));
-
+        childList2.add(new FuncBean(R.string.FUNC_ONLINE_DIAL_PUSH, FUNC_ONLINE_DIAL_PUSH));
 
         childList3.add(new FuncBean(R.string.FUNC_GET_HARDWARE_INFO, FUNC_GET_HARDWARE_INFO));
         childList3.add(new FuncBean(R.string.FUNC_GET_MEARURE_INFO, FUNC_GET_MEASURE_INFO));
@@ -284,6 +294,8 @@ public class HomeViewModel extends ViewModel {
         childList3.add(new FuncBean(R.string.FUNC_GET_HAND_MEASURE_INFO, FUNC_GET_HAND_MEASURE_INFO));
         childList3.add(new FuncBean(R.string.FUNC_QUICK_REPLY_CMD, FUNC_QUICK_REPLY_INFO));
         childList3.add(new FuncBean(R.string.FUNC_GET_BURIED_DATA, FUNC_GET_BURIED_DATA));
+        childList3.add(new FuncBean(R.string.FUNC_SYN_PHONE_BOOK, FUNC_SYN_PHONE_BOOK));
+        childList3.add(new FuncBean(R.string.FUNC_GET_FLASH_DATA, FUNC_GET_FLASH_DATA));
 
         childList4.add(new FuncBean(R.string.FUNC_GET_SEDENTARY_DRINK_PARA,FUNC_GET_SEDENTARY_DRINK_PARA));
 

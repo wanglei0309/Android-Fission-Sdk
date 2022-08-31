@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,10 +32,17 @@ import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.bean.FssStatus;
+import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
+import com.realsil.sdk.core.RtkConfigure;
+import com.realsil.sdk.core.RtkCore;
+import com.realsil.sdk.dfu.RtkDfu;
+import com.realsil.sdk.dfu.utils.GattDfuAdapter;
 import com.szfission.wear.demo.DataMessageEvent;
 import com.szfission.wear.demo.ModelConstant;
 import com.szfission.wear.demo.R;
+import com.szfission.wear.sdk.constant.FissionEnum;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -48,7 +56,7 @@ import java.util.List;
 /**
  * 推送当前歌曲信息
  */
-@ContentView(R.layout.activity_ota_update)
+@ContentView(R.layout.activity_ota_update2)
 public class WriteFlashDataActivity extends BaseActivity {
 
     @ViewInject(R.id.llChooseFile)
@@ -57,8 +65,59 @@ public class WriteFlashDataActivity extends BaseActivity {
     TextView tvFile;
     @ViewInject(R.id.tvProgress)
     ProgressBar tvProgress;
+    @ViewInject(R.id.ed_type)
+    EditText ed_type;
+    @ViewInject(R.id.ed_ui_version)
+    EditText ed_ui_version;
     @ViewInject(R.id.btn_send)
     String filePath = "";
+
+    private FissionAtCmdResultListener mListener = new FissionAtCmdResultListener() {
+        @Override
+        public void sendSuccess(String cmdId) {
+
+        }
+
+        @Override
+        public void sendFail(String cmdId) {
+
+        }
+
+        @Override
+        public void onResultTimeout(String cmdId) {
+
+        }
+
+        @Override
+        public void onResultError(String errorMsg) {
+
+        }
+
+        @Override
+        public void checkOTA(String otaType) {
+            super.checkOTA(otaType);
+        }
+
+        @Override
+        public void fssSuccess(FssStatus fssStatus) {
+            super.fssSuccess(fssStatus);
+            if(fssStatus!=null && fssStatus.getFssType() == 25 && fssStatus.getFssStatus() == 1){
+                String address = filePath.substring(filePath.length()-12, filePath.length()-4);
+                LogUtils.d("wl", "flash data 文件地址截取:"+address);
+                String uiVersion = ed_ui_version.getText().toString();
+                if(TextUtils.isEmpty(uiVersion)){
+                    uiVersion = "393-03";
+                }
+                String type = ed_type.getText().toString();
+                if("4".equals(type)){
+                    FissionSdkBleManage.getInstance().startOtaUi(FileIOUtils.readFile2BytesByStream(filePath),address,uiVersion);
+                }else{
+                    LogUtils.d("wl", "----------writeFlashDataByAddress分包大小--------");
+                    FissionSdkBleManage.getInstance().writeFlashDataByAddress(FileIOUtils.readFile2BytesByStream(filePath),address);
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +155,13 @@ public class WriteFlashDataActivity extends BaseActivity {
                 }
             }
         });
+        FissionSdkBleManage.getInstance().addCmdResultListener(mListener);
+    }
 
+    @Override
+    protected void onDestroy() {
+        FissionSdkBleManage.getInstance().removeCmdResultListener(mListener);
+        super.onDestroy();
     }
 
     public String getPath() {
@@ -131,9 +196,12 @@ public class WriteFlashDataActivity extends BaseActivity {
       if (filePath.equals("")){
           ToastUtils.showShort("还未选择bin文件");
       }else {
-          String address = filePath.substring(filePath.length()-12, filePath.length()-4);
-          LogUtils.d("wl", "flash data 文件地址截取:"+address);
-          FissionSdkBleManage.getInstance().startOtaUi(FileIOUtils.readFile2BytesByStream(filePath),address,"393-03");
+          String type = ed_type.getText().toString().trim();
+          if("1".equals(type)){
+              FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath), FissionEnum.WRITE_REMOTE_DIAL_DATA);
+          }else{
+              FissionSdkBleManage.getInstance().checkOTA(type);
+          }
       }
     }
 

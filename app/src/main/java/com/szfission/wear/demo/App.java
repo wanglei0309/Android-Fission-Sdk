@@ -15,7 +15,6 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class App extends Application {
 
     public static List<String> logData;
@@ -45,8 +44,10 @@ public class App extends Application {
 
         LogUtils.getConfig().setConsoleSwitch(BuildConfig.DEBUG);
         LogUtils.getConfig().setLog2FileSwitch(true);
-        LogUtils.getConfig().setSaveDays(3);
-        LogUtils.getConfig().setFilePrefix("HeartRate");
+        LogUtils.getConfig().setSaveDays(7);
+        LogUtils.getConfig().setFilePrefix("Device");
         LogUtils.getConfig().setDir(Environment.getExternalStorageDirectory());
+
+        FissionSdkBleManage.getInstance().initSppConnect(this);
     }
 }

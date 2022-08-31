@@ -57,27 +57,9 @@ public class PushSportModeActivity extends BaseActivity{
             public void onClick(View v) {
                 int type = spinner.getSelectedItemPosition();
                 if (type == 0){
-                   setDiaModel("Hockey.bin");
+                    setDiaModel("run.bin");
                 }else if (type == 1){
-                    setDiaModel("Horse Riding.bin");
-                }else if (type == 2){
-                    setDiaModel("step Training.bin");
-                }else if (type == 3){
-                    setDiaModel("91.bin");
-                }else if (type == 4){
-                    setDiaModel("51.bin");
-                }else if (type == 5){
-                    setDiaModel("50.bin");
-                }else if (type == 6){
-                    setDiaModel("15.bin");
-                }else if (type == 7){
-                    setDiaModel("55.bin");
-                }else if (type == 8){
-                    setDiaModel("56.bin");
-                }else if (type == 9){
-                    setDiaModel("97.bin");
-                }else if (type == 10){
-                    setDiaModel("110.bin");
+                    setDiaModel("walk.bin");
                 }
             }
         });

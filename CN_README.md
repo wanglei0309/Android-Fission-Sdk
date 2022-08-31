@@ -7,7 +7,7 @@
 
 ### 二、快速入门
 #### 1，导入SDK
-将**fissionsdk-release-vx.x.x.aar**、**fissionsdk_v2-release-vx.x.x.aar**、**rtk-bbpro-core-x.x.x.jar**、**rtk-core-x.x.x.jar**、**rtk-dfu-x.x.x.jar** 导入工程，一般复制到libs目录下，然后在module中的build.gradle中如下设置：
+将**fissionsdk_v2-release-vx.x.x.aar**、**rtk-bbpro-core-x.x.x.jar**、**rtk-core-x.x.x.jar**、**rtk-dfu-x.x.x.jar** 导入工程，一般复制到libs目录下，然后在module中的build.gradle中如下设置：
 ```
 repositories {
     flatDir {
@@ -20,7 +20,6 @@ dependencies {
     implementation files('libs/rtk-bbpro-core-1.6.9.jar')
     implementation files('libs/rtk-core-1.2.8.jar')
     implementation files('libs/rtk-dfu-3.4.1.jar')
-    implementation(name: 'fissionsdk-release', ext: 'aar')
     implementation(name: 'fissionsdk_v2-release', ext: 'aar')
     api rootProject.ext.dependencies["rx-java2"]
     api rootProject.ext.dependencies["rx-android2"]
@@ -2531,6 +2530,94 @@ DFU升级主要包含以下几个功能：
     int OTA_TYPE_FIRMWARE = 0, OTA_TYPE_DEFAULT_DYNAMIC_DIAL = 1, OTA_TYPE_SMALL_FONT = 2, OTA_TYPE_LARGE_FONT =3,
 
     OTA_TYPE_UI = 4, OTA_TYPE_FONT_AND_UI = 5, OTA_TYPE_SPORT = 6, OTA_TYPE_CANCEL = 255, OTA_TYPE_DYNAMIC_DIAL =10, OTA_TYPE_CUSTOMIZE_DIAL = 20;
+```
+* SpKey
+   发送获取硬件信息指令后，可以使用SpUtils获取一下key对应的状态值，返回结果布尔值。
+```
+/**
+     *  是否支持相册压缩表盘
+     */
+    String SUPPORT_COMPRESSED_DIALS = "isSupportCompressedDials";
+
+    /**
+     *  是否支持快捷回复
+     */
+    String SUPPORT_QUICK_REPLY = "isSupportQuickReply";
+
+    /**
+     *  是否支持GPS运动
+     */
+    String SUPPORT_GPS_SPORTS = "isSupportGpsSports";
+
+    /**
+     *  是否支持未来14天天气
+     */
+    String SUPPORT_14_DAYS_WEATHER = "isSupport14DaysWeather";
+
+    /**
+     *  是否支持运动推送
+     */
+    String SUPPORT_SPORTS_PUSH = "isSupportSportsPush";
+
+    /**
+     *  是否支持中雨和暴雨天气
+     */
+    String SUPPORT_NEW_WEATHER = "isSupportNewWeather";
+
+    /**
+     *  是否支持联系人
+     */
+    String SUPPORT_CALL_CONTACT = "isSupportCallContact";
+
+    /**
+     *  是否支持运动心率预警提醒
+     */
+    String SUPPORT_SPORT_HEART_RATE_WARN = "isSupportSportHrWarn";
+
+    /**
+     *  是否支持运动目标设置
+     */
+    String SUPPORT_SPORT_TARGET = "isSupportSportTarget";
+
+    /**
+     *  是否支持勿扰设置
+     */
+    String SUPPORT_DND_MODE = "isSupportDND";
+
+    /**
+     *  是否支持在线表盘使用03F4私有协议推送
+     */
+    String SUPPORT_ONLINE_DIAL_03F4 = "isSupportOnlineDial03F4";
+
+    /**
+     *  是否支持抬腕时间设定
+     */
+    String SUPPORT_WRIST_LIFT_TIME = "isSupportWristLiftTime";
+
+    /**
+     *  是否支持通话8763e(瑞昱)
+     */
+    String IS_IC_TYPE_8763E = "isIcType8763e";
+
+    /**
+     *  是否支持App推送闹钟
+     */
+    String SUPPORT_APP_PUSH_CLOCK= "isSupportPushClock";
+
+    /**
+     *  是否支持闹钟备注
+     */
+    String SUPPORT_CLOCK_REMARK = "isSupportClockRemark";
+
+    /**
+     *  是否支持十个闹钟
+     */
+    String SUPPORT_10_CLOCKS = "isSupport10Clocks";
+
+    /**
+     * 是否支持FSS进度判断OTA结果
+     */
+    String SUPPORT_OTA_FSS_RESULT = "isSupportOtaFss";
 ```
 ### 六、FAQ
   智能穿戴类App业内常见问题：

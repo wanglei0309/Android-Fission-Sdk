@@ -206,7 +206,7 @@ public class OTAUpdateActivity extends BaseActivity {
       }else {
 //          OtaUtils.startDfu(this,filePath,true);
 //          OtaUtils.startDfu(this, filePath, FissionConstant.OTA_TYPE_FIRMWARE);
-          FissionSdkBleManage.getInstance().startDfu(this, filePath, FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL, new DfuAdapter.DfuHelperCallback() {
+          FissionSdkBleManage.getInstance().startDfu(this, filePath, FissionConstant.OTA_TYPE_FIRMWARE, new DfuAdapter.DfuHelperCallback() {
               @Override
               public void onStateChanged(int i) {
                   super.onStateChanged(i);

@@ -1,12 +1,15 @@
 package com.szfission.wear.demo;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.BleConnectListener;
 import com.fission.wear.sdk.v2.config.BleComConfig;
+import com.fission.wear.sdk.v2.constant.SpKey;
 import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.AnyWearConfig;
 import com.szfission.wear.sdk.bean.BloodPressureRecord;
@@ -656,6 +659,10 @@ public class FissionSdk {
     public void connectDevice(String deviceAddress, boolean isBind, String fissionKey, BleConnectListener listener) {
         LogUtils.d("求这个地址" + deviceAddress);
 //        EventBus.getDefault().post(new ConnectedStateEvent(C.CONNECT_LOADING, SharedPreferencesUtil.getInstance().getBluetoothName()));
+        if(TextUtils.isEmpty(deviceAddress)){
+            FissionSdkBleManage.getInstance().connectBleDevice(deviceAddress, null, false, listener);
+            return;
+        }
         if (SharedPreferencesUtil.getInstance().getFissionKey().equals("")) {
             long time = System.currentTimeMillis();
             int lastTime = (int) (time % 10000);
@@ -665,6 +672,11 @@ public class FissionSdk {
         BleComConfig bleComConfig = new BleComConfig();
         bleComConfig.setBind(isBind);
         bleComConfig.setBindKeys(SharedPreferencesUtil.getInstance().getFissionKey());
+        if(SPUtils.getInstance().getBoolean(SpKey.IS_IC_TYPE_8763E)){
+            bleComConfig.setNeedSppConnect(true);
+        }else{
+            bleComConfig.setNeedSppConnect(false);
+        }
         FissionSdkBleManage.getInstance().connectBleDevice(deviceAddress, bleComConfig, false, listener);
     }
 

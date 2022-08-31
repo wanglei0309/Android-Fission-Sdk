@@ -263,6 +263,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
         iv_watch_face2.setImageBitmap(bitmap1);
         byte[] resultData = com.fission.wear.sdk.v2.utils.FissionDialUtil.getDiaInfoBinData(this, dialModel);
         byte[] outData = QuickLZUtils.compressFission(resultData);
+        LogUtils.d("wl", "相册自定义表盘字节大小(压缩前)："+resultData.length);
 //        String filePath = Environment.getExternalStorageDirectory()+"/custom_dial_1.bin";
 //        String filePath2 = Environment.getExternalStorageDirectory()+"/custom_dial_2.bin";
 //        FileUtils.createFileByDeleteOldFile(filePath);

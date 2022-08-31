@@ -29,58 +29,64 @@ public class MultiWeatherAdapter extends BaseQuickAdapter<WeatherParam, BaseView
 
     private void getWeather(BaseViewHolder holder, int weatherCode) {
         switch (weatherCode) {
-            case 1:// 晴天
+            case 0:// 晴天
                 holder.setText(R.id.tvWeather,"晴天");
                 break;
-            case 2:// 多云
+            case 1:// 多云
                 holder.setText(R.id.tvWeather,"多云");
                 break;
-            case 3:// 风
+            case 2:// 风
                 holder.setText(R.id.tvWeather,"大风");
                 break;
-            case 4:// 阴天
+            case 3:// 阴天
                 holder.setText(R.id.tvWeather,"阴天");
                 break;
-            case 5:// 阵雨
+            case 4:// 阵雨
                 holder.setText(R.id.tvWeather,"小雨");
                 break;
-            case 6:// 雷阵雨、雷阵雨伴有冰雹
+            case 5:// 雷阵雨、雷阵雨伴有冰雹
                 holder.setText(R.id.tvWeather,"大雨");
                 break;
-            case 7:// 小雨
+            case 6:// 小雨
                 holder.setText(R.id.tvWeather,"中雪");
                 break;
-            case 8:// 中雨
+            case 7:// 中雨
                 holder.setText(R.id.tvWeather,"雷阵雨");
                 break;
-            case 9:// 暴雨
+            case 8:// 暴雨
                 holder.setText(R.id.tvWeather,"夜间晴");
                 break;
-            case 10:// 夜间多云
+            case 9:// 夜间多云
                 holder.setText(R.id.tvWeather,"夜间多云");
                 break;
-            case 11:// 沙尘暴
+            case 10:// 沙尘暴
                 holder.setText(R.id.tvWeather,"沙尘暴");
                 break;
-            case 12:// 阵雨
+            case 11:// 阵雨
                 holder.setText(R.id.tvWeather,"阵雨");
                 break;
-            case 13:// 夜间阵雨
+            case 12:// 夜间阵雨
                 holder.setText(R.id.tvWeather,"夜间阵雨");
                 break;
-            case 14:// 雨夹雪
+            case 13:// 雨夹雪
                 holder.setText(R.id.tvWeather,"雨夹雪");
                 break;
-            case 15:// 雾霾
+            case 14:// 雾霾
                 holder.setText(R.id.tvWeather,"雾霾");
                 break;
-            case 16:// 小雪
+            case 15:// 小雪
                 holder.setText(R.id.tvWeather,"小雪");
                 break;
-            case 17:// 大雪
+            case 16:// 大雪
                 holder.setText(R.id.tvWeather,"大雪");
                 break;
-            case 18:// 未知天气
+            case 17:// 小雪
+                holder.setText(R.id.tvWeather,"中雨");
+                break;
+            case 18:// 大雪
+                holder.setText(R.id.tvWeather,"暴雨");
+                break;
+            case 255:// 未知天气
                 holder.setText(R.id.tvWeather,"未知天气");
                 break;
         }
