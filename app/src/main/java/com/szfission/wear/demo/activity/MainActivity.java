@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
@@ -38,7 +37,6 @@ import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
-import com.fission.wear.sdk.v2.bean.FssStatus;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
 import com.fission.wear.sdk.v2.bean.StreamData;
 import com.fission.wear.sdk.v2.callback.BaseCmdResultListener;
@@ -49,11 +47,6 @@ import com.fission.wear.sdk.v2.callback.FissionFmDataResultListener;
 import com.fission.wear.sdk.v2.callback.FissionRawDataResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.constant.SpKey;
-import com.fission.wear.sdk.v2.parse.BigDataParseManage;
-import com.fission.wear.sdk.v2.parse.ParseDataListener;
-import com.fission.wear.sdk.v2.service.BleComService;
-import com.fission.wear.sdk.v2.utils.AudioUtils;
-import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.polidea.rxandroidble2.RxBleConnection;
@@ -74,7 +67,7 @@ import com.szfission.wear.demo.dialog.MusicVolumeDialog;
 import com.szfission.wear.demo.dialog.NormalDialog;
 import com.szfission.wear.demo.viewmodel.HomeViewModel;
 import com.szfission.wear.sdk.AnyWear;
-import com.szfission.wear.sdk.bean.BloodPressureRecord;
+import com.szfission.wear.sdk.bean.MentalStressRecord;
 import com.szfission.wear.sdk.bean.DaysReport;
 import com.szfission.wear.sdk.bean.ExerGpsDetail;
 import com.szfission.wear.sdk.bean.ExerciseDetail;
@@ -98,10 +91,6 @@ import com.szfission.wear.sdk.ifs.OnBleResultCallback;
 import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
 import com.szfission.wear.sdk.ifs.OnStreamListener;
 import com.szfission.wear.sdk.ifs.ReceiveMsgListener;
-import com.szfission.wear.sdk.parse.BigDataParse;
-import com.szfission.wear.sdk.parse.CMDHelper;
-import com.szfission.wear.sdk.parse.ParseCurSleepRecord;
-import com.szfission.wear.sdk.parse.ParseCurSleepReport;
 import com.szfission.wear.sdk.util.DateUtil;
 import com.szfission.wear.sdk.util.FsLogUtil;
 import com.szfission.wear.sdk.util.StringUtil;
@@ -169,6 +158,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_OTA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PAGE_SKIP;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_DIAL;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_SPORT;
+import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_QLZ_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_QUICK_REPLY_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_REBOOT_DEVICE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_RESET;
@@ -195,6 +185,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TIMING_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_UNIT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_WRIST_BRIGHT_SCREEN;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SHUTDOWN;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SHUTDOWN_STATE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_STRU_CALL_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_STRU_MUSIC_CONT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SWITCH_HR_RATE;
@@ -414,10 +405,10 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         }
 
         @Override
-        public void getBloodPressureRecord(List<BloodPressureRecord> bloodPressureRecords) {
-            super.getBloodPressureRecord(bloodPressureRecords);
+        public void getMentalStressRecord(List<MentalStressRecord> mentalStressRecords) {
+            super.getMentalStressRecord(mentalStressRecords);
 //            logList.clear();
-            logList.add(bloodPressureRecords!=null ?bloodPressureRecords.toString() :"null");
+            logList.add(mentalStressRecords !=null ? mentalStressRecords.toString() :"null");
             logAdapter.notifyDataSetChanged();
         }
 
@@ -779,6 +770,10 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         FissionSdkBleManage.getInstance().rebootDevice();
                         break;
 
+                    case FUNC_SHUTDOWN_STATE:
+                        FissionSdkBleManage.getInstance().setShutdownState();
+                        break;
+
                     case FUNC_RESET:
 //                        AnyWear.restoreFactory(new OnSmallDataCallback() {
 //                            @Override
@@ -819,6 +814,9 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         break;
                     case FUNC_ONLINE_DIAL_PUSH:
                         startActivity(new Intent(context, OnlineDialPushActivity.class));
+                        break;
+                    case FUNC_PUSH_QLZ_DATA:
+                        startActivity(new Intent(context, PushQlzDataActivity.class));
                         break;
                     case FUNC_SAFETY_CONFIRM:
                         showEditDialog(FUNC_SAFETY_CONFIRM);
@@ -1069,7 +1067,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     case FUNC_GET_BLOODPRESSURE_RECORD:
                         //获取血压记录
 //                        FissionSdk.getInstance().getBloodPressureRecord(startTime,endTime);
-                        FissionSdkBleManage.getInstance().getBloodPressureRecord(startTime,endTime);
+                        FissionSdkBleManage.getInstance().getMentalStressRecord(startTime,endTime);
                         break;
                     case FUNC_WEATHER:
                         //推送天气消息
@@ -1111,7 +1109,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         break;
 
                     case FUNC_GET_FLASH_DATA:
-                        FissionSdkBleManage.getInstance().getFlashData();
+                        startActivity(new Intent(context, GetFlashDataActivity.class));
                         break;
 
                     case FUNC_GET_HAND_MEASURE_INFO:
@@ -1360,7 +1358,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     showLog(R.string.device_connecting,deviceName);
                     connectSuccessfully = true;
                     tvActionConnect.setText(R.string.disconnect);
-                    if(!TextUtils.isEmpty(deviceName) && deviceName.contains("LW71")){
+                    if(!TextUtils.isEmpty(deviceName) && (deviceName.contains("LW71") || deviceName.contains("LW76") || deviceName.contains("LW82") || deviceName.contains("LW83") || deviceName.contains("LW77"))){
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, true);
                     }else{
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, false);

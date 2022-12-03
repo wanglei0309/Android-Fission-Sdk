@@ -82,6 +82,7 @@
         <activity android:name=".activity.CompressDataActivity" />
         <activity android:name=".activity.PhoneBookActivity" />
         <activity android:name=".activity.OnlineDialPushActivity" />
+        <activity android:name=".activity.PushQlzDataActivity" />
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -101,6 +102,7 @@
         <activity android:name=".activity.MenstrualPeriodActivity" />
         <activity android:name=".activity.CommunicatGpsActivity" />
         <activity android:name=".activity.WriteFlashDataActivity" />
+        <activity android:name=".activity.GetFlashDataActivity" />
 
         <service android:name="com.realsil.sdk.dfu.DfuService"/>
 

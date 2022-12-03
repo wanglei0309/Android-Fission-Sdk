@@ -395,6 +395,18 @@ public class SetTimingInfoActivity extends BaseActivity {
 
     }
 
+    @Event(R.id.btn_send2)
+    private void send2(View v) {
+        List<FissionAlarm> lw33s = new ArrayList<>();
+        FissionAlarm alarmLw33 = new FissionAlarm(0,1,true,System.currentTimeMillis()+60000,weekResult, "起床");
+        lw33s.add(alarmLw33);
+        for (int i = 1;i<10;i++){
+            lw33s.add(new FissionAlarm(i,1,true,System.currentTimeMillis()+i*120000,weekResult, "开会这名字够长了吧"+i));
+        }
+
+        FissionSdkBleManage.getInstance().setAlarmInfos(lw33s);
+    }
+
     StringBuilder content = null;
     SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
 

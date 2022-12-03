@@ -83,14 +83,12 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     ImageView iv_watch3;
     @ViewInject(R.id.bar_R)
     SeekBar seekBarR;
-    @ViewInject(R.id.bar_G)
-    SeekBar seekBarG;
-    @ViewInject(R.id.bar_B)
-    SeekBar seekBarB;
     @ViewInject(R.id.yanse)
     TextView yanse;
     @ViewInject(R.id.yanse2)
     TextView yanse2;
+    @ViewInject(R.id.tv_color)
+    TextView tv_color;
     FissionDialUtil.DialModel dialModel;
     com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel dialModel2;
 
@@ -99,6 +97,8 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     int thumbnailWidth = 320;
     int thumbnailHigh = 390;
     int dialShape = 0;
+
+    private int colorValue ;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +115,8 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
             thumbnailHigh = App.mHardWareInfo.getThumbnailHigh();
             dialShape = App.mHardWareInfo.getDialShape();
         }
+
+        colorValue = getResources().getColor(R.color.public_custom_dial_1);
 
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
             @Override
@@ -145,8 +147,6 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
         });
 
         seekBarR.setOnSeekBarChangeListener(this);
-        seekBarG.setOnSeekBarChangeListener(this);
-        seekBarB.setOnSeekBarChangeListener(this);
         rxPermissions = new RxPermissions(this);
         btn_get_pic1.setOnClickListener(v -> {
             NormalDialog normalDialog = new NormalDialog(CustomDialActivity.this,2, ModelConstant.FUNC_PUSH_CUSTOM_DIAL);
@@ -174,7 +174,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
                 dialModel.setPreImageWidth(thumbnailWidth);
                 dialModel.setPreImageHeight(thumbnailHigh);
                 dialModel.setDialPosition(stylePosition_middle);
-                dialModel.setDialStyleColor(getResources().getColor(R.color.public_custom_dial_8));
+                dialModel.setDialStyleColor(colorValue);
                 Bitmap thumbBitmap2 = ImageScalingUtil.extractMiniThumb(dialModel.getPreviewImage(),
                         dialModel.getPreImageWidth(), dialModel.getPreImageHeight());
 
@@ -202,7 +202,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
                 dialModel2.setPreImageWidth(thumbnailWidth);
                 dialModel2.setPreImageHeight(thumbnailHigh);
                 dialModel2.setDialPosition(stylePosition_middle);
-                dialModel2.setDialStyleColor(getResources().getColor(R.color.public_custom_dial_8));
+                dialModel2.setDialStyleColor(colorValue);
                 Bitmap thumbBitmap2 = ImageScalingUtil.extractMiniThumb(dialModel2.getPreviewImage(),
                         dialModel2.getPreImageWidth(), dialModel2.getPreImageHeight());
 
@@ -380,17 +380,52 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        colorMatrix.setScale(caculate(seekBarR.getProgress()), caculate(seekBarG.getProgress()),
-                caculate(seekBarB.getProgress()), caculate(255));
-//        Bitmap bitmap1 = getPreviewImageBitmap(this,dialModel,colorMatrix);
-//        iv_watch_face2.setImageBitmap(bitmap1);
-//        yanse.setText("#"
-//                + Integer.toHexString(seekBarR.getProgress())
-//                + Integer.toHexString(seekBarG.getProgress())
-//                + Integer.toHexString(seekBarB.getProgress()));
-//
-//        int color =  Color.parseColor(yanse.getText().toString());
-//        yanse2.setText("红色："+Color.red(color)+"绿色:"+Color.green(color)+"蓝色:"+Color.blue(color));
+        switch (progress){
+            case 0:
+                tv_color.setText("当前选中字体颜色：白色");
+                colorValue = getResources().getColor(R.color.public_custom_dial_1);
+                break;
+
+            case 1:
+                tv_color.setText("当前选中字体颜色：绿色");
+                colorValue = getResources().getColor(R.color.public_custom_dial_2);
+                break;
+
+            case 2:
+                tv_color.setText("当前选中字体颜色：红色");
+                colorValue = getResources().getColor(R.color.public_custom_dial_3);
+                break;
+
+            case 3:
+                tv_color.setText("当前选中字体颜色：黄色");
+                colorValue = getResources().getColor(R.color.public_custom_dial_4);
+                break;
+
+            case 4:
+                tv_color.setText("当前选中字体颜色：橘红色");
+                colorValue = getResources().getColor(R.color.public_custom_dial_5);
+                break;
+
+            case 5:
+                tv_color.setText("当前选中字体颜色：紫色");
+                colorValue = getResources().getColor(R.color.public_custom_dial_6);
+                break;
+
+            case 6:
+                tv_color.setText("当前选中字体颜色：天蓝色");
+                colorValue = getResources().getColor(R.color.public_custom_dial_7);
+                break;
+
+            case 7:
+                tv_color.setText("当前选中字体颜色：黑色");
+                colorValue = getResources().getColor(R.color.public_custom_dial_8);
+                break;
+
+            case 8:
+                tv_color.setText("当前选中字体颜色：灰色");
+                colorValue = getResources().getColor(R.color.public_custom_dial_9);
+                break;
+        }
 
     }
 

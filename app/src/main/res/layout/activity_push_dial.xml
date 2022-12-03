@@ -8,14 +8,6 @@
     android:padding="15dp">
 
 
-
-
-
-
-
-
-
-
     <ImageView
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
@@ -116,9 +108,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_gravity="bottom"
-        android:layout_weight="1"
         android:orientation="horizontal">
 
         <TextView
@@ -126,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="R:"
+            android:text="字体颜色类型:"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <SeekBar
@@ -135,58 +126,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:max="255"
-            android:progress="128" />
+            android:max="8"
+            android:progress="0" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="G:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <SeekBar
-            android:id="@+id/bar_G"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:max="255"
-            android:progress="128" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="B:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <SeekBar
-            android:id="@+id/bar_B"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:max="255"
-            android:progress="128" />
-    </LinearLayout>
-
+   <TextView
+       android:id="@+id/tv_color"
+       android:text="当前选中字体颜色：白色"
+       android:textColor="@color/black"
+       android:textSize="16sp"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
 
 </LinearLayout>

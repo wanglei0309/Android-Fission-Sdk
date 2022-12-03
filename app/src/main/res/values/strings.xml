@@ -90,7 +90,7 @@
     <string name="FUNC_GET_SLEEP_RECORD">睡眠状态记录</string>
     <string name="FUNC_GET_STEPS_RECORD">获取计步记录</string>
     <string name="FUNC_GET_SPO2_RECORD">获取血氧记录</string>
-    <string name="FUNC_GET_BLOODPRESSURE_RECORD">获取血压记录</string>
+    <string name="FUNC_GET_MENTALSTRESS_RECORD">获取精神压力记录</string>
     <string name="set">设置</string>
     <string name="FUNC_WEATHER">推送天气消息</string>
     <string name="FUNC_WEATHER_DETAIL">推送天气消息详情</string>
@@ -114,7 +114,9 @@
     <string name="FUNC_GET_UI_VERSION">获取UI版本</string>
     <string name="FUNC_GET_BURIED_DATA">获取设备埋点数据</string>
     <string name="FUNC_SYN_PHONE_BOOK">同步电话簿</string>
-    <string name="FUNC_ONLINE_DIAL_PUSH">在线表盘推送</string>
+    <string name="FUNC_ONLINE_DIAL_PUSH">在线表盘推送(03F4)</string>
     <string name="FUNC_MSG_TASK">消息队列数据流</string>
     <string name="FUNC_GET_FLASH_DATA">读取片外flash空间数据</string>
+    <string name="FUNC_SHUTDOWN_STATE">设置重启后自动关机</string>
+    <string name="FUNC_PUSH_QLZ_DATA">App推送任意qlz压缩数据(03F5)</string>
 </resources>

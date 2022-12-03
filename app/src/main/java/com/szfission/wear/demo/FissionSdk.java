@@ -12,7 +12,7 @@ import com.fission.wear.sdk.v2.config.BleComConfig;
 import com.fission.wear.sdk.v2.constant.SpKey;
 import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.AnyWearConfig;
-import com.szfission.wear.sdk.bean.BloodPressureRecord;
+import com.szfission.wear.sdk.bean.MentalStressRecord;
 import com.szfission.wear.sdk.bean.DaysReport;
 import com.szfission.wear.sdk.bean.ExerGpsDetail;
 import com.szfission.wear.sdk.bean.ExerciseReport;
@@ -516,24 +516,24 @@ public class FissionSdk {
         }
 
         @Override
-        public void OnBloodPressureRecord(List<BloodPressureRecord> bloodPressureRecordList) {
+        public void OnBloodPressureRecord(List<MentalStressRecord> mentalStressRecordList) {
             FsLogUtil.d("获取血压记录成功");
             StringBuilder content = new StringBuilder();
-            for (int i = 0; i < bloodPressureRecordList.size(); i++) {
-                BloodPressureRecord bloodPressureRecord = bloodPressureRecordList.get(i);
-                content.append("\n第").append(i + 1).append("条记录时间：").append(DateUtil.gmtToStrDate(bloodPressureRecord.getTime()));
-                content.append("\n结构体版本：").append(bloodPressureRecord.getBodyVersion());
-                content.append("\n记录生成周期：").append(bloodPressureRecord.getWeek()).append("秒");
-                content.append("\n此记录块包含有效记录条数：").append(bloodPressureRecord.getNumber());
-                content.append("\n单条记录长度：").append(bloodPressureRecord.getLength());
-                content.append("\n记录类型 ：").append(bloodPressureRecord.getType());
+            for (int i = 0; i < mentalStressRecordList.size(); i++) {
+                MentalStressRecord mentalStressRecord = mentalStressRecordList.get(i);
+                content.append("\n第").append(i + 1).append("条记录时间：").append(DateUtil.gmtToStrDate(mentalStressRecord.getTime()));
+                content.append("\n结构体版本：").append(mentalStressRecord.getBodyVersion());
+                content.append("\n记录生成周期：").append(mentalStressRecord.getWeek()).append("秒");
+                content.append("\n此记录块包含有效记录条数：").append(mentalStressRecord.getNumber());
+                content.append("\n单条记录长度：").append(mentalStressRecord.getLength());
+                content.append("\n记录类型 ：").append(mentalStressRecord.getType());
                 content.append("\n血压详情:\n");
-                for (BloodPressureRecord.Detail detail : bloodPressureRecord.getDetails()) {
-                    content.append("高：").append(detail.getPbMax()).append(" 低：").append(detail.getPbMin()).append(" | ");
+                for (MentalStressRecord.Detail detail : mentalStressRecord.getDetails()) {
+                    content.append("高：").append(detail.getMentalStress()).append(" 低：").append(detail.getMentalStressLevel()).append(" | ");
                 }
                 content.append("\n");
             }
-            EventBus.getDefault().post(new DataMessageEvent(R.string.FUNC_GET_BLOODPRESSURE_RECORD, content.toString()));
+            EventBus.getDefault().post(new DataMessageEvent(R.string.FUNC_GET_MENTALSTRESS_RECORD, content.toString()));
         }
 
 

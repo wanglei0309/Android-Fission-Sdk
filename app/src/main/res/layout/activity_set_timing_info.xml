@@ -20,24 +20,29 @@
         android:layout_height="wrap_content"/>
 
 
-
-
     <Button
         android:id="@+id/btn_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/set"
         android:layout_above="@+id/btn_get"
+        android:text="设置5个闹钟"
         android:textAllCaps="false"
         android:textColor="@android:color/white" />
 
     <Button
-        android:layout_marginBottom="20dp"
+        android:id="@+id/btn_send2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_send"
+        android:text="设置10个闹钟"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <Button
         android:layout_alignParentBottom="true"
         android:id="@+id/btn_get"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="查询"
         android:textAllCaps="false"
         android:textColor="@android:color/white" />

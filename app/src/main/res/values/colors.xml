@@ -6,14 +6,4 @@
     <color name="bg_click_pressed">#1a000000</color>
     <color name="colorRed">#FF0000</color>
 
-    <color name="public_custom_dial_1">#FFFFFF</color>
-    <color name="public_custom_dial_2">#3CDD6A</color>
-    <color name="public_custom_dial_3">#F15A49</color>
-    <color name="public_custom_dial_4">#F1C849</color>
-    <color name="public_custom_dial_5">#F18A49</color>
-    <color name="public_custom_dial_6">#A37EF4</color>
-    <color name="public_custom_dial_7">#44BEFF</color>
-    <color name="public_custom_dial_8">#333333</color>
-    <color name="public_custom_dial_9">#4469FF</color>
-
 </resources>

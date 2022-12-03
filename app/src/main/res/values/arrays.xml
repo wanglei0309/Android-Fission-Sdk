@@ -67,7 +67,9 @@
     </string-array>
 
     <string-array name="sport">
-        <item>户外跑步</item>
-        <item>户外健走</item>
+        <item>休闲运动</item>
+        <item>击剑</item>
+        <item>马拉松</item>
+        <item>跆拳道</item>
     </string-array>
 </resources>

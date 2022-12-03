@@ -57,6 +57,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_OTA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PAGE_SKIP;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_DIAL;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_SPORT;
+import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_QLZ_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_QUICK_REPLY_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_REBOOT_DEVICE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_RESET;
@@ -82,6 +83,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TIMING_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_UNIT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_WRIST_BRIGHT_SCREEN;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SHUTDOWN;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SHUTDOWN_STATE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_STRU_CALL_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_STRU_MUSIC_CONT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SWITCH_HR_RATE;
@@ -246,6 +248,7 @@ public class HomeViewModel extends ViewModel {
         childList1.add(new FuncBean(R.string.FUNC_MUSIC_CONTROL, FUNC_MUSIC_CONTROL));
         childList1.add(new FuncBean(R.string.FUNC_MUSIC_PROGRESS, FUNC_MUSIC_PROGRESS));
         childList1.add(new FuncBean(R.string.FUNC_BREAK_DEVICE, FUNC_BREAK_DEVICE));
+        childList1.add(new FuncBean(R.string.FUNC_SHUTDOWN_STATE, FUNC_SHUTDOWN_STATE));
 
 
         childList2.add(new FuncBean(R.string.FUNC_SET_DATA_STREAM, FUNC_SET_DATA_STREAM));
@@ -258,6 +261,7 @@ public class HomeViewModel extends ViewModel {
         childList2.add(new FuncBean(R.string.FUNC_FLASH_WRITE_CMD, FUNC_FLASH_WRITE_CMD));
         childList2.add(new FuncBean(R.string.FUNC_COMPRESS_CMD, FUNC_COMPRESS_CMD));
         childList2.add(new FuncBean(R.string.FUNC_ONLINE_DIAL_PUSH, FUNC_ONLINE_DIAL_PUSH));
+        childList2.add(new FuncBean(R.string.FUNC_PUSH_QLZ_DATA, FUNC_PUSH_QLZ_DATA));
 
         childList3.add(new FuncBean(R.string.FUNC_GET_HARDWARE_INFO, FUNC_GET_HARDWARE_INFO));
         childList3.add(new FuncBean(R.string.FUNC_GET_MEARURE_INFO, FUNC_GET_MEASURE_INFO));
@@ -273,7 +277,7 @@ public class HomeViewModel extends ViewModel {
         childList3.add(new FuncBean(R.string.FUNC_SET_HR_WARN_PARA, FUNC_SET_HR_WARN_PARA));
         childList3.add(new FuncBean(R.string.FUNC_GET_STEPS_RECORD, FUNC_GET_STEPS_RECORD));
         childList3.add(new FuncBean(R.string.FUNC_GET_SPO2_RECORD, FUNC_GET_SPO2_RECORD));
-        childList3.add(new FuncBean(R.string.FUNC_GET_BLOODPRESSURE_RECORD, FUNC_GET_BLOODPRESSURE_RECORD));
+        childList3.add(new FuncBean(R.string.FUNC_GET_MENTALSTRESS_RECORD, FUNC_GET_BLOODPRESSURE_RECORD));
         childList3.add(new FuncBean(R.string.FUNC_GET_EXERCISE_DETAIL, FUNC_GET_EXERCISE_DETAIL));
         childList3.add(new FuncBean(R.string.FUNC_GET_EXER_GPS_DETAIL, FUNC_GET_EXER_GPS_DETAIL));
         childList3.add(new FuncBean(R.string.FUNC_GET_PERSONAL_INFO, FUNC_GET_PERSONAL_INFO));

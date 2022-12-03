@@ -22,6 +22,7 @@ public  class ModelConstant {
     public static final int FUNC_FLASH_WRITE_CMD = 1504;
     public static final int FUNC_COMPRESS_CMD = 1505;
     public static final int FUNC_ONLINE_DIAL_PUSH = 1506;
+    public static final int FUNC_PUSH_QLZ_DATA = 1507;
     public static final int FUNC_CAMERA = 16;
     public static final int FUNC_FIND_DEVICE = 17;
     public static final int FUNC_GIVE_UP_FIND_DEVICE = 171;
@@ -85,6 +86,8 @@ public  class ModelConstant {
     public  static final int FUNC_GET_BURIED_DATA = 130;
     public  static final int FUNC_SYN_PHONE_BOOK = 131;
     public  static final int FUNC_GET_FLASH_DATA = 132;
+
+    public static final int FUNC_SHUTDOWN_STATE = 133;
 
 
 }
