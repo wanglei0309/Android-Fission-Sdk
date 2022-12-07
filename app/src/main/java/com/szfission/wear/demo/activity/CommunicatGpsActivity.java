@@ -25,6 +25,7 @@ import com.szfission.wear.sdk.constant.FissionEnum;
 import com.szfission.wear.sdk.ifs.BigDataCallBack;
 import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
 import com.szfission.wear.sdk.util.FissionDialUtil;
+import com.szfission.wear.sdk.util.RxTimerUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -49,6 +50,8 @@ public class CommunicatGpsActivity extends BaseActivity{
     Button getSportState;
     @ViewInject(R.id.tv_result)
     TextView tv_result;
+    @ViewInject(R.id.autoPushSport)
+    Button autoPushSport;
     @ViewInject(R.id.spinnerType)
     Spinner spinner;
     long curGpsTime = System.currentTimeMillis()/1000;
@@ -57,6 +60,8 @@ public class CommunicatGpsActivity extends BaseActivity{
     int duration = 0;
 
     private CommunicatGps mCommunicatGps;
+
+    private RxTimerUtil mRxTimerUtil;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         setTitle(R.string.FUNC_GPS_SPORT_CMD);
@@ -173,6 +178,10 @@ public class CommunicatGpsActivity extends BaseActivity{
         });
 
         stopSport.setOnClickListener(v -> {
+            if(mRxTimerUtil!=null){
+                mRxTimerUtil.cancelTimer();
+                mRxTimerUtil =null;
+            }
             duration = duration+(int)(System.currentTimeMillis()-startTime)/1000;
             FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_STOP, duration);
         });
@@ -204,6 +213,31 @@ public class CommunicatGpsActivity extends BaseActivity{
             FissionSdkBleManage.getInstance().getSportState();
         });
 
+        autoPushSport.setOnClickListener(v -> {
+            if(mRxTimerUtil == null){
+                mRxTimerUtil =  new RxTimerUtil();
+                mRxTimerUtil.interval(1000, new RxTimerUtil.RxAction() {
+                    @Override
+                    public void action(long number) {
+                        mCommunicatGps = new CommunicatGps();
+                        mCommunicatGps.setUtcTime(System.currentTimeMillis() / 1000);
+                        mCommunicatGps.setSportId(curGpsTime);
+                        mCommunicatGps.setStartUtc(curGpsTime);
+                        mCommunicatGps.setTotalCalorie(15);
+                        mCommunicatGps.setTotalStep(200);
+                        mCommunicatGps.setTotalTime(10);
+                        mCommunicatGps.setCurDistance(300);
+                        mCommunicatGps.setSportType(8);
+                        mCommunicatGps.setSportStatus(1);
+                        mCommunicatGps.setMaxCadence(120);
+                        mCommunicatGps.setAvgCadence(90);
+                        mCommunicatGps.setResetCount(0);
+                        mCommunicatGps.setCurPace(300);
+                        FissionSdkBleManage.getInstance().sendGpsCommand(mCommunicatGps);
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -235,5 +269,12 @@ public class CommunicatGpsActivity extends BaseActivity{
         pushProgress.setText("升级进度:"+event.getMessageContent());
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mRxTimerUtil!=null){
+            mRxTimerUtil.cancelTimer();
+            mRxTimerUtil = null;
+        }
+    }
 }

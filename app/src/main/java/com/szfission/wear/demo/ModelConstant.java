@@ -87,7 +87,7 @@ public  class ModelConstant {
     public  static final int FUNC_SYN_PHONE_BOOK = 131;
     public  static final int FUNC_GET_FLASH_DATA = 132;
 
+
     public static final int FUNC_SHUTDOWN_STATE = 133;
-
-
+    public  static final int FUNC_GET_HRPS_DETAIL = 134;
 }

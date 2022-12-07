@@ -37,6 +37,8 @@ import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.bean.DeviceBattery;
+import com.fission.wear.sdk.v2.bean.DeviceVersion;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
 import com.fission.wear.sdk.v2.bean.StreamData;
 import com.fission.wear.sdk.v2.callback.BaseCmdResultListener;
@@ -134,6 +136,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HAND_MEASURE_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HARDWARE_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HEARTED_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HOURS_REPORT;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HRPS_DETAIL;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_MEASURE_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_PERSONAL_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_RESTING_HR;
@@ -296,11 +299,76 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         }
 
         @Override
-        public void setTimes(String times) {
-            super.setTimes(times);
-            LogUtils.d("wl", "上层回调setTimes："+times);
+        public void getUiVersion(String uiVersion) {
+            super.getUiVersion(uiVersion);
+            showLog(R.string.FUNC_GET_UI_VERSION,uiVersion);
         }
 
+        @Override
+        public void getDeviceVersion(DeviceVersion deviceVersion) {
+            super.getDeviceVersion(deviceVersion);
+            showLog(R.string.FUNC_GET_VERSION, deviceVersion.toString());
+        }
+
+        @Override
+        public void getDeviceBattery(DeviceBattery deviceBattery) {
+            super.getDeviceBattery(deviceBattery);
+            showLog(R.string.FUNC_GET_BATTERY, deviceBattery.toString());
+        }
+
+        @Override
+        public void getProtocolVersion(String version) {
+            super.getProtocolVersion(version);
+            showLog(R.string.FUNC_GET_GPV, version);
+        }
+
+        @Override
+        public void getTimes(String times) {
+            super.getTimes(times);
+            showLog(R.string.FUNC_GET_TIME, times);
+        }
+
+        @Override
+        public void setTimes(String times) {
+            super.setTimes(times);
+            showLog(R.string.FUNC_SET_TIME,times);
+        }
+
+        @Override
+        public void getRestingHeartRate(String heartRate) {
+            super.getRestingHeartRate(heartRate);
+            showLog(R.string.FUNC_GET_RESTING_HR,heartRate);
+        }
+
+        @Override
+        public void getTimezone(String timezone) {
+            super.getTimezone(timezone);
+            showLog(R.string.FUNC_GET_TIMEZONE,timezone);
+        }
+
+        @Override
+        public void setTimezone(String timezone) {
+            super.setTimezone(timezone);
+            showLog(R.string.FUNC_SET_TIMEZONE,timezone);
+        }
+
+        @Override
+        public void setTimeFormat(boolean is24Format) {
+            super.setTimeFormat(is24Format);
+            showLog(R.string.FUNC_SET_TIME_MODE,is24Format? "24" : "12");
+        }
+
+        @Override
+        public void setLanguage(int language) {
+            super.setLanguage(language);
+            showLog(R.string.FUNC_SET_LANG,"FissionEnum LG:"+language);
+        }
+
+        @Override
+        public void setUnit(int unit) {
+            super.setUnit(unit);
+            showLog(R.string.FUNC_SET_UNIT,unit == 0? getString(R.string.imperial) : getString(R.string.metric) );
+        }
     };
 
     private BaseCmdResultListener mBigDataCmdListener = new FissionBigDataCmdResultListener() {
@@ -582,19 +650,19 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         recycleMain.setAdapter(logAdapter);
 
         ArrayList<FuncGroup> groupList = new ArrayList<>();
-        groupList.add(new FuncGroup("AT指令"));
+        groupList.add(new FuncGroup(getString(R.string.at_cmd)));
         groupList.add(new FuncGroup(getString(R.string.stream_data)));
-        groupList.add(new FuncGroup("大数据"));
-        groupList.add(new FuncGroup("设置久坐喝水提醒"));
+        groupList.add(new FuncGroup(getString(R.string.big_data_cmd)));
+//        groupList.add(new FuncGroup("设置久坐喝水提醒"));
         funcBeanList = homeViewModel.getFuncBeans();
         MainAdapter mainAdapter = new MainAdapter(groupList, funcBeanList);
         expandView.setAdapter(mainAdapter);
         handler = new Handler();
 //        lvContent.setOnItemClickListener(this);
         AnyWear.setOnStreamListener(this);
-        Date date = new Date();
-        String times = DateUtil.format(date, "yyyy-MM-dd HH:mm:ss");
-        btnEndTime.setText(times);
+//        Date date = new Date();
+//        String times = DateUtil.format(date, "yyyy-MM-dd HH:mm:ss");
+//        btnEndTime.setText(times);
 
         initDate();
 
@@ -1117,6 +1185,11 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 //                        FissionSdk.getInstance().getHandMeasureInfo(startTime,endTime);
                         FissionSdkBleManage.getInstance().getHandMeasureInfo(startTime,endTime);
                         break;
+
+                    case FUNC_GET_HRPS_DETAIL:
+                        FissionSdkBleManage.getInstance().getHrpsDetailRecord(startTime,endTime);
+                        break;
+
                     case FUNC_GET_SEDENTARY_DRINK_PARA:
                         StringBuilder stringBuilder = new StringBuilder();
                         DkWaterRemind dkWaterRemind = new DkWaterRemind();
@@ -1256,12 +1329,12 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         FissionSdkBleManage.getInstance().setSwitchHighCh(value == 1);
                         break;
                     case FUNC_SET_FEMALE_PHYSIOLOGY:
-                        AnyWear.setFemalePhysiology(value, new OnSmallDataCallback() {
-                            @Override
-                            public void OnStringResult(String content) {
-                                showLog(R.string.FUNC_SET_FEMALE_PHYSIOLOGY,content);
-                            }
-                        });
+//                        AnyWear.setFemalePhysiology(value, new OnSmallDataCallback() {
+//                            @Override
+//                            public void OnStringResult(String content) {
+//                                showLog(R.string.FUNC_SET_FEMALE_PHYSIOLOGY,content);
+//                            }
+//                        });
                         break;
                     case FUNC_SELF_INSPECTION_MODE:
 //                        AnyWear.switchSelfInspectionMode(value==1, new OnSmallDataCallback() {
@@ -1379,15 +1452,15 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     connectSuccessfully = true;
                     tvDeviceStatus.setText(deviceName);
                     tvActionConnect.setText(R.string.disconnect);
-                    showLog(R.string.connected,"连接成功:连接设备------"+deviceName);
+                    showLog(R.string.connected,deviceName);
                 } else if (newState == RxBleConnection.RxBleConnectionState.DISCONNECTED) {
                     FsLogUtil.d("成功断开了设备");
                     connectSuccessfully = false;
                     tvDeviceStatus.setText(R.string.disconnected);
                     tvActionConnect.setText(R.string.connect);
-                    showLog(R.string.disconnected,"断开连接成功:断开连接设备------"+deviceName);
+                    showLog(R.string.disconnected,deviceName);
                 }else if (newState == RxBleConnection.RxBleConnectionState.CONNECTING){
-                    tvDeviceStatus.setText("正在连接" + deviceName);
+                    tvDeviceStatus.setText(getString(R.string.device_connecting)+ deviceName);
                     tvActionConnect.setText(R.string.disconnect);
                 }
             }
@@ -1429,33 +1502,20 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             if (result.getContents() == null) {
                 Toast.makeText(this, "取消扫描", Toast.LENGTH_LONG).show();
             } else {
-                String qrResult = result.getContents();
-//                String downUrl = qrResult.substring(0,qrResult.indexOf("MAC"));
-                String MAC = (qrResult.substring(0,qrResult.indexOf("CODE"))).replace("CODE","").substring(qrResult.indexOf("MAC:")).replace("MAC:","").trim();
-//
-//                String mac1 = MAC.substring(0, 2).toUpperCase() + ":";
-//                String mac2 = MAC.substring(2, 4).toUpperCase() + ":";
-//                String mac3 = MAC.substring(4, 6).toUpperCase() + ":";
-//                String mac4 = MAC.substring(6, 8).toUpperCase() + ":";
-//                String mac5 = MAC.substring(8, 10).toUpperCase() + ":";
-//                String mac6 = MAC.substring(10, 12).toUpperCase();
-//                MAC = mac1+mac2+mac3+mac4+mac5+mac6;
-//                String SN =(qrResult.substring(qrResult.indexOf("SN:")));
-//                SN = SN.substring(0,SN.indexOf("NAME")).replace("SN:","");
-                String name = (qrResult.substring(qrResult.indexOf("NAME:")).replace("NAME:",""));
-//                final String content = "下载链接地址:" + downUrl.trim() + "\nMAC地址:" + MAC.trim() + "\nSN:" + SN.trim() + "\n设备名称:" + name.trim();
-                final String content =  "\nMAC地址:" + MAC.trim()  + "\n设备名称:" + name.trim();
-                String mac = StringUtil.addSymbol(MAC);
-//                FsLogUtil.d(content);
-//                Toast.makeText(this, "扫描内容:\n" + result.getContents(), Toast.LENGTH_LONG).show();
-                LogUtils.d("二维码信息"+ qrResult,"名字"+content);
-                showLog(R.string.funcQrcode, qrResult);
-                SharedPreferencesUtil.getInstance().setBluetoothAddress(mac);
-                SharedPreferencesUtil.getInstance().setBluetoothName(name);
-                tvDeviceStatus.setText(String.format("%d%s", R.string.device_connecting, name));
-                connectSuccessfully = true;
-                tvActionConnect.setText(R.string.disconnect);
-                FissionSdk.getInstance().connectDevice(mac,false,"");
+                try {
+                    String qrResult = result.getContents();
+                    String mac = qrResult.split("&")[3].replace("MAC=", "");
+                    String name = qrResult.split("&")[4].replace("BtName=","");
+                    showLog(R.string.funcQrcode, qrResult);
+                    deviceName = name;
+                    deviceAddress = mac;
+                    tvDeviceStatus.setText(String.format("%d%s", R.string.device_connecting, name));
+                    connectSuccessfully = true;
+                    tvActionConnect.setText(R.string.disconnect);
+                    connectDevice();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

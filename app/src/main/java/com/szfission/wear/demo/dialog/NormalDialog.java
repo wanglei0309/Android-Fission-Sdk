@@ -32,14 +32,14 @@ public class NormalDialog extends Dialog {
         if (dialogType == 2){
             switch (type) {
                 case ModelConstant.FUNC_SET_TIME_MODE:
-                    array = new String[]{"12小时", "24小时"};
+                    array = new String[]{context.getString(R.string.time_format_12), context.getString(R.string.time_format_24)};
                     break;
                 case ModelConstant.FUNC_SET_UNIT:
-                    array = new String[]{"英制", "公制"};
+                    array = new String[]{context.getString(R.string.imperial), context.getString(R.string.metric)};
                     break;
                 case ModelConstant.FUNC_SET_LANG:
-                    array  = new String[]{"中文", "英文", "日语", "法语", "德语", "西班牙", "意大利", "葡萄牙", "俄语", "捷克", "波兰", "繁体中文", "阿拉伯语",
-                            "土耳其语","越南语", "韩语", "希伯来语", "泰语", "印度尼西亚语", "荷兰语", "希腊语", "瑞典语", "罗马尼亚语"};
+                    array  = new String[]{context.getString(R.string.chinese), context.getString(R.string.english), context.getString(R.string.japanese), context.getString(R.string.french), context.getString(R.string.german), context.getString(R.string.spain), context.getString(R.string.italy), context.getString(R.string.portugal), context.getString(R.string.russian), context.getString(R.string.czech), context.getString(R.string.polish), context.getString(R.string.traditional_chinese), context.getString(R.string.arabic),
+                            context.getString(R.string.turkish),context.getString(R.string.vietnamese), context.getString(R.string.korean), context.getString(R.string.hebrew), context.getString(R.string.thai), context.getString(R.string.indonesian), context.getString(R.string.dutch), context.getString(R.string.greek), context.getString(R.string.swedish), context.getString(R.string.romanian)};
                     break;
                 case ModelConstant.FUNC_SET_FEMALE_PHYSIOLOGY:
                     array = new String[]{"未启用", "怀孕期", "月经期", "安全期", "排卵期", "排卵日"};;
@@ -50,13 +50,13 @@ public class NormalDialog extends Dialog {
                 case ModelConstant.FUNC_SET_WRIST_BRIGHT_SCREEN:
                 case ModelConstant.FUNC_SELF_INSPECTION_MODE:
                 case ModelConstant.FUNC_SET_PROMPT:
-                    array = new String[]{"关", "开"};
+                    array = new String[]{context.getString(R.string.disabled), context.getString(R.string.enable)};
                     break;
                 case ModelConstant.FUNC_SET_HIGH_SPEED_CONNECT:
-                    array = new String[]{"低速连接", "高速连接"};
+                    array = new String[]{context.getString(R.string.low_speed_connection), context.getString(R.string.high_speed_connection)};
                     break;
                 case ModelConstant.FUNC_PUSH_CUSTOM_DIAL:
-                    array = new String[]{"相册选择", "拍照"};
+                    array = new String[]{context.getString(R.string.album_selection), context.getString(R.string.photograph)};
                     break;
 
             }
@@ -64,17 +64,17 @@ public class NormalDialog extends Dialog {
         }else if (dialogType == 1){
             switch (type) {
                 case ModelConstant.FUNC_SET_TIMEZONE:
-                    setContent(context, "设置时区", "8");
+                    setContent(context, context.getString(R.string.FUNC_SET_TIMEZONE), "8");
                     break;
                 case ModelConstant.FUNC_SET_DATA_STREAM:
                 case ModelConstant.FUNC_SET_DATA_STREAM2:
-                    setContent(context, "请输入流时间（毫秒，0为关闭", "1000");
+                    setContent(context, context.getString(R.string.stream_time), "1000");
                     break;
                 case ModelConstant.FUNC_SAFETY_CONFIRM:
-                    setContent(context, "请输入安全确认内容", "xxxxx");
+                    setContent(context, context.getString(R.string.security_confirmation), "xxxxx");
                     break;
                 case ModelConstant.FUNC_PAGE_SKIP:
-                    setContent(context, "请输入页面跳转内容", "FF02");
+                    setContent(context, context.getString(R.string.page_jump), "FF02");
                     break;
             }
         }
@@ -111,7 +111,7 @@ public class NormalDialog extends Dialog {
                     onConfirmClickListener.confirm(etContent.getText().toString().trim());
                     dialog.dismiss();
                 }else {
-                    Toast.makeText(context,"数据不能为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,context.getString(R.string.data_not_empty),Toast.LENGTH_SHORT).show();
                 }
 
             }

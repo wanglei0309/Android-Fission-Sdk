@@ -16,7 +16,7 @@
         android:id="@+id/tvActionConnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:padding="10dp"
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivTop"
@@ -29,11 +29,11 @@
         android:id="@+id/tvClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivTop"
         app:layout_constraintTop_toTopOf="@+id/ivTop"
-        android:text="清除"
+        android:text="@string/clear"
         android:textColor="@android:color/white" />
 
 
@@ -42,9 +42,9 @@
         android:id="@+id/tvDeviceStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textColor="#000000"
-        android:text="未连接"
+        android:text=""
         android:singleLine="false"
         android:gravity="center"
         app:layout_constraintLeft_toRightOf="@+id/tvClear"
@@ -61,7 +61,7 @@
         android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivTop"
         app:layout_constraintTop_toTopOf="@+id/ivTop"
-        android:text="扫一扫"
+        android:text="@string/walle_ble_scan"
         android:textColor="@android:color/white" />
 
     <TextView
@@ -102,7 +102,7 @@
 
         <Button
             android:id="@+id/btnStartTime"
-            android:text="获取开始时间"
+            android:text="@string/get_start_time"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -110,7 +110,7 @@
 
         <Button
             android:id="@+id/btnEndTime"
-            android:text="获取结束时间"
+            android:text="@string/get_end_time"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -152,7 +152,7 @@
 
             <TextView
                 android:id="@+id/tv_menstrual_period"
-                android:text="设置女性健康数据"
+                android:text="@string/set_female_health_data"
                 android:padding="16dp"
                 android:textSize="20sp"
                 android:layout_width="wrap_content"

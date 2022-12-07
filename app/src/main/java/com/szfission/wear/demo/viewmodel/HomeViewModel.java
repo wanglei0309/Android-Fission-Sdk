@@ -33,6 +33,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HAND_MEASURE_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HARDWARE_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HEARTED_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HOURS_REPORT;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HRPS_DETAIL;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_MEASURE_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_PERSONAL_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_RESTING_HR;
@@ -186,7 +187,7 @@ public class HomeViewModel extends ViewModel {
     ArrayList<FuncBean> childList1 = new ArrayList<>();
     ArrayList<FuncBean> childList2 = new ArrayList<>();
     ArrayList<FuncBean> childList3 = new ArrayList<>();
-    ArrayList<FuncBean> childList4 = new ArrayList<>();
+//    ArrayList<FuncBean> childList4 = new ArrayList<>();
 
 
     /**
@@ -213,7 +214,7 @@ public class HomeViewModel extends ViewModel {
         childList1.clear();
         childList2.clear();
         childList3.clear();
-        childList4.clear();
+//        childList4.clear();
 
         childList1.add(new FuncBean(R.string.FUNC_GET_UI_VERSION, FUNC_GET_UI_VERSION));
         childList1.add(new FuncBean(R.string.FUNC_GET_VERSION, FUNC_GET_VERSION));
@@ -228,7 +229,7 @@ public class HomeViewModel extends ViewModel {
         childList1.add(new FuncBean(R.string.FUNC_SET_LANG, FUNC_SET_LANG));
         childList1.add(new FuncBean(R.string.FUNC_SET_UNIT, FUNC_SET_UNIT));
         childList1.add(new FuncBean(R.string.FUNC_SET_PROMPT, FUNC_SET_PROMPT));
-        childList1.add(new FuncBean(R.string.FUNC_SET_FEMALE_PHYSIOLOGY, FUNC_SET_FEMALE_PHYSIOLOGY));
+//        childList1.add(new FuncBean(R.string.FUNC_SET_FEMALE_PHYSIOLOGY, FUNC_SET_FEMALE_PHYSIOLOGY));
         childList1.add(new FuncBean(R.string.FUNC_VIBRATION, FUNC_VIBRATION));
         childList1.add(new FuncBean(R.string.FUNC_SET_WRIST_BRIGHT_SCREEN, FUNC_SET_WRIST_BRIGHT_SCREEN));
         childList1.add(new FuncBean(R.string.FUNC_CAMERA_MODEL, FUNC_CAMERA_MODEL));
@@ -300,13 +301,14 @@ public class HomeViewModel extends ViewModel {
         childList3.add(new FuncBean(R.string.FUNC_GET_BURIED_DATA, FUNC_GET_BURIED_DATA));
         childList3.add(new FuncBean(R.string.FUNC_SYN_PHONE_BOOK, FUNC_SYN_PHONE_BOOK));
         childList3.add(new FuncBean(R.string.FUNC_GET_FLASH_DATA, FUNC_GET_FLASH_DATA));
+        childList3.add(new FuncBean(R.string.FUNC_GET_HRPS_DETAIL, FUNC_GET_HRPS_DETAIL));
 
-        childList4.add(new FuncBean(R.string.FUNC_GET_SEDENTARY_DRINK_PARA,FUNC_GET_SEDENTARY_DRINK_PARA));
+//        childList4.add(new FuncBean(R.string.FUNC_GET_SEDENTARY_DRINK_PARA,FUNC_GET_SEDENTARY_DRINK_PARA));
 
         childList.add(childList1);
         childList.add(childList2);
         childList.add(childList3);
-        childList.add(childList4);
+//        childList.add(childList4);
         return childList;
     }
 
