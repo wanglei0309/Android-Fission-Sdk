@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:background="@drawable/shape_main"
+        android:padding="10dp"
+        android:layout_margin="20dp"
+        android:id="@+id/llChooseFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:text="文件路径:" />
+
+
+        <TextView
+            android:layout_marginEnd="@dimen/dp_10"
+            android:id="@+id/tvFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:singleLine="false"
+            android:text="选择文件>" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:text="压缩"
+        android:id="@+id/btn_compress"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <Button
+        android:text="开始"
+        android:id="@+id/btn_send"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <ProgressBar
+        android:id="@+id/tvProgress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:max="100"
+        android:progress="0"
+        android:secondaryProgress="0"
+        android:progressDrawable="@drawable/progressbar_color"
+        android:layout_height="30dp"/>
+
+
+
+
+    <!-- The size of text below must be fixed, therefore dp are used instead of sp -->
+
+
+</LinearLayout>
