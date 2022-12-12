@@ -2083,94 +2083,94 @@ DFU升级主要包含以下几个功能：
   ```
   2，App主动发起运动。
   ```
-  startSport.setOnClickListener(v -> {
-//            AnyWear.controlGpsStatus(8,1,new OnSmallDataCallback(){
-//                @Override
-//                public void OnStringResult(String s) {
-//                    LogUtils.d("开启运动状态"+s);
-//                }
-//            });
-          FissionSdkBleManage.getInstance().controlGpsSportStatus(SPORT_OUTDOOR_RUNNING, FissionConstant.GPS_SPORT_START, 0);
-          startTime = System.currentTimeMillis();
-      });
+        startSport.setOnClickListener(v -> {
+      //            AnyWear.controlGpsStatus(8,1,new OnSmallDataCallback(){
+      //                @Override
+      //                public void OnStringResult(String s) {
+      //                    LogUtils.d("开启运动状态"+s);
+      //                }
+      //            });
+                FissionSdkBleManage.getInstance().controlGpsSportStatus(SPORT_OUTDOOR_RUNNING, FissionConstant.GPS_SPORT_START, 0);
+                startTime = System.currentTimeMillis();
+            });
 
-      pauseSport.setOnClickListener(v -> {
-//            AnyWear.controlGpsStatus(0,0,new OnSmallDataCallback(){
-//                @Override
-//                public void OnStringResult(String s) {
-//                    LogUtils.d("开启运动状态"+s);
-//                }
-//            });
-          duration = (int)(System.currentTimeMillis()-startTime)/1000;
-          FissionSdkBleManage.getInstance().controlGpsSportStatus(SPORT_OUTDOOR_RUNNING, FissionConstant.GPS_SPORT_PAUSE, duration);
-      });
+            pauseSport.setOnClickListener(v -> {
+      //            AnyWear.controlGpsStatus(0,0,new OnSmallDataCallback(){
+      //                @Override
+      //                public void OnStringResult(String s) {
+      //                    LogUtils.d("开启运动状态"+s);
+      //                }
+      //            });
+                duration = (int)(System.currentTimeMillis()-startTime)/1000;
+                FissionSdkBleManage.getInstance().controlGpsSportStatus(SPORT_OUTDOOR_RUNNING, FissionConstant.GPS_SPORT_PAUSE, duration);
+            });
 
-      continueSport.setOnClickListener(v -> {
-          FissionSdkBleManage.getInstance().controlGpsSportStatus(SPORT_OUTDOOR_RUNNING, FissionConstant.GPS_SPORT_CONTINUE, duration);
-          startTime = System.currentTimeMillis();
-      });
+            continueSport.setOnClickListener(v -> {
+                FissionSdkBleManage.getInstance().controlGpsSportStatus(SPORT_OUTDOOR_RUNNING, FissionConstant.GPS_SPORT_CONTINUE, duration);
+                startTime = System.currentTimeMillis();
+            });
 
-      stopSport.setOnClickListener(v -> {
-          if(mRxTimerUtil!=null){
-              mRxTimerUtil.cancelTimer();
-              mRxTimerUtil =null;
-          }
-          duration = duration+(int)(System.currentTimeMillis()-startTime)/1000;
-          FissionSdkBleManage.getInstance().controlGpsSportStatus(SPORT_OUTDOOR_RUNNING, FissionConstant.GPS_SPORT_STOP, duration);
-      });
+            stopSport.setOnClickListener(v -> {
+                if(mRxTimerUtil!=null){
+                    mRxTimerUtil.cancelTimer();
+                    mRxTimerUtil =null;
+                }
+                duration = duration+(int)(System.currentTimeMillis()-startTime)/1000;
+                FissionSdkBleManage.getInstance().controlGpsSportStatus(SPORT_OUTDOOR_RUNNING, FissionConstant.GPS_SPORT_STOP, duration);
+            });
 
-      pushSport.setOnClickListener(v -> {
-           mCommunicatGps = new CommunicatGps();
-           mCommunicatGps.setUtcTime(System.currentTimeMillis() / 1000);
-           mCommunicatGps.setSportId(curGpsTime);
-           mCommunicatGps.setStartUtc(curGpsTime);
-           mCommunicatGps.setTotalCalorie(15);
-           mCommunicatGps.setTotalStep(200);
-           mCommunicatGps.setTotalTime(10);
-           mCommunicatGps.setCurDistance(300);
-           mCommunicatGps.setSportType(8);
-           mCommunicatGps.setSportStatus(1);
-           mCommunicatGps.setMaxCadence(120);
-           mCommunicatGps.setAvgCadence(90);
-           mCommunicatGps.setResetCount(0);
-           mCommunicatGps.setCurPace(300);
+            pushSport.setOnClickListener(v -> {
+                 mCommunicatGps = new CommunicatGps();
+                 mCommunicatGps.setUtcTime(System.currentTimeMillis() / 1000);
+                 mCommunicatGps.setSportId(curGpsTime);
+                 mCommunicatGps.setStartUtc(curGpsTime);
+                 mCommunicatGps.setTotalCalorie(15);
+                 mCommunicatGps.setTotalStep(200);
+                 mCommunicatGps.setTotalTime(10);
+                 mCommunicatGps.setCurDistance(300);
+                 mCommunicatGps.setSportType(8);
+                 mCommunicatGps.setSportStatus(1);
+                 mCommunicatGps.setMaxCadence(120);
+                 mCommunicatGps.setAvgCadence(90);
+                 mCommunicatGps.setResetCount(0);
+                 mCommunicatGps.setCurPace(300);
 
-//            AnyWear.sendGpsCommand(communicatGps,new BigDataCallBack(){
-//                @Override
-//                public void OnCommunicatGpsData(CommunicatGps communicatGps) {
-//                }
-//            });
-           FissionSdkBleManage.getInstance().sendGpsCommand(mCommunicatGps);
-       });
-       getSportState.setOnClickListener(v -> {
-           FissionSdkBleManage.getInstance().getSportState();
-       });
+      //            AnyWear.sendGpsCommand(communicatGps,new BigDataCallBack(){
+      //                @Override
+      //                public void OnCommunicatGpsData(CommunicatGps communicatGps) {
+      //                }
+      //            });
+                 FissionSdkBleManage.getInstance().sendGpsCommand(mCommunicatGps);
+             });
+             getSportState.setOnClickListener(v -> {
+                 FissionSdkBleManage.getInstance().getSportState();
+             });
 
-       autoPushSport.setOnClickListener(v -> {
-           if(mRxTimerUtil == null){
-               mRxTimerUtil =  new RxTimerUtil();
-               mRxTimerUtil.interval(1000, new RxTimerUtil.RxAction() {
-                   @Override
-                   public void action(long number) {
-                       mCommunicatGps = new CommunicatGps();
-                       mCommunicatGps.setUtcTime(System.currentTimeMillis() / 1000);
-                       mCommunicatGps.setSportId(curGpsTime);
-                       mCommunicatGps.setStartUtc(curGpsTime);
-                       mCommunicatGps.setTotalCalorie(15);
-                       mCommunicatGps.setTotalStep(200);
-                       mCommunicatGps.setTotalTime(10);
-                       mCommunicatGps.setCurDistance(300);
-                       mCommunicatGps.setSportType(8);
-                       mCommunicatGps.setSportStatus(1);
-                       mCommunicatGps.setMaxCadence(120);
-                       mCommunicatGps.setAvgCadence(90);
-                       mCommunicatGps.setResetCount(0);
-                       mCommunicatGps.setCurPace(300);
-                       FissionSdkBleManage.getInstance().sendGpsCommand(mCommunicatGps);
-                   }
-               });
-           }
-       });
+             autoPushSport.setOnClickListener(v -> {
+                 if(mRxTimerUtil == null){
+                     mRxTimerUtil =  new RxTimerUtil();
+                     mRxTimerUtil.interval(1000, new RxTimerUtil.RxAction() {
+                         @Override
+                         public void action(long number) {
+                             mCommunicatGps = new CommunicatGps();
+                             mCommunicatGps.setUtcTime(System.currentTimeMillis() / 1000);
+                             mCommunicatGps.setSportId(curGpsTime);
+                             mCommunicatGps.setStartUtc(curGpsTime);
+                             mCommunicatGps.setTotalCalorie(15);
+                             mCommunicatGps.setTotalStep(200);
+                             mCommunicatGps.setTotalTime(10);
+                             mCommunicatGps.setCurDistance(300);
+                             mCommunicatGps.setSportType(8);
+                             mCommunicatGps.setSportStatus(1);
+                             mCommunicatGps.setMaxCadence(120);
+                             mCommunicatGps.setAvgCadence(90);
+                             mCommunicatGps.setResetCount(0);
+                             mCommunicatGps.setCurPace(300);
+                             FissionSdkBleManage.getInstance().sendGpsCommand(mCommunicatGps);
+                         }
+                     });
+                 }
+             });
   ```
 
 ### 五、SDK常量说明
