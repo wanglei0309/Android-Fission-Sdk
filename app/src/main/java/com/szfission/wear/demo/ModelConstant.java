@@ -46,6 +46,8 @@ public  class ModelConstant {
     public static final int FUNC_GET_RESTING_HR = 35;
     public static final int FUNC_GET_UI_VERSION =36;
     public static final int FUNC_SET_DATA_STREAM2 = 37;
+    public static final int FUNC_SET_BLOOD_OXYGEN_SWITCH = 38;
+    public static final int FUNC_SET_MENTAL_STRESS_SWITCH = 39;
 
 
     public static final int FUNC_GET_HARDWARE_INFO = 100;

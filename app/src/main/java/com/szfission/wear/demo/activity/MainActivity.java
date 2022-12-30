@@ -167,6 +167,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_REBOOT_DEVICE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_RESET;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SAFETY_CONFIRM;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SELF_INSPECTION_MODE;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_BLOOD_OXYGEN_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM2;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DONT_DISTURB_PARA;
@@ -178,6 +179,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HR_CHECK_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HR_WARN_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_LANG;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_LIFTWRIST_PARA;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_MENTAL_STRESS_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_MESSAGE_TYPE_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_PROMPT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TARGET_SET;
@@ -784,6 +786,13 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     case FUNC_SWITCH_HR_RATE:
                         showCheckModelDialog(FUNC_SWITCH_HR_RATE);
                         break;
+                    case FUNC_SET_BLOOD_OXYGEN_SWITCH:
+                        showCheckModelDialog(FUNC_SET_BLOOD_OXYGEN_SWITCH);
+                        break;
+                    case FUNC_SET_MENTAL_STRESS_SWITCH:
+                        showCheckModelDialog(FUNC_SET_MENTAL_STRESS_SWITCH);
+                        break;
+
                     case ModelConstant.FUNC_CAMERA:
                         AnyWear.camera(new OnSmallDataCallback() {
                             @Override
@@ -1362,6 +1371,14 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 //                            }
 //                        });
                         FissionSdkBleManage.getInstance().setHeartRateHighTips(1,value);
+                        break;
+
+                    case FUNC_SET_BLOOD_OXYGEN_SWITCH:
+                        FissionSdkBleManage.getInstance().setBloodOxygenSwitch(value);
+                        break;
+
+                    case FUNC_SET_MENTAL_STRESS_SWITCH:
+                        FissionSdkBleManage.getInstance().setMentalStressSwitch(value);
                         break;
 
                 }

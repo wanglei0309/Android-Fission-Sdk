@@ -16,7 +16,7 @@
 
             <EditText
                 android:id="@+id/ed_data1"
-                android:hint="请输入flash地址"
+                android:hint="请输入flash地址(10进制)"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"/>
 

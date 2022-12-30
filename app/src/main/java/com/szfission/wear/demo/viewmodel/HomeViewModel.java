@@ -64,6 +64,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_REBOOT_DEVICE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_RESET;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SAFETY_CONFIRM;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SELF_INSPECTION_MODE;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_BLOOD_OXYGEN_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM2;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DONT_DISTURB_PARA;
@@ -75,6 +76,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HR_CHECK_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HR_WARN_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_LANG;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_LIFTWRIST_PARA;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_MENTAL_STRESS_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_PROMPT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TARGET_SET;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TIME;
@@ -250,6 +252,8 @@ public class HomeViewModel extends ViewModel {
         childList1.add(new FuncBean(R.string.FUNC_MUSIC_PROGRESS, FUNC_MUSIC_PROGRESS));
         childList1.add(new FuncBean(R.string.FUNC_BREAK_DEVICE, FUNC_BREAK_DEVICE));
         childList1.add(new FuncBean(R.string.FUNC_SHUTDOWN_STATE, FUNC_SHUTDOWN_STATE));
+        childList1.add(new FuncBean(R.string.FUNC_SET_BLOOD_OXYGEN_SWITCH, FUNC_SET_BLOOD_OXYGEN_SWITCH));
+        childList1.add(new FuncBean(R.string.FUNC_SET_MENTAL_STRESS_SWITCH, FUNC_SET_MENTAL_STRESS_SWITCH));
 
 
         childList2.add(new FuncBean(R.string.FUNC_SET_DATA_STREAM, FUNC_SET_DATA_STREAM));

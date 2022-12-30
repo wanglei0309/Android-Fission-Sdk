@@ -50,6 +50,8 @@ public class NormalDialog extends Dialog {
                 case ModelConstant.FUNC_SET_WRIST_BRIGHT_SCREEN:
                 case ModelConstant.FUNC_SELF_INSPECTION_MODE:
                 case ModelConstant.FUNC_SET_PROMPT:
+                case ModelConstant.FUNC_SET_BLOOD_OXYGEN_SWITCH:
+                case ModelConstant.FUNC_SET_MENTAL_STRESS_SWITCH:
                     array = new String[]{context.getString(R.string.disabled), context.getString(R.string.enable)};
                     break;
                 case ModelConstant.FUNC_SET_HIGH_SPEED_CONNECT:

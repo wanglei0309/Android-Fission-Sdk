@@ -39,7 +39,7 @@ public class GetFlashDataActivity extends BaseActivity{
         btn_get.setOnClickListener(v -> {
             String address = ed_data1.getText().toString();
             String length = ed_data2.getText().toString();
-            FissionSdkBleManage.getInstance().getFlashData(address.substring(2), length);
+            FissionSdkBleManage.getInstance().getFlashData(address, length);
         });
 
     }

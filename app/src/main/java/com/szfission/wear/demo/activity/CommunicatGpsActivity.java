@@ -157,7 +157,7 @@ public class CommunicatGpsActivity extends BaseActivity{
 //                    LogUtils.d("开启运动状态"+s);
 //                }
 //            });
-            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_START, 0);
+            FissionSdkBleManage.getInstance().controlGpsSportStatus(15, FissionConstant.GPS_SPORT_START, 0);
             startTime = System.currentTimeMillis();
         });
 
@@ -169,11 +169,11 @@ public class CommunicatGpsActivity extends BaseActivity{
 //                }
 //            });
             duration = (int)(System.currentTimeMillis()-startTime)/1000;
-            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_PAUSE, duration);
+            FissionSdkBleManage.getInstance().controlGpsSportStatus(15, FissionConstant.GPS_SPORT_PAUSE, duration);
         });
 
         continueSport.setOnClickListener(v -> {
-            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_CONTINUE, duration);
+            FissionSdkBleManage.getInstance().controlGpsSportStatus(15, FissionConstant.GPS_SPORT_CONTINUE, duration);
             startTime = System.currentTimeMillis();
         });
 
@@ -183,7 +183,7 @@ public class CommunicatGpsActivity extends BaseActivity{
                 mRxTimerUtil =null;
             }
             duration = duration+(int)(System.currentTimeMillis()-startTime)/1000;
-            FissionSdkBleManage.getInstance().controlGpsSportStatus(8, FissionConstant.GPS_SPORT_STOP, duration);
+            FissionSdkBleManage.getInstance().controlGpsSportStatus(15, FissionConstant.GPS_SPORT_STOP, duration);
         });
 
         pushSport.setOnClickListener(v -> {
@@ -195,7 +195,7 @@ public class CommunicatGpsActivity extends BaseActivity{
             mCommunicatGps.setTotalStep(200);
             mCommunicatGps.setTotalTime(10);
             mCommunicatGps.setCurDistance(300);
-            mCommunicatGps.setSportType(8);
+            mCommunicatGps.setSportType(15);
             mCommunicatGps.setSportStatus(1);
             mCommunicatGps.setMaxCadence(120);
             mCommunicatGps.setAvgCadence(90);
@@ -225,9 +225,9 @@ public class CommunicatGpsActivity extends BaseActivity{
                         mCommunicatGps.setStartUtc(curGpsTime);
                         mCommunicatGps.setTotalCalorie(15);
                         mCommunicatGps.setTotalStep(200);
-                        mCommunicatGps.setTotalTime(10);
+                        mCommunicatGps.setTotalTime(0);
                         mCommunicatGps.setCurDistance(300);
-                        mCommunicatGps.setSportType(8);
+                        mCommunicatGps.setSportType(15);
                         mCommunicatGps.setSportStatus(1);
                         mCommunicatGps.setMaxCadence(120);
                         mCommunicatGps.setAvgCadence(90);

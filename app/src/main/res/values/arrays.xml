@@ -48,6 +48,16 @@
         <item>zoom</item>
         <item>telegram</item>
         <item>tiktok</item>
+        <item>pinterest</item>
+        <item>misscall</item>
+        <item>discord</item>
+        <item>whitetb</item>
+        <item>email</item>
+        <item>fastrack_reflex_world</item>
+        <item>inshort</item>
+        <item>amazon</item>
+        <item>flipkart</item>
+        <item>smartworld</item>
 
 
     </string-array>
@@ -67,9 +77,7 @@
     </string-array>
 
     <string-array name="sport">
-        <item>澳式足球</item>
-        <item>橄榄球</item>
-        <item>户外跑步</item>
-        <item>户外骑行</item>
+        <item>沙滩足球</item>
+        <item>室内步行</item>
     </string-array>
 </resources>

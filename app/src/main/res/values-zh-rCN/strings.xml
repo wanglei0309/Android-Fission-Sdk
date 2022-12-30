@@ -120,6 +120,9 @@
     <string name="FUNC_SHUTDOWN_STATE">设置重启后自动关机</string>
     <string name="FUNC_PUSH_QLZ_DATA">App推送任意qlz压缩数据(03F5)</string>
     <string name="FUNC_GET_HRPS_DETAIL">GET运动高频心率记录（0186）</string>
+    <string name="FUNC_SET_BLOOD_OXYGEN_SWITCH">设置血氧检测开关</string>
+    <string name="FUNC_SET_MENTAL_STRESS_SWITCH">设置精神压力检测开关</string>
+
 
     <string name="at_cmd">AT指令</string>
     <string name="big_data_cmd">大数据指令</string>
