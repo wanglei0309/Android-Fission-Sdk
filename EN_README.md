@@ -1921,6 +1921,31 @@ Spo2Record
     private List<Long>    utc;  // utc time
 ```
 
+* Set blood oxygen automatic detection switch
+```
+  FissionSdkBleManage.getInstance().setBloodOxygenSwitch(value);  // 0 = off ; 1 = turn on
+
+  FissionAtCmdResultListener  This monitor callback method with the same name can get the status of the instruction execution.
+```
+
+* Set the mental pressure automatic detection switch
+```
+   FissionSdkBleManage.getInstance().setMentalStressSwitch(value); // 0 = off ; 1 = turn on
+
+   FissionAtCmdResultListener  This monitor callback method with the same name can get the status of the instruction execution.
+```
+
+* Get automatic detection of mental stress historical data
+```
+  FissionSdkBleManage.getInstance().getMentalStressRecord(long startTime, long endTime)
+
+  //startTime, endTime  seconds timestamp.  FissionBigDataCmdResultListener  The monitoring method with the same name can get the corresponding data.
+
+  FissionSdkBleManage.getInstance().getHandMeasureInfo(long startTime, long endTime)   Here's how to get manual measurements. Blood oxygen, mental stress, heart rate data measured manually
+
+```
+
+
 * Get real-time streaming data
 ```
     /**
