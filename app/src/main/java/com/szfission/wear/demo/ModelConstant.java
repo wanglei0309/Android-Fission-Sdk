@@ -48,6 +48,11 @@ public  class ModelConstant {
     public static final int FUNC_SET_DATA_STREAM2 = 37;
     public static final int FUNC_SET_BLOOD_OXYGEN_SWITCH = 38;
     public static final int FUNC_SET_MENTAL_STRESS_SWITCH = 39;
+    public static final int FUNC_SET_HEART_RATE_SWITCH = 40;
+    public static final int FUNC_SET_CALL_AUDIO_SWITCH = 41;
+    public static final int FUNC_GET_CALL_AUDIO_SWITCH = 42;
+    public static final int FUNC_SET_MEDIA_AUDIO_SWITCH = 43;
+    public static final int FUNC_GET_MEDIA_AUDIO_SWITCH = 44;
 
 
     public static final int FUNC_GET_HARDWARE_INFO = 100;
@@ -67,7 +72,7 @@ public  class ModelConstant {
     public static final int FUNC_GET_CUR_SLEEP_RECORD = 1102;
     public static final int FUNC_GET_STEPS_RECORD = 111;
     public static final int FUNC_GET_SPO2_RECORD = 112;
-    public static final int FUNC_GET_BLOODPRESSURE_RECORD = 113;
+    public static final int FUNC_GET_MENTALSTRESS_RECORD = 113;
     public static final int FUNC_SET_HRLEV_ALGO_PARA = 114;
     public static final int FUNC_SET_DRINK_WATER_PARA = 115;
     public static final int FUNC_GET_SEDENTARY_DRINK_PARA = 1151;
@@ -92,4 +97,6 @@ public  class ModelConstant {
 
     public static final int FUNC_SHUTDOWN_STATE = 133;
     public  static final int FUNC_GET_HRPS_DETAIL = 134;
+
+    public static final int FUNC_GET_BLOODPRESSURE_RECORD = 135;
 }

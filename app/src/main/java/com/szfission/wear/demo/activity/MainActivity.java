@@ -35,6 +35,7 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.DeviceBattery;
@@ -69,6 +70,8 @@ import com.szfission.wear.demo.dialog.MusicVolumeDialog;
 import com.szfission.wear.demo.dialog.NormalDialog;
 import com.szfission.wear.demo.viewmodel.HomeViewModel;
 import com.szfission.wear.sdk.AnyWear;
+import com.szfission.wear.sdk.bean.BloodPressureRecord;
+import com.szfission.wear.sdk.bean.HrDetectPara;
 import com.szfission.wear.sdk.bean.MentalStressRecord;
 import com.szfission.wear.sdk.bean.DaysReport;
 import com.szfission.wear.sdk.bean.ExerGpsDetail;
@@ -87,7 +90,11 @@ import com.szfission.wear.sdk.bean.SleepRecord;
 import com.szfission.wear.sdk.bean.SleepReport;
 import com.szfission.wear.sdk.bean.Spo2Record;
 import com.szfission.wear.sdk.bean.StepsRecord;
+import com.szfission.wear.sdk.bean.UserInfo;
 import com.szfission.wear.sdk.bean.param.DkWaterRemind;
+import com.szfission.wear.sdk.bean.param.DndRemind;
+import com.szfission.wear.sdk.bean.param.LiftWristPara;
+import com.szfission.wear.sdk.bean.param.SportsTargetPara;
 import com.szfission.wear.sdk.ifs.BigDataCallBack;
 import com.szfission.wear.sdk.ifs.OnBleResultCallback;
 import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
@@ -95,7 +102,6 @@ import com.szfission.wear.sdk.ifs.OnStreamListener;
 import com.szfission.wear.sdk.ifs.ReceiveMsgListener;
 import com.szfission.wear.sdk.util.DateUtil;
 import com.szfission.wear.sdk.util.FsLogUtil;
-import com.szfission.wear.sdk.util.StringUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -122,7 +128,9 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_FLASH_WRITE_CMD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_APPS_MESS;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BATTERY;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BLOODPRESSURE_RECORD;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_MENTALSTRESS_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BURIED_DATA;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_CALL_AUDIO_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_CUR_SLEEP_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_DAYS_REPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_DETAIL;
@@ -138,6 +146,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HEARTED_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HOURS_REPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HRPS_DETAIL;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_MEASURE_INFO;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_MEDIA_AUDIO_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_PERSONAL_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_RESTING_HR;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SEDENTARY_DRINK_PARA;
@@ -168,17 +177,20 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_RESET;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SAFETY_CONFIRM;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SELF_INSPECTION_MODE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_BLOOD_OXYGEN_SWITCH;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_CALL_AUDIO_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM2;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DONT_DISTURB_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DRINK_WATER_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_FEMALE_PHYSIOLOGY;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HEART_RATE_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HIGH_SPEED_CONNECT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HRLEV_ALGO_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HR_CHECK_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HR_WARN_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_LANG;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_LIFTWRIST_PARA;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_MEDIA_AUDIO_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_MENTAL_STRESS_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_MESSAGE_TYPE_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_PROMPT;
@@ -230,6 +242,8 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
     TextView tvAppVersion;
     @ViewInject(R.id.tv_menstrual_period)
     TextView tv_menstrual_period;
+    @ViewInject(R.id.tv_synchronous_data)
+    TextView tv_synchronous_data;
     private HomeViewModel homeViewModel;
     ArrayList<ArrayList<FuncBean>> funcBeanList = new ArrayList<>();
 
@@ -387,6 +401,9 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         @Override
         public void onResultTimeout(String cmdId) {
             LogUtils.d("wl", cmdId+",BigData指令返回结果超时");
+            ToastUtils.showLong(cmdId+",BigData指令返回结果超时, 请尽快检查！！");
+            logList.add(cmdId+",BigData指令返回结果超时");
+            logAdapter.notifyDataSetChanged();
         }
 
         @Override
@@ -479,6 +496,14 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             super.getMentalStressRecord(mentalStressRecords);
 //            logList.clear();
             logList.add(mentalStressRecords !=null ? mentalStressRecords.toString() :"null");
+            logAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void getBloodPressureRecord(List<BloodPressureRecord> bloodPressureRecords) {
+            super.getBloodPressureRecord(bloodPressureRecords);
+//            logList.clear();
+            logList.add(bloodPressureRecords!=null ?bloodPressureRecords.toString() :"null");
             logAdapter.notifyDataSetChanged();
         }
 
@@ -588,52 +613,15 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         tv_menstrual_period.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AudioUtils.disabledMainAudio(MainActivity.this);
-
                 Intent intent = new Intent(MainActivity.this, MenstrualPeriodActivity.class);
                 startActivity(intent);
+            }
+        });
 
-//                List<byte[]> list = new ArrayList<>();
-//
-//                list.add(StringUtil.hexToByteArray("ff ff 42 47 01 00 81 84 05 c0 62 73 76 df 62 73 87 94 f7 93".replace(" ", "")));
-//                list.add(StringUtil.hexToByteArray("00 f2 1b 77 73 62 df 76 73 62 3c 00 3c 00 0c 00 04 00 73 05 00 00 03 00 3d 00 2b 92 00 00 00 00 00 00 04 00 00 00 00 66 00 00 00 00 00 00 02 00 00 00 00 54 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 46 00 00 00 00 00 00 02 00 00 00 00 55 00 00 00 00 00 00 02 00 00 00 00 59 00 00 00 00 00 00 03 00 00 00 00 5c 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4f 00 00 00 00 00 00 02 00 00 00 00 4d 00 00 00 00 00 00 02 00 00 00 00 51 00 00 00 00 00 00 02 00 00 00 00 56 00 00 00 00 00 00 02 00 00 00 00 51 00 00 00 00 00 00 02 00 00 00 00 4e 00 00 00 00 00 00 02 00 00 00 00 49 00 00 00 00 00 00 02 00 00 00 00 48 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 4b".replace(" ", "")));
-//                list.add(StringUtil.hexToByteArray("01 e4 00 00 00 00 00 00 02 00 00 00 00 49 00 00 00 00 00 00 02 00 00 00 00 48 00 00 00 00 00 00 02 00 00 00 00 56 00 00 00 00 00 00 02 00 00 00 00 4b 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4b 00 00 00 00 00 00 03 00 00 00 00 5b 00 00 00 00 00 00 02 00 00 00 00 57 00 00 00 00 00 00 02 00 00 00 00 51 00 00 00 00 00 00 02 00 00 00 00 53 00 00 00 00 00 00 02 00 00 00 00 4d 00 00 00 00 00 00 02 00 00 00 00 48 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 56 00 00 00 00 00 00 02 00 00 00 00 57 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 49 00 00".replace(" ", "")));
-//                list.add(StringUtil.hexToByteArray("02 d6 00 00 00 00 02 00 00 00 00 48 00 00 00 00 00 00 02 00 00 00 00 4d 00 00 00 00 00 00 02 00 00 00 00 4e 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 03 00 00 00 00 56 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 00 00 00 00 02 00 00 00 00 4e 00 00 00 00 00 00 02 00 00 00 00 49 00 00 00 00 00 00 02 00 00 00 00 4a 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 4c 00 00 b7 05 00 00 02 00 38 00 29 59 00 00 18 05 00 00 04 00 40 00 2e 69 00 00 00 00 00 00 02 00 00 00 00 6b 00 00 00 00".replace(" ", "")));
-//                list.add(StringUtil.hexToByteArray("03 c8 00 00 02 00 00 00 00 45 00 00 2b 85 73 62 df 76 73 62 3c 00 0b 00 0c 00 04 00 00 00 00 00 02 00 00 00 00 4b 00 00 00 00 00 00 03 00 00 00 00 5f 00 00 00 00 00 00 05 00 00 00 00 73 00 00 00 00 00 00 03 00 00 00 00 7b 00 00 00 00 00 00 02 00 00 00 00 45 00 00 00 00 00 00 02 00 00 00 00 44 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 4f 00 00 00 00 00 00 02 00 00 00 00 47 00 00 00 00 00 00 02 00 00 00 00 5c 00 00 1c 04 00 00 01 00 50 00 39 5b 00 00 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff".replace(" ", "")));
-//                list.add(StringUtil.hexToByteArray("04 ba ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff".replace(" ", "")));
-//                list.add(StringUtil.hexToByteArray("05 ac ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff".replace(" ", "")));
-//                list.add(StringUtil.hexToByteArray("05 c0 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff".replace(" ", "")));
-//                BigDataParse bigDataParse = new BigDataParse();
-//                for(int i=0; i<list.size(); i++){
-////                    ArrayList<Integer> dataArray = new ArrayList<>(StringUtil.bytesToArrayList(list.get(i)));
-////                    bigDataParse.parseResultData(list.get(i), dataArray);
-//                    BigDataParseManage.getInstance().parseResultData(list.get(i), new ParseDataListener() {
-//                        @Override
-//                        public <T> void parseAtResult(String cmdId, T data) {
-//
-//                        }
-//
-//                        @Override
-//                        public <T> void parseBigDataResult(String cmdId, T data) {
-//
-//                        }
-//
-//                        @Override
-//                        public <T> void parseFmResult(T data) {
-//
-//                        }
-//
-//                        @Override
-//                        public void parseError(Exception e) {
-//                            LogUtils.d("wl", e.toString());
-//                        }
-//
-//                        @Override
-//                        public void receivingBigData() {
-//
-//                        }
-//                    });
-//                }
+        tv_synchronous_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dataSynchronization();
             }
         });
 
@@ -791,6 +779,18 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         break;
                     case FUNC_SET_MENTAL_STRESS_SWITCH:
                         showCheckModelDialog(FUNC_SET_MENTAL_STRESS_SWITCH);
+                        break;
+
+                    case FUNC_SET_HEART_RATE_SWITCH:
+                        showCheckModelDialog(FUNC_SET_HEART_RATE_SWITCH);
+                        break;
+
+                    case FUNC_SET_CALL_AUDIO_SWITCH:
+                        showCheckModelDialog(FUNC_SET_CALL_AUDIO_SWITCH);
+                        break;
+
+                    case FUNC_SET_MEDIA_AUDIO_SWITCH:
+                        showCheckModelDialog(FUNC_SET_MEDIA_AUDIO_SWITCH);
                         break;
 
                     case ModelConstant.FUNC_CAMERA:
@@ -1141,11 +1141,17 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 //                        FissionSdk.getInstance().getSpo2Record(startTime,endTime);
                         FissionSdkBleManage.getInstance().getSpo2Record(startTime,endTime);
                         break;
+                    case FUNC_GET_MENTALSTRESS_RECORD:
+                        //获取精神压力记录
+                        FissionSdkBleManage.getInstance().getMentalStressRecord(startTime,endTime);
+                        break;
+
                     case FUNC_GET_BLOODPRESSURE_RECORD:
                         //获取血压记录
 //                        FissionSdk.getInstance().getBloodPressureRecord(startTime,endTime);
-                        FissionSdkBleManage.getInstance().getMentalStressRecord(startTime,endTime);
+                        FissionSdkBleManage.getInstance().getBloodPressureRecord(startTime,endTime);
                         break;
+
                     case FUNC_WEATHER:
                         //推送天气消息
                         startActivity(new Intent(context, SetWeatherActivity.class));
@@ -1193,10 +1199,19 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         //手动测量记录
 //                        FissionSdk.getInstance().getHandMeasureInfo(startTime,endTime);
                         FissionSdkBleManage.getInstance().getHandMeasureInfo(startTime,endTime);
+                        FissionSdkBleManage.getInstance().getNewHandMeasureInfo(startTime,endTime);
                         break;
 
                     case FUNC_GET_HRPS_DETAIL:
                         FissionSdkBleManage.getInstance().getHrpsDetailRecord(startTime,endTime);
+                        break;
+
+                    case FUNC_GET_CALL_AUDIO_SWITCH:
+                        FissionSdkBleManage.getInstance().getCallAudioSwitch();
+                        break;
+
+                    case FUNC_GET_MEDIA_AUDIO_SWITCH:
+                        FissionSdkBleManage.getInstance().getMediaAudioSwitch();
                         break;
 
                     case FUNC_GET_SEDENTARY_DRINK_PARA:
@@ -1381,6 +1396,18 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         FissionSdkBleManage.getInstance().setMentalStressSwitch(value);
                         break;
 
+                    case FUNC_SET_HEART_RATE_SWITCH:
+                        FissionSdkBleManage.getInstance().setHeartRateSwitch(value);
+                        break;
+
+                    case FUNC_SET_CALL_AUDIO_SWITCH:
+                        FissionSdkBleManage.getInstance().setCallAudioSwitch(value);
+                        break;
+
+                    case FUNC_SET_MEDIA_AUDIO_SWITCH:
+                        FissionSdkBleManage.getInstance().setMediaAudioSwitch(value);
+                        break;
+
                 }
             }
         });
@@ -1448,7 +1475,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     showLog(R.string.device_connecting,deviceName);
                     connectSuccessfully = true;
                     tvActionConnect.setText(R.string.disconnect);
-                    if(!TextUtils.isEmpty(deviceName) && (deviceName.contains("LW71") || deviceName.contains("LW76") || deviceName.contains("LW82") || deviceName.contains("LW83") || deviceName.contains("LW77"))){
+                    if(!TextUtils.isEmpty(deviceName) && (deviceName.contains("LW71") || deviceName.contains("LW76") || deviceName.contains("LW82") || deviceName.contains("LW83") || deviceName.contains("LW77")  || deviceName.contains("FT"))){
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, true);
                     }else{
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, false);
@@ -1537,6 +1564,81 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void dataSynchronization(){
+        FissionSdkBleManage.getInstance().getHardwareInfo();
+        FissionSdkBleManage.getInstance().setHeartRateHighTips(1,110);
+
+        HrDetectPara hrDetectPara = new HrDetectPara();
+        hrDetectPara.setOpen(true);
+        hrDetectPara.setStartTime(0);
+        hrDetectPara.setEndTime(1440);
+        hrDetectPara.setWeek(0);
+        FissionSdkBleManage.getInstance().setHrDetectPara(hrDetectPara);
+
+        SedentaryBean sedentaryBean = new SedentaryBean();
+        sedentaryBean.setEnable(false);
+        sedentaryBean.setStartTime(0);
+        sedentaryBean.setEndTime(1440);
+        sedentaryBean.setDurTime(30);
+        sedentaryBean.setTargetStep(50);
+        FissionSdkBleManage.getInstance().setSedentaryPara(sedentaryBean);
+
+        DkWaterRemind dkWaterRemind = new DkWaterRemind();
+        dkWaterRemind.setStartTime(0);
+        dkWaterRemind.setEndTime(1440);
+        dkWaterRemind.setEnable(false);
+        dkWaterRemind.setRemindWeek(0);
+        FissionSdkBleManage.getInstance().setDrinkWaterPara(dkWaterRemind);
+
+        DndRemind dndRemind = new DndRemind();
+        dndRemind.setStartTime(0);
+        dndRemind.setEndTime(1440);
+        dndRemind.setEnable(false);
+        FissionSdkBleManage.getInstance().setDndPara(dndRemind);
+
+        LiftWristPara liftWristPara = new LiftWristPara();
+        liftWristPara.setStartTime(0);
+        liftWristPara.setEnable(true);
+        liftWristPara.setEndTime(1440);
+        FissionSdkBleManage.getInstance().setLiftWristPara(liftWristPara);
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(101);
+        userInfo.setNickname("wanglei");
+        userInfo.setHeight(170);
+        userInfo.setWeight(65);
+        userInfo.setTimeZone(480);
+        userInfo.setSex(1);
+        userInfo.setAge(18);
+        userInfo.setStride(50);
+        FissionSdkBleManage.getInstance().setUserInfo(userInfo);
+
+        FissionSdkBleManage.getInstance().setTemType(true);
+        FissionSdkBleManage.getInstance().setTimeFormat(true);
+        FissionSdkBleManage.getInstance().setUnit(1);
+
+        SportsTargetPara sportsTargetPara = new SportsTargetPara();
+        sportsTargetPara.setStep(true);
+        sportsTargetPara.setCalorie(true);
+        sportsTargetPara.setDistance(true);
+        sportsTargetPara.setExercise(true);
+        sportsTargetPara.setTargetStep(8000);
+        sportsTargetPara.setTargetCalorie(100);
+        sportsTargetPara.setTargetDistance(5000);
+        sportsTargetPara.setTargetExTime(60);
+        FissionSdkBleManage.getInstance().setTargetSet(sportsTargetPara);
+
+        FissionSdkBleManage.getInstance().getMeasureInfo();
+        FissionSdkBleManage.getInstance().getStepsRecord(startTime,endTime);
+        FissionSdkBleManage.getInstance().getExerciseReport(startTime, endTime);
+        FissionSdkBleManage.getInstance().getExerciseDetail(startTime, endTime);
+        FissionSdkBleManage.getInstance().getHeartRateRecord(startTime,endTime);
+        FissionSdkBleManage.getInstance().getSleepRecord(startTime, endTime);
+        FissionSdkBleManage.getInstance().getCurSleepRecord();
+        FissionSdkBleManage.getInstance().getSpo2Record(startTime,endTime);
+        FissionSdkBleManage.getInstance().getHandMeasureInfo(startTime,endTime);
     }
 
     private void initDate() {

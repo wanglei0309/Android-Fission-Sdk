@@ -77,7 +77,7 @@ dependencies {
     }
     implementation('com.journeyapps:zxing-android-embedded:4.2.0') { transitive = false }
     implementation 'com.google.zxing:core:3.3.0'
-    implementation(name: 'fissionsdk_v2-release-v2.0.30', ext: 'aar')
+    implementation(name: 'fissionsdk_v2-release-v2.0.35', ext: 'aar')
     api rootProject.ext.dependencies["rx-java2"]
     api rootProject.ext.dependencies["rx-android2"]
 

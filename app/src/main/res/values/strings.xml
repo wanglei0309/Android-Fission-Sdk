@@ -91,6 +91,7 @@
     <string name="FUNC_GET_STEPS_RECORD">Get step record</string>
     <string name="FUNC_GET_SPO2_RECORD">Get Blood Oxygen Record</string>
     <string name="FUNC_GET_MENTALSTRESS_RECORD">Get mental stress record</string>
+    <string name="FUNC_GET_BLOODPRESSURE_RECORD">Get blood pressure records</string>
     <string name="set">Setting</string>
     <string name="FUNC_WEATHER">Push weather news</string>
     <string name="FUNC_WEATHER_DETAIL">Push weather message details</string>
@@ -122,6 +123,11 @@
     <string name="FUNC_GET_HRPS_DETAIL">GET exercise high frequency heart rate record (0186)</string>
     <string name="FUNC_SET_BLOOD_OXYGEN_SWITCH">Set blood oxygen detection switch</string>
     <string name="FUNC_SET_MENTAL_STRESS_SWITCH">Set mental stress detection switch</string>
+    <string name="FUNC_SET_HEART_RATE_SWITCH">Set heart rate detection switch</string>
+    <string name="FUNC_SET_CALL_AUDIO_SWITCH">Set call audio switch</string>
+    <string name="FUNC_SET_MEDIA_AUDIO_SWITCH">Set media audio switch</string>
+    <string name="FUNC_GET_CALL_AUDIO_SWITCH">Get call audio switch</string>
+    <string name="FUNC_GET_MEDIA_AUDIO_SWITCH">Get media audio switch</string>
 
     <string name="at_cmd">AT command</string>
     <string name="big_data_cmd">Big data command</string>
@@ -181,4 +187,5 @@
     <string name="reminder_time_tips">Please enter the absolute number of minutes (60)</string>
     <string name="save">Save</string>
     <string name="women_health_data">Query women‘s health data</string>
+    <string name="synchronization">One-click data synchronization</string>
 </resources>

@@ -91,6 +91,7 @@
     <string name="FUNC_GET_STEPS_RECORD">获取计步记录</string>
     <string name="FUNC_GET_SPO2_RECORD">获取血氧记录</string>
     <string name="FUNC_GET_MENTALSTRESS_RECORD">获取精神压力记录</string>
+    <string name="FUNC_GET_BLOODPRESSURE_RECORD">获取血压记录</string>
     <string name="set">设置</string>
     <string name="FUNC_WEATHER">推送天气消息</string>
     <string name="FUNC_WEATHER_DETAIL">推送天气消息详情</string>
@@ -122,6 +123,11 @@
     <string name="FUNC_GET_HRPS_DETAIL">GET运动高频心率记录（0186）</string>
     <string name="FUNC_SET_BLOOD_OXYGEN_SWITCH">设置血氧检测开关</string>
     <string name="FUNC_SET_MENTAL_STRESS_SWITCH">设置精神压力检测开关</string>
+    <string name="FUNC_SET_HEART_RATE_SWITCH">设置心率检测开关</string>
+    <string name="FUNC_SET_CALL_AUDIO_SWITCH">设置通话音频开关</string>
+    <string name="FUNC_SET_MEDIA_AUDIO_SWITCH">设置多媒体音频开关</string>
+    <string name="FUNC_GET_CALL_AUDIO_SWITCH">获取通话音频开关状态</string>
+    <string name="FUNC_GET_MEDIA_AUDIO_SWITCH">获取多媒体音频开关状态</string>
 
 
     <string name="at_cmd">AT指令</string>
@@ -181,4 +187,5 @@
     <string name="reminder_time_tips">请输入绝对分钟数（60)</string>
     <string name="save">保存</string>
     <string name="women_health_data">查询女性健康数据</string>
+    <string name="synchronization">一键同步数据（模拟app同步数据操作，定位指令超时问题）</string>
 </resources>

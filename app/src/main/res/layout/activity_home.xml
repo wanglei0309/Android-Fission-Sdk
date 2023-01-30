@@ -158,6 +158,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
+            <TextView
+                android:id="@+id/tv_synchronous_data"
+                android:text="@string/synchronization"
+                android:padding="16dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
     </ScrollView>
