@@ -1685,6 +1685,71 @@ BloodPressureRecord血氧记录包含以下内容：
         public int  pbMin; //最小心率
         public long utc;  // 测试时间
 ```
+* 获取压力记录
+```
+    /**
+      * 获取精神压力记录
+      */
+     public void getMentalStressRecord(List<MentalStressRecord> mentalStressRecords){}
+     FissionSdkBleManage.getInstance().getMentalStressRecord(startTime,endTime);
+```
+MentalStressRecord精神压力记录包含以下内容：
+```
+    /**
+    * 精神压力记录
+    */
+    public class MentalStressRecord {
+     private int          time;               // 时间戳GMT秒
+     private int          bodyVersion;        // 结构体版本
+     private int          week;               // 记录生成周期，单位秒
+     private int          number;             // 此记录块包含有效记录条数
+     private int          length;             // 单条记录长度，即单个记录结构体大小
+     private int          type;               // 记录类型：1：计步明细记录。
+     public  List<Detail> details;
+
+     public class Detail {
+         public int mentalStress;  //精神压力值
+         public int mentalStressLevel; //精神压力等级
+         public long utc;
+
+         public int getMentalStress() {
+             return mentalStress;
+         }
+
+         public void setMentalStress(int mentalStress) {
+             this.mentalStress = mentalStress;
+         }
+
+         public int getMentalStressLevel() {
+             return mentalStressLevel;
+         }
+
+         public long getUtc() {
+             return utc - DateUtil.getOffset();
+         }
+
+         public void setUtc(long utc) {
+             this.utc = utc;
+         }
+
+         public void setMentalStressLevel(int mentalStressLevel) {
+             this.mentalStressLevel = mentalStressLevel;
+
+         }
+```
+* 获取手动测量数据
+```
+    /**
+      *  是否支持精神压力功能
+      */
+     String SUPPORT_MENTAL_STRESS = "isSupportMentalStress";
+
+     SPUtils.getInstance().getBoolean(SpKey.SUPPORT_MENTAL_STRESS)
+
+     FissionSdkBleManage.getInstance().getHandMeasureInfo(startTime,endTime); //不支持精神压力
+     FissionSdkBleManage.getInstance().getNewHandMeasureInfo(startTime,endTime); // 支持精神压力
+```
+
 * 获取实时流数据
 ```
     /**

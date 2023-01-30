@@ -1935,14 +1935,92 @@ Spo2Record
    FissionAtCmdResultListener  This monitor callback method with the same name can get the status of the instruction execution.
 ```
 
-* Get automatic detection of mental stress historical data
+* Get blood pressure records
 ```
-  FissionSdkBleManage.getInstance().getMentalStressRecord(long startTime, long endTime)
+    /**
+     * 获取血压记录
+     */
+    public void getBloodPressureRecord(List<BloodPressureRecord> bloodPressureRecords){}
+    FissionSdkBleManage.getInstance().getBloodPressureRecord(startTime,endTime);
+```
+BloodPressureRecord blood oxygen records include the following:
+```
+    private int          time;               // 时间戳GMT秒
+    private int          bodyVersion;        // 结构体版本
+    private int          week;               // 记录生成周期，单位秒
+    private int          number;             // 此记录块包含有效记录条数
+    private int          length;             // 单条记录长度，即单个记录结构体大小
+    private int          type;               // 记录类型：1：计步明细记录。
+    public  List<Detail> details;
 
-  //startTime, endTime  seconds timestamp.  FissionBigDataCmdResultListener  The monitoring method with the same name can get the corresponding data.
+    public class Detail {
+        public int  pbMax; //最大心率
+        public int  pbMin; //最小心率
+        public long utc;  // 测试时间
+```
+* Get Stress Records
+```
+    /**
+      * 获取精神压力记录
+      */
+     public void getMentalStressRecord(List<MentalStressRecord> mentalStressRecords){}
+     FissionSdkBleManage.getInstance().getMentalStressRecord(startTime,endTime);
+```
+MentalStressRecord mental stress record contains the following:
+```
+    /**
+    * 精神压力记录
+    */
+    public class MentalStressRecord {
+     private int          time;               // 时间戳GMT秒
+     private int          bodyVersion;        // 结构体版本
+     private int          week;               // 记录生成周期，单位秒
+     private int          number;             // 此记录块包含有效记录条数
+     private int          length;             // 单条记录长度，即单个记录结构体大小
+     private int          type;               // 记录类型：1：计步明细记录。
+     public  List<Detail> details;
 
-  FissionSdkBleManage.getInstance().getHandMeasureInfo(long startTime, long endTime)   Here's how to get manual measurements. Blood oxygen, mental stress, heart rate data measured manually
+     public class Detail {
+         public int mentalStress;  //Mental stress value
+         public int mentalStressLevel; //Mental stress level
+         public long utc;
 
+         public int getMentalStress() {
+             return mentalStress;
+         }
+
+         public void setMentalStress(int mentalStress) {
+             this.mentalStress = mentalStress;
+         }
+
+         public int getMentalStressLevel() {
+             return mentalStressLevel;
+         }
+
+         public long getUtc() {
+             return utc - DateUtil.getOffset();
+         }
+
+         public void setUtc(long utc) {
+             this.utc = utc;
+         }
+
+         public void setMentalStressLevel(int mentalStressLevel) {
+             this.mentalStressLevel = mentalStressLevel;
+
+         }
+```
+* Acquire manual measurement data
+```
+    /**
+      *  Whether to support mental stress function
+      */
+     String SUPPORT_MENTAL_STRESS = "isSupportMentalStress";
+
+     SPUtils.getInstance().getBoolean(SpKey.SUPPORT_MENTAL_STRESS)
+
+     FissionSdkBleManage.getInstance().getHandMeasureInfo(startTime,endTime); //Does not support mental stress
+     FissionSdkBleManage.getInstance().getNewHandMeasureInfo(startTime,endTime); // support stress
 ```
 
 
