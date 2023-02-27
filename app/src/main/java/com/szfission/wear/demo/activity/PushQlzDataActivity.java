@@ -65,6 +65,10 @@ public class PushQlzDataActivity extends BaseActivity {
     RadioButton radio_dial;
     @ViewInject(R.id.radio_small_font)
     RadioButton radio_small_font;
+    @ViewInject(R.id.radio_more_dial)
+    RadioButton radio_more_dial;
+    @ViewInject(R.id.radio_more_sport)
+    RadioButton radio_more_sport;
 
     private int type = FissionConstant.OTA_TYPE_UI;
 
@@ -158,6 +162,24 @@ public class PushQlzDataActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     type = FissionConstant.OTA_TYPE_SMALL_FONT;
+                }
+            }
+        });
+
+        radio_more_dial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_MORE_DIAL;
+                }
+            }
+        });
+
+        radio_more_sport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_MORE_SPORTS;
                 }
             }
         });

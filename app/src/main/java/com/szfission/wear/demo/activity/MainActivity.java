@@ -170,6 +170,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_OTA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PAGE_SKIP;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_DIAL;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_SPORT;
+import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_MORE_SPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_QLZ_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_QUICK_REPLY_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_REBOOT_DEVICE;
@@ -895,6 +896,9 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     case FUNC_PUSH_QLZ_DATA:
                         startActivity(new Intent(context, PushQlzDataActivity.class));
                         break;
+                    case FUNC_PUSH_MORE_SPORT:
+                        startActivity(new Intent(context, PushMoreSportsActivity.class));
+                        break;
                     case FUNC_SAFETY_CONFIRM:
                         showEditDialog(FUNC_SAFETY_CONFIRM);
                         break;
@@ -1475,7 +1479,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     showLog(R.string.device_connecting,deviceName);
                     connectSuccessfully = true;
                     tvActionConnect.setText(R.string.disconnect);
-                    if(!TextUtils.isEmpty(deviceName) && (deviceName.contains("LW71") || deviceName.contains("LW76") || deviceName.contains("LW82") || deviceName.contains("LW83") || deviceName.contains("LW77")  || deviceName.contains("FT"))){
+                    if(!TextUtils.isEmpty(deviceName) && (deviceName.contains("LW71") || deviceName.contains("LW76") || deviceName.contains("LW82") || deviceName.contains("LW83") || deviceName.contains("LW77")  || deviceName.contains("FT")  || deviceName.contains("RONIN") )){
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, true);
                     }else{
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, false);
@@ -1518,6 +1522,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             public void onBindSucceeded(String address, String name) {
                 LogUtils.d("wl", "---onBindSucceeded--");
                 SharedPreferencesUtil.getInstance().setBluetoothAddress(address);
+//                dataSynchronization();
             }
 
             @Override

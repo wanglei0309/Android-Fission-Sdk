@@ -117,7 +117,7 @@
     <string name="FUNC_SYN_PHONE_BOOK">同步电话簿</string>
     <string name="FUNC_ONLINE_DIAL_PUSH">在线表盘推送(03F4)</string>
     <string name="FUNC_MSG_TASK">消息队列数据流</string>
-    <string name="FUNC_GET_FLASH_DATA">读取片外flash空间数据</string>
+    <string name="FUNC_GET_FLASH_DATA">读取片外flash空间数据(02E0)</string>
     <string name="FUNC_SHUTDOWN_STATE">设置重启后自动关机</string>
     <string name="FUNC_PUSH_QLZ_DATA">App推送任意qlz压缩数据(03F5)</string>
     <string name="FUNC_GET_HRPS_DETAIL">GET运动高频心率记录（0186）</string>
@@ -128,6 +128,7 @@
     <string name="FUNC_SET_MEDIA_AUDIO_SWITCH">设置多媒体音频开关</string>
     <string name="FUNC_GET_CALL_AUDIO_SWITCH">获取通话音频开关状态</string>
     <string name="FUNC_GET_MEDIA_AUDIO_SWITCH">获取多媒体音频开关状态</string>
+    <string name="FUNC_PUSH_MORE_CUSTOM_SPORT">多运动推送</string>
 
 
     <string name="at_cmd">AT指令</string>
@@ -188,4 +189,7 @@
     <string name="save">保存</string>
     <string name="women_health_data">查询女性健康数据</string>
     <string name="synchronization">一键同步数据（模拟app同步数据操作，定位指令超时问题）</string>
+    <string name="push_more_sport_tip">需要打包推送的运动文件请放在SD卡下的 %1$s 目录下</string>
+    <string name="pack">打包</string>
+    <string name="push_progress">推送进度：</string>
 </resources>

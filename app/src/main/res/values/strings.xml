@@ -128,6 +128,7 @@
     <string name="FUNC_SET_MEDIA_AUDIO_SWITCH">Set media audio switch</string>
     <string name="FUNC_GET_CALL_AUDIO_SWITCH">Get call audio switch</string>
     <string name="FUNC_GET_MEDIA_AUDIO_SWITCH">Get media audio switch</string>
+    <string name="FUNC_PUSH_MORE_CUSTOM_SPORT">Multi-sport push</string>
 
     <string name="at_cmd">AT command</string>
     <string name="big_data_cmd">Big data command</string>
@@ -188,4 +189,8 @@
     <string name="save">Save</string>
     <string name="women_health_data">Query women‘s health data</string>
     <string name="synchronization">One-click data synchronization</string>
+    <string name="push_more_sport_tip">Please place the sports files that need to be packaged and pushed under the %1$s directory under the SD card</string>
+    <string name="pack">Pack</string>
+    <string name="push_progress">push progress：</string>
+
 </resources>

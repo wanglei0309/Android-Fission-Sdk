@@ -83,6 +83,7 @@
         <activity android:name=".activity.PhoneBookActivity" />
         <activity android:name=".activity.OnlineDialPushActivity" />
         <activity android:name=".activity.PushQlzDataActivity" />
+        <activity android:name=".activity.PushMoreSportsActivity" />
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

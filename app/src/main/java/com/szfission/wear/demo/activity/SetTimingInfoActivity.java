@@ -27,9 +27,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.blankj.utilcode.util.CacheDoubleUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.bean.FissionAlarmCache;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
+import com.fission.wear.sdk.v2.constant.CacheDoubleKey;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.bean.FissionAlarm;
@@ -137,8 +140,11 @@ public class SetTimingInfoActivity extends BaseActivity {
     }
     TimePickerView pvTime;
     private void initData() {
+//        FissionAlarmCache fissionAlarmCache = new FissionAlarmCache();
+//        fissionAlarmCache.setFissionAlarms(new ArrayList<FissionAlarm>());
+//        CacheDoubleUtils.getInstance().put(CacheDoubleKey.CD_KEY_ALARM_CACHE, fissionAlarmCache);
 
-        FissionSdkBleManage.getInstance().getNotUsingAlarmId();
+        FissionSdkBleManage.getInstance().getAlarm();
 
 //        AnyWear.getNoUseTimingInfo(new OnSmallDataCallback(){
 //            @Override
@@ -266,7 +272,7 @@ public class SetTimingInfoActivity extends BaseActivity {
     }
 
 
-    int weekResult = 0;
+    int weekResult = 128;  //默认只响一次
 
     private void initSpinner(int i, int index) {
         String[] mItems = getResources().getStringArray(index);
@@ -402,14 +408,33 @@ public class SetTimingInfoActivity extends BaseActivity {
         lw33s.add(alarmLw33);
         for (int i = 1;i<10;i++){
             if(i == 9){
-                lw33s.add(new FissionAlarm(i,0,false,System.currentTimeMillis()+i*120000,weekResult, "开会这名字够长了吧"+i));
+                lw33s.add(new FissionAlarm(i,0,false,System.currentTimeMillis()+i*120000,weekResult, "开会这名字够长了吧，测试字符串截取功能。"+i));
             }else{
-                lw33s.add(new FissionAlarm(i,1,true,System.currentTimeMillis()+i*120000,weekResult, "开会这名字够长了吧"+i));
+                lw33s.add(new FissionAlarm(i,1,true,System.currentTimeMillis()+i*120000,weekResult, "开会这名字够长了吧，测试字符串截取功能。"+i));
             }
         }
 
         FissionSdkBleManage.getInstance().setAlarmInfos(lw33s);
     }
+
+    @Event(R.id.btn_add)
+    private void add(View v) {
+        FissionAlarm alarmLw33 = new FissionAlarm(1,true,System.currentTimeMillis()+60000,weekResult, "开会这名字够长了吧，测试字符串截取功能。");
+        FissionSdkBleManage.getInstance().addFissionAlarm(alarmLw33, 10);
+    }
+
+    @Event(R.id.btn_delete)
+    private void delete(View v) {
+        FissionAlarm alarmLw33 = new FissionAlarm(0,0,false,0,weekResult, "起床");
+        FissionSdkBleManage.getInstance().deleteFissionAlarm(alarmLw33, 10);
+    }
+
+    @Event(R.id.btn_update)
+    private void update(View v) {
+        FissionAlarm alarmLw33 = new FissionAlarm(Integer.parseInt(spinnerType.getSelectedItem().toString()),1,true,System.currentTimeMillis()+120000,weekResult, "起床");
+        FissionSdkBleManage.getInstance().updateFissionAlarm(alarmLw33, 10);
+    }
+
 
     StringBuilder content = null;
     SparseBooleanArray mSelectedPositions = new SparseBooleanArray();

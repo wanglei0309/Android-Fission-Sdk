@@ -84,25 +84,6 @@ public class ExercisesListActivity extends BaseActivity {
 
     //获取运动列表
     private void getData(long startTime, long endTime) {
-//        AnyWear.getExerciseReport(startTime, endTime, new BigDataCallBack() {
-//            @Override
-//            public void OnExerciseReport(List<ExerciseReport> exerciseReports) {
-//                exercisesListAdapter.addData(exerciseReports);
-//            }
-//
-//            @Override
-//            public void OnExerciseListCallback(List<ExerciseList> exerciseLists) {
-//                for (ExerciseList exerciseList:exerciseLists) {
-//                    LogUtils.d("获取列表信息" + exerciseList.getModel());
-//                }
-//            }
-//
-//            @Override
-//            public void OnEmpty(String result) {
-//                LogUtils.d(result);
-//            }
-//        });
-
 
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
             @Override
@@ -152,7 +133,6 @@ public class ExercisesListActivity extends BaseActivity {
         });
 
         FissionSdkBleManage.getInstance().getExerciseReport(startTime, endTime);
-        FissionSdkBleManage.getInstance().getExerciseList(startTime, endTime);
 
         exercisesListAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -162,19 +142,6 @@ public class ExercisesListActivity extends BaseActivity {
 
                 FissionSdkBleManage.getInstance().getExerciseDetail(exerciseList.getBeginTime(), exerciseList.getEndTime());
 
-//                AnyWear.getExerciseDetail(exerciseList.getBeginTime(), exerciseList.getEndTime(), new OnExerciseDetailCallback() {
-//                    @Override
-//                    public void success(List<ExerciseDetail> list) {
-//                        dismissProgress();
-//                        getDialog(list);
-//                    }
-//
-//                    @Override
-//                    public void OnError(String s) {
-//                        showToast(s);
-//                        dismissProgress();
-//                    }
-//                });
             }
         });
     }

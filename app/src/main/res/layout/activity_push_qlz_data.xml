@@ -73,6 +73,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <RadioButton
+            android:id="@+id/radio_more_dial"
+            android:layout_marginLeft="20dp"
+            android:text="多表盘数据"
+            android:checked="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:id="@+id/radio_more_sport"
+            android:layout_marginLeft="20dp"
+            android:text="多运动数据"
+            android:checked="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </RadioGroup>
 
     <Button

@@ -58,6 +58,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import static com.fission.wear.sdk.v2.utils.FissionDialUtil.stylePosition_top;
 import static com.szfission.wear.sdk.util.FissionDialUtil.getPreviewImageBitmap;
 import static com.szfission.wear.sdk.util.FissionDialUtil.stylePosition_middle;
 
@@ -201,7 +202,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
                 dialModel2.setDialPosition(1);
                 dialModel2.setPreImageWidth(thumbnailWidth);
                 dialModel2.setPreImageHeight(thumbnailHigh);
-                dialModel2.setDialPosition(stylePosition_middle);
+                dialModel2.setDialPosition(stylePosition_top);
                 dialModel2.setDialStyleColor(colorValue);
                 Bitmap thumbBitmap2 = ImageScalingUtil.extractMiniThumb(dialModel2.getPreviewImage(),
                         dialModel2.getPreImageWidth(), dialModel2.getPreImageHeight());
@@ -261,7 +262,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     private void setDiaModelCompress(com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel dialModel)  {
         Bitmap bitmap1 = com.fission.wear.sdk.v2.utils.FissionDialUtil.getPreviewImageBitmap(this,dialModel);
         iv_watch_face2.setImageBitmap(bitmap1);
-        byte[] resultData = com.fission.wear.sdk.v2.utils.FissionDialUtil.getDiaInfoBinData(this, dialModel);
+        byte[] resultData = com.fission.wear.sdk.v2.utils.FissionDialUtil.getBigDiaInfoBinData(this, dialModel);
         byte[] outData = QuickLZUtils.compressFission(resultData);
         LogUtils.d("wl", "相册自定义表盘字节大小(压缩前)："+resultData.length);
 //        String filePath = Environment.getExternalStorageDirectory()+"/custom_dial_1.bin";

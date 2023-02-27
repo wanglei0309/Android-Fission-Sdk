@@ -57,9 +57,11 @@ public class PushSportModeActivity extends BaseActivity{
             public void onClick(View v) {
                 int type = spinner.getSelectedItemPosition();
                 if (type == 0){
-                    setDiaModel("123.bin");
+                    setDiaModel("1.bin");
                 }else if (type == 1){
-                    setDiaModel("2.bin");
+                    setDiaModel("112.bin");
+                }else if (type == 2){
+                    setDiaModel("124.bin");
                 }
             }
         });

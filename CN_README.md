@@ -1750,6 +1750,26 @@ MentalStressRecord精神压力记录包含以下内容：
      FissionSdkBleManage.getInstance().getNewHandMeasureInfo(startTime,endTime); // 支持精神压力
 ```
 
+* 快捷回复功能
+```
+    //设置快捷回复内容
+     FissionSdkBleManage.getInstance().setQuickReplyData(strings);
+
+     strings 是快捷回复内容的集合，默认支持5条内容。 内容为""时， 手表点击快捷回复按钮会提示去设置内容
+
+   //获取快捷回复内容
+     FissionSdkBleManage.getInstance().getQuickReplyData();
+
+   //手表点击快捷回复内容，监听回调（点击的第几条内容）
+      /**
+      *  快捷回复下标
+      */
+     public void quickReply(int index){}
+    FissionAtCmdResultListener  添加AT指令回调监听，重写此方法。
+
+
+```
+
 * 获取实时流数据
 ```
     /**
@@ -2098,6 +2118,14 @@ DFU升级主要包含以下几个功能：
     byte[] resultData =  FissionDialUtil.inputBin(this,name);
     FissionSdkBleManage.getInstance().startDial(resultData, FissionEnum.WRITE_SPORT_DATA);
 ```
+
+* 多运动推送功能
+  示例代码如下：mFileList 是运动文件的集合。
+  ```
+    byte[] resultData = FissionSportsUtil.packMultiSportFiles(mFileList);
+    byte[] outData =QuickLZUtils.compressFission(resultData, COMPRESS_EXERCISE_MORE);
+    FissionSdkBleManage.getInstance().pushMoreSport(outData);
+  ```
 
 * 固件UI升级（参考demo使用）
 

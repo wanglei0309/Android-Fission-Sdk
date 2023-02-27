@@ -15,35 +15,76 @@
     <include android:id="@+id/scTimingInfo"
         layout="@layout/sc_time_info"
         android:layout_below="@+id/cmdLayout"
-        android:layout_above="@+id/btn_send"
+        android:layout_above="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-
-    <Button
-        android:id="@+id/btn_send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_get"
-        android:text="设置5个闹钟"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white" />
-
-    <Button
-        android:id="@+id/btn_send2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_send"
-        android:text="设置10个闹钟"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white" />
-
-    <Button
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_alignParentBottom="true"
-        android:id="@+id/btn_get"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="查询"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white" />
+        android:layout_height="150dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_send"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btn_get"
+                android:text="设置5个闹钟"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn_send2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btn_send"
+                android:text="设置10个闹钟"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn_get"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="查询"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btn_get"
+                android:text="添加单个闹钟"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btn_get"
+                android:text="删除单个闹钟"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btn_get"
+                android:text="更新单个闹钟"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </RelativeLayout>

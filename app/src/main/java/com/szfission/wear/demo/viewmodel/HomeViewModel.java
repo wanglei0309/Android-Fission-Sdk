@@ -60,6 +60,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_OTA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PAGE_SKIP;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_DIAL;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_SPORT;
+import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_MORE_SPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_QLZ_DATA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_QUICK_REPLY_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_REBOOT_DEVICE;
@@ -276,6 +277,7 @@ public class HomeViewModel extends ViewModel {
         childList2.add(new FuncBean(R.string.FUNC_COMPRESS_CMD, FUNC_COMPRESS_CMD));
         childList2.add(new FuncBean(R.string.FUNC_ONLINE_DIAL_PUSH, FUNC_ONLINE_DIAL_PUSH));
         childList2.add(new FuncBean(R.string.FUNC_PUSH_QLZ_DATA, FUNC_PUSH_QLZ_DATA));
+        childList2.add(new FuncBean(R.string.FUNC_PUSH_MORE_CUSTOM_SPORT, FUNC_PUSH_MORE_SPORT));
 
         childList3.add(new FuncBean(R.string.FUNC_GET_HARDWARE_INFO, FUNC_GET_HARDWARE_INFO));
         childList3.add(new FuncBean(R.string.FUNC_GET_MEARURE_INFO, FUNC_GET_MEASURE_INFO));

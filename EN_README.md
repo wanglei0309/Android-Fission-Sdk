@@ -2022,7 +2022,25 @@ MentalStressRecord mental stress record contains the following:
      FissionSdkBleManage.getInstance().getHandMeasureInfo(startTime,endTime); //Does not support mental stress
      FissionSdkBleManage.getInstance().getNewHandMeasureInfo(startTime,endTime); // support stress
 ```
+* Quick reply function
+```
+     //Set quick reply content
+      FissionSdkBleManage.getInstance().setQuickReplyData(strings);
 
+      strings is a collection of quick reply content, which supports 5 content by default. When the content is "", the watch will prompt you to set the content when you click the quick reply button
+
+    //Get quick reply content
+      FissionSdkBleManage.getInstance().getQuickReplyData();
+
+    //The watch clicks on the quick reply content, and listens to the callback (the first content clicked)
+       /**
+       * Quick reply subscript
+       */
+      public void quickReply(int index){}
+     FissionAtCmdResultListener Add AT command callback listener, rewrite this method.
+
+
+```
 
 * Get real-time streaming data
 ```
@@ -2372,6 +2390,14 @@ DFU upgrade mainly includes the following functions:
     byte[] resultData =  FissionDialUtil.inputBin(this,name);
     FissionSdkBleManage.getInstance().startDial(resultData, FissionEnum.WRITE_SPORT_DATA);
 ```
+
+* Multi-sport push function
+   The sample code is as follows: mFileList is a collection of motion files.
+   ```
+     byte[] resultData = FissionSportsUtil.packMultiSportFiles(mFileList);
+     byte[] outData =QuickLZUtils.compressFission(resultData, COMPRESS_EXERCISE_MORE);
+     FissionSdkBleManage.getInstance().pushMoreSport(outData);
+   ```
 
 * 固件UI升级（参考demo）
 

@@ -16,13 +16,13 @@
 
             <EditText
                 android:id="@+id/ed_data1"
-                android:hint="请输入flash地址(10进制)"
+                android:hint="请输入flash地址(16进制)"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"/>
 
             <EditText
                 android:id="@+id/ed_data2"
-                android:hint="请输入数据长度"
+                android:hint="请输入数据长度(16进制)"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"/>
 

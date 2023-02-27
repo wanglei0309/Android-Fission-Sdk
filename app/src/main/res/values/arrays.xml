@@ -77,7 +77,8 @@
     </string-array>
 
     <string-array name="sport">
-        <item>沙滩足球</item>
-        <item>室内步行</item>
+        <item>户外跑步</item>
+        <item>马拉松</item>
+        <item>皮筏艇</item>
     </string-array>
 </resources>

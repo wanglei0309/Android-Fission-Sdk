@@ -23,6 +23,7 @@ public  class ModelConstant {
     public static final int FUNC_COMPRESS_CMD = 1505;
     public static final int FUNC_ONLINE_DIAL_PUSH = 1506;
     public static final int FUNC_PUSH_QLZ_DATA = 1507;
+    public static final int FUNC_PUSH_MORE_SPORT = 1508;
     public static final int FUNC_CAMERA = 16;
     public static final int FUNC_FIND_DEVICE = 17;
     public static final int FUNC_GIVE_UP_FIND_DEVICE = 171;

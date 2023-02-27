@@ -25,6 +25,8 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.bean.FssStatus;
+import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.realsil.sdk.dfu.model.DfuProgressInfo;
 import com.realsil.sdk.dfu.model.OtaDeviceInfo;
@@ -55,27 +57,16 @@ public class OTAUpdateActivity extends BaseActivity {
     TextView tvFile;
     @ViewInject(R.id.tvProgress)
     ProgressBar tvProgress;
-    //    @ViewInject(R.id.btnUpload)
-//    Button btnUpload;
-//    @ViewInject(R.id.btnStop)
-//    Button btnStop;
-//    @ViewInject(R.id.tvProgress)
-//    TextView tvProgress;
-//    @ViewInject(R.id.tvProgressBar)
-//    ProgressBar tvProgressBar;
-//    @ViewInject(R.id.radioBtn1)
-//    RadioButton radioBtn1;
-//    @ViewInject(R.id.radioBtn2)
-//    RadioButton radioBtn2;
-//    @ViewInject(R.id.radioGroup)
-//    RadioGroup radioGroup;
+    @ViewInject(R.id.tv_tip)
+    TextView tv_tip;
+    @ViewInject(R.id.tv_progress_value)
+    TextView tv_progress_value;
     @ViewInject(R.id.btn_send)
     Button btnUpload;
-//    @ViewInject(R.id.btnStop)
-//    Button btnStop;
     String filePath = "";
     int modelType;
 
+    private boolean isMultipleFiles = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,25 +119,37 @@ public class OTAUpdateActivity extends BaseActivity {
             }
         });
 
-//        btnStop.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                AnyWear.stopOta();
-//                tvProgress.setVisibility(View.INVISIBLE);
-//                tvProgressBar.setVisibility(View.INVISIBLE);
-//                showToast("取消升级成功");
-//            }
-//        });
-//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                if (checkedId == radioBtn1.getId()) {
-//                    modelType = 0;
-//                } else {
-//                    modelType = 16;
-//                }
-//            }
-//        });
+        FissionSdkBleManage.getInstance().addCmdResultListener(new FissionAtCmdResultListener() {
+            @Override
+            public void sendSuccess(String cmdId) {
+
+            }
+
+            @Override
+            public void sendFail(String cmdId) {
+
+            }
+
+            @Override
+            public void onResultTimeout(String cmdId) {
+
+            }
+
+            @Override
+            public void onResultError(String errorMsg) {
+
+            }
+
+            @Override
+            public void fssSuccess(FssStatus fssStatus) {
+                super.fssSuccess(fssStatus);
+                if(fssStatus.getFssStatus() == 23 && !isMultipleFiles){
+                    tvProgress.setProgress(fssStatus.getFssType());
+                    tv_tip.setText("正在发送文件 1/1");
+                }
+            }
+        });
+
     }
 
     private void startOta() {
@@ -230,6 +233,21 @@ public class OTAUpdateActivity extends BaseActivity {
               @Override
               public void onProgressChanged(DfuProgressInfo dfuProgressInfo) {
                   super.onProgressChanged(dfuProgressInfo);
+                  if(dfuProgressInfo.getMaxFileCount() > 1 ){
+                      isMultipleFiles = true;
+                      // 使用原厂进度
+                      String text = "正在发送文件 "+ Math.min(
+                              dfuProgressInfo.getCurrentFileIndex() + 1,
+                              dfuProgressInfo.getMaxFileCount()
+                      )+"/"+
+                              dfuProgressInfo.getMaxFileCount();
+                      int progress = dfuProgressInfo.getTotalProgress();
+                      tvProgress.setProgress(progress);
+                      tv_progress_value.setText("当前OTA总进度："+progress+"%, 单个文件进度："+dfuProgressInfo.getProgress()+"%");
+                      tv_tip.setText(text);
+                  }else{
+                      isMultipleFiles = false;
+                  }
               }
           });
       }
@@ -303,10 +321,10 @@ public class OTAUpdateActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(DataMessageEvent event) {
         LogUtils.d("获取event",event.getMessageType(),"获取event conente"+event.getMessageContent());
-        if (event.getMessageType()== ModelConstant.FUNC_OTA){
-            LogUtils.d("");
-            tvProgress.setProgress(Integer.parseInt(event.getMessageContent()));
-        }
+//        if (event.getMessageType()== ModelConstant.FUNC_OTA){
+//            LogUtils.d("");
+//            tvProgress.setProgress(Integer.parseInt(event.getMessageContent()));
+//        }
     }
 
 }
