@@ -189,8 +189,25 @@
     <string name="save">Save</string>
     <string name="women_health_data">Query women‘s health data</string>
     <string name="synchronization">One-click data synchronization</string>
-    <string name="push_more_sport_tip">Please place the sports files that need to be packaged and pushed under the %1$s directory under the SD card</string>
+    <string name="push_more_sport_tip">Please place the sports files that need to be packaged and pushed under the %1$s directory under the SD card, Please put the built-in motion files in the %2$s directory.</string>
     <string name="pack">Pack</string>
     <string name="push_progress">push progress：</string>
+    <string name="get_progress">get progress：</string>
+
+    <string name="FUNC_SET_TEMPERATURE_UNIT">Set the temperature unit</string>
+    <string name="celsius">Celsius</string>
+    <string name="fahrenheit">Fahrenheit</string>
+
+    <string name="FUNC_GET_SPORT_LIST_INFO">Get current exercise list information</string>
+
+    <string name="FUNC_GET_SYSTEM_FUNCTION_SWITCH">Get device system function switch</string>
+    <string name="FUNC_PUSH_CUSTOM_DIAL_NEW">Custom dial push(New)</string>
+
+    <string name="new_custom_dial_directory">Please put the custom watch face package file in the %1$s directory under the SD card.</string>
+
+    <string name="FUNC_GET_SYSTEM_INFO">Obtain current system dynamic information</string>
+    <string name="FUNC_SET_STO">Set STO</string>
+    <string name="FUNC_SET_AGPS_LOCATION">Push AGPS basic positioning information</string>
+    <string name="FUNC_SET_AGPS_DATA">Push AGPS auxiliary positioning data to the device</string>
 
 </resources>

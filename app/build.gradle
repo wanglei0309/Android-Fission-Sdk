@@ -68,16 +68,16 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
-    implementation files('libs/rtk-bbpro-core-1.6.9.jar')
-    implementation files('libs/rtk-core-1.2.8.jar')
-    implementation files('libs/rtk-dfu-3.4.1.jar')
+    implementation files('libs/rtk-bbpro-core-1.8.1.jar')
+    implementation files('libs/rtk-core-1.4.7.jar')
+    implementation files('libs/rtk-dfu-3.6.13.jar')
 
     annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
         exclude module: 'support-annotations'
     }
     implementation('com.journeyapps:zxing-android-embedded:4.2.0') { transitive = false }
     implementation 'com.google.zxing:core:3.3.0'
-    implementation(name: 'fissionsdk_v2-release-v2.0.43', ext: 'aar')
+    implementation(name: 'fissionsdk_v2-release-v2.0.65', ext: 'aar')
     api rootProject.ext.dependencies["rx-java2"]
     api rootProject.ext.dependencies["rx-android2"]
 

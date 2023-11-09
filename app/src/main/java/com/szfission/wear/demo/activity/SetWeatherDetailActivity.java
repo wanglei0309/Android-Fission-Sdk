@@ -93,7 +93,7 @@ public class SetWeatherDetailActivity extends BaseActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FissionSdkBleManage.getInstance().setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition(), "");
+                FissionSdkBleManage.getInstance().setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition() == 19 ? 255 : spinnerTime.getSelectedItemPosition(), "");
 //                AnyWear.setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition(), "", new OnSmallDataCallback() {
 //                    @Override
 //                    public void OnEmptyResult() {

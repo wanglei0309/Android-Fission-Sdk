@@ -44,7 +44,10 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SEDENTARY_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SLEEP_RECORD;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SLEEP_REPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SPO2_RECORD;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SPORT_LIST_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_STEPS_RECORD;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SYSTEM_FUNCTION_SWITCH;
+import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SYSTEM_INFO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_TIME;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_TIMEZONE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_GET_UI_VERSION;
@@ -59,6 +62,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_ONLINE_DIAL_PUSH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_OTA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PAGE_SKIP;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_DIAL;
+import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_DIAL_NEW;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_SPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_MORE_SPORT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_QLZ_DATA;
@@ -67,12 +71,15 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_REBOOT_DEVICE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_RESET;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SAFETY_CONFIRM;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SELF_INSPECTION_MODE;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_AGPS_DATA;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_AGPS_LOCATION;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_BLOOD_OXYGEN_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_CALL_AUDIO_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM2;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DONT_DISTURB_PARA;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DRINK_WATER_PARA;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_FUNC_SET_STO;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HEART_RATE_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HIGH_SPEED_CONNECT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HRLEV_ALGO_PARA;
@@ -84,6 +91,7 @@ import static com.szfission.wear.demo.ModelConstant.FUNC_SET_MEDIA_AUDIO_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_MENTAL_STRESS_SWITCH;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_PROMPT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TARGET_SET;
+import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TEMPERATURE_UNIT;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TIME;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TIMEZONE;
 import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TIME_MODE;
@@ -235,6 +243,7 @@ public class HomeViewModel extends ViewModel {
         childList1.add(new FuncBean(R.string.FUNC_SET_TIME_MODE, FUNC_SET_TIME_MODE));
         childList1.add(new FuncBean(R.string.FUNC_SET_LANG, FUNC_SET_LANG));
         childList1.add(new FuncBean(R.string.FUNC_SET_UNIT, FUNC_SET_UNIT));
+        childList1.add(new FuncBean(R.string.FUNC_SET_TEMPERATURE_UNIT, FUNC_SET_TEMPERATURE_UNIT));
         childList1.add(new FuncBean(R.string.FUNC_SET_PROMPT, FUNC_SET_PROMPT));
 //        childList1.add(new FuncBean(R.string.FUNC_SET_FEMALE_PHYSIOLOGY, FUNC_SET_FEMALE_PHYSIOLOGY));
         childList1.add(new FuncBean(R.string.FUNC_VIBRATION, FUNC_VIBRATION));
@@ -264,6 +273,7 @@ public class HomeViewModel extends ViewModel {
         childList1.add(new FuncBean(R.string.FUNC_GET_CALL_AUDIO_SWITCH, FUNC_GET_CALL_AUDIO_SWITCH));
         childList1.add(new FuncBean(R.string.FUNC_SET_MEDIA_AUDIO_SWITCH, FUNC_SET_MEDIA_AUDIO_SWITCH));
         childList1.add(new FuncBean(R.string.FUNC_GET_MEDIA_AUDIO_SWITCH, FUNC_GET_MEDIA_AUDIO_SWITCH));
+        childList1.add(new FuncBean(R.string.FUNC_SET_STO, FUNC_SET_FUNC_SET_STO));
 
 
         childList2.add(new FuncBean(R.string.FUNC_SET_DATA_STREAM, FUNC_SET_DATA_STREAM));
@@ -271,6 +281,7 @@ public class HomeViewModel extends ViewModel {
         childList2.add(new FuncBean(R.string.FUNC_SWITCH_HR_RATE, FUNC_SWITCH_HR_RATE));
         childList2.add(new FuncBean(R.string.FUNC_OTA, FUNC_OTA));
         childList2.add(new FuncBean(R.string.FUNC_PUSH_CUSTOM_DIAL, FUNC_PUSH_CUSTOM_DIAL));
+        childList2.add(new FuncBean(R.string.FUNC_PUSH_CUSTOM_DIAL_NEW, FUNC_PUSH_CUSTOM_DIAL_NEW));
         childList2.add(new FuncBean(R.string.FUNC_PUSH_CUSTOM_SPORT, FUNC_PUSH_CUSTOM_SPORT));
         childList2.add(new FuncBean(R.string.FUNC_GPS_SPORT_CMD, FUNC_GPS_SPORT_CMD));
         childList2.add(new FuncBean(R.string.FUNC_FLASH_WRITE_CMD, FUNC_FLASH_WRITE_CMD));
@@ -280,6 +291,7 @@ public class HomeViewModel extends ViewModel {
         childList2.add(new FuncBean(R.string.FUNC_PUSH_MORE_CUSTOM_SPORT, FUNC_PUSH_MORE_SPORT));
 
         childList3.add(new FuncBean(R.string.FUNC_GET_HARDWARE_INFO, FUNC_GET_HARDWARE_INFO));
+        childList3.add(new FuncBean(R.string.FUNC_GET_SYSTEM_INFO, FUNC_GET_SYSTEM_INFO));
         childList3.add(new FuncBean(R.string.FUNC_GET_MEARURE_INFO, FUNC_GET_MEASURE_INFO));
         childList3.add(new FuncBean(R.string.FUNC_GET_DAYS_REPORT, FUNC_GET_DAYS_REPORT));
         childList3.add(new FuncBean(R.string.FUNC_GET_HOURS_REPORT, FUNC_GET_HOURS_REPORT));
@@ -318,6 +330,10 @@ public class HomeViewModel extends ViewModel {
         childList3.add(new FuncBean(R.string.FUNC_SYN_PHONE_BOOK, FUNC_SYN_PHONE_BOOK));
         childList3.add(new FuncBean(R.string.FUNC_GET_FLASH_DATA, FUNC_GET_FLASH_DATA));
         childList3.add(new FuncBean(R.string.FUNC_GET_HRPS_DETAIL, FUNC_GET_HRPS_DETAIL));
+        childList3.add(new FuncBean(R.string.FUNC_GET_SPORT_LIST_INFO, FUNC_GET_SPORT_LIST_INFO));
+        childList3.add(new FuncBean(R.string.FUNC_GET_SYSTEM_FUNCTION_SWITCH, FUNC_GET_SYSTEM_FUNCTION_SWITCH));
+        childList3.add(new FuncBean(R.string.FUNC_SET_AGPS_LOCATION, FUNC_SET_AGPS_LOCATION));
+        childList3.add(new FuncBean(R.string.FUNC_SET_AGPS_DATA, FUNC_SET_AGPS_DATA));
 
 //        childList4.add(new FuncBean(R.string.FUNC_GET_SEDENTARY_DRINK_PARA,FUNC_GET_SEDENTARY_DRINK_PARA));
 

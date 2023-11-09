@@ -32,6 +32,10 @@ public class SetHrWarnParaActivity extends BaseActivity {
     EditText etStartTime;
     @ViewInject(R.id.etEndTime)
     EditText etEndTime;
+    @ViewInject(R.id.etMaxHr)
+    EditText etMaxHr;
+    @ViewInject(R.id.etMinHr)
+    EditText etMinHr;
     @ViewInject(R.id.switch_open)
     Switch switchOpen;
 
@@ -68,6 +72,8 @@ public class SetHrWarnParaActivity extends BaseActivity {
         String startTime = etStartTime.getText().toString();
         String endTime = etEndTime.getText().toString();
         String weekTime = etWeekTime.getText().toString();
+        String maxHr = etMaxHr.getText().toString();
+        String minHr = etMinHr.getText().toString();
         if (startTime.isEmpty()) {
             Toast.makeText(this, "请输入开始时间", Toast.LENGTH_SHORT).show();
             return;
@@ -80,29 +86,22 @@ public class SetHrWarnParaActivity extends BaseActivity {
             Toast.makeText(this, "请输入提醒周期时间", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (maxHr.isEmpty()) {
+            Toast.makeText(this, "请输入最大心率预警", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (minHr.isEmpty()) {
+            Toast.makeText(this, "请输入最小心率预警", Toast.LENGTH_SHORT).show();
+            return;
+        }
         showProgress();
         HrWarnPara hrWarnPara = new HrWarnPara();
         hrWarnPara.setMainSwitch(switchOpen.isChecked());
-        hrWarnPara.setMaxHrWarn(150);
-        hrWarnPara.setMinHrWarn(50);
+        hrWarnPara.setMaxHrWarn(Integer.parseInt(maxHr));
+        hrWarnPara.setMinHrWarn(Integer.parseInt(minHr));
         hrWarnPara.setLimitTime(Integer.parseInt(weekTime));
         hrWarnPara.setStartTime(Integer.parseInt(startTime));
         hrWarnPara.setEndTime(Integer.parseInt(endTime));
-//        AnyWear.setHrWarnPara(hrWarnPara, new OnSmallDataCallback() {
-//            @Override
-//            public void OnError(String msg) {
-//                showToast(msg);
-//                dismissProgress();
-//            }
-//
-//            @Override
-//            public void OnEmptyResult() {
-//                addLog(R.string.FUNC_SET_HR_WARN_PARA, "设置成功");
-//                dismissProgress();
-//                showSuccessToast();
-//            }
-//        });
-
         FissionSdkBleManage.getInstance().setHrWarnPara(hrWarnPara);
     }
 
@@ -139,6 +138,9 @@ public class SetHrWarnParaActivity extends BaseActivity {
                 switchOpen.setChecked(hrWarnPara.isMainSwitch());
                 etStartTime.setText(String.valueOf(hrWarnPara.getStartTime()));
                 etEndTime.setText(String.valueOf(hrWarnPara.getEndTime()));
+                etMaxHr.setText(String.valueOf(hrWarnPara.getMaxHrWarn()));
+                etMinHr.setText(String.valueOf(hrWarnPara.getMinHrWarn()));
+                etWeekTime.setText(String.valueOf(hrWarnPara.getLimitTime()));
             }
 
             @Override

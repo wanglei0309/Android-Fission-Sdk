@@ -1,6 +1,7 @@
 package com.szfission.wear.demo.adapter;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.szfission.wear.demo.R;
@@ -17,9 +18,9 @@ public class ExercisesListAdapter extends BaseQuickAdapter<ExerciseReport, BaseV
 
     @Override
     protected void convert(@NotNull BaseViewHolder holder, ExerciseReport exerciseReport) {
-        holder.setText(R.id.curUtc,"数据生成时间："+ DateUtil.gmtToStrDate(exerciseReport.getUtcTime()));
-        holder.setText(R.id.tvStartTime,"开始时间："+ DateUtil.gmtToStrDate(exerciseReport.getBeginTime()));
-        holder.setText(R.id.tvEndTime,"结束时间："+ DateUtil.gmtToStrDate(exerciseReport.getEndTime()));
+        holder.setText(R.id.curUtc,"数据生成时间："+ TimeUtils.millis2String(exerciseReport.getUtcTime()* 1000L));
+        holder.setText(R.id.tvStartTime,"开始时间："+ TimeUtils.millis2String(exerciseReport.getBeginTime()* 1000L));
+        holder.setText(R.id.tvEndTime,"结束时间："+ TimeUtils.millis2String(exerciseReport.getEndTime()* 1000L));
         getSportMode(holder,exerciseReport.getModel());
         holder.setText(R.id.tvSportTime,"运动总时间："+ exerciseReport.getTotalTime() +"秒");
         holder.setText(R.id.tvSportStep,"运动总步数："+ exerciseReport.getTotalStep() +"步");

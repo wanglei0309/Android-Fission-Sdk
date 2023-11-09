@@ -37,6 +37,9 @@ public class NormalDialog extends Dialog {
                 case ModelConstant.FUNC_SET_UNIT:
                     array = new String[]{context.getString(R.string.imperial), context.getString(R.string.metric)};
                     break;
+                case ModelConstant.FUNC_SET_TEMPERATURE_UNIT:
+                    array = new String[]{context.getString(R.string.celsius), context.getString(R.string.fahrenheit)};
+                    break;
                 case ModelConstant.FUNC_SET_LANG:
                     array  = new String[]{context.getString(R.string.chinese), context.getString(R.string.english), context.getString(R.string.japanese), context.getString(R.string.french), context.getString(R.string.german), context.getString(R.string.spain), context.getString(R.string.italy), context.getString(R.string.portugal), context.getString(R.string.russian), context.getString(R.string.czech), context.getString(R.string.polish), context.getString(R.string.traditional_chinese), context.getString(R.string.arabic),
                             context.getString(R.string.turkish),context.getString(R.string.vietnamese), context.getString(R.string.korean), context.getString(R.string.hebrew), context.getString(R.string.thai), context.getString(R.string.indonesian), context.getString(R.string.dutch), context.getString(R.string.greek), context.getString(R.string.swedish), context.getString(R.string.romanian)};
@@ -82,6 +85,8 @@ public class NormalDialog extends Dialog {
                     setContent(context, context.getString(R.string.page_jump), "FF02");
                     break;
             }
+        }else if(dialogType == 3){
+            setContentSTO(context, context.getString(R.string.FUNC_SET_STO), "200");
         }
 
     }
@@ -119,6 +124,70 @@ public class NormalDialog extends Dialog {
                     Toast.makeText(context,context.getString(R.string.data_not_empty),Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+        dialog.show();
+    }
+
+    private void setContentSTO(Context context, String title,String editText) {
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_simple_input_sto, null);
+        Button btnConfirm = view.findViewById(R.id.btnConfirm);
+        Button btnCancel = view.findViewById(R.id.btnCancel);
+        Button btnAdd = view.findViewById(R.id.btnAdd);
+        Button btnCut = view.findViewById(R.id.btnCut);
+        EditText etContent = view.findViewById(R.id.etContent);
+        TextView tvTitle = view.findViewById(R.id.tvTitle);
+        tvTitle.setText(title);
+        etContent.setText(editText);
+        final AlertDialog dialog = new AlertDialog.Builder(context).setView(view).create();
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(etContent.getText().toString())) {
+                    onConfirmClickListener.confirm(etContent.getText().toString().trim());
+                }else {
+                    Toast.makeText(context,context.getString(R.string.data_not_empty),Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    int num = Integer.parseInt(etContent.getText().toString().trim());
+                    num = num + 10;
+                    if(num >1000){
+                        num =1000;
+                    }
+                    etContent.setText(String.valueOf(num));
+                    onConfirmClickListener.confirm(etContent.getText().toString().trim());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btnCut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    int num = Integer.parseInt(etContent.getText().toString().trim());
+                    num = num - 10;
+                    if(num <0){
+                        num =0;
+                    }
+                    etContent.setText(String.valueOf(num));
+                    onConfirmClickListener.confirm(etContent.getText().toString().trim());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
             }
         });
         dialog.show();

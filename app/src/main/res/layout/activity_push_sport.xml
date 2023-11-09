@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:keepScreenOn="true"
     android:orientation="vertical">
 
 
@@ -34,10 +35,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <LinearLayout
+        android:background="@drawable/shape_main"
+        android:padding="10dp"
+        android:layout_margin="20dp"
+        android:id="@+id/llChooseFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:text="文件路径:" />
+
+
+        <TextView
+            android:layout_marginEnd="@dimen/dp_10"
+            android:id="@+id/tvFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:singleLine="false"
+            android:text="选择文件>" />
+
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/pushSport"
         android:text="推送运动"
         android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/pushSport2"
+        android:text="反复推送运动（延时10s）"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

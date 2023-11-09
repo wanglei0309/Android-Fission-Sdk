@@ -236,6 +236,7 @@ public class CameraPhotoHelper {
         //设置Toolbar返回按钮图片
         uCrop.withOptions(options);
         uCrop.start(activity);
+
     }
 
 }

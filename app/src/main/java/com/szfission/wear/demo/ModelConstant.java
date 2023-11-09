@@ -54,6 +54,9 @@ public  class ModelConstant {
     public static final int FUNC_GET_CALL_AUDIO_SWITCH = 42;
     public static final int FUNC_SET_MEDIA_AUDIO_SWITCH = 43;
     public static final int FUNC_GET_MEDIA_AUDIO_SWITCH = 44;
+    public static final int FUNC_SET_TEMPERATURE_UNIT = 45;
+    public static final int FUNC_PUSH_CUSTOM_DIAL_NEW = 1509;
+    public static final int FUNC_SET_FUNC_SET_STO = 46;
 
 
     public static final int FUNC_GET_HARDWARE_INFO = 100;
@@ -95,9 +98,13 @@ public  class ModelConstant {
     public  static final int FUNC_SYN_PHONE_BOOK = 131;
     public  static final int FUNC_GET_FLASH_DATA = 132;
 
-
     public static final int FUNC_SHUTDOWN_STATE = 133;
     public  static final int FUNC_GET_HRPS_DETAIL = 134;
 
     public static final int FUNC_GET_BLOODPRESSURE_RECORD = 135;
+    public  static final int FUNC_GET_SPORT_LIST_INFO = 136;
+    public  static final int FUNC_GET_SYSTEM_FUNCTION_SWITCH = 137;
+    public static final int FUNC_GET_SYSTEM_INFO = 138;
+    public  static final int FUNC_SET_AGPS_LOCATION = 139;
+    public static final int FUNC_SET_AGPS_DATA = 140;
 }

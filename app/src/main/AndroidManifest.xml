@@ -84,6 +84,8 @@
         <activity android:name=".activity.OnlineDialPushActivity" />
         <activity android:name=".activity.PushQlzDataActivity" />
         <activity android:name=".activity.PushMoreSportsActivity" />
+        <activity android:name=".activity.PushAgpsLocationActivity" />
+        <activity android:name=".activity.PushAgpsDataActivity" />
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -104,6 +106,10 @@
         <activity android:name=".activity.CommunicatGpsActivity" />
         <activity android:name=".activity.WriteFlashDataActivity" />
         <activity android:name=".activity.GetFlashDataActivity" />
+        <activity android:name=".activity.NewCustomDialActivity" />
+
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
 
         <service android:name="com.realsil.sdk.dfu.DfuService"/>
 

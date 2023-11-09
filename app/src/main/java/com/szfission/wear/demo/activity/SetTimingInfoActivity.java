@@ -419,7 +419,7 @@ public class SetTimingInfoActivity extends BaseActivity {
 
     @Event(R.id.btn_add)
     private void add(View v) {
-        FissionAlarm alarmLw33 = new FissionAlarm(1,true,System.currentTimeMillis()+60000,weekResult, "开会这名字够长了吧，测试字符串截取功能。");
+        FissionAlarm alarmLw33 = new FissionAlarm(1,true,System.currentTimeMillis()+60000,weekResult, "");
         FissionSdkBleManage.getInstance().addFissionAlarm(alarmLw33, 10);
     }
 

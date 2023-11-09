@@ -26,6 +26,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"/>
 
+            <RadioGroup
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/radio1"
+                    android:text="HIhardfault参数"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:id="@+id/radio2"
+                    android:text="HI系统参数"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_progress"
+                android:text="@string/get_progress"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
             <Button
                 android:id="@+id/btn_get"
                 android:text="读取flash指定地址数据"

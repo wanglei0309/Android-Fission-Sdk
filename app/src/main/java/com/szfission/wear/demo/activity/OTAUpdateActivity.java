@@ -28,6 +28,7 @@ import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.FssStatus;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
+import com.realsil.sdk.dfu.DfuConstants;
 import com.realsil.sdk.dfu.model.DfuProgressInfo;
 import com.realsil.sdk.dfu.model.OtaDeviceInfo;
 import com.realsil.sdk.dfu.model.Throughput;
@@ -36,6 +37,7 @@ import com.szfission.wear.demo.DataMessageEvent;
 import com.szfission.wear.demo.ModelConstant;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.util.OtaUtils;
+import com.szfission.wear.sdk.util.RxTimerUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -63,10 +65,17 @@ public class OTAUpdateActivity extends BaseActivity {
     TextView tv_progress_value;
     @ViewInject(R.id.btn_send)
     Button btnUpload;
+    @ViewInject(R.id.btn_re_update)
+    Button btn_re_update;
     String filePath = "";
     int modelType;
 
     private boolean isMultipleFiles = false;
+
+    private boolean isReUpdate = false;
+    private long lastTimes =0;
+
+    private int otaCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,9 +152,22 @@ public class OTAUpdateActivity extends BaseActivity {
             @Override
             public void fssSuccess(FssStatus fssStatus) {
                 super.fssSuccess(fssStatus);
-                if(fssStatus.getFssStatus() == 23 && !isMultipleFiles){
-                    tvProgress.setProgress(fssStatus.getFssType());
-                    tv_tip.setText("正在发送文件 1/1");
+                if(fssStatus.getFssType() == 23 && !isMultipleFiles){
+                    tvProgress.setProgress(fssStatus.getFssStatus());
+                    tv_progress_value.setText("当前OTA总进度："+fssStatus.getFssStatus()+"%");
+                    tv_tip.setText("正在发送文件 1/1,当前升级成功次数："+otaCount);
+                }
+            }
+        });
+
+        btn_re_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isReUpdate = true;
+                if (filePath.equals("")){
+                    ToastUtils.showShort("还未选择bin文件");
+                }else {
+                    sendOtaCmd();
                 }
             }
         });
@@ -209,48 +231,67 @@ public class OTAUpdateActivity extends BaseActivity {
       }else {
 //          OtaUtils.startDfu(this,filePath,true);
 //          OtaUtils.startDfu(this, filePath, FissionConstant.OTA_TYPE_FIRMWARE);
-          FissionSdkBleManage.getInstance().startDfu(this, filePath, FissionConstant.OTA_TYPE_FIRMWARE, new DfuAdapter.DfuHelperCallback() {
-              @Override
-              public void onStateChanged(int i) {
-                  super.onStateChanged(i);
-              }
-
-              @Override
-              public void onTargetInfoChanged(OtaDeviceInfo otaDeviceInfo) {
-                  super.onTargetInfoChanged(otaDeviceInfo);
-              }
-
-              @Override
-              public void onError(int i, int i1) {
-                  super.onError(i, i1);
-              }
-
-              @Override
-              public void onProcessStateChanged(int i, Throughput throughput) {
-                  super.onProcessStateChanged(i, throughput);
-              }
-
-              @Override
-              public void onProgressChanged(DfuProgressInfo dfuProgressInfo) {
-                  super.onProgressChanged(dfuProgressInfo);
-                  if(dfuProgressInfo.getMaxFileCount() > 1 ){
-                      isMultipleFiles = true;
-                      // 使用原厂进度
-                      String text = "正在发送文件 "+ Math.min(
-                              dfuProgressInfo.getCurrentFileIndex() + 1,
-                              dfuProgressInfo.getMaxFileCount()
-                      )+"/"+
-                              dfuProgressInfo.getMaxFileCount();
-                      int progress = dfuProgressInfo.getTotalProgress();
-                      tvProgress.setProgress(progress);
-                      tv_progress_value.setText("当前OTA总进度："+progress+"%, 单个文件进度："+dfuProgressInfo.getProgress()+"%");
-                      tv_tip.setText(text);
-                  }else{
-                      isMultipleFiles = false;
-                  }
-              }
-          });
+          sendOtaCmd();
       }
+    }
+
+    private void sendOtaCmd(){
+        FissionSdkBleManage.getInstance().startDfu(this, filePath, FissionConstant.OTA_TYPE_FIRMWARE, new DfuAdapter.DfuHelperCallback() {
+            @Override
+            public void onStateChanged(int i) {
+                super.onStateChanged(i);
+            }
+
+            @Override
+            public void onTargetInfoChanged(OtaDeviceInfo otaDeviceInfo) {
+                super.onTargetInfoChanged(otaDeviceInfo);
+            }
+
+            @Override
+            public void onError(int i, int i1) {
+                super.onError(i, i1);
+                if (i == DfuConstants.PROGRESS_IMAGE_ACTIVE_SUCCESS && isReUpdate) {
+                    LogUtils.d("wl", "升级失败，40s后开始重复升级");
+                    RxTimerUtil rxTimerUtil = new RxTimerUtil();
+                    rxTimerUtil.timer(40000, number -> {
+                        sendOtaCmd();
+                    });
+                }
+            }
+
+            @Override
+            public void onProcessStateChanged(int i, Throughput throughput) {
+                super.onProcessStateChanged(i, throughput);
+                if (i == DfuConstants.PROGRESS_IMAGE_ACTIVE_SUCCESS && isReUpdate) {
+                    otaCount++;
+                    LogUtils.d("wl", "升级成功，40s后开始重复升级");
+                    RxTimerUtil rxTimerUtil = new RxTimerUtil();
+                    rxTimerUtil.timer(40000, number -> {
+                        sendOtaCmd();
+                    });
+                }
+            }
+
+            @Override
+            public void onProgressChanged(DfuProgressInfo dfuProgressInfo) {
+                super.onProgressChanged(dfuProgressInfo);
+                if(dfuProgressInfo.getMaxFileCount() > 1 ){
+                    isMultipleFiles = true;
+                    // 使用原厂进度
+                    String text = "正在发送文件 "+ Math.min(
+                            dfuProgressInfo.getCurrentFileIndex() + 1,
+                            dfuProgressInfo.getMaxFileCount()
+                    )+"/"+
+                            dfuProgressInfo.getMaxFileCount()+",当前升级成功次数："+otaCount;
+                    int progress = dfuProgressInfo.getTotalProgress();
+                    tvProgress.setProgress(progress);
+                    tv_progress_value.setText("当前OTA总进度："+progress+"%, 单个文件进度："+dfuProgressInfo.getProgress()+"%");
+                    tv_tip.setText(text);
+                }else{
+                    isMultipleFiles = false;
+                }
+            }
+        });
     }
 
     @Override
@@ -327,4 +368,9 @@ public class OTAUpdateActivity extends BaseActivity {
 //        }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isReUpdate = false;
+    }
 }

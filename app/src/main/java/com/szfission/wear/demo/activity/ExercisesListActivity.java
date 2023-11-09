@@ -172,6 +172,8 @@ public class ExercisesListActivity extends BaseActivity {
                 content.append("\n 心率:").append(exerciseDetailRecord.getHeartRate());
                 content.append("\n 实时体力:").append(exerciseDetailRecord.getStamina());
                 content.append("\n 状态:").append(exerciseDetailRecord.getState());
+                content.append("\n 每公里配速:").append(exerciseDetailRecord.getKmPace());
+                content.append("\n 每英里配速:").append(exerciseDetailRecord.getMiPace());
                 content.append("\n-------------------------------\n\n");
             }
             EventBus.getDefault().post(new DataMessageEvent(R.string.FUNC_GET_EXERCISE_DETAIL,content.toString()));

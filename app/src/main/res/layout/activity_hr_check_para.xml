@@ -66,6 +66,17 @@
         android:text="心率检测结束时间" />
 
 
+    <TextView
+        android:id="@+id/tv_b5"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b4"
+        android:text="最大心率" />
+
+    <TextView
+        android:id="@+id/tv_b6"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/tv_b5"
+        android:text="最小心率" />
 
 
     <EditText
@@ -89,11 +100,31 @@
         android:inputType="number"
         android:maxLength="4" />
 
+    <EditText
+        android:id="@+id/etMaxHr"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b5"
+        android:layout_alignStart="@id/etWeekTime"
+        android:inputType="number"
+        android:maxLength="3" />
+
+    <EditText
+        android:id="@+id/etMinHr"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b6"
+        android:layout_alignStart="@id/etWeekTime"
+        android:inputType="number"
+        android:maxLength="3" />
+
     <Button
         android:id="@+id/btn_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etEndTime"
+        android:layout_below="@+id/etMinHr"
         android:layout_marginTop="50dp"
         android:text="@string/set"
         android:textAllCaps="false"

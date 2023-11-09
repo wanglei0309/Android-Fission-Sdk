@@ -189,7 +189,23 @@
     <string name="save">保存</string>
     <string name="women_health_data">查询女性健康数据</string>
     <string name="synchronization">一键同步数据（模拟app同步数据操作，定位指令超时问题）</string>
-    <string name="push_more_sport_tip">需要打包推送的运动文件请放在SD卡下的 %1$s 目录下</string>
+    <string name="push_more_sport_tip">需要打包推送的运动文件请放在SD卡下的 %1$s 目录下， 内置运动文件请放在 %2$s 目录下。</string>
     <string name="pack">打包</string>
     <string name="push_progress">推送进度：</string>
+    <string name="get_progress">读取进度：</string>
+
+    <string name="FUNC_SET_TEMPERATURE_UNIT">设置温度单位</string>
+    <string name="celsius">摄氏度</string>
+    <string name="fahrenheit">华氏度</string>
+
+    <string name="FUNC_GET_SPORT_LIST_INFO">获取设备当前支持运动列表信息</string>
+    <string name="FUNC_GET_SYSTEM_FUNCTION_SWITCH">获取设备系统功能开关</string>
+    <string name="FUNC_PUSH_CUSTOM_DIAL_NEW">自定义表盘推送(新版本)</string>
+
+    <string name="new_custom_dial_directory">自定义表盘打包文件请放在SD卡下的 %1$s 目录下。</string>
+    <string name="FUNC_GET_SYSTEM_INFO">获取当前系统动态信息</string>
+    <string name="FUNC_SET_STO">设置撕裂补偿</string>
+    <string name="FUNC_SET_AGPS_LOCATION">推送AGPS基础定位信息</string>
+    <string name="FUNC_SET_AGPS_DATA">推送AGPS辅助定位数据到设备</string>
+
 </resources>

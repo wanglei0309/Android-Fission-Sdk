@@ -156,7 +156,7 @@ List<WeatherParam> weatherParams = new ArrayList<>();
     private void setData() {
         todayWeatherDetails.clear();
         weatherAdapter.getData().clear();
-        for (int i = 0;i<8;i++){
+        for (int i = 0;i<9;i++){
             WeatherParam detail = new WeatherParam();
             detail.setLowestTemperature(getRandom(-30,20));
             detail.setMaximumTemperature(getRandom(-10,40));

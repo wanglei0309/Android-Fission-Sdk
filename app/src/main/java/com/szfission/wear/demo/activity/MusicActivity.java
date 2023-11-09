@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBar;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.bean.MusicConfig;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.sdk.AnyWear;
@@ -144,29 +145,19 @@ public class MusicActivity extends BaseActivity {
         fissionMusicInfo.setPlayAppName(playAppName);
         fissionMusicInfo.setMusicTotalTime(Integer.parseInt(time));
         FissionSdkBleManage.getInstance().sendMusicInfo(fissionMusicInfo);
-//        AnyWear.sendMusicInfo(fissionMusicInfo, new OnSmallDataCallback() {
-//            @Override
-//            public void OnEmptyResult() {
-//
-//            }
-//
-//            @Override
-//            public void OnError(String msg) {
-//
-//            }
-//        });
-//        AnyWear.struMusicCont(new OnEmptyResultCallback() {
-//            @Override
-//            public void success() {
-//                dismissProgress();
-//                showSuccessToast();
-//            }
-//
-//            @Override
-//            public void failed(String msg) {
-//                showToast(msg);
-//                dismissProgress();
-//            }
-//        }, name, singer, Integer.parseInt(time), title, playAppName);
+//        for(int i=0; i<500; i++){
+//            fissionMusicInfo.setMusicName(name+i);
+//            FissionSdkBleManage.getInstance().sendMusicInfo(fissionMusicInfo);
+//            MusicConfig musicConfig = new MusicConfig();
+//            musicConfig.setState(i%2==0 ? MusicConfig.MUSIC_PLAYING : MusicConfig.MUSIC_PAUSE);
+//            musicConfig.setDuration(1000);
+//            musicConfig.setProgress(i);
+//            musicConfig.setMaxVolume(10);
+//            musicConfig.setCurrentVolume(5);
+//            FissionSdkBleManage.getInstance().setMusicControl(musicConfig);
+//            FissionSdkBleManage.getInstance().setMusicVolume(musicConfig);
+//            FissionSdkBleManage.getInstance().setMusicProgress(musicConfig);
+//        }
+
     }
 }

@@ -77,8 +77,11 @@
     </string-array>
 
     <string-array name="sport">
-        <item>户外跑步</item>
-        <item>马拉松</item>
-        <item>皮筏艇</item>
+        <item>划船机</item>
+        <item>腰腹训练</item>
+        <item>引体向上</item>
+        <item>俯卧撑</item>
+        <item>107</item>
+        <item>125</item>
     </string-array>
 </resources>

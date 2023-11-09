@@ -1,6 +1,9 @@
 package com.szfission.wear.demo.activity;
 
+import static com.szfission.wear.demo.ModelConstant.*;
+
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +18,10 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,13 +40,15 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.DeviceBattery;
 import com.fission.wear.sdk.v2.bean.DeviceVersion;
+import com.fission.wear.sdk.v2.bean.FssStatus;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
+import com.fission.wear.sdk.v2.bean.SportListInfo;
 import com.fission.wear.sdk.v2.bean.StreamData;
+import com.fission.wear.sdk.v2.bean.SystemFunctionSwitch;
 import com.fission.wear.sdk.v2.callback.BaseCmdResultListener;
 import com.fission.wear.sdk.v2.callback.BleConnectListener;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
@@ -50,6 +57,7 @@ import com.fission.wear.sdk.v2.callback.FissionFmDataResultListener;
 import com.fission.wear.sdk.v2.callback.FissionRawDataResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.constant.SpKey;
+import com.fission.wear.sdk.v2.parse.BigDataParseManage;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.polidea.rxandroidble2.RxBleConnection;
@@ -100,8 +108,10 @@ import com.szfission.wear.sdk.ifs.OnBleResultCallback;
 import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
 import com.szfission.wear.sdk.ifs.OnStreamListener;
 import com.szfission.wear.sdk.ifs.ReceiveMsgListener;
+import com.szfission.wear.sdk.service.BigDataTaskUtil;
 import com.szfission.wear.sdk.util.DateUtil;
 import com.szfission.wear.sdk.util.FsLogUtil;
+import com.szfission.wear.sdk.util.StringUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -118,99 +128,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.TimeZone;
-
-import static com.szfission.wear.demo.ModelConstant.FUNC_CAMERA_MODEL;
-import static com.szfission.wear.demo.ModelConstant.FUNC_CLEAR_SPORT;
-import static com.szfission.wear.demo.ModelConstant.FUNC_CLEAR_USER_INFO;
-import static com.szfission.wear.demo.ModelConstant.FUNC_COMPRESS_CMD;
-import static com.szfission.wear.demo.ModelConstant.FUNC_FIND_DEVICE;
-import static com.szfission.wear.demo.ModelConstant.FUNC_FLASH_WRITE_CMD;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_APPS_MESS;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BATTERY;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BLOODPRESSURE_RECORD;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_MENTALSTRESS_RECORD;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_BURIED_DATA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_CALL_AUDIO_SWITCH;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_CUR_SLEEP_RECORD;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_DAYS_REPORT;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_DETAIL;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_GPS;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_LIST;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXERCISE_REPORT;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_EXER_GPS_DETAIL;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_FLASH_DATA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_GPV;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HAND_MEASURE_INFO;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HARDWARE_INFO;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HEARTED_RECORD;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HOURS_REPORT;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_HRPS_DETAIL;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_MEASURE_INFO;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_MEDIA_AUDIO_SWITCH;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_PERSONAL_INFO;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_RESTING_HR;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SEDENTARY_DRINK_PARA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SEDENTARY_PARA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SLEEP_RECORD;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SLEEP_REPORT;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_SPO2_RECORD;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_STEPS_RECORD;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_TIME;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_TIMEZONE;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_UI_VERSION;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GET_VERSION;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GIVE_UP_FIND_DEVICE;
-import static com.szfission.wear.demo.ModelConstant.FUNC_GPS_SPORT_CMD;
-import static com.szfission.wear.demo.ModelConstant.FUNC_LOCATION_INFORMATION;
-import static com.szfission.wear.demo.ModelConstant.FUNC_MUSIC_CONTROL;
-import static com.szfission.wear.demo.ModelConstant.FUNC_MUSIC_PROGRESS;
-import static com.szfission.wear.demo.ModelConstant.FUNC_MUSIC_VOLUME;
-import static com.szfission.wear.demo.ModelConstant.FUNC_ONLINE_DIAL_PUSH;
-import static com.szfission.wear.demo.ModelConstant.FUNC_OTA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_PAGE_SKIP;
-import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_DIAL;
-import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_CUSTOM_SPORT;
-import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_MORE_SPORT;
-import static com.szfission.wear.demo.ModelConstant.FUNC_PUSH_QLZ_DATA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_QUICK_REPLY_INFO;
-import static com.szfission.wear.demo.ModelConstant.FUNC_REBOOT_DEVICE;
-import static com.szfission.wear.demo.ModelConstant.FUNC_RESET;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SAFETY_CONFIRM;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SELF_INSPECTION_MODE;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_BLOOD_OXYGEN_SWITCH;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_CALL_AUDIO_SWITCH;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DATA_STREAM2;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DONT_DISTURB_PARA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_DRINK_WATER_PARA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_FEMALE_PHYSIOLOGY;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HEART_RATE_SWITCH;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HIGH_SPEED_CONNECT;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HRLEV_ALGO_PARA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HR_CHECK_PARA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_HR_WARN_PARA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_LANG;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_LIFTWRIST_PARA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_MEDIA_AUDIO_SWITCH;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_MENTAL_STRESS_SWITCH;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_MESSAGE_TYPE_PARA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_PROMPT;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TARGET_SET;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TIME;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TIMEZONE;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TIME_MODE;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_TIMING_INFO;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_UNIT;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SET_WRIST_BRIGHT_SCREEN;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SHUTDOWN;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SHUTDOWN_STATE;
-import static com.szfission.wear.demo.ModelConstant.FUNC_STRU_CALL_DATA;
-import static com.szfission.wear.demo.ModelConstant.FUNC_STRU_MUSIC_CONT;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SWITCH_HR_RATE;
-import static com.szfission.wear.demo.ModelConstant.FUNC_SYN_PHONE_BOOK;
-import static com.szfission.wear.demo.ModelConstant.FUNC_VIBRATION;
-import static com.szfission.wear.demo.ModelConstant.FUNC_WEATHER;
-import static com.szfission.wear.demo.ModelConstant.FUNC_WEATHER_DETAIL;
 
 
 @ContentView(R.layout.activity_home)
@@ -386,6 +303,34 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             super.setUnit(unit);
             showLog(R.string.FUNC_SET_UNIT,unit == 0? getString(R.string.imperial) : getString(R.string.metric) );
         }
+
+        @Override
+        public void setTemType() {
+            super.setTemType();
+            showLog(R.string.FUNC_SET_TEMPERATURE_UNIT,  "成功");
+        }
+
+        @Override
+        public void isBindNewDevice(boolean isNewDevice) {
+            super.isBindNewDevice(isNewDevice);
+            if(isNewDevice){
+                showTipDialog();
+            }
+        }
+
+        @Override
+        public void setSTO(String sto) {
+            super.setSTO(sto);
+            showLog(R.string.FUNC_SET_STO,  sto+"/成功");
+        }
+
+        @Override
+        public void fssSuccess(FssStatus fssStatus) {
+            super.fssSuccess(fssStatus);
+            if(fssStatus.getFssType() == 35){
+                FissionSdkBleManage.getInstance().setAgpsLocation(114.027901, 22.619909);
+            }
+        }
     };
 
     private BaseCmdResultListener mBigDataCmdListener = new FissionBigDataCmdResultListener() {
@@ -472,6 +417,44 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         public void getHeartRateRecord(List<HeartRateRecord> heartRateRecords) {
             super.getHeartRateRecord(heartRateRecords);
 //            logList.clear();
+            LogUtils.d("wl", "getHeartRateRecord:"+heartRateRecords);
+//            if(heartRateRecords!=null){
+//                // 获取当前日期
+//                Date currentDate = new Date();
+//
+//                // 创建 Calendar 实例并设置为当前日期
+//                Calendar calendar = Calendar.getInstance();
+//                calendar.setTime(currentDate);
+//
+//                // 设置时间为0点0分0秒
+//                calendar.set(Calendar.HOUR_OF_DAY, 0);
+//                calendar.set(Calendar.MINUTE, 0);
+//                calendar.set(Calendar.SECOND, 0);
+//                calendar.set(Calendar.MILLISECOND, 0);
+//
+//                // 获取当前日期0点的时间戳（毫秒）
+//                long times = calendar.getTime().getTime()/1000;
+//
+//                int[] data = new int[144];
+//                // 遍历时间戳集合，将数据填充到数组
+//                for(HeartRateRecord heartRateRecord: heartRateRecords){
+//                    for (int i = 0; i < heartRateRecord.getHrListTime().size(); i++) {
+//                        long timestamp = heartRateRecord.getHrListTime().get(i);
+//                        if(timestamp < times){
+//                            continue;
+//                        }
+//                        int value = heartRateRecord.getHrList().get(i);
+//
+//                        // 计算时间戳对应的索引（每10分钟一个点）
+//                        int index = (int) ((timestamp - times) / 600);
+//
+//                        // 将数据填充到数组中的对应索引位置
+//                        data[index] = value;
+//                    }
+//                }
+//                logList.add(Arrays.toString(data));
+//            }
+
             logList.add(heartRateRecords!=null ?heartRateRecords.toString() :"null");
             logAdapter.notifyDataSetChanged();
         }
@@ -480,6 +463,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         public void getStepsRecord(List<StepsRecord> stepsRecords) {
             super.getStepsRecord(stepsRecords);
 //            logList.clear();
+            LogUtils.d("wl", "getStepsRecord:"+stepsRecords);
             logList.add(stepsRecords!=null ?stepsRecords.toString() :"null");
             logAdapter.notifyDataSetChanged();
         }
@@ -543,6 +527,27 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         public void getFlashData(String filepath) {
             super.getFlashData(filepath);
             logList.add(filepath);
+            logAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void getSportListInfo(SportListInfo sportListInfo) {
+            super.getSportListInfo(sportListInfo);
+            logList.add(sportListInfo.toString());
+            logAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void getSystemFunctionSwitch(SystemFunctionSwitch systemFunctionSwitch) {
+            super.getSystemFunctionSwitch(systemFunctionSwitch);
+            logList.add(systemFunctionSwitch.toString());
+            logAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void getSystemInfo(byte[] data) {
+            super.getSystemInfo(data);
+            logList.add(StringUtil.bytesToHexStr(data));
             logAdapter.notifyDataSetChanged();
         }
     };
@@ -740,11 +745,19 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     case FUNC_SET_TIMEZONE:
                         showEditDialog(FUNC_SET_TIMEZONE);
                         break;
+
+                    case FUNC_SET_FUNC_SET_STO:
+                        showEditDialogSTO();
+                        break;
+
                     case FUNC_SET_TIME_MODE:
                         showCheckModelDialog(FUNC_SET_TIME_MODE);
                         break;
                     case FUNC_SET_UNIT:
                         showCheckModelDialog(FUNC_SET_UNIT);
+                        break;
+                    case FUNC_SET_TEMPERATURE_UNIT:
+                        showCheckModelDialog(FUNC_SET_TEMPERATURE_UNIT);
                         break;
                     case FUNC_SET_LANG:
                         showCheckModelDialog(FUNC_SET_LANG);
@@ -878,6 +891,9 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     case FUNC_PUSH_CUSTOM_DIAL:
                         startActivity(new Intent(context, CustomDialActivity.class));
                         break;
+                    case FUNC_PUSH_CUSTOM_DIAL_NEW:
+                        ToastUtils.showLong("暂不支持！");
+                        break;
                     case FUNC_PUSH_CUSTOM_SPORT:
                         startActivity(new Intent(context, PushSportModeActivity.class));
                         break;
@@ -995,6 +1011,12 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 //                        FissionSdk.getInstance().getHardWareInfo();
                         FissionSdkBleManage.getInstance().getHardwareInfo();
                         break;
+
+                    case FUNC_GET_SYSTEM_INFO:
+                        //获取当前系统动态信息
+                        FissionSdkBleManage.getInstance().getSystemInfo();
+                        break;
+
                     case FUNC_GET_MEASURE_INFO:
 //                        FissionSdk.getInstance().getMeasureInfo();
                         FissionSdkBleManage.getInstance().getMeasureInfo();
@@ -1003,6 +1025,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         //获取每日活动统计
 //                        FissionSdk.getInstance().getDaysReport(startTime,endTime);
                         FissionSdkBleManage.getInstance().getDaysReport(startTime,endTime);
+                        break;
                     case FUNC_GET_HOURS_REPORT:
                         //获取整点活动统计方法
 //                        FissionSdk.getInstance().getHoursReport(startTime, endTime);
@@ -1254,6 +1277,22 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                             }
                         });
                         break;
+
+                    case FUNC_GET_SPORT_LIST_INFO:
+                        FissionSdkBleManage.getInstance().getSportListInfo();
+                        break;
+
+                    case FUNC_GET_SYSTEM_FUNCTION_SWITCH:
+                        FissionSdkBleManage.getInstance().getSystemFunctionSwitch();
+                        break;
+
+                    case FUNC_SET_AGPS_LOCATION:
+                        startActivity(new Intent(context, PushAgpsLocationActivity.class));
+                        break;
+
+                    case FUNC_SET_AGPS_DATA:
+                        startActivity(new Intent(context, PushAgpsDataActivity.class));
+                        break;
                 }
                 return true;
             }
@@ -1325,6 +1364,11 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 //                        });
                         FissionSdkBleManage.getInstance().setUnit(value);
                         break;
+
+                    case FUNC_SET_TEMPERATURE_UNIT:
+                        FissionSdkBleManage.getInstance().setTemType(value == 0);
+                        break;
+
                     case FUNC_VIBRATION:
 //                        AnyWear.switchVibration(value == 1,new OnSmallDataCallback(){
 //                            @Override
@@ -1417,6 +1461,13 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         });
     }
 
+    private void showEditDialogSTO() {
+        NormalDialog normalDialog = new NormalDialog(MainActivity.this,3,FUNC_SET_FUNC_SET_STO);
+        normalDialog.setOnConfirmClickListener(content -> {
+            FissionSdkBleManage.getInstance().setSTO(Integer.parseInt(content));
+        });
+    }
+
     private void showEditDialog(int funcType) {
         NormalDialog normalDialog = new NormalDialog(MainActivity.this,1,funcType);
         normalDialog.setOnConfirmClickListener(content -> {
@@ -1479,7 +1530,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     showLog(R.string.device_connecting,deviceName);
                     connectSuccessfully = true;
                     tvActionConnect.setText(R.string.disconnect);
-                    if(!TextUtils.isEmpty(deviceName) && (deviceName.contains("LW71") || deviceName.contains("LW76") || deviceName.contains("LW82") || deviceName.contains("LW83") || deviceName.contains("LW77")  || deviceName.contains("FT")  || deviceName.contains("RONIN") )){
+                    if(!TextUtils.isEmpty(deviceName) && (deviceName.contains("LW71") || deviceName.contains("LW76") || deviceName.contains("LW82") || deviceName.contains("LW83") || deviceName.contains("LW77")  || deviceName.contains("FT")  || deviceName.contains("RONIN") || deviceName.contains("Amazfit Pop") || deviceName.contains("Titan_90188")  || deviceName.contains("LA")  || deviceName.contains("TSW1")  || deviceName.contains("BUFF") || deviceName.contains("FireBoltt") || deviceName.contains("XINJI") || deviceName.contains("AGPTEK") || deviceName.contains("PARSONVER") || deviceName.contains("LW") )){
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, true);
                     }else{
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, false);
@@ -1514,6 +1565,11 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             }
 
             @Override
+            public void isBindNewDevice() {
+
+            }
+
+            @Override
             public void onBinding() {
                 LogUtils.d("wl", "---onBinding--");
             }
@@ -1538,6 +1594,11 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 
             @Override
             public void onConnectionFailure(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onServiceDisconnected() {
 
             }
         });
@@ -1572,9 +1633,12 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
     }
 
     private void dataSynchronization(){
+        // 获取硬件设备信息
         FissionSdkBleManage.getInstance().getHardwareInfo();
+        // 设置心率过高提醒 110 = 报警心率值
         FissionSdkBleManage.getInstance().setHeartRateHighTips(1,110);
 
+        // 定时检测心率参数
         HrDetectPara hrDetectPara = new HrDetectPara();
         hrDetectPara.setOpen(true);
         hrDetectPara.setStartTime(0);
@@ -1582,6 +1646,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         hrDetectPara.setWeek(0);
         FissionSdkBleManage.getInstance().setHrDetectPara(hrDetectPara);
 
+        // 设置久坐提醒参数
         SedentaryBean sedentaryBean = new SedentaryBean();
         sedentaryBean.setEnable(false);
         sedentaryBean.setStartTime(0);
@@ -1590,6 +1655,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         sedentaryBean.setTargetStep(50);
         FissionSdkBleManage.getInstance().setSedentaryPara(sedentaryBean);
 
+        //设置喝水提醒参数
         DkWaterRemind dkWaterRemind = new DkWaterRemind();
         dkWaterRemind.setStartTime(0);
         dkWaterRemind.setEndTime(1440);
@@ -1597,18 +1663,21 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         dkWaterRemind.setRemindWeek(0);
         FissionSdkBleManage.getInstance().setDrinkWaterPara(dkWaterRemind);
 
+        // 设置勿扰模式参数
         DndRemind dndRemind = new DndRemind();
         dndRemind.setStartTime(0);
         dndRemind.setEndTime(1440);
         dndRemind.setEnable(false);
         FissionSdkBleManage.getInstance().setDndPara(dndRemind);
 
+        //设置抬腕亮屏参数
         LiftWristPara liftWristPara = new LiftWristPara();
         liftWristPara.setStartTime(0);
         liftWristPara.setEnable(true);
         liftWristPara.setEndTime(1440);
         FissionSdkBleManage.getInstance().setLiftWristPara(liftWristPara);
 
+        //设置用户信息
         UserInfo userInfo = new UserInfo();
         userInfo.setUserId(101);
         userInfo.setNickname("wanglei");
@@ -1620,10 +1689,14 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         userInfo.setStride(50);
         FissionSdkBleManage.getInstance().setUserInfo(userInfo);
 
+        // 设置温度单位 true=摄氏度 false=华氏度
         FissionSdkBleManage.getInstance().setTemType(true);
+        // 设置时间格式 true = 24小时  false = 12小时
         FissionSdkBleManage.getInstance().setTimeFormat(true);
+        // 设置单位 1 = 公制，  0 = 英制
         FissionSdkBleManage.getInstance().setUnit(1);
 
+        //设置运动目标
         SportsTargetPara sportsTargetPara = new SportsTargetPara();
         sportsTargetPara.setStep(true);
         sportsTargetPara.setCalorie(true);
@@ -1635,14 +1708,23 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         sportsTargetPara.setTargetExTime(60);
         FissionSdkBleManage.getInstance().setTargetSet(sportsTargetPara);
 
+        // 获取当天的活动测量数据
         FissionSdkBleManage.getInstance().getMeasureInfo();
+        // 获取历史步数记录
         FissionSdkBleManage.getInstance().getStepsRecord(startTime,endTime);
+        // 获取运动报告
         FissionSdkBleManage.getInstance().getExerciseReport(startTime, endTime);
+        // 获取运动详情
         FissionSdkBleManage.getInstance().getExerciseDetail(startTime, endTime);
+        // 获取自动测量心率历史记录
         FissionSdkBleManage.getInstance().getHeartRateRecord(startTime,endTime);
+        // 获取历史睡眠记录
         FissionSdkBleManage.getInstance().getSleepRecord(startTime, endTime);
+        // 获取当前睡眠数据， 用户绘制当天睡眠的图表
         FissionSdkBleManage.getInstance().getCurSleepRecord();
+        // 获取血氧历史记录
         FissionSdkBleManage.getInstance().getSpo2Record(startTime,endTime);
+        // 获取手动测量数据， 当固件版本支持压力时， 需要使用getNewHandMeasureInfo。
         FissionSdkBleManage.getInstance().getHandMeasureInfo(startTime,endTime);
     }
 
@@ -1720,11 +1802,9 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                 activityResultLauncher.launch(new Intent(this, DeviceScanActivity.class));
             }
         } else if (id == R.id.tvLog) {
+//            FissionCustomDialUtil.color24BitTo16Bit(getResources().getColor(R.color.public_custom_dial_72f4ef));
             startActivity(new Intent(this, LogActivity.class));
-//            Intent intent = new Intent(BleComService.START_CHECK_BLE_CONNECT_ACTION);
-//            intent.setPackage(getPackageName());
-//            startService(intent);
-
+//            test();
         } else if (id == R.id.btnStartTime) {
             timeType = 1;
             getTimeSelect(context, 1);
@@ -1734,9 +1814,6 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         } else if (id == R.id.tvClear) {
             logList.clear();
             logAdapter.notifyDataSetChanged();
-//            Intent intent = new Intent(BleComService.STOP_CHECK_BLE_CONNECT_ACTION);
-//            intent.setPackage(getPackageName());
-//            startService(intent);
         }
     }
 
@@ -1753,7 +1830,15 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AnyWear.disConnect();
+        if(mAtCmdListener!=null){
+            FissionSdkBleManage.getInstance().removeCmdResultListener(mAtCmdListener);
+        }
+        if(mBigDataCmdListener!=null){
+            FissionSdkBleManage.getInstance().removeCmdResultListener(mBigDataCmdListener);
+        }
+        if(mRawDataListener!=null){
+            FissionSdkBleManage.getInstance().removeCmdResultListener(mRawDataListener);
+        }
     }
 
     public void addLog(int type, String result) {
@@ -2081,4 +2166,42 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         return super.onKeyDown(keyCode, event);
     }
 
+    private void test(){
+        BigDataTaskUtil.endTime = System.currentTimeMillis()/1000;
+        byte [] data = StringUtil.hexToByteArray("00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00".replace(" ", ""));
+        BigDataParseManage.getInstance().parseStepsRecord(data);
+    }
+
+
+    private void showTipDialog(){
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_simple_input, null);
+        Button btnConfirm = view.findViewById(R.id.btnConfirm);
+        Button btnCancel = view.findViewById(R.id.btnCancel);
+        EditText etContent = view.findViewById(R.id.etContent);
+        TextView tvTitle = view.findViewById(R.id.tvTitle);
+        tvTitle.setText("连接新设备");
+        btnConfirm.setText("重新绑定");
+        btnCancel.setText("取消绑定");
+        final AlertDialog dialog = new AlertDialog.Builder(context).setView(view).create();
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                FissionSdkBleManage.getInstance().disconnectBleDevice();
+            }
+        });
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                long time = System.currentTimeMillis();
+                int lastTime = (int) (time % 10000);
+                int bindKey = AnyWear.bindDevice((int) (lastTime), deviceAddress);
+                SharedPreferencesUtil.getInstance().setFissionKey(lastTime + "," + bindKey);
+                FissionSdkBleManage.getInstance().bindNewDevice(SharedPreferencesUtil.getInstance().getFissionKey());
+            }
+        });
+        dialog.show();
+    }
 }
