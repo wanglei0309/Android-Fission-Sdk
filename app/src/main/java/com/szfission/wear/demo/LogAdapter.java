@@ -47,6 +47,7 @@ public class LogAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_log, parent, false);
             x.view().inject(holder, convertView);
             convertView.setTag(holder);
+            holder.tvContent = convertView.findViewById(R.id.tv_content);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
@@ -55,7 +56,6 @@ public class LogAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        @ViewInject(R.id.tv_content)
         TextView tvContent;
 
     }

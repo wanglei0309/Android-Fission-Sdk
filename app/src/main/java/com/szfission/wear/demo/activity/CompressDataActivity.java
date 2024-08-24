@@ -41,29 +41,30 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 
-@ContentView(R.layout.activity_compress)
 public class CompressDataActivity extends BaseActivity {
 
-    @ViewInject(R.id.llChooseFile)
     LinearLayout llChooseFile;
-    @ViewInject(R.id.tvFile)
     TextView tvFile;
-    @ViewInject(R.id.tvProgress)
     ProgressBar tvProgress;
-    @ViewInject(R.id.btn_send)
     Button btn_send;
     String filePath = "";
-    @ViewInject(R.id.btn_compress)
     Button btn_compress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_compress);
         setTitle(R.string.FUNC_COMPRESS_CMD);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         String path = getPath();
+
+        llChooseFile = findViewById(R.id.llChooseFile);
+        tvFile = findViewById(R.id.tvFile);
+        tvProgress = findViewById(R.id.tvProgress);
+        btn_send = findViewById(R.id.btn_send);
+        btn_compress = findViewById(R.id.btn_compress);
 
         File dir = new File(path);
         LogUtils.d("获取路径",dir.getAbsolutePath());

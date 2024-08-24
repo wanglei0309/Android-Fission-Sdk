@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.szfission.wear.demo.R;
@@ -18,29 +20,42 @@ import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.bean.AppMessageBean;
 import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
 import com.szfission.wear.sdk.util.FsLogUtil;
+import com.szfission.wear.sdk.util.RxTimerUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-@ContentView(R.layout.activity_app_message)
+import java.util.Random;
+
 public class AppMessageActivity extends BaseActivity {
-    @ViewInject(R.id.etName)
     EditText etName;
 
-    @ViewInject(R.id.etContent)
     EditText etContent;
 
-    @ViewInject(R.id.spinnerType)
     Spinner spinnerType;
+
+    Button btn_send, btn_send_timer;
+
+    private RxTimerUtil mRxTimerUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_app_message);
+
+        etName = findViewById(R.id.etName);
+        etContent = findViewById(R.id.etContent);
+        spinnerType = findViewById(R.id.spinnerType);
+        btn_send = findViewById(R.id.btn_send);
+        btn_send_timer = findViewById(R.id.btn_send_timer);
+
         setTitle(R.string.FUNC_GET_APPS_MESS);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        mRxTimerUtil = new RxTimerUtil();
 
         String[] mItems = getResources().getStringArray(R.array.messageType);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, mItems);
@@ -74,6 +89,20 @@ public class AppMessageActivity extends BaseActivity {
                 dismissProgress();
             }
         });
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+        btn_send_timer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendTimer();
+            }
+        });
     }
 
     @Override
@@ -86,8 +115,18 @@ public class AppMessageActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mRxTimerUtil!=null){
+            mRxTimerUtil.cancelTimer();
+        }
+    }
+
+    private void send() {
+        if(mRxTimerUtil!=null){
+            mRxTimerUtil.cancelTimer();
+        }
         String name = etName.getText().toString();
         String content = etContent.getText().toString();
         if (name.isEmpty()) {
@@ -129,5 +168,29 @@ public class AppMessageActivity extends BaseActivity {
 //            }
 //        });
         FissionSdkBleManage.getInstance().pushAppNotification(appMessageBean);
+    }
+
+    private void sendTimer() {
+        ToastUtils.showLong("定时间隔15s推送消息");
+        mRxTimerUtil.interval(15000, new RxTimerUtil.RxAction() {
+            @Override
+            public void action(long number) {
+                String name = "随机推送消息";
+                String content = "hello world";
+                showProgress();
+                int id = 1;
+                Random random = new Random();
+
+                int type = random.nextInt(56);
+                AppMessageBean  appMessageBean = new AppMessageBean();
+                appMessageBean.setMsgId(id);
+                appMessageBean.setMsgType(type);
+                appMessageBean.setContactName(name);
+                appMessageBean.setMsgContent(content);
+                appMessageBean.setMsgTime(System.currentTimeMillis()/1000);
+                FsLogUtil.d("推送类型"+appMessageBean.getMsgType());
+                FissionSdkBleManage.getInstance().pushAppNotification(appMessageBean);
+            }
+        });
     }
 }

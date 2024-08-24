@@ -35,22 +35,15 @@ import org.xutils.view.annotation.ViewInject;
 import java.io.File;
 import java.util.List;
 
-@ContentView(R.layout.activity_push_more_sport)
 public class PushMoreSportsActivity extends BaseActivity {
 
-    @ViewInject(R.id.tv_file_directory)
     TextView tv_file_directory;
 
-    @ViewInject(R.id.btn_pack)
     TextView btn_pack;
-    @ViewInject(R.id.btn_push)
     TextView btn_push;
-    @ViewInject(R.id.btn_push2)
     TextView btn_push2;
-    @ViewInject(R.id.btn_push_internal)
     TextView btn_push_internal;
 
-    @ViewInject(R.id.tv_progress)
     TextView tv_progress;
 
     private int type = FissionConstant.OTA_TYPE_MORE_SPORTS;
@@ -69,6 +62,7 @@ public class PushMoreSportsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_push_more_sport);
         btn_push.setText(getString(R.string.FUNC_PUSH_CUSTOM_SPORT)+"(03F6)");
         setTitle(R.string.FUNC_PUSH_MORE_CUSTOM_SPORT);
         ActionBar actionBar = getSupportActionBar();
@@ -83,6 +77,13 @@ public class PushMoreSportsActivity extends BaseActivity {
 
         mFileList = FileUtils.listFilesInDir(directory);
         mFileList2 = FileUtils.listFilesInDir(directory2);
+
+        tv_file_directory = findViewById(R.id.tv_file_directory);
+        btn_pack = findViewById(R.id.btn_pack);
+        btn_push = findViewById(R.id.btn_push);
+        btn_push2 = findViewById(R.id.btn_push2);
+        btn_push_internal = findViewById(R.id.btn_push_internal);
+        tv_progress = findViewById(R.id.tv_progress);
 
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionAtCmdResultListener() {
             @Override

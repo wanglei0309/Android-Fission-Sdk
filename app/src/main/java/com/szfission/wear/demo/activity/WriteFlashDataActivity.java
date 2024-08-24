@@ -56,20 +56,14 @@ import java.util.List;
 /**
  * 推送当前歌曲信息
  */
-@ContentView(R.layout.activity_ota_update2)
 public class WriteFlashDataActivity extends BaseActivity {
 
-    @ViewInject(R.id.llChooseFile)
     LinearLayout llChooseFile;
-    @ViewInject(R.id.tvFile)
     TextView tvFile;
-    @ViewInject(R.id.tvProgress)
     ProgressBar tvProgress;
-    @ViewInject(R.id.ed_type)
     EditText ed_type;
-    @ViewInject(R.id.ed_ui_version)
     EditText ed_ui_version;
-    @ViewInject(R.id.btn_send)
+    Button btn_send;
     String filePath = "";
 
     private FissionAtCmdResultListener mListener = new FissionAtCmdResultListener() {
@@ -122,10 +116,26 @@ public class WriteFlashDataActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ota_update2);
         setTitle(R.string.updateota);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        llChooseFile = findViewById(R.id.llChooseFile);
+        tvFile = findViewById(R.id.tvFile);
+        tvProgress = findViewById(R.id.tvProgress);
+        ed_type = findViewById(R.id.ed_type);
+        ed_ui_version = findViewById(R.id.ed_ui_version);
+        btn_send = findViewById(R.id.btn_send);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
         String path = getPath();
 
         File dir = new File(path);
@@ -191,8 +201,7 @@ public class WriteFlashDataActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
       if (filePath.equals("")){
           ToastUtils.showShort("还未选择bin文件");
       }else {

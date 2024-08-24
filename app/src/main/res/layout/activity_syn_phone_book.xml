@@ -395,6 +395,15 @@
         android:layout_height="56dp"/>
 
     <Button
+        android:id="@+id/btn_set_phone_sos"
+        android:text="设置紧急联系人"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"/>
+
+
+    <Button
         android:id="@+id/btn_get_phone"
         android:text="删除所有联系人"
         android:layout_marginTop="20dp"

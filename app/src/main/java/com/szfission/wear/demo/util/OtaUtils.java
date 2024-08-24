@@ -172,7 +172,7 @@ public class OtaUtils {
         mDfuConfig.addErrorAction(DfuConfig.EA_CLOSE_GATT);
         GlobalGatt.CLOSE_GATT_ENABLED = true;
         mDfuConfig.removeCompleteAction(DfuConfig.COMPLETE_ACTION_REMOVE_BOND);
-        mDfuConfig.setPhy(0);
+//        mDfuConfig.setPhy(0);
         if (mDfuConfig.getOtaWorkMode() == DfuConstants.OTA_MODE_NORMAL_FUNCTION) {
             mDfuConfig.setWaitDisconnectWhenEnterOtaMode(true);
         }

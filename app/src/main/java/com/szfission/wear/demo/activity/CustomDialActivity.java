@@ -37,6 +37,7 @@ import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.fission.wear.sdk.v2.constant.SpKey;
 import com.fission.wear.sdk.v2.utils.QuickLZUtils;
+import com.fission.wear.sdk.v2.utils.RtkDialUtil;
 import com.szfission.wear.demo.App;
 import com.szfission.wear.demo.C;
 import com.szfission.wear.demo.FissionSdk;
@@ -45,6 +46,7 @@ import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.dialog.NormalDialog;
 import com.szfission.wear.demo.util.CameraPhotoHelper;
 import com.szfission.wear.demo.util.PhotoUtils;
+import com.szfission.wear.sdk.bean.HardWareInfo;
 import com.szfission.wear.sdk.constant.FissionEnum;
 import com.szfission.wear.sdk.util.FissionDialUtil;
 import com.szfission.wear.sdk.util.ImageScalingUtil;
@@ -67,41 +69,21 @@ import static com.fission.wear.sdk.v2.utils.FissionDialUtil.stylePosition_top;
 import static com.szfission.wear.sdk.util.FissionDialUtil.getPreviewImageBitmap;
 import static com.szfission.wear.sdk.util.FissionDialUtil.stylePosition_middle;
 
-@ContentView(R.layout.activity_push_dial)
 public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBarChangeListener {
     ColorMatrix colorMatrix;
 
     private RxPermissions rxPermissions;
-    @ViewInject(R.id.iv_watch_face)
     ImageView iv_watch_face;
-    @ViewInject(R.id.iv_watch_thumb)
     ImageView iv_watch_face2;
-    @ViewInject(R.id.btn_send)
-    Button btn_send;
 
-    @ViewInject(R.id.btn_get_pic1)
     Button btn_get_pic1;
-    @ViewInject(R.id.btn_get_pic2)
     Button btn_get_pic2;
-    @ViewInject(R.id.btn_get_pic3)
     Button btn_get_pic3;
-    @ViewInject(R.id.btn_get_pic4)
     Button btn_get_pic4;
-    @ViewInject(R.id.iv_watch3)
-    ImageView iv_watch3;
-    @ViewInject(R.id.bar_R)
     SeekBar seekBarR;
-    @ViewInject(R.id.bar_R2)
     SeekBar seekBarR2;
-    @ViewInject(R.id.yanse)
-    TextView yanse;
-    @ViewInject(R.id.yanse2)
-    TextView yanse2;
-    @ViewInject(R.id.tv_color)
     TextView tv_color;
-    @ViewInject(R.id.tv_color2)
     TextView tv_color2;
-    @ViewInject(R.id.tv_progress)
     TextView tv_progress;
     FissionDialUtil.DialModel dialModel;
     com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel dialModel2;
@@ -126,6 +108,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_push_dial);
         setTitle(R.string.FUNC_PUSH_CUSTOM_DIAL);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
@@ -142,7 +125,19 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
             isSupportCrcChecksum = SPUtils.getInstance().getBoolean(SpKey.SUPPORT_DAIL_CRC_CHECKSUM);
         }
 
-        colorValue = getResources().getColor(R.color.public_custom_dial_1);
+        iv_watch_face = findViewById(R.id.iv_watch_face);
+        iv_watch_face2 = findViewById(R.id.iv_watch_thumb);
+        btn_get_pic1 = findViewById(R.id.btn_get_pic1);
+        btn_get_pic2 = findViewById(R.id.btn_get_pic2);
+        btn_get_pic3 = findViewById(R.id.btn_get_pic3);
+        btn_get_pic4 = findViewById(R.id.btn_get_pic4);
+        seekBarR = findViewById(R.id.bar_R);
+        seekBarR2 = findViewById(R.id.bar_R2);
+        tv_color = findViewById(R.id.tv_color);
+        tv_color2 = findViewById(R.id.tv_color2);
+        tv_progress = findViewById(R.id.tv_progress);
+
+        colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_1);
 
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionAtCmdResultListener(){
 
@@ -263,14 +258,13 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
                 Bitmap bitmap = ((BitmapDrawable) iv_watch_face.getDrawable()).getBitmap();
                 dialModel2 = new com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel();
                 dialModel2.setDialShape(dialShape);
-                dialModel2.setDialWidth(410);
-                dialModel2.setDialHeight(502);
+                dialModel2.setDialWidth(dialWidth);
+                dialModel2.setDialHeight(dialHeight);
                 dialModel2.setPreviewImage(bitmap);
                 dialModel2.setBackgroundImage(bitmap);
                 dialModel2.setDialPosition(1);
                 dialModel2.setPreImageWidth(thumbnailWidth);
                 dialModel2.setPreImageHeight(thumbnailHigh);
-                dialModel2.setDialPosition(1);
                 dialModel2.setDialStyleColor(colorValue);
                 dialModel2.setSupportAntiAliasing(isSupportAntiAliasing);
                 dialModel2.setSupportCrcChecksum(isSupportCrcChecksum);
@@ -355,7 +349,12 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     private void setDiaModelCompress(com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel dialModel)  {
         Bitmap bitmap1 = com.fission.wear.sdk.v2.utils.FissionDialUtil.getPreviewImageBitmap(this,dialModel);
         iv_watch_face2.setImageBitmap(bitmap1);
-        byte[] resultData = com.fission.wear.sdk.v2.utils.FissionDialUtil.getDiaInfoBinData(this, dialModel);
+        byte[] resultData = null;
+        if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK){
+            resultData = com.fission.wear.sdk.v2.utils.FissionDialUtil.getDiaInfoBinData(this, dialModel);
+        }else if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK8773){
+            resultData = RtkDialUtil.getInstance().getSimpleDialBinFile(this, dialModel);
+        }
         byte[] outData = QuickLZUtils.compressFission(resultData);
         LogUtils.d("wl", "相册自定义表盘字节大小(压缩前)："+resultData.length);
 //        String filePath = Environment.getExternalStorageDirectory()+"/custom_dial_1.bin";
@@ -364,7 +363,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
 //        FileUtils.createFileByDeleteOldFile(filePath2);
 //        FileIOUtils.writeFileFromBytesByStream (filePath, resultData);
 //        FileIOUtils.writeFileFromBytesByStream (filePath2, outData);
-//        ToastUtils.showLong("自定义表盘打包成功");
+        ToastUtils.showLong("自定义表盘打包成功");
         FissionSdkBleManage.getInstance().startDial(outData, FissionEnum.WRITE_DIAL_DATA_V2);
     }
 
@@ -478,99 +477,99 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
             switch (progress){
                 case 0:
                     tv_color.setText("当前选中小字体颜色：白色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_1);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_1);
                     break;
 
                 case 1:
                     tv_color.setText("当前选中小字体颜色：绿色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_2);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_2);
                     break;
 
                 case 2:
                     tv_color.setText("当前选中小字体颜色：红色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_3);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_3);
                     break;
 
                 case 3:
                     tv_color.setText("当前选中小字体颜色：黄色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_4);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_4);
                     break;
 
                 case 4:
                     tv_color.setText("当前选中小字体颜色：橘红色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_5);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_5);
                     break;
 
                 case 5:
                     tv_color.setText("当前选中小字体颜色：紫色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_6);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_6);
                     break;
 
                 case 6:
                     tv_color.setText("当前选中小字体颜色：天蓝色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_7);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_7);
                     break;
 
                 case 7:
                     tv_color.setText("当前选中小字体颜色：黑色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_8);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_8);
                     break;
 
                 case 8:
                     tv_color.setText("当前选中小字体颜色：深蓝色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_9);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_9);
                     break;
             }
         }else{
             switch (progress){
                 case 0:
                     tv_color2.setText("当前选中大字体颜色：白色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_white_big);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_white_big);
                     break;
 
                 case 1:
                     tv_color2.setText("当前选中大字体颜色：绿色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_green_big);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_green_big);
                     break;
 
                 case 2:
                     tv_color2.setText("当前选中大字体颜色：红色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_red_big);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_red_big);
                     break;
 
                 case 3:
                     tv_color2.setText("当前选中大字体颜色：黄色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_yellow_big);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_yellow_big);
                     break;
 
                 case 4:
                     tv_color2.setText("当前选中大字体颜色：橘红色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_orange_big);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_orange_big);
                     break;
 
                 case 5:
                     tv_color2.setText("当前选中大字体颜色：紫色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_purple_big);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_purple_big);
                     break;
 
                 case 6:
                     tv_color2.setText("当前选中大字体颜色：天蓝色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_sky_blue_big);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_sky_blue_big);
                     break;
 
                 case 7:
                     tv_color2.setText("当前选中大字体颜色：灰色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_gray_big);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_gray_big);
                     break;
 
                 case 8:
                     tv_color2.setText("当前选中大字体颜色：浅蓝色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_light_blue_big);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_light_blue_big);
                     break;
 
                 case 9:
                     tv_color2.setText("当前选中大字体颜色：深蓝色");
-                    colorValue = getResources().getColor(R.color.public_custom_dial_dark_blue_big);
+                    colorValue = getResources().getColor(com.linwear.baidu.map.watch.R.color.public_custom_dial_dark_blue_big);
                     break;
             }
         }

@@ -32,27 +32,15 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
-@ContentView(R.layout.activity_push_gps)
 public class CommunicatGpsActivity extends BaseActivity{
-    @ViewInject(R.id.pushProgress)
-    TextView pushProgress;
-    @ViewInject(R.id.startSport)
     Button startSport;
-    @ViewInject(R.id.pauseSport)
     Button pauseSport;
-    @ViewInject(R.id.continueSport)
     Button continueSport;
-    @ViewInject(R.id.stopSport)
     Button stopSport;
-    @ViewInject(R.id.pushSport)
     Button pushSport;
-    @ViewInject(R.id.getSportState)
     Button getSportState;
-    @ViewInject(R.id.tv_result)
     TextView tv_result;
-    @ViewInject(R.id.autoPushSport)
     Button autoPushSport;
-    @ViewInject(R.id.spinnerType)
     Spinner spinner;
     long curGpsTime = System.currentTimeMillis()/1000;
 
@@ -64,12 +52,23 @@ public class CommunicatGpsActivity extends BaseActivity{
     private RxTimerUtil mRxTimerUtil;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
+        setContentView(R.layout.activity_push_gps);
         setTitle(R.string.FUNC_GPS_SPORT_CMD);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
+
+        startSport = findViewById(R.id.startSport);
+        pauseSport = findViewById(R.id.pauseSport);
+        continueSport = findViewById(R.id.continueSport);
+        stopSport = findViewById(R.id.stopSport);
+        pushSport = findViewById(R.id.pushSport);
+        getSportState = findViewById(R.id.getSportState);
+        tv_result = findViewById(R.id.tv_result);
+        autoPushSport = findViewById(R.id.autoPushSport);
+        spinner = findViewById(R.id.spinnerType);
 
         String[] mItems = getResources().getStringArray(R.array.sport);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, mItems);
@@ -245,11 +244,6 @@ public class CommunicatGpsActivity extends BaseActivity{
         return true;
     }
 
-    private void setDiaModel(String name)  {
-        byte[] resultData =  FissionDialUtil.inputBin(this,name);
-        FissionSdk.getInstance().startDial(resultData, FissionEnum.WRITE_SPORT_DATA);
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -261,13 +255,6 @@ public class CommunicatGpsActivity extends BaseActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * 接收数据的事件总线
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(DataMessageEvent event) {
-        pushProgress.setText("升级进度:"+event.getMessageContent());
-    }
 
     @Override
     protected void onDestroy() {

@@ -53,48 +53,105 @@ import java.util.Map;
 import java.util.Objects;
 
 @SuppressLint("NonConstantResourceId")
-@ContentView(R.layout.activity_set_timing_info)
 public class SetTimingInfoActivity extends BaseActivity {
-    @ViewInject(R.id.switch_open)
     Switch switchOpen;
-    @ViewInject(R.id.tvCmdContent)
     TextView tvCmdContent;
-    @ViewInject(R.id.noUseId)
     TextView noUseId;
-    @ViewInject(R.id.recycleWeek)
     RecyclerView recycleWeek;
-    @ViewInject(R.id.editTextIndex)
     Spinner spinnerType;
-    @ViewInject(R.id.spinner_110)
     Spinner spinner_110;
-    @ViewInject(R.id.radioGroup)
     RadioGroup radioGroup;
-    @ViewInject(R.id.radioGroup_notify)
     RadioGroup radioGroupNotify;
-    @ViewInject(R.id.radioBtn1)
     RadioButton radioBtn1;
-    @ViewInject(R.id.radioBtn2)
     RadioButton radioBtn2;
-    @ViewInject(R.id.radioBtn3)
     RadioButton radioBtn3;
-    @ViewInject(R.id.timing_switch)
     Switch timingSwitch;
-    @ViewInject(R.id.tvDateResult)
     TextView tvDateResult;
-    @ViewInject(R.id.tv_set_time)
     Button tvSetTime;
-    @ViewInject(R.id.editRemark)
     EditText editRemark;
     int year, month, day, hour, minute;
 
+    Button btn_send, btn_send2, btn_get, btn_update, btn_add, btn_delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_set_timing_info);
         setTitle(R.string.FUNC_SET_TIMING_INFO);
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        switchOpen = findViewById(R.id.switch_open);
+        tvCmdContent = findViewById(R.id.tvCmdContent);
+        noUseId = findViewById(R.id.noUseId);
+        recycleWeek = findViewById(R.id.recycleWeek);
+        spinnerType = findViewById(R.id.editTextIndex);
+        spinner_110 = findViewById(R.id.spinner_110);
+        radioGroup = findViewById(R.id.radioGroup);
+        radioGroupNotify = findViewById(R.id.radioGroup_notify);
+        radioBtn1 = findViewById(R.id.radioBtn1);
+        radioBtn2 = findViewById(R.id.radioBtn2);
+        radioBtn3 = findViewById(R.id.radioBtn3);
+        timingSwitch = findViewById(R.id.timing_switch);
+        tvDateResult = findViewById(R.id.tvDateResult);
+        tvSetTime = findViewById(R.id.tv_set_time);
+        editRemark = findViewById(R.id.editRemark);
+
+        btn_send = findViewById(R.id.btn_send);
+        btn_send2 = findViewById(R.id.btn_send2);
+        btn_get = findViewById(R.id.btn_get);
+        btn_update = findViewById(R.id.btn_update);
+        btn_add = findViewById(R.id.btn_add);
+        btn_delete = findViewById(R.id.btn_delete);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+        btn_send2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                send2();
+            }
+        });
+
+        btn_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                get();
+            }
+        });
+
+        btn_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                update();
+            }
+        });
+
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                add();
+            }
+        });
+
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                delete();
+            }
+        });
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycleWeek.setLayoutManager(linearLayoutManager);
@@ -294,8 +351,7 @@ public class SetTimingInfoActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_get)
-    private void get(View v) {
+    private void get() {
         FissionSdkBleManage.getInstance().getAlarm();
 //        AnyWear.getAlarm(new BigDataCallBack() {
 //
@@ -344,8 +400,7 @@ public class SetTimingInfoActivity extends BaseActivity {
     int alarmLater = 0;
 
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
 //        String startTime = etStartTime.getText().toString();
 //        String endTime = etEndTime.getText().toString();
 //        if (startTime.isEmpty()) {
@@ -401,8 +456,7 @@ public class SetTimingInfoActivity extends BaseActivity {
 
     }
 
-    @Event(R.id.btn_send2)
-    private void send2(View v) {
+    private void send2() {
         List<FissionAlarm> lw33s = new ArrayList<>();
         FissionAlarm alarmLw33 = new FissionAlarm(0,1,true,System.currentTimeMillis()+60000,weekResult, "起床");
         lw33s.add(alarmLw33);
@@ -417,20 +471,17 @@ public class SetTimingInfoActivity extends BaseActivity {
         FissionSdkBleManage.getInstance().setAlarmInfos(lw33s);
     }
 
-    @Event(R.id.btn_add)
-    private void add(View v) {
+    private void add() {
         FissionAlarm alarmLw33 = new FissionAlarm(1,true,System.currentTimeMillis()+60000,weekResult, "");
         FissionSdkBleManage.getInstance().addFissionAlarm(alarmLw33, 10);
     }
 
-    @Event(R.id.btn_delete)
-    private void delete(View v) {
+    private void delete() {
         FissionAlarm alarmLw33 = new FissionAlarm(0,0,false,0,weekResult, "起床");
         FissionSdkBleManage.getInstance().deleteFissionAlarm(alarmLw33, 10);
     }
 
-    @Event(R.id.btn_update)
-    private void update(View v) {
+    private void update() {
         FissionAlarm alarmLw33 = new FissionAlarm(Integer.parseInt(spinnerType.getSelectedItem().toString()),1,true,System.currentTimeMillis()+120000,weekResult, "起床");
         FissionSdkBleManage.getInstance().updateFissionAlarm(alarmLw33, 10);
     }

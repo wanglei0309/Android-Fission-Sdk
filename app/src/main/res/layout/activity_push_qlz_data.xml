@@ -34,62 +34,162 @@
 
     </LinearLayout>
 
-    <RadioGroup
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="300dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
 
-        <RadioButton
-            android:id="@+id/radio_ui"
-            android:layout_marginLeft="20dp"
-            android:text="UI压缩包"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:id="@+id/radio_ui"
+                    android:layout_marginLeft="20dp"
+                    android:text="UI压缩包"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
 
-        <RadioButton
-            android:id="@+id/radio_font"
-            android:layout_marginLeft="20dp"
-            android:text="大字库"
-            android:checked="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:id="@+id/radio_font"
+                    android:layout_marginLeft="20dp"
+                    android:text="大字库"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-        <RadioButton
-            android:id="@+id/radio_dial"
-            android:layout_marginLeft="20dp"
-            android:text="表盘数据"
-            android:checked="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:id="@+id/radio_dial"
+                    android:layout_marginLeft="20dp"
+                    android:text="表盘数据"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-        <RadioButton
-            android:id="@+id/radio_small_font"
-            android:layout_marginLeft="20dp"
-            android:text="小字库"
-            android:checked="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:id="@+id/radio_small_font"
+                    android:layout_marginLeft="20dp"
+                    android:text="小字库"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-        <RadioButton
-            android:id="@+id/radio_more_dial"
-            android:layout_marginLeft="20dp"
-            android:text="多表盘数据"
-            android:checked="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:id="@+id/radio_more_dial"
+                    android:layout_marginLeft="20dp"
+                    android:text="多表盘数据"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-        <RadioButton
-            android:id="@+id/radio_more_sport"
-            android:layout_marginLeft="20dp"
-            android:text="多运动数据"
-            android:checked="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:id="@+id/radio_more_sport"
+                    android:layout_marginLeft="20dp"
+                    android:text="多运动数据"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-    </RadioGroup>
+                <RadioButton
+                    android:id="@+id/radio_gps_ota"
+                    android:layout_marginLeft="20dp"
+                    android:text="GPS升级包"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:id="@+id/radio_online_dial1"
+                    android:layout_marginLeft="20dp"
+                    android:text="在线表盘1"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:id="@+id/radio_online_dial2"
+                    android:layout_marginLeft="20dp"
+                    android:text="在线表盘2"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:id="@+id/radio_online_dial3"
+                    android:layout_marginLeft="20dp"
+                    android:text="在线表盘3"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:id="@+id/radio_online_dial4"
+                    android:layout_marginLeft="20dp"
+                    android:text="在线表盘4"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:id="@+id/radio_online_dial5"
+                    android:layout_marginLeft="20dp"
+                    android:text="在线表盘5"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:id="@+id/radio_customize_dial1"
+                    android:layout_marginLeft="20dp"
+                    android:text="相册表盘1"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:id="@+id/radio_customize_dial2"
+                    android:layout_marginLeft="20dp"
+                    android:text="相册表盘2"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:id="@+id/radio_customize_dial3"
+                    android:layout_marginLeft="20dp"
+                    android:text="相册表盘3"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:id="@+id/radio_customize_dial4"
+                    android:layout_marginLeft="20dp"
+                    android:text="相册表盘4"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:id="@+id/radio_customize_dial5"
+                    android:layout_marginLeft="20dp"
+                    android:text="相册表盘5"
+                    android:checked="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <Button
         android:text="开始"
@@ -109,6 +209,13 @@
         android:secondaryProgress="0"
         android:progressDrawable="@drawable/progressbar_color"
         android:layout_height="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_progress"
+        android:layout_marginStart="20dp"
+        android:text="当前升级进度："
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 
 

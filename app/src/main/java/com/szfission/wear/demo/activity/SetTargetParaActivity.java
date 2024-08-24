@@ -3,6 +3,7 @@ package com.szfission.wear.demo.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 
@@ -22,32 +23,53 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.Objects;
 
-@ContentView(R.layout.activity_target_para)
 public class SetTargetParaActivity extends BaseActivity {
-    @ViewInject(R.id.etStep)
     EditText etStep;
-    @ViewInject(R.id.etCalorie)
     EditText etCalorie;
-    @ViewInject(R.id.etSportTime)
     EditText etSportTime;
-    @ViewInject(R.id.etDistance)
     EditText etDistance;
-    @ViewInject(R.id.switch_open)
     Switch switchOpen;
-    @ViewInject(R.id.switch_open1)
     Switch switchOpen1;
-    @ViewInject(R.id.switch_open2)
     Switch switchOpen2;
-    @ViewInject(R.id.switch_open3)
     Switch switchOpen3;
+
+    Button btn_send, btn_get;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_target_para);
         setTitle(R.string.FUNC_SET_TARGET_SET);
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        etStep = findViewById(R.id.etStep);
+        etCalorie = findViewById(R.id.etCalorie);
+        etSportTime = findViewById(R.id.etSportTime);
+        etDistance = findViewById(R.id.etDistance);
+        switchOpen = findViewById(R.id.switch_open);
+        switchOpen1 = findViewById(R.id.switch_open1);
+        switchOpen2 = findViewById(R.id.switch_open2);
+        switchOpen3 = findViewById(R.id.switch_open3);
+        btn_send = findViewById(R.id.btn_send);
+        btn_get = findViewById(R.id.btn_get);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+        btn_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                get();
+            }
+        });
+
         getData();
         showProgress();
 
@@ -150,14 +172,12 @@ public class SetTargetParaActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_get)
-    private void get(View v) {
+    private void get() {
         getData();
         showProgress();
     }
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
         String step = etStep.getText().toString();
         String calorie = etCalorie.getText().toString();
         String distance = etDistance.getText().toString();

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,80 +26,111 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.ArrayList;
 import java.util.List;
 
-@ContentView(R.layout.activity_syn_phone_book)
 public class PhoneBookActivity extends BaseActivity {
 
-    @ViewInject(R.id.ed_name1)
     EditText ed_name1;
-    @ViewInject(R.id.ed_name2)
     EditText ed_name2;
-    @ViewInject(R.id.ed_name3)
     EditText ed_name3;
-    @ViewInject(R.id.ed_name4)
     EditText ed_name4;
-    @ViewInject(R.id.ed_name5)
     EditText ed_name5;
-    @ViewInject(R.id.ed_name6)
     EditText ed_name6;
-    @ViewInject(R.id.ed_name7)
     EditText ed_name7;
-    @ViewInject(R.id.ed_name8)
     EditText ed_name8;
-    @ViewInject(R.id.ed_name9)
     EditText ed_name9;
-    @ViewInject(R.id.ed_name10)
     EditText ed_name10;
 
-    @ViewInject(R.id.ed_remark1)
     EditText ed_remark1;
-    @ViewInject(R.id.ed_remark2)
     EditText ed_remark2;
-    @ViewInject(R.id.ed_remark3)
     EditText ed_remark3;
-    @ViewInject(R.id.ed_remark4)
     EditText ed_remark4;
-    @ViewInject(R.id.ed_remark5)
     EditText ed_remark5;
-    @ViewInject(R.id.ed_remark6)
     EditText ed_remark6;
-    @ViewInject(R.id.ed_remark7)
     EditText ed_remark7;
-    @ViewInject(R.id.ed_remark8)
     EditText ed_remark8;
-    @ViewInject(R.id.ed_remark9)
     EditText ed_remark9;
-    @ViewInject(R.id.ed_remark10)
     EditText ed_remark10;
 
-    @ViewInject(R.id.ed_phone1)
     EditText ed_phone1;
-    @ViewInject(R.id.ed_phone2)
     EditText ed_phone2;
-    @ViewInject(R.id.ed_phone3)
     EditText ed_phone3;
-    @ViewInject(R.id.ed_phone4)
     EditText ed_phone4;
-    @ViewInject(R.id.ed_phone5)
     EditText ed_phone5;
-    @ViewInject(R.id.ed_phone6)
     EditText ed_phone6;
-    @ViewInject(R.id.ed_phone7)
     EditText ed_phone7;
-    @ViewInject(R.id.ed_phone8)
     EditText ed_phone8;
-    @ViewInject(R.id.ed_phone9)
     EditText ed_phone9;
-    @ViewInject(R.id.ed_phone10)
     EditText ed_phone10;
+
+    Button btn_set_phone, btn_set_phone_sos, btn_del_phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_syn_phone_book);
         setTitle(R.string.FUNC_SYN_PHONE_BOOK);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        ed_name1 = findViewById(R.id.ed_name1);
+        ed_name2 = findViewById(R.id.ed_name2);
+        ed_name3 = findViewById(R.id.ed_name3);
+        ed_name4 = findViewById(R.id.ed_name4);
+        ed_name5 = findViewById(R.id.ed_name5);
+        ed_name6 = findViewById(R.id.ed_name6);
+        ed_name7 = findViewById(R.id.ed_name7);
+        ed_name8 = findViewById(R.id.ed_name8);
+        ed_name9 = findViewById(R.id.ed_name9);
+        ed_name10 = findViewById(R.id.ed_name10);
+
+        ed_remark1 = findViewById(R.id.ed_remark1);
+        ed_remark2 = findViewById(R.id.ed_remark2);
+        ed_remark3 = findViewById(R.id.ed_remark3);
+        ed_remark4 = findViewById(R.id.ed_remark4);
+        ed_remark5 = findViewById(R.id.ed_remark5);
+        ed_remark6 = findViewById(R.id.ed_remark6);
+        ed_remark7 = findViewById(R.id.ed_remark7);
+        ed_remark8 = findViewById(R.id.ed_remark8);
+        ed_remark9 = findViewById(R.id.ed_remark9);
+        ed_remark10 = findViewById(R.id.ed_remark10);
+
+        ed_phone1 = findViewById(R.id.ed_phone1);
+        ed_phone2 = findViewById(R.id.ed_phone2);
+        ed_phone3 = findViewById(R.id.ed_phone3);
+        ed_phone4 = findViewById(R.id.ed_phone4);
+        ed_phone5 = findViewById(R.id.ed_phone5);
+        ed_phone6 = findViewById(R.id.ed_phone6);
+        ed_phone7 = findViewById(R.id.ed_phone7);
+        ed_phone8 = findViewById(R.id.ed_phone8);
+        ed_phone9 = findViewById(R.id.ed_phone9);
+        ed_phone10 = findViewById(R.id.ed_phone10);
+
+        btn_set_phone = findViewById(R.id.btn_set_phone);
+        btn_set_phone_sos = findViewById(R.id.btn_set_phone_sos);
+        btn_del_phone = findViewById(R.id.btn_get_phone);
+
+        btn_set_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setPhoneBook();
+            }
+        });
+
+        btn_set_phone_sos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                setPhoneBookSos();
+            }
+        });
+
+        btn_del_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                deletePhoneBook();
+            }
+        });
 
         addCmdResultListener(new FissionBigDataCmdResultListener() {
             @Override
@@ -134,8 +166,7 @@ public class PhoneBookActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_set_phone)
-    private void setPhoneBook(View v) {
+    private void setPhoneBook() {
         String name1 = ed_name1.getText().toString();
         String name2 = ed_name2.getText().toString();
         String name3 = ed_name3.getText().toString();
@@ -195,8 +226,32 @@ public class PhoneBookActivity extends BaseActivity {
         FissionSdkBleManage.getInstance().setPhoneBooks(list);
     }
 
-    @Event(R.id.btn_get_phone)
-    private void getPhoneBook(View v) {
+    private void setPhoneBookSos() {
+        String name1 = ed_name1.getText().toString();
+        String name2 = ed_name2.getText().toString();
+        String name3 = ed_name3.getText().toString();
+
+        String remark1 = ed_remark1.getText().toString();
+        String remark2 = ed_remark2.getText().toString();
+        String remark3 = ed_remark3.getText().toString();
+
+        String phone1 = ed_phone1.getText().toString();
+        String phone2 = ed_phone2.getText().toString();
+        String phone3 = ed_phone3.getText().toString();
+
+        PhoneBook phoneBook = new PhoneBook(name1, remark1, phone1);
+        PhoneBook phoneBook2 = new PhoneBook(name2, remark2, phone2);
+        PhoneBook phoneBook3 = new PhoneBook(name3, remark3, phone3);
+
+        List<PhoneBook> list = new ArrayList<>();
+        list.add(phoneBook);
+        list.add(phoneBook2);
+        list.add(phoneBook3);
+
+        FissionSdkBleManage.getInstance().setPhoneBooks(list, true);
+    }
+
+    private void deletePhoneBook() {
         List<PhoneBook> list = new ArrayList<>();
         FissionSdkBleManage.getInstance().setPhoneBooks(list);
     }

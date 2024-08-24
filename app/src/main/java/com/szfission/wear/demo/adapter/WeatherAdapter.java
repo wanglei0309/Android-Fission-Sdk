@@ -51,10 +51,16 @@ public class WeatherAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.item_func, viewGroup, false);
             x.view().inject(holder, view);
             view.setTag(holder);
+            holder.tvTitle = view.findViewById(R.id.tvTitle);
+            holder.tvWeather = view.findViewById(R.id.tvWeather);
+            holder.tvAir = view.findViewById(R.id.tvAir);
+            holder.tvHigh = view.findViewById(R.id.tvHigh);
+            holder.tvLow = view.findViewById(R.id.tvLow);
+            holder.tvPm = view.findViewById(R.id.tvPm);
         } else {
             holder = (ViewHolder) view.getTag();
         }
-       String []spinnerItems = new String[]{"晴", "多云", "风", "阴天", "小雨", "大雨", "雪", "雷阵雨", "晴晚上", "多云晚上", "沙尘暴", "阵雨", "阵雨晚上", "雨夹雪", "雾霾", "未知天气"};
+        String []spinnerItems = new String[]{"晴", "多云", "风", "阴天", "小雨", "大雨", "雪", "雷阵雨", "晴晚上", "多云晚上", "沙尘暴", "阵雨", "阵雨晚上", "雨夹雪", "雾霾", "未知天气"};
         String []spinnerItems1 = new String[]{"差", "好", "很好"};
         holder.tvTitle.setText("天数:"+funcBeans.get(i).getDay()+"");
         holder.tvWeather.setText("天气："+spinnerItems[funcBeans.get(i).getWeather()]+"");
@@ -68,17 +74,11 @@ public class WeatherAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        @ViewInject(R.id.tvTitle)
         TextView tvTitle;
-        @ViewInject(R.id.tvWeather)
         TextView tvWeather;
-        @ViewInject(R.id.tvAir)
         TextView tvAir;
-        @ViewInject(R.id.tvHigh)
         TextView tvHigh;
-        @ViewInject(R.id.tvLow)
         TextView tvLow;
-        @ViewInject(R.id.tvPm)
         TextView tvPm;
     }
 

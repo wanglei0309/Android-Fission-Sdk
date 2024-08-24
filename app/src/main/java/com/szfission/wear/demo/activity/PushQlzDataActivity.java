@@ -30,6 +30,8 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.bean.FssStatus;
+import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.utils.QuickLZUtils;
 import com.szfission.wear.demo.DataMessageEvent;
@@ -44,37 +46,41 @@ import org.xutils.view.annotation.ViewInject;
 import java.io.File;
 import java.util.List;
 
-@ContentView(R.layout.activity_push_qlz_data)
 public class PushQlzDataActivity extends BaseActivity {
-
-    @ViewInject(R.id.llChooseFile)
     LinearLayout llChooseFile;
-    @ViewInject(R.id.tvFile)
     TextView tvFile;
-    @ViewInject(R.id.tvProgress)
     ProgressBar tvProgress;
-    @ViewInject(R.id.btn_send)
+
+    TextView tv_progress;
     Button btn_send;
     String filePath = "";
 
-    @ViewInject(R.id.radio_ui)
     RadioButton radio_ui;
-    @ViewInject(R.id.radio_font)
     RadioButton radio_font;
-    @ViewInject(R.id.radio_dial)
     RadioButton radio_dial;
-    @ViewInject(R.id.radio_small_font)
     RadioButton radio_small_font;
-    @ViewInject(R.id.radio_more_dial)
     RadioButton radio_more_dial;
-    @ViewInject(R.id.radio_more_sport)
     RadioButton radio_more_sport;
+
+    RadioButton radio_gps_ota;
+
+    RadioButton radio_online_dial1;
+    RadioButton radio_online_dial2;
+    RadioButton radio_online_dial3;
+    RadioButton radio_online_dial4;
+    RadioButton radio_online_dial5;
+    RadioButton radio_customize_dial1;
+    RadioButton radio_customize_dial2;
+    RadioButton radio_customize_dial3;
+    RadioButton radio_customize_dial4;
+    RadioButton radio_customize_dial5;
 
     private int type = FissionConstant.OTA_TYPE_UI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_push_qlz_data);
         setTitle(R.string.FUNC_COMPRESS_CMD);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
@@ -83,6 +89,30 @@ public class PushQlzDataActivity extends BaseActivity {
 
         File dir = new File(path);
         LogUtils.d("获取路径",dir.getAbsolutePath());
+
+        llChooseFile = findViewById(R.id.llChooseFile);
+        tvFile = findViewById(R.id.tvFile);
+        tvProgress = findViewById(R.id.tvProgress);
+        btn_send = findViewById(R.id.btn_send);
+        radio_ui = findViewById(R.id.radio_ui);
+        radio_font = findViewById(R.id.radio_font);
+        radio_dial = findViewById(R.id.radio_dial);
+        radio_small_font = findViewById(R.id.radio_small_font);
+        radio_more_dial = findViewById(R.id.radio_more_dial);
+        radio_more_sport = findViewById(R.id.radio_more_sport);
+
+        radio_gps_ota = findViewById(R.id.radio_gps_ota);
+        radio_online_dial1 = findViewById(R.id.radio_online_dial1);
+        radio_online_dial2 = findViewById(R.id.radio_online_dial2);
+        radio_online_dial3 = findViewById(R.id.radio_online_dial3);
+        radio_online_dial4 = findViewById(R.id.radio_online_dial4);
+        radio_online_dial5 = findViewById(R.id.radio_online_dial5);
+        radio_customize_dial1 = findViewById(R.id.radio_customize_dial1);
+        radio_customize_dial2 = findViewById(R.id.radio_customize_dial2);
+        radio_customize_dial3 = findViewById(R.id.radio_customize_dial3);
+        radio_customize_dial4 = findViewById(R.id.radio_customize_dial4);
+        radio_customize_dial5 = findViewById(R.id.radio_customize_dial5);
+
         llChooseFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +154,37 @@ public class PushQlzDataActivity extends BaseActivity {
         });
 
         initRadioButton();
+
+        FissionSdkBleManage.getInstance().addCmdResultListener(new FissionAtCmdResultListener() {
+            @Override
+            public void sendSuccess(String cmdId) {
+
+            }
+
+            @Override
+            public void sendFail(String cmdId) {
+
+            }
+
+            @Override
+            public void onResultTimeout(String cmdId) {
+
+            }
+
+            @Override
+            public void onResultError(String errorMsg) {
+
+            }
+
+            @Override
+            public void fssSuccess(FssStatus fssStatus) {
+                super.fssSuccess(fssStatus);
+                if(fssStatus.getFssType() == 23){
+                    tvProgress.setProgress(fssStatus.getFssStatus());
+                    tv_progress.setText("当前升级进度："+fssStatus.getFssStatus()+"%");
+                }
+            }
+        });
 
     }
 
@@ -180,6 +241,105 @@ public class PushQlzDataActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     type = FissionConstant.OTA_TYPE_MORE_SPORTS;
+                }
+            }
+        });
+
+        radio_gps_ota.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_GPS;
+                }
+            }
+        });
+
+        radio_online_dial1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_DYNAMIC_DIAL;
+                }
+            }
+        });
+
+        radio_online_dial2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_DYNAMIC_DIAL2;
+                }
+            }
+        });
+
+        radio_online_dial3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_DYNAMIC_DIAL3;
+                }
+            }
+        });
+
+        radio_online_dial4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_DYNAMIC_DIAL4;
+                }
+            }
+        });
+
+        radio_online_dial5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_DYNAMIC_DIAL5;
+                }
+            }
+        });
+
+        radio_customize_dial1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_CUSTOMIZE_DIAL;
+                }
+            }
+        });
+
+        radio_customize_dial2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_CUSTOMIZE_DIAL2;
+                }
+            }
+        });
+
+        radio_customize_dial3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_CUSTOMIZE_DIAL3;
+                }
+            }
+        });
+
+        radio_customize_dial4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_CUSTOMIZE_DIAL4;
+                }
+            }
+        });
+
+        radio_customize_dial5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    type = FissionConstant.OTA_TYPE_CUSTOMIZE_DIAL5;
                 }
             }
         });

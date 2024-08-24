@@ -13,10 +13,13 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
+import com.fission.wear.sdk.v2.constant.SpKey;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.sdk.AnyWear;
+import com.szfission.wear.sdk.bean.HardWareInfo;
 import com.szfission.wear.sdk.bean.param.TodayWeatherDetail;
 import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
 import com.szfission.wear.sdk.util.FsLogUtil;
@@ -24,36 +27,38 @@ import com.szfission.wear.sdk.util.FsLogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
+import java.util.Locale;
 import java.util.Random;
 
-@ContentView(R.layout.activity_weather_detail)
 public class SetWeatherDetailActivity extends BaseActivity {
-    @ViewInject(R.id.btnData)
     Button btnData;
-    @ViewInject(R.id.tvSingleWeather)
     TextView tvSingleWeather;
-    @ViewInject(R.id.tvCurTmp)
     TextView tvCurTmp;
-    @ViewInject(R.id.tvHighTmp)
     TextView tvHighTmp;
-    @ViewInject(R.id.tvLowTmp)
     TextView tvLowTmp;
-    @ViewInject(R.id.btn_send)
-            Button btnSend;
+    Button btnSend;
     int lowTmp, highTmp, curTmp, weatherCode;
     Random random = new Random();
     int weatherCodes = 0;
 
-    @ViewInject(R.id.spinnerTime)
     Spinner spinnerTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_weather_detail);
         setTitle(R.string.FUNC_WEATHER_DETAIL);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        btnData = findViewById(R.id.btnData);
+        tvSingleWeather = findViewById(R.id.tvSingleWeather);
+        tvCurTmp = findViewById(R.id.tvCurTmp);
+        tvHighTmp = findViewById(R.id.tvHighTmp);
+        tvLowTmp = findViewById(R.id.tvLowTmp);
+        btnSend = findViewById(R.id.btn_send);
+        spinnerTime = findViewById(R.id.spinnerTime);
 
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
             @Override
@@ -93,7 +98,18 @@ public class SetWeatherDetailActivity extends BaseActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FissionSdkBleManage.getInstance().setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition() == 19 ? 255 : spinnerTime.getSelectedItemPosition(), "");
+                if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
+                    String city;
+                    if(isCurrentLanguageChinese()){
+                        city = "深圳";
+                    }else{
+                        city = "shenzhen";
+                    }
+                    FissionSdkBleManage.getInstance().setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition(), city);
+                }else{
+                    FissionSdkBleManage.getInstance().setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition(), "");
+                }
+
 //                AnyWear.setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition(), "", new OnSmallDataCallback() {
 //                    @Override
 //                    public void OnEmptyResult() {
@@ -145,7 +161,15 @@ public class SetWeatherDetailActivity extends BaseActivity {
         todayWeatherDetail.setHighSetTmp(highTmp);
         todayWeatherDetail.setTemperature(curTmp);
         todayWeatherDetail.setWeatherCode(weatherCode);
-
+        if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
+            if(isCurrentLanguageChinese()){
+                todayWeatherDetail.setCityName("深圳");
+                todayWeatherDetail.setCityNameLength("深圳".getBytes().length);
+            }else{
+                todayWeatherDetail.setCityName("shenzhen");
+                todayWeatherDetail.setCityNameLength("shenzhen".getBytes().length);
+            }
+        }
         FissionSdkBleManage.getInstance().setWeatherDetail(todayWeatherDetail);
 
 //        AnyWear.setWeatherDetail(todayWeatherDetail, new OnSmallDataCallback() {
@@ -266,5 +290,10 @@ public class SetWeatherDetailActivity extends BaseActivity {
                 break;
         }
         return weatherCodes;
+    }
+
+    private static boolean isCurrentLanguageChinese() {
+        Locale currentLocale = Locale.getDefault();
+        return currentLocale.getLanguage().equals(Locale.CHINESE.getLanguage());
     }
 }

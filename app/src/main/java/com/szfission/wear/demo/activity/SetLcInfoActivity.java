@@ -4,6 +4,7 @@ package com.szfission.wear.demo.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -18,15 +19,28 @@ import com.szfission.wear.sdk.util.FsLogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 
-@ContentView(R.layout.activity_set_location_information)
 public class SetLcInfoActivity extends BaseActivity{
+
+    Button btn_send;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_set_location_information);
         setTitle(R.string.FUNC_LOCATION_INFORMATION);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        btn_send = findViewById(R.id.btn_send);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
             @Override
             public void sendSuccess(String cmdId) {
@@ -65,8 +79,7 @@ public class SetLcInfoActivity extends BaseActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
         //数据异常，需要和确认是不是协议问题
         FissionSdkBleManage.getInstance().setLocationInfo(113.88308f,22.55329f);
 //        AnyWear.setLocationInfo(113.46f,22.27f

@@ -16,6 +16,7 @@ import com.fission.wear.sdk.v2.bean.DeviceVersion;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
 import com.fission.wear.sdk.v2.callback.BaseCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
+import com.linwear.baidu.map.watch.activity.BaiduMapManageActivity;
 import com.szfission.wear.demo.App;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,7 +28,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends BaiduMapManageActivity {
 
     private ProgressDialog progressDialog;
     private Timer refreshLogTimer;

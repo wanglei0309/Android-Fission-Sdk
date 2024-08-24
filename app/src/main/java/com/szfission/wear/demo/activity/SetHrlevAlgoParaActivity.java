@@ -3,6 +3,7 @@ package com.szfission.wear.demo.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.ActionBar;
@@ -24,34 +25,55 @@ import java.util.Objects;
 /**
  * 心率等级判定参数
  */
-@ContentView(R.layout.activity_set_hrlev_algo_para)
 public class SetHrlevAlgoParaActivity extends BaseActivity  {
-    @ViewInject(R.id.etModerate)
     EditText etModerate;
 
-    @ViewInject(R.id.etVigorous)
     EditText etVigorous;
 
-    @ViewInject(R.id.etMaxHr2)
     EditText etMaxHr2;
 
-    @ViewInject(R.id.etMaxHr)
     EditText etMaxHr;
 
 
-    @ViewInject(R.id.etHighHr)
     EditText etHighHr;
 
-    @ViewInject(R.id.etNewLevel)
     EditText etNewLevel;
+
+    Button btn_send, btn_get;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_set_hrlev_algo_para);
         setTitle(R.string.FUNC_SET_HRLEV_ALGO_PARA);
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        etModerate = findViewById(R.id.etModerate);
+        etVigorous = findViewById(R.id.etVigorous);
+        etMaxHr2 = findViewById(R.id.etMaxHr2);
+        etMaxHr = findViewById(R.id.etMaxHr);
+        etHighHr = findViewById(R.id.etHighHr);
+        etNewLevel = findViewById(R.id.etNewLevel);
+        btn_send = findViewById(R.id.btn_send);
+        btn_get = findViewById(R.id.btn_get);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+        btn_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                get();
+            }
+        });
+
         getData();
         showProgress();
 
@@ -117,14 +139,12 @@ public class SetHrlevAlgoParaActivity extends BaseActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_get)
-    private void get(View v){
+    private void get(){
       getData();
         showProgress();
     }
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
         String vigorous = etVigorous.getText().toString();
         String maxHr2 = etMaxHr2.getText().toString();
         String maxHr = etMaxHr.getText().toString();

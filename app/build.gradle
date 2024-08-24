@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
+    namespace 'com.szfission.wear.demo'
+    compileSdkVersion 34
     defaultConfig {
-        applicationId rootProject.ext.android.applicationId
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
@@ -33,11 +33,17 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
-    buildToolsVersion '30.0.3'
+
+    buildToolsVersion '34.0.0'
+
+    buildFeatures{
+        aidl = true
+    }
 }
 
 repositories {
@@ -68,17 +74,15 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
-    implementation files('libs/rtk-bbpro-core-1.8.1.jar')
-    implementation files('libs/rtk-core-1.4.7.jar')
-    implementation files('libs/rtk-dfu-3.6.13.jar')
+    implementation files('libs/rtk-bbpro-core-1.8.15.jar')
+    implementation files('libs/rtk-core-1.5.25.jar')
+    implementation files('libs/rtk-dfu-3.10.13.jar')
+    implementation files("libs/rtk-wear-1.5.12.jar")
+    implementation files("libs/rtk-media-codec-1.2.1.aar")
+    implementation files("libs/rtk-audioconnect-ai-1.0.1.aar")
 
-    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
-        exclude module: 'support-annotations'
-    }
     implementation('com.journeyapps:zxing-android-embedded:4.2.0') { transitive = false }
     implementation 'com.google.zxing:core:3.3.0'
-    implementation(name: 'fissionsdk_v2-release-v2.0.65', ext: 'aar')
-    api rootProject.ext.dependencies["rx-java2"]
     api rootProject.ext.dependencies["rx-android2"]
 
     implementation('com.github.bumptech.glide:glide:4.12.0')
@@ -90,4 +94,24 @@ dependencies {
     api rootProject.ext.dependencies["rxble"]
     api rootProject.ext.dependencies["replaying"]
     api rootProject.ext.dependencies["utilcodex"]
+
+    implementation project(':chuanyin_sdk')
+
+    api "com.github.kongzue.DialogX:DialogX:0.0.48"
+
+    implementation files('libs/BaiduLBS_Android.aar')
+
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+
+    implementation "com.google.android:flexbox:2.0.1"
+
+    implementation files("libs/chatkit-release.aar")
+
+//    implementation 'com.github.stfalcon-studio:Chatkit:0.4.1'
+
+    //Picasso
+    implementation "com.squareup.picasso:picasso:2.71828"
+
+    // Microsoft SpeechService SDK
+    implementation("com.microsoft.cognitiveservices.speech:client-sdk:1.33.0")
 }

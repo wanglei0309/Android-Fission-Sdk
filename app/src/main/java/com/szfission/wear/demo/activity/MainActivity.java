@@ -4,6 +4,8 @@ import static com.szfission.wear.demo.ModelConstant.*;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,24 +35,40 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.android.internal.telephony.ITelephony;
+import com.baidu.mapapi.bikenavi.BikeNavigateHelper;
+import com.baidu.mapapi.bikenavi.adapter.IBEngineInitListener;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.ColorUtils;
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.bean.BdWatchMapNaviInitReqInfo;
+import com.fission.wear.sdk.v2.bean.BdWatchMapPoiReq;
 import com.fission.wear.sdk.v2.bean.DeviceBattery;
 import com.fission.wear.sdk.v2.bean.DeviceVersion;
+import com.fission.wear.sdk.v2.bean.DiskSpaceInfo;
 import com.fission.wear.sdk.v2.bean.FssStatus;
+import com.fission.wear.sdk.v2.bean.HsDialInfo;
+import com.fission.wear.sdk.v2.bean.HsJsFileInfo;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
 import com.fission.wear.sdk.v2.bean.SportListInfo;
 import com.fission.wear.sdk.v2.bean.StreamData;
 import com.fission.wear.sdk.v2.bean.SystemFunctionSwitch;
+import com.fission.wear.sdk.v2.bean.TransferNotify;
+import com.fission.wear.sdk.v2.bean.TransferParameterRequest;
+import com.fission.wear.sdk.v2.bean.TransferRequest;
+import com.fission.wear.sdk.v2.bean.TransferResponse;
 import com.fission.wear.sdk.v2.callback.BaseCmdResultListener;
 import com.fission.wear.sdk.v2.callback.BleConnectListener;
+import com.fission.wear.sdk.v2.callback.BtConnectListener;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionFmDataResultListener;
@@ -58,6 +76,14 @@ import com.fission.wear.sdk.v2.callback.FissionRawDataResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.constant.SpKey;
 import com.fission.wear.sdk.v2.parse.BigDataParseManage;
+import com.fission.wear.sdk.v2.parse.HiSiliconSppCmdHelper;
+import com.fission.wear.sdk.v2.parse.HiSiliconSppCmdID;
+import com.fission.wear.sdk.v2.parse.ParseDataListener;
+import com.fission.wear.sdk.v2.utils.BaiDuAiUtils;
+import com.fission.wear.sdk.v2.utils.FissionCustomDialUtil;
+import com.fission.wear.sdk.v2.utils.FissionLogUtils;
+import com.fission.wear.sdk.v2.utils.HiSiTaskManage;
+import com.fission.wear.sdk.v2.utils.MacUtil;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.polidea.rxandroidble2.RxBleConnection;
@@ -73,6 +99,8 @@ import com.szfission.wear.demo.SharedPreferencesUtil;
 import com.szfission.wear.demo.adapter.MainAdapter;
 import com.szfission.wear.demo.bean.FuncBean;
 import com.szfission.wear.demo.bean.FuncGroup;
+import com.szfission.wear.demo.chat.DemoMessagesActivity;
+import com.szfission.wear.demo.chat.StyledMessagesActivity;
 import com.szfission.wear.demo.dialog.MusicProgressDialog;
 import com.szfission.wear.demo.dialog.MusicVolumeDialog;
 import com.szfission.wear.demo.dialog.NormalDialog;
@@ -109,8 +137,10 @@ import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
 import com.szfission.wear.sdk.ifs.OnStreamListener;
 import com.szfission.wear.sdk.ifs.ReceiveMsgListener;
 import com.szfission.wear.sdk.service.BigDataTaskUtil;
+import com.szfission.wear.sdk.service.BleConfig;
 import com.szfission.wear.sdk.util.DateUtil;
 import com.szfission.wear.sdk.util.FsLogUtil;
+import com.szfission.wear.sdk.util.NumberUtil;
 import com.szfission.wear.sdk.util.StringUtil;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -123,6 +153,7 @@ import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -130,38 +161,26 @@ import java.util.Objects;
 import java.util.TimeZone;
 
 
-@ContentView(R.layout.activity_home)
-public class MainActivity extends BaseActivity implements OnStreamListener {
-    @ViewInject(R.id.tvDeviceStatus)
+public class MainActivity extends BaseActivity implements OnStreamListener, View.OnClickListener {
+    TextView tvLog;
     TextView tvDeviceStatus;
-    @ViewInject(R.id.tvActionConnect)
     TextView tvActionConnect;
-    @ViewInject(R.id.recycleMain)
     ListView recycleMain;
-    @ViewInject(R.id.tvClear)
     TextView tvClear;
     LogAdapter logAdapter;
     private List<String> logList;
-    @ViewInject(R.id.sub4)
-    TextView sub4;
-    @ViewInject(R.id.sub6)
-    TextView sub6;
-    @ViewInject(R.id.sub2)
-    TextView sub2;
-    @ViewInject(R.id.tvQrcode)
     TextView tvQrcode;
-    @ViewInject(R.id.expandView)
     ExpandableListView expandView;
-    @ViewInject(R.id.btnStartTime)
     Button btnStartTime;
-    @ViewInject(R.id.btnEndTime)
     Button btnEndTime;
-    @ViewInject(R.id.tvAppVersion)
     TextView tvAppVersion;
-    @ViewInject(R.id.tv_menstrual_period)
     TextView tv_menstrual_period;
-    @ViewInject(R.id.tv_synchronous_data)
     TextView tv_synchronous_data;
+
+    TextView tv_haisi_test;
+
+    TextView tv_chatgpt;
+
     private HomeViewModel homeViewModel;
     ArrayList<ArrayList<FuncBean>> funcBeanList = new ArrayList<>();
 
@@ -187,7 +206,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
     private BaseCmdResultListener mRawDataListener = new FissionRawDataResultListener() {
         @Override
         public void onRawDataResult(String result) {
-            App.logData.add(result);
+            addLog(result);
         }
 
         @Override
@@ -329,6 +348,8 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             super.fssSuccess(fssStatus);
             if(fssStatus.getFssType() == 35){
                 FissionSdkBleManage.getInstance().setAgpsLocation(114.027901, 22.619909);
+            }else if(fssStatus.getFssType() == 38){
+                FissionSdkBleManage.getInstance().sendNetworkStatus("1");
             }
         }
     };
@@ -550,6 +571,27 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             logList.add(StringUtil.bytesToHexStr(data));
             logAdapter.notifyDataSetChanged();
         }
+
+        @Override
+        public void getDiskSpaceInfo(DiskSpaceInfo diskSpaceInfo) {
+            super.getDiskSpaceInfo(diskSpaceInfo);
+            logList.add(diskSpaceInfo.toString());
+            logAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void getHsDialFileList(List<HsDialInfo> list) {
+            super.getHsDialFileList(list);
+            logList.add(list.toString());
+            logAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void getHsJsAppFileList(List<HsJsFileInfo> list) {
+            super.getHsJsAppFileList(list);
+            logList.add(list.toString());
+            logAdapter.notifyDataSetChanged();
+        }
     };
 
     private FissionFmDataResultListener fmDataResultListener =new FissionFmDataResultListener() {
@@ -597,7 +639,31 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+
+        tvLog = findViewById(R.id.tvLog);
+        tvDeviceStatus = findViewById(R.id.tvDeviceStatus);
+        tvActionConnect = findViewById(R.id.tvActionConnect);
+        recycleMain = findViewById(R.id.recycleMain);
+        tvClear = findViewById(R.id.tvClear);
+        tvQrcode = findViewById(R.id.tvQrcode);
+        expandView = findViewById(R.id.expandView);
+        btnStartTime = findViewById(R.id.btnStartTime);
+        btnEndTime = findViewById(R.id.btnEndTime);
+        tvAppVersion = findViewById(R.id.tvAppVersion);
+        tv_menstrual_period = findViewById(R.id.tv_menstrual_period);
+        tv_synchronous_data = findViewById(R.id.tv_synchronous_data);
+        tv_haisi_test = findViewById(R.id.tv_haisi_test);
+        tv_chatgpt = findViewById(R.id.tv_chatgpt);
+
+        tvLog.setOnClickListener(this);
+        tvActionConnect.setOnClickListener(this);
+        btnStartTime.setOnClickListener(this);
+        btnEndTime.setOnClickListener(this);
+        tvClear.setOnClickListener(this);
+
         context = this;
+
         registerActivityResult();
 //        connectDevice();
 
@@ -628,6 +694,22 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             @Override
             public void onClick(View view) {
                 dataSynchronization();
+            }
+        });
+
+        tv_haisi_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, HiSiliconTestActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tv_chatgpt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, StyledMessagesActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -666,6 +748,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
         addCmdResultListener(mAtCmdListener);
         addCmdResultListener(mBigDataCmdListener);
         addCmdResultListener(fmDataResultListener);
+
 
         expandView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -742,6 +825,11 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 //                        });
                         FissionSdkBleManage.getInstance().setTimes();
                         break;
+
+                    case FUNC_SET_ANY_TIME:
+                        startActivity(new Intent(context, SetAnyTimesActivity.class));
+                        break;
+
                     case FUNC_SET_TIMEZONE:
                         showEditDialog(FUNC_SET_TIMEZONE);
                         break;
@@ -892,7 +980,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                         startActivity(new Intent(context, CustomDialActivity.class));
                         break;
                     case FUNC_PUSH_CUSTOM_DIAL_NEW:
-                        ToastUtils.showLong("暂不支持！");
+                        startActivity(new Intent(context, NewCustomDialActivity.class));
                         break;
                     case FUNC_PUSH_CUSTOM_SPORT:
                         startActivity(new Intent(context, PushSportModeActivity.class));
@@ -1293,6 +1381,30 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     case FUNC_SET_AGPS_DATA:
                         startActivity(new Intent(context, PushAgpsDataActivity.class));
                         break;
+
+                    case FUNC_SET_SN_CMEI:
+                        startActivity(new Intent(context, SetSnAndCmeiActivity.class));
+                        break;
+
+                    case FUNC_NOTES_REMINDERS:
+                        startActivity(new Intent(context, NotesRemindersActivity.class));
+                        break;
+
+                    case FUNC_GET_DISK_SPACE_INFO:
+                        FissionSdkBleManage.getInstance().getDiskSpaceInfo();
+                        break;
+
+                    case FUNC_GET_HS_FILE_LIST:
+                        startActivity(new Intent(context, FileListActivity.class));
+                        break;
+
+                    case FUNC_SET_MAC:
+                        String mac = MacUtil.generateBluetoothMacAddress().replace(":", "").trim();
+                        logList.add("设置随机mac地址：" + mac);
+                        logAdapter.notifyDataSetChanged();
+                        FissionLogUtils.d("wl", "设置随机mac地址："+mac);
+                        FissionSdkBleManage.getInstance().setMAC("000000000000");
+                        break;
                 }
                 return true;
             }
@@ -1530,7 +1642,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
                     showLog(R.string.device_connecting,deviceName);
                     connectSuccessfully = true;
                     tvActionConnect.setText(R.string.disconnect);
-                    if(!TextUtils.isEmpty(deviceName) && (deviceName.contains("LW71") || deviceName.contains("LW76") || deviceName.contains("LW82") || deviceName.contains("LW83") || deviceName.contains("LW77")  || deviceName.contains("FT")  || deviceName.contains("RONIN") || deviceName.contains("Amazfit Pop") || deviceName.contains("Titan_90188")  || deviceName.contains("LA")  || deviceName.contains("TSW1")  || deviceName.contains("BUFF") || deviceName.contains("FireBoltt") || deviceName.contains("XINJI") || deviceName.contains("AGPTEK") || deviceName.contains("PARSONVER") || deviceName.contains("LW") )){
+                    if(!TextUtils.isEmpty(deviceName) && (deviceName.contains("LW71") || deviceName.contains("LW76") || deviceName.contains("LW82") || deviceName.contains("LW83") || deviceName.contains("LW77")  || deviceName.contains("FT")  || deviceName.contains("RONIN") || deviceName.contains("Amazfit Pop") || deviceName.contains("Titan_90188")  || deviceName.contains("LA")  || deviceName.contains("TSW1")  || deviceName.contains("BUFF") || deviceName.contains("FireBoltt") || deviceName.contains("XINJI") || deviceName.contains("AGPTEK") || deviceName.contains("PARSONVER") || deviceName.contains("LW101") || deviceName.contains("LW102") || deviceName.contains("LG") || deviceName.contains("LA99") || deviceName.contains("LW11") || deviceName.contains("COBEE") || deviceName.contains("hs") || deviceName.contains("LQ") || deviceName.contains("Watch") || deviceName.contains("NX") || deviceName.contains("Brooke") || deviceName.contains("CAVIAR") || deviceName.contains("NOHON") || deviceName.contains("Prowatch"))){
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, true);
                     }else{
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, false);
@@ -1547,21 +1659,23 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             @Override
             public void onConnectionStateChange(RxBleConnection.RxBleConnectionState newState) {
                 LogUtils.d("wl", "FissionSdk_v2----onConnectionStateChange: "+newState.toString());
-                if (newState == RxBleConnection.RxBleConnectionState.CONNECTED) {
-                    connectSuccessfully = true;
-                    tvDeviceStatus.setText(deviceName);
-                    tvActionConnect.setText(R.string.disconnect);
-                    showLog(R.string.connected,deviceName);
-                } else if (newState == RxBleConnection.RxBleConnectionState.DISCONNECTED) {
-                    FsLogUtil.d("成功断开了设备");
-                    connectSuccessfully = false;
-                    tvDeviceStatus.setText(R.string.disconnected);
-                    tvActionConnect.setText(R.string.connect);
-                    showLog(R.string.disconnected,deviceName);
-                }else if (newState == RxBleConnection.RxBleConnectionState.CONNECTING){
-                    tvDeviceStatus.setText(getString(R.string.device_connecting)+ deviceName);
-                    tvActionConnect.setText(R.string.disconnect);
-                }
+                ThreadUtils.runOnUiThread(() -> {
+                    if (newState == RxBleConnection.RxBleConnectionState.CONNECTED) {
+                        connectSuccessfully = true;
+                        tvDeviceStatus.setText(deviceName);
+                        tvActionConnect.setText(R.string.disconnect);
+                        showLog(R.string.connected,deviceName);
+                    } else if (newState == RxBleConnection.RxBleConnectionState.DISCONNECTED) {
+                        FsLogUtil.d("成功断开了设备");
+                        connectSuccessfully = false;
+                        tvDeviceStatus.setText(R.string.disconnected);
+                        tvActionConnect.setText(R.string.connect);
+                        showLog(R.string.disconnected,deviceName);
+                    }else if (newState == RxBleConnection.RxBleConnectionState.CONNECTING){
+                        tvDeviceStatus.setText(getString(R.string.device_connecting)+ deviceName);
+                        tvActionConnect.setText(R.string.disconnect);
+                    }
+                });
             }
 
             @Override
@@ -1578,7 +1692,21 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             public void onBindSucceeded(String address, String name) {
                 LogUtils.d("wl", "---onBindSucceeded--");
                 SharedPreferencesUtil.getInstance().setBluetoothAddress(address);
+
+                BaiDuAiUtils.initDeviceId("oDKQ0Z6JvoCFd3c3O20DxEOOtDCaKCMN", "OtBdvt18HdJnSYGGGaEMn2Mg0mCTF77w");
 //                dataSynchronization();
+                FissionSdkBleManage.getInstance().setBtConnectListener(new BtConnectListener() {
+                    @Override
+                    public void onConnectionStateChanged(@NonNull BluetoothDevice device, int state) {
+
+                    }
+
+                    @Override
+                    public void onRemoveBondFail() {
+                        ToastUtils.showShort("BT配对信息移除失败， 请前往系统蓝牙手动解除配对。");
+                        FissionLogUtils.d("wl", "BT配对信息移除失败， 请前往系统蓝牙手动解除配对");
+                    }
+                });
             }
 
             @Override
@@ -1786,36 +1914,6 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
 
 
     int timeType = 1;
-
-    @Event({R.id.tvActionConnect, R.id.tvLog, R.id.btnStartTime, R.id.btnEndTime, R.id.tvClear})
-    private void click(View v) {
-        int id = v.getId();
-        if (id == R.id.tvActionConnect) {
-            if (connectSuccessfully) {
-                connectSuccessfully = false;
-                tvDeviceStatus.setText(R.string.disconnected);
-                tvActionConnect.setText(R.string.connect);
-//                FissionSdk.getInstance().disConnectDevice();
-                SharedPreferencesUtil.getInstance().setFissionKey("");
-                FissionSdkBleManage.getInstance().disconnectBleDevice();
-            } else {
-                activityResultLauncher.launch(new Intent(this, DeviceScanActivity.class));
-            }
-        } else if (id == R.id.tvLog) {
-//            FissionCustomDialUtil.color24BitTo16Bit(getResources().getColor(R.color.public_custom_dial_72f4ef));
-            startActivity(new Intent(this, LogActivity.class));
-//            test();
-        } else if (id == R.id.btnStartTime) {
-            timeType = 1;
-            getTimeSelect(context, 1);
-        } else if (id == R.id.btnEndTime) {
-            timeType = 2;
-            getTimeSelect(context, 2);
-        } else if (id == R.id.tvClear) {
-            logList.clear();
-            logAdapter.notifyDataSetChanged();
-        }
-    }
 
     private void showMusicControlDialog() {
         String[] array = {"停止", "暂停", "播放", "上一首", "下一首", "缓冲中", "退出"};
@@ -2167,9 +2265,17 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
     }
 
     private void test(){
-        BigDataTaskUtil.endTime = System.currentTimeMillis()/1000;
-        byte [] data = StringUtil.hexToByteArray("00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00".replace(" ", ""));
-        BigDataParseManage.getInstance().parseStepsRecord(data);
+//        BigDataTaskUtil.endTime = System.currentTimeMillis()/1000;
+//        byte [] data = StringUtil.hexToByteArray("00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 42 47 01 00 01 81 00 00 00 00 00 00 64 6a d0 40 fb 17 03 01 1d 00 00 00 00 00 08 02 00 00 00 00 00 00 00 00 00 00 20 16 00 00 00 00 00 00 00 00 00 00 04 01 1a 1e f8 3f 31 00 90 77 10 20 00 00 00 00 06 01 1a 20 00 00 00 00 07 01 1a 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 30 77 00 00 00 00 00 00 00 00 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 10 77 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 b8 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f8 3f 31 00 98 76 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00".replace(" ", ""));
+//        BigDataParseManage.getInstance().parseStepsRecord(data);
+
+//        FissionSdkBleManage.getInstance().setMtu(244);
+//        BleConfig.setMTU(244);
+//        BleConfig.setIsMTU(true);
+//        BaiDuAiUtils.onChat("今天是几月几号", BaiDuAiUtils.AI_VOICE_TYPE_CHAT);
+
+//        BaiDuAiUtils.onChat("导航到深圳北站", "02");
+
     }
 
 
@@ -2203,5 +2309,34 @@ public class MainActivity extends BaseActivity implements OnStreamListener {
             }
         });
         dialog.show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.tvActionConnect) {
+            if (connectSuccessfully) {
+                connectSuccessfully = false;
+                tvDeviceStatus.setText(R.string.disconnected);
+                tvActionConnect.setText(R.string.connect);
+//                FissionSdk.getInstance().disConnectDevice();
+                SharedPreferencesUtil.getInstance().setFissionKey("");
+                FissionSdkBleManage.getInstance().disconnectBleDevice();
+            } else {
+                activityResultLauncher.launch(new Intent(this, DeviceScanActivity.class));
+            }
+        } else if (id == R.id.tvLog) {
+//            startActivity(new Intent(this, LogActivity.class));
+            test();
+        } else if (id == R.id.btnStartTime) {
+            timeType = 1;
+            getTimeSelect(context, 1);
+        } else if (id == R.id.btnEndTime) {
+            timeType = 2;
+            getTimeSelect(context, 2);
+        } else if (id == R.id.tvClear) {
+            logList.clear();
+            logAdapter.notifyDataSetChanged();
+        }
     }
 }

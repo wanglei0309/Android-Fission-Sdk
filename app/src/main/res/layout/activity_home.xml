@@ -151,6 +151,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_menstrual_period"
                 android:text="@string/set_female_health_data"
                 android:padding="16dp"
@@ -159,8 +160,25 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_synchronous_data"
                 android:text="@string/synchronization"
+                android:padding="16dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_haisi_test"
+                android:text="@string/FUNC_HAISI_TEST"
+                android:padding="16dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_chatgpt"
+                android:text="ChatGpt"
                 android:padding="16dp"
                 android:textSize="20sp"
                 android:layout_width="wrap_content"

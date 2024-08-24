@@ -51,12 +51,12 @@ public class FuncAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        holder.tvTitle = view.findViewById(R.id.tvTitle);
         holder.tvTitle.setText(funcBeans.get(i).getTitle());
         return view;
     }
 
     class ViewHolder {
-        @ViewInject(R.id.tvTitle)
         TextView tvTitle;
     }
 

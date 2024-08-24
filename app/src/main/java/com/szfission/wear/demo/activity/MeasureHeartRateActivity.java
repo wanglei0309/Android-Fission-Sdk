@@ -20,16 +20,12 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 
-@ContentView(R.layout.activity_measure_heart_rate)
 public class MeasureHeartRateActivity extends BaseActivity {
 
-    @ViewInject(R.id.gridChart)
     GridChartView gridChartView;
 
-    @ViewInject(R.id.btn_test)
     Button btnTest;
 
-    @ViewInject(R.id.tv_heart)
     TextView tvHeart;
 
     boolean testing = false;
@@ -37,6 +33,8 @@ public class MeasureHeartRateActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_measure_heart_rate);
+
         androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.title_heart_rate_measure);
         if (actionBar != null) {
@@ -44,21 +42,20 @@ public class MeasureHeartRateActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        gridChartView = findViewById(R.id.gridChart);
+        btnTest = findViewById(R.id.btn_test);
+        tvHeart = findViewById(R.id.tv_heart);
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ActionConstant.ACTION_MEASUREMENT_HR);
         registerReceiver(broadcastReceiver, intentFilter);
-    }
 
-    @Event(R.id.btn_test)
-    private void click(View v) {
-        /*if (testing) {
-            btnTest.setText(R.string.test_heart_rate_start);
-            CMDHelper.measurementHeartRate(getBaseContext(), false);
-        } else {
-            btnTest.setText(R.string.test_heart_rate_stop);
-            CMDHelper.measurementHeartRate(getBaseContext(), true);
-        }*/
-        testing = !testing;
+        btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testing = !testing;
+            }
+        });
     }
 
 

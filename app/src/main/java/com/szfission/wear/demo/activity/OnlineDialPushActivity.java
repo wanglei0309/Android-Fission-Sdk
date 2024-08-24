@@ -23,14 +23,24 @@ import androidx.appcompat.app.ActionBar;
 
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.FssStatus;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
+import com.fission.wear.sdk.v2.constant.FissionConstant;
+import com.fission.wear.sdk.v2.constant.SpKey;
 import com.fission.wear.sdk.v2.utils.CRC32Checksum;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
+import com.fission.wear.sdk.v2.utils.HiSiliconFileTransferUtils;
+import com.realsil.sdk.dfu.DfuConstants;
+import com.realsil.sdk.dfu.model.DfuProgressInfo;
+import com.realsil.sdk.dfu.model.OtaDeviceInfo;
+import com.realsil.sdk.dfu.model.Throughput;
+import com.realsil.sdk.dfu.utils.DfuAdapter;
 import com.szfission.wear.demo.R;
+import com.szfission.wear.sdk.bean.HardWareInfo;
 import com.szfission.wear.sdk.constant.FissionEnum;
 import com.szfission.wear.sdk.util.RxTimerUtil;
 
@@ -43,26 +53,16 @@ import java.io.File;
 /**
  * 推送当前歌曲信息
  */
-@ContentView(R.layout.activity_ota_update_dial)
 public class OnlineDialPushActivity extends BaseActivity {
 
-    @ViewInject(R.id.llChooseFile)
     LinearLayout llChooseFile;
-    @ViewInject(R.id.llChooseFile2)
     LinearLayout llChooseFile2;
-    @ViewInject(R.id.tvFile)
     TextView tvFile;
-    @ViewInject(R.id.tvFile2)
     TextView tvFile2;
-    @ViewInject(R.id.tvProgress)
     ProgressBar tvProgress;
-    @ViewInject(R.id.btn_send)
     String filePath = "";
-    @ViewInject(R.id.btn_re_update)
-    Button btn_re_update;
-    @ViewInject(R.id.tv_progress_value)
+    Button btn_re_update, btn_send;
     TextView tv_progress_value;
-    @ViewInject(R.id.tv_tip)
     TextView tv_tip;
 
     private int index;
@@ -80,11 +80,22 @@ public class OnlineDialPushActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ota_update_dial);
         setTitle(R.string.FUNC_ONLINE_DIAL_PUSH);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         String path = getPath();
+
+        llChooseFile = findViewById(R.id.llChooseFile);
+        llChooseFile2 = findViewById(R.id.llChooseFile2);
+        tvFile = findViewById(R.id.tvFile);
+        tvFile2 = findViewById(R.id.tvFile2);
+        tvProgress = findViewById(R.id.tvProgress);
+        tv_progress_value = findViewById(R.id.tv_progress_value);
+        btn_re_update = findViewById(R.id.btn_re_update);
+        btn_send = findViewById(R.id.btn_send);
+        tv_tip = findViewById(R.id.tv_tip);
 
         File dir = new File(path);
         LogUtils.d("获取路径",dir.getAbsolutePath());
@@ -152,8 +163,20 @@ public class OnlineDialPushActivity extends BaseActivity {
                     ToastUtils.showShort("表盘2，还未选择bin文件");
                 }else{
                     fileIndex = 1;
-                    FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath1), FissionEnum.WRITE_REMOTE_DIAL_DATA);
+                    if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK){
+                        FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath1), FissionEnum.WRITE_REMOTE_DIAL_DATA);
+                    }else if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
+//                        FissionSdkBleManage.getInstance().startDfu(OnlineDialPushActivity.this, filePath1, FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL, null);
+                        FissionSdkBleManage.getInstance().pushHiSiOnlineDial(filePath1, FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL, "10001");
+                    }
                 }
+            }
+        });
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
             }
         });
 
@@ -199,11 +222,21 @@ public class OnlineDialPushActivity extends BaseActivity {
                                 if(fileIndex == 1){
                                     fileIndex = 2;
                                     FissionLogUtils.d("wl", "11111111111111111");
-                                    FissionSdkBleManage.getInstance().startDial(dialData1, FissionEnum.WRITE_REMOTE_DIAL_DATA);
+                                    if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK){
+                                        FissionSdkBleManage.getInstance().startDial(dialData1, FissionEnum.WRITE_REMOTE_DIAL_DATA);
+                                    }else if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
+//                                        FissionSdkBleManage.getInstance().startDfu(OnlineDialPushActivity.this, filePath1, FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL, null);
+                                        FissionSdkBleManage.getInstance().pushHiSiOnlineDial(filePath1, FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL, "10001");
+                                    }
                                 }else{
                                     fileIndex = 1;
                                     FissionLogUtils.d("wl", "2222222222222222 ");
-                                    FissionSdkBleManage.getInstance().startDial(dialData2, FissionEnum.WRITE_REMOTE_DIAL_DATA);
+                                    if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK){
+                                        FissionSdkBleManage.getInstance().startDial(dialData2, FissionEnum.WRITE_REMOTE_DIAL_DATA);
+                                    }else if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
+//                                        FissionSdkBleManage.getInstance().startDfu(OnlineDialPushActivity.this, filePath2, FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL, null);
+                                        FissionSdkBleManage.getInstance().pushHiSiOnlineDial(filePath2, FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL, "10001");
+                                    }
                                 }
                             });
                         }
@@ -247,14 +280,26 @@ public class OnlineDialPushActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
         isReUpdate = false;
       if (filePath.equals("")){
           ToastUtils.showShort("还未选择bin文件");
       }else {
           byte [] dialData =  FileIOUtils.readFile2BytesByStream(filePath1);
-          boolean isValid = CRC32Checksum.checksumOnlineDialData(dialData);
+          boolean isValid = false;
+          if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK8773){
+              isValid = CRC32Checksum.checksumOnlineDialDataBy8773(dialData);
+              if(!isValid){
+                  ToastUtils.showShort("8773表盘文件格式有误，校验失败");
+                  return;
+              }
+          }else if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK){
+              isValid = CRC32Checksum.checksumOnlineDialData(dialData);
+              if(!isValid){
+                  ToastUtils.showShort("表盘文件格式有误，校验失败");
+                  return;
+              }
+          }
           FissionLogUtils.d("wl", "在线表盘有效性校验结果："+isValid);
           if(index == 0){
               FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath1), FissionEnum.WRITE_REMOTE_DIAL_DATA);

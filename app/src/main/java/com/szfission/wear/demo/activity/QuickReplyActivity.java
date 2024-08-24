@@ -24,41 +24,42 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.ArrayList;
 import java.util.List;
 
-@ContentView(R.layout.activity_quick_reply)
 public class QuickReplyActivity extends BaseActivity{
-    @ViewInject(R.id.ed_data1)
     EditText ed_data1;
-    @ViewInject(R.id.ed_data2)
     EditText ed_data2;
-    @ViewInject(R.id.ed_data3)
     EditText ed_data3;
-    @ViewInject(R.id.ed_data4)
     EditText ed_data4;
-    @ViewInject(R.id.ed_data5)
     EditText ed_data5;
-    @ViewInject(R.id.ed_data6)
     EditText ed_data6;
-    @ViewInject(R.id.ed_data7)
     EditText ed_data7;
-    @ViewInject(R.id.ed_data8)
     EditText ed_data8;
-    @ViewInject(R.id.ed_data9)
     EditText ed_data9;
-    @ViewInject(R.id.ed_data10)
     EditText ed_data10;
-    @ViewInject(R.id.btn_set)
     Button btn_set;
-    @ViewInject(R.id.btn_get)
     Button btn_get;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
+        setContentView(R.layout.activity_quick_reply);
         setTitle(R.string.FUNC_QUICK_REPLY_CMD);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
+
+        ed_data1 = findViewById(R.id.ed_data1);
+        ed_data2 = findViewById(R.id.ed_data2);
+        ed_data3 = findViewById(R.id.ed_data3);
+        ed_data4 = findViewById(R.id.ed_data4);
+        ed_data5 = findViewById(R.id.ed_data5);
+        ed_data6 = findViewById(R.id.ed_data6);
+        ed_data7 = findViewById(R.id.ed_data7);
+        ed_data8 = findViewById(R.id.ed_data8);
+        ed_data9 = findViewById(R.id.ed_data9);
+        ed_data10 = findViewById(R.id.ed_data10);
+        btn_set = findViewById(R.id.btn_set);
+        btn_get = findViewById(R.id.btn_get);
 
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
             @Override

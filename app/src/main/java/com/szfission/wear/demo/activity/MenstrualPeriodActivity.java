@@ -22,46 +22,49 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.Calendar;
 
-@ContentView(R.layout.activity_menstrual_period)
 public class MenstrualPeriodActivity extends BaseActivity{
 
-    @ViewInject(R.id.ed_menstrual_days)
     EditText ed_menstrual_days;
 
-    @ViewInject(R.id.ed_cycle_days)
     EditText ed_cycle_days;
 
-    @ViewInject(R.id.ed_date)
     EditText ed_date;
 
-    @ViewInject(R.id.ed_health_settings)
     EditText ed_health_settings;
 
-    @ViewInject(R.id.ed_reminder_days)
     EditText ed_reminder_days;
 
-    @ViewInject(R.id.switch_open)
     Switch switch_open;
 
-    @ViewInject(R.id.ed_reminder_time)
     EditText ed_reminder_time;
 
-    @ViewInject(R.id.ed_pregnancy_reminder_mode)
     EditText ed_pregnancy_reminder_mode;
 
-    @ViewInject(R.id.btn_save)
     Button btn_save;
 
-    @ViewInject(R.id.btn_get)
     Button btn_get;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_menstrual_period);
         setTitle(getString(R.string.set_female_health_data));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        ed_menstrual_days = findViewById(R.id.ed_menstrual_days);
+        ed_cycle_days = findViewById(R.id.ed_cycle_days);
+        ed_date = findViewById(R.id.ed_date);
+        ed_health_settings = findViewById(R.id.ed_health_settings);
+        ed_reminder_days = findViewById(R.id.ed_reminder_days);
+
+        switch_open = findViewById(R.id.switch_open);
+        ed_reminder_time = findViewById(R.id.ed_reminder_time);
+        ed_pregnancy_reminder_mode = findViewById(R.id.ed_pregnancy_reminder_mode);
+        btn_save = findViewById(R.id.btn_save);
+        btn_get = findViewById(R.id.btn_get);
+
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
             @Override
             public void sendSuccess(String cmdId) {

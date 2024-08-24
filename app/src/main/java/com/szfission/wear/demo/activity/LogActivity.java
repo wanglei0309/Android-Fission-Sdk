@@ -1,5 +1,6 @@
 package com.szfission.wear.demo.activity;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,15 +16,11 @@ import com.szfission.wear.demo.App;
 import com.szfission.wear.demo.LogAdapter;
 import com.szfission.wear.demo.R;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@ContentView(R.layout.activity_log)
 public class LogActivity extends BaseActivity {
-    @ViewInject(R.id.lv_log)
     ListView lvLog;
     LogAdapter logAdapter;
 
@@ -36,10 +33,14 @@ public class LogActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_log);
         setTitle(R.string.log);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        lvLog = findViewById(R.id.lv_log);
+
         logList = new ArrayList<>();
         logList.addAll(App.logData);
         logAdapter = new LogAdapter(this, logList);
@@ -73,15 +74,14 @@ public class LogActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-            case R.id.menu_clear:
-                App.logData.clear();
-                logList.clear();
-                logAdapter.notifyDataSetChanged();
-                break;
+        if(item.getItemId() == android.R.id.home){
+            this.finish();
+            return true;
+        }else if(item.getItemId() == R.id.menu_clear){
+            App.logData.clear();
+            logList.clear();
+            logAdapter.notifyDataSetChanged();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

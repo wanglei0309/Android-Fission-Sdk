@@ -3,6 +3,7 @@ package com.szfission.wear.demo.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -23,32 +24,50 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.Objects;
 
-@ContentView(R.layout.activity_set_sedentary_reminder)
 public class SetSedentaryReminderActivity extends BaseActivity  {
-    @ViewInject(R.id.etModerate)
     EditText etTargetStep;
 
-    @ViewInject(R.id.etVigorous)
     EditText etStartTime;
 
-    @ViewInject(R.id.etMaxHr2)
     EditText etEndTime;
 
-    @ViewInject(R.id.etMaxHr)
     EditText etKeepTime;
 
-
-
-    @ViewInject(R.id.switch_open)
     Switch switchOpen;
+
+    Button btn_send, btn_get;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_set_sedentary_reminder);
         setTitle(R.string.FUNC_GET_SEDENTARY_PARA);
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        etTargetStep = findViewById(R.id.etModerate);
+        etStartTime = findViewById(R.id.etVigorous);
+        etEndTime = findViewById(R.id.etMaxHr2);
+        etKeepTime = findViewById(R.id.etMaxHr);
+        btn_send = findViewById(R.id.btn_send);
+        btn_get = findViewById(R.id.btn_get);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+        btn_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                get();
+            }
+        });
+
         getData();
 
         showProgress();
@@ -111,8 +130,8 @@ public class SetSedentaryReminderActivity extends BaseActivity  {
         }
         return super.onOptionsItemSelected(item);
     }
-    @Event(R.id.btn_get)
-    private void get(View v){
+
+    private void get(){
         getData();
         showProgress();
     }
@@ -152,8 +171,7 @@ public class SetSedentaryReminderActivity extends BaseActivity  {
 //        });
     }
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
         String startTime = etStartTime.getText().toString();
         String endTime = etEndTime.getText().toString();
         String keepTime = etKeepTime.getText().toString();

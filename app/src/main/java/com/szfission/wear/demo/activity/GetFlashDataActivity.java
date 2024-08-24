@@ -33,19 +33,12 @@ import org.xutils.view.annotation.ViewInject;
 import java.io.File;
 
 
-@ContentView(R.layout.activity_get_flash_data)
 public class GetFlashDataActivity extends BaseActivity{
-    @ViewInject(R.id.ed_data1)
     EditText ed_data1;
-    @ViewInject(R.id.ed_data2)
     EditText ed_data2;
-    @ViewInject(R.id.btn_get)
     Button btn_get;
-    @ViewInject(R.id.tv_progress)
     TextView tv_progress;
-    @ViewInject(R.id.radio1)
     RadioButton radio1;
-    @ViewInject(R.id.radio2)
     RadioButton radio2;
 
 
@@ -58,12 +51,20 @@ public class GetFlashDataActivity extends BaseActivity{
     private int spLength;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
+        setContentView(R.layout.activity_get_flash_data);
         setTitle(R.string.FUNC_GET_FLASH_DATA);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
+
+        ed_data1 = findViewById(R.id.ed_data1);
+        ed_data2 = findViewById(R.id.ed_data2);
+        btn_get = findViewById(R.id.btn_get);
+        tv_progress = findViewById(R.id.tv_progress);
+        radio1 = findViewById(R.id.radio1);
+        radio2 = findViewById(R.id.radio2);
 
         if(App.mHardWareInfo!=null){
             hfOffsetAddress = App.mHardWareInfo.getHfOffsetAddress();

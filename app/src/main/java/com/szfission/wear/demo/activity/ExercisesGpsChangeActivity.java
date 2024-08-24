@@ -36,9 +36,7 @@ import java.util.List;
 /**
  * 运动记录列表
  */
-@ContentView(R.layout.activity_get_list)
 public class ExercisesGpsChangeActivity extends BaseActivity {
-    @ViewInject(R.id.getList)
     RecyclerView recyclerView;
 
     ExercisesListAdapter exercisesListAdapter;
@@ -46,11 +44,14 @@ public class ExercisesGpsChangeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_get_list);
         setTitle(R.string.FUNC_GET_EXERCISE_GPS);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        recyclerView = findViewById(R.id.getList);
 
 //        exercisesListAdapter = new ExercisesListAdapter(R.layout.adapter_exercies_list);
 //        recyclerView.setAdapter(exercisesListAdapter);

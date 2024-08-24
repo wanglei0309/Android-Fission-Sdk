@@ -3,6 +3,7 @@ package com.szfission.wear.demo.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -23,22 +24,43 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.Objects;
 
-@ContentView(R.layout.activity_not_disturb_para)
 public class SetNotDisturbParaActivity extends BaseActivity  {
-    @ViewInject(R.id.etStartTime)
     EditText etStartTime;
-    @ViewInject(R.id.etEndTime)
     EditText etEndTime;
-    @ViewInject(R.id.switch_open)
     Switch switchOpen;
+
+    Button btn_send, btn_get;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_not_disturb_para);
         setTitle(R.string.FUNC_SET_DONT_DISTURB_PARA);
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        etStartTime = findViewById(R.id.etStartTime);
+        etEndTime = findViewById(R.id.etEndTime);
+        switchOpen = findViewById(R.id.switch_open);
+        btn_send = findViewById(R.id.btn_send);
+        btn_get = findViewById(R.id.btn_get);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+        btn_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                get();
+            }
+        });
+
         getData();
         showProgress();
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
@@ -129,13 +151,13 @@ public class SetNotDisturbParaActivity extends BaseActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_get)
-    private void get(View v){
+    private void get(){
         getData();
         showProgress();
     }
-    @Event(R.id.btn_send)
-    private void send(View v) {
+
+
+    private void send() {
         String startTime = etStartTime.getText().toString();
         String endTime = etEndTime.getText().toString();
         DndRemind dndRemind = new DndRemind();

@@ -22,12 +22,14 @@ import androidx.appcompat.app.ActionBar;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.FssStatus;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
+import com.fission.wear.sdk.v2.constant.SpKey;
 import com.realsil.sdk.dfu.DfuConstants;
 import com.realsil.sdk.dfu.model.DfuProgressInfo;
 import com.realsil.sdk.dfu.model.OtaDeviceInfo;
@@ -37,6 +39,7 @@ import com.szfission.wear.demo.DataMessageEvent;
 import com.szfission.wear.demo.ModelConstant;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.util.OtaUtils;
+import com.szfission.wear.sdk.bean.HardWareInfo;
 import com.szfission.wear.sdk.util.RxTimerUtil;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -50,23 +53,16 @@ import java.io.File;
 /**
  * 推送当前歌曲信息
  */
-@ContentView(R.layout.activity_ota_update)
 public class OTAUpdateActivity extends BaseActivity {
 
-    @ViewInject(R.id.llChooseFile)
     LinearLayout llChooseFile;
-    @ViewInject(R.id.tvFile)
     TextView tvFile;
-    @ViewInject(R.id.tvProgress)
     ProgressBar tvProgress;
-    @ViewInject(R.id.tv_tip)
     TextView tv_tip;
-    @ViewInject(R.id.tv_progress_value)
     TextView tv_progress_value;
-    @ViewInject(R.id.btn_send)
     Button btnUpload;
-    @ViewInject(R.id.btn_re_update)
     Button btn_re_update;
+    Button btn_send_dial;
     String filePath = "";
     int modelType;
 
@@ -79,11 +75,22 @@ public class OTAUpdateActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ota_update);
         setTitle(R.string.updateota);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 //        showProgress();
+
+        llChooseFile = findViewById(R.id.llChooseFile);
+        tvFile = findViewById(R.id.tvFile);
+        tvProgress = findViewById(R.id.tvProgress);
+        tv_tip = findViewById(R.id.tv_tip);
+        tv_progress_value = findViewById(R.id.tv_progress_value);
+        btnUpload = findViewById(R.id.btn_send);
+        btn_re_update = findViewById(R.id.btn_re_update);
+        btn_send_dial = findViewById(R.id.btn_send_dial);
+
         String path = getPath();
 
         File dir = new File(path);
@@ -157,6 +164,17 @@ public class OTAUpdateActivity extends BaseActivity {
                     tv_progress_value.setText("当前OTA总进度："+fssStatus.getFssStatus()+"%");
                     tv_tip.setText("正在发送文件 1/1,当前升级成功次数："+otaCount);
                 }
+                if(fssStatus.getFssType() == 23 && fssStatus.getFssStatus()==100 && isReUpdate){
+                    if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
+                        otaCount++;
+                        tv_tip.setText("正在发送文件 1/1,当前升级成功次数："+otaCount);
+                        ToastUtils.showLong("180s后开始自动升级");
+                        RxTimerUtil rxTimerUtil = new RxTimerUtil();
+                        rxTimerUtil.timer(180000, number -> {
+                            sendOtaCmd(FissionConstant.OTA_TYPE_FIRMWARE);
+                        });
+                    }
+                }
             }
         });
 
@@ -167,8 +185,22 @@ public class OTAUpdateActivity extends BaseActivity {
                 if (filePath.equals("")){
                     ToastUtils.showShort("还未选择bin文件");
                 }else {
-                    sendOtaCmd();
+                    sendOtaCmd(FissionConstant.OTA_TYPE_FIRMWARE);
                 }
+            }
+        });
+
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+        btn_send_dial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendDial();
             }
         });
 
@@ -223,20 +255,27 @@ public class OTAUpdateActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
 //        filePath = "/storage/emulated/0/DIZO-V0_39-393-20220228.bin";
       if (filePath.equals("")){
           ToastUtils.showShort("还未选择bin文件");
       }else {
 //          OtaUtils.startDfu(this,filePath,true);
 //          OtaUtils.startDfu(this, filePath, FissionConstant.OTA_TYPE_FIRMWARE);
-          sendOtaCmd();
+          sendOtaCmd(FissionConstant.OTA_TYPE_FIRMWARE);
       }
     }
 
-    private void sendOtaCmd(){
-        FissionSdkBleManage.getInstance().startDfu(this, filePath, FissionConstant.OTA_TYPE_FIRMWARE, new DfuAdapter.DfuHelperCallback() {
+    private void sendDial() {
+        if (filePath.equals("")){
+            ToastUtils.showShort("还未选择bin文件");
+        }else {
+            sendOtaCmd(FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL);
+        }
+    }
+
+    private void sendOtaCmd(int otaType){
+        FissionSdkBleManage.getInstance().startDfu(this, filePath, otaType, new DfuAdapter.DfuHelperCallback() {
             @Override
             public void onStateChanged(int i) {
                 super.onStateChanged(i);
@@ -254,7 +293,7 @@ public class OTAUpdateActivity extends BaseActivity {
                     LogUtils.d("wl", "升级失败，40s后开始重复升级");
                     RxTimerUtil rxTimerUtil = new RxTimerUtil();
                     rxTimerUtil.timer(40000, number -> {
-                        sendOtaCmd();
+                        sendOtaCmd(FissionConstant.OTA_TYPE_FIRMWARE);
                     });
                 }
             }
@@ -267,7 +306,7 @@ public class OTAUpdateActivity extends BaseActivity {
                     LogUtils.d("wl", "升级成功，40s后开始重复升级");
                     RxTimerUtil rxTimerUtil = new RxTimerUtil();
                     rxTimerUtil.timer(40000, number -> {
-                        sendOtaCmd();
+                        sendOtaCmd(FissionConstant.OTA_TYPE_FIRMWARE);
                     });
                 }
             }
@@ -308,7 +347,7 @@ public class OTAUpdateActivity extends BaseActivity {
         String prefix = dd.substring(dd.lastIndexOf(".")+1);
         LogUtils.d("prefix",prefix);
         String name = null;
-        if ("bin".equals(prefix)){
+        if ("bin".equals(prefix) || "fwpkg".equals(prefix) ){
             String path = uri.getPath();
             String []split = path.split(":");
             tvFile.setText(split[split.length-1]);

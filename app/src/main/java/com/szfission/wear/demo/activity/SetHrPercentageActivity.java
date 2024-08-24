@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.szfission.wear.demo.ActionConstant;
 import com.szfission.wear.demo.R;
@@ -17,31 +19,52 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-@ContentView(R.layout.activity_set_hr_percentage)
 public class SetHrPercentageActivity extends Activity {
 
-    @ViewInject(R.id.et_value1)
     EditText etNormalPercent;
 
-    @ViewInject(R.id.et_value2)
     EditText etModerate;
 
-    @ViewInject(R.id.et_value3)
     EditText etVigorousPercent;
 
-    @ViewInject(R.id.et_value4)
     EditText etMaxHRPercent;
 
-    @ViewInject(R.id.et_t1)
     EditText etAntiRepetitiveTime;
 
-    @ViewInject(R.id.et_max_hr)
     EditText etMaxHR;
+
+    Button btn_send;
+
+    ImageButton ib_close;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_set_hr_percentage);
         x.view().inject(this);
+
+        etNormalPercent = findViewById(R.id.et_value1);
+        etModerate = findViewById(R.id.et_value2);
+        etVigorousPercent = findViewById(R.id.et_value3);
+        etMaxHRPercent = findViewById(R.id.et_value4);
+        etAntiRepetitiveTime = findViewById(R.id.et_t1);
+        etMaxHR = findViewById(R.id.et_max_hr);
+        btn_send = findViewById(R.id.btn_send);
+        ib_close = findViewById(R.id.ib_close);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+        ib_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                close();
+            }
+        });
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ActionConstant.ACTION_READ_HR_PERCENTAGE_SUCCESS);
@@ -49,13 +72,11 @@ public class SetHrPercentageActivity extends Activity {
       //  CMDHelper.readHrPercentage(getBaseContext());
     }
 
-    @Event(R.id.ib_close)
-    private void close(View v) {
+    private void close() {
         finish();
     }
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
         String normalPercent = etNormalPercent.getText().toString();
         String moderatePercent = etModerate.getText().toString();
         String vigorousPercent = etVigorousPercent.getText().toString();

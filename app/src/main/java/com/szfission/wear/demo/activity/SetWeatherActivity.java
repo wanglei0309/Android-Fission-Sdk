@@ -31,38 +31,30 @@ import java.util.Random;
 /**
  * 设置天气
  */
-@ContentView(R.layout.activity_set_weather)
 public class SetWeatherActivity extends BaseActivity {
 
-    @ViewInject(R.id.spinnerTime)
     Spinner spinnerTime;
 
-    @ViewInject(R.id.recycleWeather)
     RecyclerView recycleWeather;
-    @ViewInject(R.id.suiji)
-    Button suiji;
+    Button suiji, btn_send;
     MultiWeatherAdapter weatherAdapter;
-//    @ViewInject(R.id.spinnerAirQuality)
-//    Spinner spinnerAirQuality;
-//
-//    @ViewInject(R.id.spinnerPm25)
-//    Spinner spinnerPm25;
-//
-//    @ViewInject(R.id.etMin)
-//    EditText etMin;
-//
-//    @ViewInject(R.id.etMax)
-//    EditText etMax;
-List<WeatherParam> weatherParams = new ArrayList<>();
+    List<WeatherParam> weatherParams = new ArrayList<>();
     List<WeatherParam>todayWeatherDetails = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_set_weather);
         setTitle(R.string.FUNC_WEATHER);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        spinnerTime = findViewById(R.id.spinnerTime);
+        recycleWeather = findViewById(R.id.recycleWeather);
+        suiji = findViewById(R.id.suiji);
+        btn_send = findViewById(R.id.btn_send);
+
         String[] spinnerItems = {"第一天", "第二天", "第三天","第四天","第五天","第六天","第七天","第八天"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, spinnerItems);
@@ -124,6 +116,13 @@ List<WeatherParam> weatherParams = new ArrayList<>();
             @Override
             public void onClick(View v) {
              setData();
+            }
+        });
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
             }
         });
 
@@ -201,8 +200,7 @@ List<WeatherParam> weatherParams = new ArrayList<>();
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
         int time = spinnerTime.getSelectedItemPosition();
         int weather = 2;
         int airQuality = 3;

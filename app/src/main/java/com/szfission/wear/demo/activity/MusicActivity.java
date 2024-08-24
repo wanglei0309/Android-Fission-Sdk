@@ -3,6 +3,7 @@ package com.szfission.wear.demo.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,32 +25,42 @@ import org.xutils.view.annotation.ViewInject;
 /**
  * 推送当前歌曲信息
  */
-@ContentView(R.layout.activity_music)
 public class MusicActivity extends BaseActivity {
 
-    @ViewInject(R.id.etName)
     EditText etName;
 
-    @ViewInject(R.id.etSinger)
     EditText etSinger;
 
-    @ViewInject(R.id.etTime)
     EditText etTime;
 
-    @ViewInject(R.id.etTitle)
     EditText etTitle;
 
-    @ViewInject(R.id.etPlayAppName)
     EditText etPlayAppName;
 
+    Button btn_send;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_music);
         setTitle(R.string.FUNC_STRU_MUSIC_CONT);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        etName = findViewById(R.id.etName);
+        etSinger = findViewById(R.id.etSinger);
+        etTime = findViewById(R.id.etTime);
+        etTitle = findViewById(R.id.etTitle);
+        etPlayAppName = findViewById(R.id.etPlayAppName);
+        btn_send = findViewById(R.id.btn_send);
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
 //        showProgress();
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
             @Override
@@ -93,8 +104,7 @@ public class MusicActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
         String name = etName.getText().toString();
         String singer = etSinger.getText().toString();
         String time = etTime.getText().toString();

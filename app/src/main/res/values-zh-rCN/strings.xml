@@ -208,4 +208,50 @@
     <string name="FUNC_SET_AGPS_LOCATION">推送AGPS基础定位信息</string>
     <string name="FUNC_SET_AGPS_DATA">推送AGPS辅助定位数据到设备</string>
 
+    <string name="FUNC_SET_SN_CMEI">设置SN/CMEI码</string>
+    <string name="FUNC_GET_SN_CMEI">获取SN/CMEI码</string>
+
+    <string name="FUNC_NOTES_REMINDERS">便签记事提醒</string>
+
+    <string name="filter">过滤</string>
+
+    <string name="FUNC_HAISI_TEST">海思测试入口</string>
+
+    <string-array name="haisi_test_array">
+        <item>文件传输</item>
+        <item>百度导航</item>
+        <item>文心一言</item>
+        <item>星历数据推送</item>
+        <item>相册表盘</item>
+        <item>乘车码</item>
+        <item>递归下载重启日志</item>
+    </string-array>
+
+    <string name="file_upload">文件上传</string>
+    <string name="file_download">文件下载</string>
+    <string name="board_side_path">板侧路径</string>
+    <string name="inquire">查询</string>
+    <string name="file_list">文件列表</string>
+    <string name="start">开始</string>
+    <string name="stop">停止</string>
+    <string name="delete">删除</string>
+    <string name="check">查看</string>
+    <string name="please_select_file">请选择文件</string>
+    <string name="select_file">选择文件</string>
+    <string name="upload_path">上传路径</string>
+    <string name="start_sending">开始发送</string>
+    <string name="stop_sending">停止发送</string>
+
+    <string name="push_more_gps_tip">需要推送的GPS星历文件请放在SD卡下的 %1$s 目录下。</string>
+
+    <string name="python_dial_tip">需要打包的dial资源请放在SD卡下的 %1$s 目录下。</string>
+
+    <string name="FUNC_SET_ANY_TIME">设置任意时间</string>
+
+    <string name="FUNC_GET_DISK_SPACE_INFO">获取系统空间使用信息</string>
+
+    <string name="FUNC_GET_HS_FILE_LIST">获取海思文件列表</string>
+
+    <string name="FUNC_SET_MAC">随机设置MAC地址</string>
+
 </resources>

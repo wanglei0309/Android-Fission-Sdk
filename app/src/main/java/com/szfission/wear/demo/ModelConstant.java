@@ -57,7 +57,9 @@ public  class ModelConstant {
     public static final int FUNC_SET_TEMPERATURE_UNIT = 45;
     public static final int FUNC_PUSH_CUSTOM_DIAL_NEW = 1509;
     public static final int FUNC_SET_FUNC_SET_STO = 46;
+    public static final int FUNC_SET_ANY_TIME = 47;
 
+    public static final int FUNC_SET_MAC = 48;
 
     public static final int FUNC_GET_HARDWARE_INFO = 100;
     public static final int FUNC_GET_DAYS_REPORT = 101;
@@ -107,4 +109,13 @@ public  class ModelConstant {
     public static final int FUNC_GET_SYSTEM_INFO = 138;
     public  static final int FUNC_SET_AGPS_LOCATION = 139;
     public static final int FUNC_SET_AGPS_DATA = 140;
+
+    public static final int FUNC_SET_SN_CMEI = 141;
+
+    public static final int FUNC_NOTES_REMINDERS = 142;
+
+    public static final int FUNC_GET_DISK_SPACE_INFO = 143;
+
+    public static final int FUNC_GET_HS_FILE_LIST = 144;
+
 }

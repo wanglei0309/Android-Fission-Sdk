@@ -44,21 +44,14 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 
-@ContentView(R.layout.activity_push_sport)
 public class PushSportModeActivity extends BaseActivity{
     private RxPermissions rxPermissions;
-    @ViewInject(R.id.pushProgress)
     TextView pushProgress;
-    @ViewInject(R.id.pushSport)
     Button pushSport;
-    @ViewInject(R.id.pushSport2)
     Button pushSport2;
-    @ViewInject(R.id.spinnerType)
     Spinner spinner;
 
-    @ViewInject(R.id.llChooseFile)
     LinearLayout llChooseFile;
-    @ViewInject(R.id.tvFile)
     TextView tvFile;
 
     String filePath = "";
@@ -74,6 +67,7 @@ public class PushSportModeActivity extends BaseActivity{
     private long lastTime = 0; //上次升级成功的时候， 屏蔽固件重复返回进度100% 引起的逻辑问题。
     @Override
     protected void onCreate( Bundle savedInstanceState) {
+        setContentView(R.layout.activity_push_sport);
         setTitle(R.string.FUNC_PUSH_CUSTOM_SPORT);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
@@ -85,6 +79,13 @@ public class PushSportModeActivity extends BaseActivity{
 
         File dir = new File(path);
         LogUtils.d("获取路径",dir.getAbsolutePath());
+
+        pushProgress = findViewById(R.id.pushProgress);
+        pushSport = findViewById(R.id.pushSport);
+        pushSport2 = findViewById(R.id.pushSport2);
+        spinner = findViewById(R.id.spinnerType);
+        llChooseFile = findViewById(R.id.llChooseFile);
+        tvFile = findViewById(R.id.tvFile);
 
         String[] mItems = getResources().getStringArray(R.array.sport);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, mItems);

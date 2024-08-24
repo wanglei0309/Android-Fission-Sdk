@@ -41,9 +41,7 @@ import java.util.List;
 /**
  * 运动记录列表
  */
-@ContentView(R.layout.activity_get_list)
 public class ExercisesListActivity extends BaseActivity {
-    @ViewInject(R.id.getList)
     RecyclerView recyclerView;
 
     ExercisesListAdapter exercisesListAdapter;
@@ -51,11 +49,15 @@ public class ExercisesListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_get_list);
+
         setTitle(R.string.FUNC_GET_EXERCISE_LIST);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        recyclerView = findViewById(R.id.getList);
 
         exercisesListAdapter = new ExercisesListAdapter(R.layout.adapter_exercies_list);
         recyclerView.setAdapter(exercisesListAdapter);
@@ -66,9 +68,6 @@ public class ExercisesListActivity extends BaseActivity {
         long startTime = bundle.getLong("startTime");
         long endTime = bundle.getLong("endTime");
         getData(startTime, endTime);
-
-
-
 
     }
 
@@ -153,6 +152,7 @@ public class ExercisesListActivity extends BaseActivity {
                 .inflate(R.layout.dialog_customize, null);
         TextView tvContent = dialogView.findViewById(R.id.tvContent);
         StringBuilder content = new StringBuilder();
+        LogUtils.d("wl", "---exerciseDetails--"+exerciseDetails.size());
         for (ExerciseDetail exerciseDetail : exerciseDetails) {
             LogUtils.d("循环了即便啊啊啊啊");
             content.append("\n utc记录时间：").append(DateUtil.gmtToStrDate(exerciseDetail.getTime()));

@@ -2,6 +2,7 @@ package com.szfission.wear.demo.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -28,6 +30,9 @@ import androidx.annotation.NonNull;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.BleScanResultListener;
 import com.polidea.rxandroidble2.exceptions.BleScanException;
@@ -40,6 +45,8 @@ import com.szfission.wear.sdk.constant.WalleAction;
 import com.szfission.wear.sdk.util.BleUtil;
 import com.szfission.wear.sdk.util.FsLogUtil;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -56,10 +63,14 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
     private ImageButton ibBack;
     private Button btnOption;
     private TextView tvTitle;
+
+    private TextView tvFilter;
     private ProgressBar pbLoad;
     private List<BluetoothDeviceEntity> bluetoothDeviceEntityList;
     private boolean showSignalStrength; // 信号强度
     private String[] scanFilterName ;
+
+    private String mFilter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +87,7 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
         btnOption = findViewById(R.id.btn_option);
         tvTitle = findViewById(R.id.tv_title);
         pbLoad = findViewById(R.id.pb_load);
+        tvFilter = findViewById(R.id.tv_filter);
 
         String title = getIntent().getStringExtra("title");
         showSignalStrength = getIntent().getBooleanExtra("showSignalStrength", true);
@@ -86,9 +98,13 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
         }
         tvTitle.setText(title);
 
+        mFilter = SPUtils.getInstance().getString("filterKey", "");
+
         lvContent.setOnItemClickListener(this);
         btnOption.setOnClickListener(this);
         ibBack.setOnClickListener(this);
+        tvFilter.setOnClickListener(this);
+
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(this, R.string.walle_ble_ble_not_supported, Toast.LENGTH_SHORT).show();
             finish();
@@ -109,14 +125,94 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
         searchBleDevices();
     }
 
+    /**
+     * 解析蓝牙名称
+     *
+     * @param scanRecord
+     * @return
+     */
+    public static String parseDeviceName(byte[] scanRecord) {
+        String ret = null;
+        if (null == scanRecord) {
+            return ret;
+        }
+
+        ByteBuffer buffer = ByteBuffer.wrap(scanRecord).order(ByteOrder.LITTLE_ENDIAN);
+        while (buffer.remaining() > 2) {
+            byte length = buffer.get();
+            if (length == 0) {
+                continue;
+            }
+
+            byte type = buffer.get();
+            length -= 1;
+            switch (type) {
+                case 0x01: // Flags
+                    buffer.get(); // flags
+                    length--;
+                    break;
+                case 0x02: // Partial list of 16-bit UUIDs
+                case 0x03: // Complete list of 16-bit UUIDs
+                case 0x14: // List of 16-bit Service Solicitation UUIDs
+                    while (length >= 2) {
+                        buffer.getShort();
+                        length -= 2;
+                    }
+                    break;
+                case 0x04: // Partial list of 32 bit service UUIDs
+                case 0x05: // Complete list of 32 bit service UUIDs
+                    while (length >= 4) {
+                        buffer.getInt();
+                        length -= 4;
+                    }
+                    break;
+                case 0x06: // Partial list of 128-bit UUIDs
+                case 0x07: // Complete list of 128-bit UUIDs
+                case 0x15: // List of 128-bit Service Solicitation UUIDs
+                    while (length >= 16) {
+                        long lsb = buffer.getLong();
+                        long msb = buffer.getLong();
+                        length -= 16;
+                    }
+                    break;
+                case 0x08: // Short local device name
+                case 0x09: // Complete local device name
+                    byte sb[] = new byte[length];
+                    buffer.get(sb, 0, length);
+                    length = 0;
+                    ret = new String(sb).trim();
+                    return ret;
+                case (byte) 0xFF: // Manufacturer Specific Data
+                    buffer.getShort();
+                    length -= 2;
+                    break;
+                default: // skip
+                    break;
+            }
+            if (length > 0) {
+                if ((buffer.position() + length) < buffer.capacity()) {
+                    buffer.position(buffer.position() + length);
+                } else {
+                    buffer.position(buffer.capacity());
+                }
+            }
+        }
+        return ret;
+    }
+
     private void searchBleDevices(){
         FissionSdkBleManage.getInstance().scanBleDevices(new BleScanResultListener() {
                                                    @Override
                                                    public void onScanResult(ScanResult scanResult) {
                                                        if (scanResult != null) {
+                                                           String bleDeviceName = scanResult.getBleDevice().getName();
+                                                           if (StringUtils.isEmpty(bleDeviceName)) {
+                                                               bleDeviceName = parseDeviceName(scanResult.getScanRecord().getBytes());
+                                                           }
+                                                           LogUtils.d("wl", "搜索到的蓝牙名称："+bleDeviceName+",过滤关键字："+mFilter);
                                                            BluetoothDeviceEntity device = new BluetoothDeviceEntity();
                                                            device.setRssi(scanResult.getRssi());
-                                                           device.setName(scanResult.getBleDevice().getName());
+                                                           device.setName(bleDeviceName);
                                                            device.setAddress(scanResult.getBleDevice().getMacAddress());
                                                            addBluetoothDeviceEntity(device);
                                                        }
@@ -134,6 +230,7 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
                                                    @Override
                                                    public void onScanFinish() {
                                                        refreshOptionStatus();
+                                                       mLeDeviceListAdapter.notifyDataSetChanged();
                                                    }
                                                }, null, new ScanSettings.Builder()
                         .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
@@ -240,6 +337,8 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
             refreshOptionStatus();
         } else if (i == R.id.ib_back) {
             finish();
+        } else if(i == R.id.tv_filter){
+            showDialog(this, "蓝牙名称过滤", SPUtils.getInstance().getString("filterKey", "LW"));
         }
     }
 
@@ -322,26 +421,66 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
         }
     };
 
-    private synchronized void addBluetoothDeviceEntity(BluetoothDeviceEntity device) {
-        int index = -1;
+    private void addBluetoothDeviceEntity(BluetoothDeviceEntity device) {
+        if (!TextUtils.isEmpty(device.getName()) && (TextUtils.isEmpty(mFilter) || device.getName().contains(mFilter))) {
+            synchronized (bluetoothDeviceEntityList) {
+                int index = findDeviceIndex(device);
+                if (index >= 0) {
+                    bluetoothDeviceEntityList.set(index, device);
+                } else {
+                    bluetoothDeviceEntityList.add(device);
+                }
+                Collections.sort(bluetoothDeviceEntityList, Collections.reverseOrder(new RssiComparator()));
+            }
+
+            mLeDeviceListAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private int findDeviceIndex(BluetoothDeviceEntity device) {
         for (int i = 0; i < bluetoothDeviceEntityList.size(); i++) {
             if (bluetoothDeviceEntityList.get(i).getAddress().equals(device.getAddress())) {
-                index = i;
-                break;
+                return i;
             }
         }
-        if (index >= 0) {
-            bluetoothDeviceEntityList.set(index, device);
-        } else {
-            bluetoothDeviceEntityList.add(device);
-        }
-        Collections.sort(bluetoothDeviceEntityList, new Comparator<BluetoothDeviceEntity>() {
+        return -1;
+    }
 
+    private static class RssiComparator implements Comparator<BluetoothDeviceEntity> {
+        @Override
+        public int compare(BluetoothDeviceEntity o1, BluetoothDeviceEntity o2) {
+            return o1.getRssi().compareTo(o2.getRssi());
+        }
+    }
+
+
+    private void showDialog(Context context, String title,String editText) {
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_simple_input, null);
+        Button btnConfirm = view.findViewById(R.id.btnConfirm);
+        Button btnCancel = view.findViewById(R.id.btnCancel);
+        EditText etContent = view.findViewById(R.id.etContent);
+        TextView tvTitle = view.findViewById(R.id.tvTitle);
+        tvTitle.setText(title);
+        etContent.setText(editText);
+        final AlertDialog dialog = new AlertDialog.Builder(context).setView(view).create();
+        btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public int compare(BluetoothDeviceEntity o1, BluetoothDeviceEntity o2) {
-                return o2.getRssi().compareTo(o1.getRssi());
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
-        mLeDeviceListAdapter.notifyDataSetChanged();
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String filter = etContent.getText().toString().trim();
+                mFilter = filter;
+                SPUtils.getInstance().put("filterKey", filter);
+                searchBleDevices();
+                bluetoothDeviceEntityList.clear();
+                mLeDeviceListAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

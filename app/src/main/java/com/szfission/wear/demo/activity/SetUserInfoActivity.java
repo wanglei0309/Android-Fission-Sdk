@@ -3,6 +3,7 @@ package com.szfission.wear.demo.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -21,45 +22,64 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-@ContentView(R.layout.activity_set_user_info)
 public class SetUserInfoActivity extends BaseActivity {
 
-    @ViewInject(R.id.etId)
     EditText etId;
 
-    @ViewInject(R.id.etNickname)
     EditText etNickname;
 
-    @ViewInject(R.id.et_age)
     EditText etAge;
 
-    @ViewInject(R.id.et_height)
     EditText etHeight;
 
-    @ViewInject(R.id.et_weight)
     EditText etWeight;
 
-    @ViewInject(R.id.et_stride_length)
     EditText etStrideLength;
 
-    @ViewInject(R.id.rb_male)
     RadioButton rbMale;
 
-    @ViewInject(R.id.rb_female)
     RadioButton rbFemale;
 
-    @ViewInject(R.id.etTimeZone)
     EditText etTimeZone;
+
+    Button btn_get, btn_send;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_set_user_info);
         setTitle(R.string.title_profile);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-//        AnyWear.getPersonalInfo(this);
-//        showProgress();
+
+        etId = findViewById(R.id.etId);
+        etNickname = findViewById(R.id.etNickname);
+        etAge = findViewById(R.id.et_age);
+        etHeight = findViewById(R.id.et_height);
+        etWeight = findViewById(R.id.et_weight);
+        etStrideLength = findViewById(R.id.et_stride_length);
+        rbMale = findViewById(R.id.rb_male);
+        rbFemale = findViewById(R.id.rb_female);
+        etTimeZone = findViewById(R.id.etTimeZone);
+        btn_get = findViewById(R.id.btn_get);
+        btn_send = findViewById(R.id.btn_send);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+        btn_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                get();
+            }
+        });
+
 
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
             @Override
@@ -130,15 +150,13 @@ public class SetUserInfoActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_get)
-    private void get(View v) {
+    private void get() {
         getData();
         showProgress();
     }
 
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
         String userId = etId.getText().toString();
         String nickname = etNickname.getText().toString();
         String timeZone = etTimeZone.getText().toString();

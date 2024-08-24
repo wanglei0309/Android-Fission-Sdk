@@ -62,5 +62,15 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white" />
 
+    <Button
+        android:id="@+id/btn_send_timer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_send"
+        android:layout_marginTop="20dp"
+        android:text="15s间隔定时推送消息"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
 
 </RelativeLayout>

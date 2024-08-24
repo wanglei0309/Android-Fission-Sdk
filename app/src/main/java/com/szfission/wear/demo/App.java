@@ -3,8 +3,12 @@ package com.szfission.wear.demo;
 import android.app.Application;
 import android.os.Environment;
 
+import com.baidu.location.LocationClient;
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.common.BaiduMapSDKException;
 import com.blankj.utilcode.util.LogUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.utils.BaiDuAiUtils;
 import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.AnyWearConfig;
 import com.szfission.wear.sdk.bean.HardWareInfo;
@@ -42,12 +46,25 @@ public class App extends Application {
         FissionSdkBleManage.getInstance().initFissionSdk(this);
         FissionSdkBleManage.getInstance().setDebug(true);
 
-        LogUtils.getConfig().setConsoleSwitch(BuildConfig.DEBUG);
+        LogUtils.getConfig().setConsoleSwitch(true);
         LogUtils.getConfig().setLog2FileSwitch(true);
         LogUtils.getConfig().setSaveDays(7);
         LogUtils.getConfig().setFilePrefix("Device");
         LogUtils.getConfig().setDir(Environment.getExternalStorageDirectory());
 
         FissionSdkBleManage.getInstance().initSppConnect(this);
+
+        SDKInitializer.setAgreePrivacy(this, true);
+        LocationClient.setAgreePrivacy(true);
+        try {
+            LocationClient.setAgreePrivacy(true);
+            // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
+            SDKInitializer.initialize(this);
+        } catch (BaiduMapSDKException e) {
+
+        }
+
+        BaiDuAiUtils.initBaiDuAi("69253013", "BSmt4AxIJ5ttnlHauzD2LG9Q", "nCZCosHTYGVcWvzfRtbogSCBZelHQV1k", "oDKQ0Z6JvoCFd3c3O20DxEOOtDCaKCMN", "OtBdvt18HdJnSYGGGaEMn2Mg0mCTF77w");
     }
+
 }

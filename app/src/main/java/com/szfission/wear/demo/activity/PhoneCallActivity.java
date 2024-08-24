@@ -3,6 +3,7 @@ package com.szfission.wear.demo.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,23 +22,34 @@ import org.xutils.view.annotation.ViewInject;
 /**
  * 手机来电
  */
-@ContentView(R.layout.activity_phone_call)
 public class PhoneCallActivity extends BaseActivity {
 
-    @ViewInject(R.id.etName)
     EditText etName;
 
-    @ViewInject(R.id.etNumber)
     EditText etNumber;
 
+    Button btn_send;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_phone_call);
         setTitle(R.string.FUNC_STRU_CALL_DATA);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        etName = findViewById(R.id.etName);
+        etNumber = findViewById(R.id.etNumber);
+        btn_send = findViewById(R.id.btn_send);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
 //        showProgress();
 
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
@@ -81,8 +93,7 @@ public class PhoneCallActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Event(R.id.btn_send)
-    private void send(View v) {
+    private void send() {
         String name = etName.getText().toString();
         String number = etNumber.getText().toString();
         if (name.isEmpty()) {

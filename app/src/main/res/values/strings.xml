@@ -209,5 +209,86 @@
     <string name="FUNC_SET_STO">Set STO</string>
     <string name="FUNC_SET_AGPS_LOCATION">Push AGPS basic positioning information</string>
     <string name="FUNC_SET_AGPS_DATA">Push AGPS auxiliary positioning data to the device</string>
+    <string name="FUNC_SET_SN_CMEI">Set SN/CMEI code</string>
+    <string name="FUNC_GET_SN_CMEI">Get SN/CMEI code</string>
+    <string name="FUNC_NOTES_REMINDERS">Notes Reminders</string>
+
+    <string name="filter">filter</string>
+
+    <string name="FUNC_HAISI_TEST">HiSilicon test entrance</string>
+
+    <string-array name="haisi_test_array">
+        <item>File transmission</item>
+        <item>Baidu Navigation</item>
+        <item>Wen Xinyiyan</item>
+        <item>Ephemeris data push</item>
+        <item>相册表盘</item>
+        <item>乘车码</item>
+        <item>递归下载重启日志</item>
+    </string-array>
+
+    <string-array name="haisi_board_side_path_array">
+        <item>/system/</item>
+        <item>/user/</item>
+        <item>/user/test/</item>
+        <item>/user/log/</item>
+        <item>/user/res/</item>
+        <item>/user/log/xiaodu/</item>
+        <item>/user/xgnss/</item>
+        <item>/user/data/</item>
+        <item>/user/exc/</item>
+        <item>/user/js/</item>
+        <item>/user/music/</item>
+        <item>/user/temp/</item>
+        <item>/user/syspara/</item>
+        <item>/user/report/</item>
+        <item>/user/record/</item>
+        <item>/user/exer/</item>
+        <item>/user/music/Alarm_clock_audio/</item>
+        <item>/user/music/Drainage_audio/</item>
+        <item>/user/music/Exercise_audio/</item>
+        <item>/user/music/Factory_mode_audio/</item>
+        <item>/user/music/Find_phone_audio/</item>
+        <item>/user/music/Information_audio/</item>
+        <item>/user/music/Ringtone/</item>
+        <item>/user/music/Stopwatch_timer_audio/</item>
+        <item>/user/res/BaiduMap/default_titles/</item>
+        <item>/user/watchface/</item>
+        <item>/user/DialBuiltin</item>
+        <item>/user/res/BaiduMap/default_titles/</item>
+    </string-array>
+
+    <string name="file_upload">File upload</string>
+    <string name="file_download">File download</string>
+    <string name="board_side_path">Board side path</string>
+    <string name="inquire">Inquiry</string>
+    <string name="file_list">File list</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="delete">Delete</string>
+    <string name="check">View</string>
+    <string name="please_select_file">Please select file</string>
+    <string name="select_file">Select file</string>
+    <string name="upload_path">Upload path</string>
+    <string name="start_sending">Start sending</string>
+    <string name="stop_sending">Stop sending</string>
+
+    <string name="push_more_gps_tip">Please place the GPS ephemeris files that need to be pushed in the %1$s directory under the SD card. </string>
+
+    <string name="python_dial_tip">需要打包的dial资源请放在SD卡下的 %1$s 目录下。</string>
+
+    <string name="FUNC_SET_ANY_TIME">Set Any Time</string>
+
+    <string name="FUNC_GET_DISK_SPACE_INFO">Get Disk Space Info</string>
+
+    <string name="FUNC_GET_HS_FILE_LIST">Get File List</string>
+
+    <string name="FUNC_SET_MAC">Random Set Mac</string>
+
+    <string name="action_delete">Delete</string>
+    <string name="action_copy">Copy</string>
+    <string name="hint_enter_a_message">Type a message…</string>
+    <string name="date_header_today">Today</string>
+    <string name="date_header_yesterday">Yesterday</string>
 
 </resources>
