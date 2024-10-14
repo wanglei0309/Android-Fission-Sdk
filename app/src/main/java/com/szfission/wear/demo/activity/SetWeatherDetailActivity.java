@@ -98,7 +98,7 @@ public class SetWeatherDetailActivity extends BaseActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
+                if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS || SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK8773){
                     String city;
                     if(isCurrentLanguageChinese()){
                         city = "深圳";
@@ -161,7 +161,7 @@ public class SetWeatherDetailActivity extends BaseActivity {
         todayWeatherDetail.setHighSetTmp(highTmp);
         todayWeatherDetail.setTemperature(curTmp);
         todayWeatherDetail.setWeatherCode(weatherCode);
-        if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
+        if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS || SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK8773){
             if(isCurrentLanguageChinese()){
                 todayWeatherDetail.setCityName("深圳");
                 todayWeatherDetail.setCityNameLength("深圳".getBytes().length);

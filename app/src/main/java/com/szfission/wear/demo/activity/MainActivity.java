@@ -3,6 +3,7 @@ package com.szfission.wear.demo.activity;
 import static com.szfission.wear.demo.ModelConstant.*;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -56,6 +57,7 @@ import com.fission.wear.sdk.v2.bean.DeviceBattery;
 import com.fission.wear.sdk.v2.bean.DeviceVersion;
 import com.fission.wear.sdk.v2.bean.DiskSpaceInfo;
 import com.fission.wear.sdk.v2.bean.FssStatus;
+import com.fission.wear.sdk.v2.bean.GptAudio2TextJsonByLanguage;
 import com.fission.wear.sdk.v2.bean.HsDialInfo;
 import com.fission.wear.sdk.v2.bean.HsJsFileInfo;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
@@ -80,6 +82,7 @@ import com.fission.wear.sdk.v2.parse.HiSiliconSppCmdHelper;
 import com.fission.wear.sdk.v2.parse.HiSiliconSppCmdID;
 import com.fission.wear.sdk.v2.parse.ParseDataListener;
 import com.fission.wear.sdk.v2.utils.BaiDuAiUtils;
+import com.fission.wear.sdk.v2.utils.ChatGptUtils;
 import com.fission.wear.sdk.v2.utils.FissionCustomDialUtil;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.fission.wear.sdk.v2.utils.HiSiTaskManage;
@@ -1642,7 +1645,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
                     showLog(R.string.device_connecting,deviceName);
                     connectSuccessfully = true;
                     tvActionConnect.setText(R.string.disconnect);
-                    if(!TextUtils.isEmpty(deviceName) && (deviceName.contains("LW71") || deviceName.contains("LW76") || deviceName.contains("LW82") || deviceName.contains("LW83") || deviceName.contains("LW77")  || deviceName.contains("FT")  || deviceName.contains("RONIN") || deviceName.contains("Amazfit Pop") || deviceName.contains("Titan_90188")  || deviceName.contains("LA")  || deviceName.contains("TSW1")  || deviceName.contains("BUFF") || deviceName.contains("FireBoltt") || deviceName.contains("XINJI") || deviceName.contains("AGPTEK") || deviceName.contains("PARSONVER") || deviceName.contains("LW101") || deviceName.contains("LW102") || deviceName.contains("LG") || deviceName.contains("LA99") || deviceName.contains("LW11") || deviceName.contains("COBEE") || deviceName.contains("hs") || deviceName.contains("LQ") || deviceName.contains("Watch") || deviceName.contains("NX") || deviceName.contains("Brooke") || deviceName.contains("CAVIAR") || deviceName.contains("NOHON") || deviceName.contains("Prowatch"))){
+                    if(!TextUtils.isEmpty(deviceName) && (deviceName.contains("LW71") || deviceName.contains("LW76") || deviceName.contains("LW82") || deviceName.contains("LW83") || deviceName.contains("LW77")  || deviceName.contains("FT")  || deviceName.contains("RONIN") || deviceName.contains("Amazfit Pop") || deviceName.contains("Titan_90188")  || deviceName.contains("LA")  || deviceName.contains("TSW1")  || deviceName.contains("BUFF") || deviceName.contains("FireBoltt") || deviceName.contains("XINJI") || deviceName.contains("AGPTEK") || deviceName.contains("PARSONVER") || deviceName.contains("LW101") || deviceName.contains("LW102") || deviceName.contains("LG") || deviceName.contains("LA99") || deviceName.contains("LW11") || deviceName.contains("COBEE") || deviceName.contains("hs") || deviceName.contains("LQ") || deviceName.contains("Watch") || deviceName.contains("NX") || deviceName.contains("Brooke") || deviceName.contains("CAVIAR") || deviceName.contains("NOHON") || deviceName.contains("Prowatch") || deviceName.contains("ANY TIME") || deviceName.contains("MARK"))){
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, true);
                     }else{
                         SPUtils.getInstance().put(SpKey.IS_IC_TYPE_8763E, false);
@@ -1694,6 +1697,8 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
                 SharedPreferencesUtil.getInstance().setBluetoothAddress(address);
 
                 BaiDuAiUtils.initDeviceId("oDKQ0Z6JvoCFd3c3O20DxEOOtDCaKCMN", "OtBdvt18HdJnSYGGGaEMn2Mg0mCTF77w");
+
+//                ChatGptUtils.getInstance().initSdk(MainActivity.this, SPUtils.getInstance().getString(SpKey.LAST_MAC));
 //                dataSynchronization();
                 FissionSdkBleManage.getInstance().setBtConnectListener(new BtConnectListener() {
                     @Override
@@ -2276,6 +2281,10 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
 //        BaiDuAiUtils.onChat("导航到深圳北站", "02");
 
+//        BaiDuAiUtils.startTTS(this, "今天星期几");
+
+
+        ChatGptUtils.getInstance().chatWithBodyOverseas("What's the weather like today in Shenzhen");
     }
 
 
@@ -2326,8 +2335,8 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
                 activityResultLauncher.launch(new Intent(this, DeviceScanActivity.class));
             }
         } else if (id == R.id.tvLog) {
-//            startActivity(new Intent(this, LogActivity.class));
-            test();
+            startActivity(new Intent(this, LogActivity.class));
+//            test();
         } else if (id == R.id.btnStartTime) {
             timeType = 1;
             getTimeSelect(context, 1);

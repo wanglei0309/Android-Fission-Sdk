@@ -46,6 +46,8 @@ public class SetSedentaryReminderActivity extends BaseActivity  {
         Objects.requireNonNull(actionBar).setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        switchOpen = findViewById(R.id.switch_open);
+
         etTargetStep = findViewById(R.id.etModerate);
         etStartTime = findViewById(R.id.etVigorous);
         etEndTime = findViewById(R.id.etMaxHr2);

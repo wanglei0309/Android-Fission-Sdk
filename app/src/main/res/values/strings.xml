@@ -225,6 +225,9 @@
         <item>相册表盘</item>
         <item>乘车码</item>
         <item>递归下载重启日志</item>
+        <item>关闭音频数据保存</item>
+        <item>开启ai节点数据保存</item>
+        <item>开启sea节点数据保存</item>
     </string-array>
 
     <string-array name="haisi_board_side_path_array">
@@ -254,7 +257,7 @@
         <item>/user/music/Stopwatch_timer_audio/</item>
         <item>/user/res/BaiduMap/default_titles/</item>
         <item>/user/watchface/</item>
-        <item>/user/DialBuiltin</item>
+        <item>/user/DialBuiltin/</item>
         <item>/user/res/BaiduMap/default_titles/</item>
     </string-array>
 
