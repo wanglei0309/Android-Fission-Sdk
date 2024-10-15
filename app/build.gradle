@@ -80,6 +80,7 @@ dependencies {
     implementation files("libs/rtk-wear-1.5.12.jar")
     implementation files("libs/rtk-media-codec-1.2.1.aar")
     implementation files("libs/rtk-audioconnect-ai-1.0.1.aar")
+    implementation files("libs/compresslib.aar")
 
     implementation('com.journeyapps:zxing-android-embedded:4.2.0') { transitive = false }
     implementation 'com.google.zxing:core:3.3.0'
