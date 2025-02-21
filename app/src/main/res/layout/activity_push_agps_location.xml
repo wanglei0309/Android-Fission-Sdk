@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="15dp">
+
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_alignParentTop="true"
+        style="@style/setUserInfoLabel"
+        android:text="经度（longitude）" />
+
+    <EditText
+        android:text="114.045441"
+        android:id="@+id/etLng"
+        style="@style/BackgroundEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvName"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvName" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/etLng"
+        android:text="纬度（latitude）" />
+
+    <EditText
+        android:text="22.696678"
+        android:id="@+id/etLat"
+        style="@style/BackgroundEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvContent"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvContent"
+        android:gravity="left|top"
+        />
+
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etLat"
+        android:layout_marginTop="50dp"
+        android:text="@string/set"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+
+</RelativeLayout>

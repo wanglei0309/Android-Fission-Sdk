@@ -51,12 +51,32 @@
         android:gravity="left|top"
         android:lines="3" />
 
+    <TextView
+        android:id="@+id/tvTime"
+        style="@style/setUserInfoLabel"
+        android:layout_below="@+id/etContent"
+        android:text="间隔时间" />
+
+    <EditText
+        android:id="@+id/etTime"
+        android:hint="定时消息间隔时间，单位秒"
+        android:textSize="13dp"
+        style="@style/BackgroundEditText"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvTime"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvTime"
+        android:gravity="left|top"
+        android:lines="1" />
+
 
     <Button
         android:id="@+id/btn_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etContent"
+        android:layout_below="@+id/etTime"
         android:layout_marginTop="50dp"
         android:text="@string/set"
         android:textAllCaps="false"
@@ -68,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_send"
         android:layout_marginTop="20dp"
-        android:text="15s间隔定时推送消息"
+        android:text="定时推送消息"
         android:textAllCaps="false"
         android:textColor="@android:color/white" />
 

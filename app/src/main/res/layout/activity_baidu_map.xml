@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_open_map"
+                    android:text="拉起手表地图"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_license"
+                    android:text="SVG鉴权"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_send_svg"
+                    android:text="发送SVG图片数据"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_send_dst_list"
+                    android:text="发目的地检索列表"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_push_navigation"
+                    android:text="导航信息推送"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_sug_search"
+                    android:text="sug检索"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_search_navigation_riding"
+                    android:text="规划导航(骑行)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_search_navigation_step"
+                    android:text="规划导航(步行)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_location_start"
+                    android:text="开始定位"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_start_navigation_riding"
+                    android:text="开始导航(骑行)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_start_navigation_step"
+                    android:text="开始导航(步行)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_start_navigation_riding_init"
+                    android:text="开始导航(骑行),初始化"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_start_navigation_step_init"
+                    android:text="开始导航(步行)，初始化"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_start_navigation_bus"
+                    android:text="开始导航(公交)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_send_poi"
+                    android:text="发POI结果"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_end_navigation"
+                    android:text="结束导航"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_route_plan_start"
+                    android:text="导航开始算路"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_send_svg_list"
+                    android:text="批量发送svg文件"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+    <ScrollView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:padding="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="当前连接设备信息："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_log"
+                android:layout_marginTop="10dp"
+                android:text="log："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

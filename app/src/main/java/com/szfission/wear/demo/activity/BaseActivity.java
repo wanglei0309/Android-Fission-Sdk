@@ -16,8 +16,12 @@ import com.fission.wear.sdk.v2.bean.DeviceVersion;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
 import com.fission.wear.sdk.v2.callback.BaseCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
+import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.linwear.baidu.map.watch.activity.BaiduMapManageActivity;
 import com.szfission.wear.demo.App;
+import com.szfission.wear.demo.C;
+import com.szfission.wear.demo.ConnectedStateEvent;
+import com.szfission.wear.demo.DataMessageEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.util.LogUtil;
@@ -102,14 +106,15 @@ public class BaseActivity extends BaiduMapManageActivity {
         App.logSingleData.add(content);
         if(refreshLogTimer == null){
             refreshLogTimer = new Timer();
-            refreshLogTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    sendBroadcast(new Intent(LogActivity.ACTION_REFRESH));
-                    refreshLogTimer = null;
-                }
-            },100);
         }
+        refreshLogTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+//                    sendBroadcast(new Intent(LogActivity.ACTION_REFRESH));
+//                    refreshLogTimer = null;
+                EventBus.getDefault().post(new DataMessageEvent(101, ""));
+            }
+        },100);
     }
 
     /**

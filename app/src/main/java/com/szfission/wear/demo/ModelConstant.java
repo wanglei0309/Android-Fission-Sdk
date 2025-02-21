@@ -60,6 +60,11 @@ public  class ModelConstant {
     public static final int FUNC_SET_ANY_TIME = 47;
 
     public static final int FUNC_SET_MAC = 48;
+    public static final int FUNC_SET_SVM = 49;
+
+    public static final int FUNC_GPS_DATA_MONITOR = 50;
+
+    public static final int FUNC_SET_GPS_DATA_MODE = 51;
 
     public static final int FUNC_GET_HARDWARE_INFO = 100;
     public static final int FUNC_GET_DAYS_REPORT = 101;

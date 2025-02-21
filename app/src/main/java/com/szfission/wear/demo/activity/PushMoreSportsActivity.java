@@ -63,7 +63,6 @@ public class PushMoreSportsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push_more_sport);
-        btn_push.setText(getString(R.string.FUNC_PUSH_CUSTOM_SPORT)+"(03F6)");
         setTitle(R.string.FUNC_PUSH_MORE_CUSTOM_SPORT);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
@@ -71,7 +70,6 @@ public class PushMoreSportsActivity extends BaseActivity {
         String directory = getPath()+"/fission_sports";
         String directory2 = getPath()+"/fission_sports_internal";
         String text = getString(R.string.push_more_sport_tip, directory, directory2);
-        tv_file_directory.setText(text);
         FileUtils.createOrExistsDir(directory);
         FileUtils.createOrExistsDir(directory2);
 
@@ -84,6 +82,8 @@ public class PushMoreSportsActivity extends BaseActivity {
         btn_push2 = findViewById(R.id.btn_push2);
         btn_push_internal = findViewById(R.id.btn_push_internal);
         tv_progress = findViewById(R.id.tv_progress);
+        btn_push.setText(getString(R.string.FUNC_PUSH_CUSTOM_SPORT)+"(03F6)");
+        tv_file_directory.setText(text);
 
         FissionSdkBleManage.getInstance().addCmdResultListener(new FissionAtCmdResultListener() {
             @Override

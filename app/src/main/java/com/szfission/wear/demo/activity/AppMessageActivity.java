@@ -1,6 +1,7 @@
 package com.szfission.wear.demo.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,9 +17,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.bean.AppMessageBean;
-import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
 import com.szfission.wear.sdk.util.FsLogUtil;
 import com.szfission.wear.sdk.util.RxTimerUtil;
 
@@ -31,7 +30,7 @@ import java.util.Random;
 public class AppMessageActivity extends BaseActivity {
     EditText etName;
 
-    EditText etContent;
+    EditText etContent, etTime;
 
     Spinner spinnerType;
 
@@ -45,6 +44,7 @@ public class AppMessageActivity extends BaseActivity {
         setContentView(R.layout.activity_app_message);
 
         etName = findViewById(R.id.etName);
+        etTime = findViewById(R.id.etTime);
         etContent = findViewById(R.id.etContent);
         spinnerType = findViewById(R.id.spinnerType);
         btn_send = findViewById(R.id.btn_send);
@@ -171,8 +171,13 @@ public class AppMessageActivity extends BaseActivity {
     }
 
     private void sendTimer() {
-        ToastUtils.showLong("定时间隔15s推送消息");
-        mRxTimerUtil.interval(15000, new RxTimerUtil.RxAction() {
+        if(TextUtils.isEmpty(etTime.getText().toString())){
+            ToastUtils.showShort("时间间隔参数不能为null");
+            return;
+        }
+        int time = Integer.parseInt(etTime.getText().toString().trim())*1000;
+        ToastUtils.showLong("定时间隔"+(time/1000)+"s推送消息");
+        mRxTimerUtil.interval(time, new RxTimerUtil.RxAction() {
             @Override
             public void action(long number) {
                 String name = "随机推送消息";

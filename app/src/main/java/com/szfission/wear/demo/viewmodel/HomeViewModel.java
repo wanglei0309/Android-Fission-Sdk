@@ -98,10 +98,12 @@ public class HomeViewModel extends ViewModel {
         childList1.add(new FuncBean(R.string.FUNC_GET_MEDIA_AUDIO_SWITCH, FUNC_GET_MEDIA_AUDIO_SWITCH));
         childList1.add(new FuncBean(R.string.FUNC_SET_STO, FUNC_SET_FUNC_SET_STO));
         childList1.add(new FuncBean(R.string.FUNC_SET_MAC, FUNC_SET_MAC));
-
+        childList1.add(new FuncBean(R.string.FUNC_SET_SVM, FUNC_SET_SVM));
+        childList1.add(new FuncBean(R.string.FUNC_SET_GPS_DATA_MODE, FUNC_SET_GPS_DATA_MODE));
 
         childList2.add(new FuncBean(R.string.FUNC_SET_DATA_STREAM, FUNC_SET_DATA_STREAM));
         childList2.add(new FuncBean(R.string.FUNC_MSG_TASK, FUNC_SET_DATA_STREAM2));
+        childList2.add(new FuncBean(R.string.FUNC_GPS_DATA_MONITOR, FUNC_GPS_DATA_MONITOR));
         childList2.add(new FuncBean(R.string.FUNC_SWITCH_HR_RATE, FUNC_SWITCH_HR_RATE));
         childList2.add(new FuncBean(R.string.FUNC_OTA, FUNC_OTA));
         childList2.add(new FuncBean(R.string.FUNC_PUSH_CUSTOM_DIAL, FUNC_PUSH_CUSTOM_DIAL));

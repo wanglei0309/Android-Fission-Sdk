@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/pushProgress"
+        android:text="推送进度"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:background="@drawable/shape_main"
+        android:padding="10dp"
+        android:layout_margin="20dp"
+        android:id="@+id/llChooseFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:text="文件路径:" />
+
+
+        <TextView
+            android:layout_marginEnd="@dimen/dp_10"
+            android:id="@+id/tvFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:singleLine="false"
+            android:text="选择文件>" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/pushAgpsData"
+        android:text="推送AGPS辅助定位数据"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/pushMultipleAgpsData"
+        android:text="推送AGPS辅助定位数据(gps/北斗/伽利略)"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

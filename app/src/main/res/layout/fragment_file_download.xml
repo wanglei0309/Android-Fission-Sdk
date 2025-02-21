@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/white"
+    android:padding="15dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/llyt_side_path"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/board_side_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:layout_marginStart="10dp"
+            android:id="@+id/spinner_side_path"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_inquire"
+            android:layout_marginStart="10dp"
+            android:text="@string/inquire"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llyt_file_list"
+        android:layout_below="@+id/llyt_side_path"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/file_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:layout_marginStart="10dp"
+            android:id="@+id/spinner_file_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llyt_operate"
+        android:layout_below="@+id/llyt_file_list"
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_start"
+            android:text="@string/start"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_delete_all"
+            android:text="删除全部"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:text="@string/delete"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:text="批量下载"
+            android:id="@+id/btn_download_all"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llyt_operate4"
+        android:layout_below="@+id/llyt_operate"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <EditText
+            android:hint="请输入板侧路径，输入框有路径时以输入框为准"
+            android:textSize="12dp"
+            android:id="@+id/ed_file_directory"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <Button
+            android:id="@+id/btn_download_all_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="下载指定目录全部文件"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llyt_progress"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/llyt_operate4"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/horizontalProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_marginStart="20dp"
+            android:text="0%"
+            android:layout_weight="4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/llyt_transfer_speed"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/llyt_progress"
+        android:padding="2dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Rate:0kb/s"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_below="@+id/llyt_transfer_speed"
+        android:layout_marginTop="10dp"
+        android:text="@string/log"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ScrollView
+        android:layout_below="@+id/tv_tip"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_logs"
+                android:text="@string/log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

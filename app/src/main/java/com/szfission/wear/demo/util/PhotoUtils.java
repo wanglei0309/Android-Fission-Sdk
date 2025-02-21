@@ -54,15 +54,29 @@ public class PhotoUtils {
     //选照片
     @SuppressLint("CheckResult")
     public void openAlbum(RxPermissions rxPermissions, FragmentActivity fragmentActivity) {
-        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .subscribe(granted -> {
-                            if (granted) {//获取权限
-                                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                fragmentActivity.startActivityForResult(intent, C.RC_CHOOSE);
-                            } else {//用户拒绝
-//                                PermissionUtilSetting.openAppDetailSetting(fragmentActivity);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
+            rxPermissions.request(Manifest.permission.READ_MEDIA_IMAGES)
+                    .subscribe(granted -> {
+                                if (granted) {//获取权限
+                                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                    fragmentActivity.startActivityForResult(intent, C.RC_CHOOSE);
+                                } else {//用户拒绝
+                                    PermissionUtilSetting.openAppDetailSetting(fragmentActivity);
+                                }
                             }
-                        }
-                );
+                    );
+        } else {
+            rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .subscribe(granted -> {
+                                if (granted) {//获取权限
+                                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                    fragmentActivity.startActivityForResult(intent, C.RC_CHOOSE);
+                                } else {//用户拒绝
+                                    PermissionUtilSetting.openAppDetailSetting(fragmentActivity);
+                                }
+                            }
+                    );
+        }
+
     }
 }

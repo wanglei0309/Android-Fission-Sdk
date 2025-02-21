@@ -670,6 +670,7 @@ public class FissionSdk {
             SharedPreferencesUtil.getInstance().setFissionKey(lastTime + "," + bindKey);
         }
         BleComConfig bleComConfig = new BleComConfig();
+        bleComConfig.setDistinguishNewDevice(true);
         bleComConfig.setBind(isBind);
         bleComConfig.setBindKeys(SharedPreferencesUtil.getInstance().getFissionKey());
         if(SPUtils.getInstance().getBoolean(SpKey.IS_IC_TYPE_8763E)){

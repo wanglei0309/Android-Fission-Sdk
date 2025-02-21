@@ -58,6 +58,7 @@ public class NormalDialog extends Dialog {
                 case ModelConstant.FUNC_SET_HEART_RATE_SWITCH:
                 case ModelConstant.FUNC_SET_CALL_AUDIO_SWITCH:
                 case ModelConstant.FUNC_SET_MEDIA_AUDIO_SWITCH:
+                case ModelConstant.FUNC_SET_GPS_DATA_MODE:
                     array = new String[]{context.getString(R.string.disabled), context.getString(R.string.enable)};
                     break;
                 case ModelConstant.FUNC_SET_HIGH_SPEED_CONNECT:
@@ -67,6 +68,9 @@ public class NormalDialog extends Dialog {
                     array = new String[]{context.getString(R.string.album_selection), context.getString(R.string.photograph)};
                     break;
 
+                case ModelConstant.FUNC_SET_SVM:
+                    array = new String[]{context.getString(R.string.relative_volume_control), context.getString(R.string.absolute_volume_control)};
+                    break;
             }
             setModelDialog(context, array);
         }else if (dialogType == 1){
@@ -76,6 +80,7 @@ public class NormalDialog extends Dialog {
                     break;
                 case ModelConstant.FUNC_SET_DATA_STREAM:
                 case ModelConstant.FUNC_SET_DATA_STREAM2:
+                case ModelConstant.FUNC_GPS_DATA_MONITOR:
                     setContent(context, context.getString(R.string.stream_time), "1000");
                     break;
                 case ModelConstant.FUNC_SAFETY_CONFIRM:

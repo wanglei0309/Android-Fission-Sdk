@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_dial_list"
+                android:padding="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_js_list"
+                android:padding="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_media_list"
+                android:padding="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btn_get_dial"
+                android:text="获取表盘文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_get_js"
+                android:text="获取JS文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_get_ebook"
+                android:text="获取电子书文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_get_music"
+                android:text="获取音乐文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_get_video"
+                android:text="获取视频文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_get_ringtone_msg"
+                android:text="获取消息铃声文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_get_ringtone_call"
+                android:text="获取来电铃声文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_get_ringtone_clock"
+                android:text="获取闹钟铃声文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_delete_dial"
+                android:text="删除表盘文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_delete_js"
+                android:text="删除JS文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_delete_ebook"
+                android:text="删除电子书文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_delete_music"
+                android:text="删除音乐文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_delete_video"
+                android:text="删除视频文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_delete_ringtone_msg"
+                android:text="删除消息铃声文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_delete_ringtone_call"
+                android:text="删除来电铃声文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_delete_ringtone_clock"
+                android:text="删除闹钟铃声文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_get_ringtone_setting"
+                android:text="获取铃声参数设定"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

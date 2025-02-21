@@ -72,7 +72,7 @@ dependencies {
     implementation 'com.tencent.bugly:crashreport:3.3.7'
     implementation 'com.tencent.bugly:nativecrashreport:3.8.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'com.contrarywind:Android-PickerView:4.1.9'
+//    implementation 'com.contrarywind:Android-PickerView:4.1.9'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation files('libs/rtk-bbpro-core-1.8.15.jar')
     implementation files('libs/rtk-core-1.5.25.jar')
@@ -96,7 +96,7 @@ dependencies {
     api rootProject.ext.dependencies["replaying"]
     api rootProject.ext.dependencies["utilcodex"]
 
-    implementation files('libs/fissionsdk_v2-release-v2.1.1.aar')
+    implementation files('libs/fissionsdk_v2-release-v2.1.11.aar')
 
     api "com.github.kongzue.DialogX:DialogX:0.0.48"
 
@@ -104,7 +104,7 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
 
-    implementation "com.google.android:flexbox:2.0.1"
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     implementation files("libs/chatkit-release.aar")
 
@@ -115,4 +115,10 @@ dependencies {
 
     // Microsoft SpeechService SDK
     implementation("com.microsoft.cognitiveservices.speech:client-sdk:1.33.0")
+
+    api project(path: ':pickerview')
+
+    implementation 'com.baidu.lbsyun:NaviTts:3.2.13'
+
+    implementation files('libs/AFlash_release_V4.2.0.aar')
 }

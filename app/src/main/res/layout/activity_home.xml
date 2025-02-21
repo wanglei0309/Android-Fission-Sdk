@@ -178,7 +178,7 @@
 
             <TextView
                 android:id="@+id/tv_chatgpt"
-                android:text="ChatGpt"
+                android:text="Rtk ChatGpt"
                 android:padding="16dp"
                 android:textSize="20sp"
                 android:layout_width="wrap_content"

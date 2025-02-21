@@ -19,6 +19,11 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
 
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+
     <uses-feature android:name="android.hardware.bluetooth" android:required="true"/>
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />

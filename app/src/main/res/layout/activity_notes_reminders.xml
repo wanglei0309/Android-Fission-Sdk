@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="标题" />
+
+    <EditText
+        android:id="@+id/etTitle"
+        style="@style/BackgroundEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvTitle"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toRightOf="@+id/tvTitle" />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/tvAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitle"
+        android:layout_marginLeft="10dp"
+        android:text="地点" />
+
+    <EditText
+        android:id="@+id/etAddress"
+        style="@style/BackgroundEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvAddress"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toRightOf="@+id/tvAddress" />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvAddress"
+        android:layout_marginLeft="10dp"
+        android:text="内容" />
+
+    <EditText
+        android:id="@+id/etContent"
+        style="@style/BackgroundEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvContent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="left|top"
+        android:lines="3"
+        android:layout_toRightOf="@+id/tvContent" />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/tvStartTimeHour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etContent"
+        android:layout_marginLeft="10dp"
+        android:text="开始时间（小时）" />
+
+    <EditText
+        android:id="@+id/etStartTimeHour"
+        style="@style/BackgroundEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvStartTimeHour"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toRightOf="@+id/tvStartTimeHour" />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/tvStartTimeMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etStartTimeHour"
+        android:layout_marginLeft="10dp"
+        android:text="开始时间（分钟）" />
+
+    <EditText
+        android:id="@+id/etStartTimeMin"
+        style="@style/BackgroundEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvStartTimeMin"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toRightOf="@+id/tvStartTimeMin" />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/tvEndTimeHour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etStartTimeMin"
+        android:layout_marginLeft="10dp"
+        android:text="结束时间（小时）" />
+
+    <EditText
+        android:id="@+id/etEndTimeHour"
+        style="@style/BackgroundEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvEndTimeHour"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toRightOf="@+id/tvEndTimeHour" />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/tvEndTimeMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etEndTimeHour"
+        android:layout_marginLeft="10dp"
+        android:text="结束时间（分钟）" />
+
+    <EditText
+        android:id="@+id/etEndTimeMin"
+        style="@style/BackgroundEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvEndTimeMin"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toRightOf="@+id/tvEndTimeMin" />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etEndTimeMin"
+        android:layout_marginTop="50dp"
+        android:text="@string/set"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_get"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_send"
+        android:text="查询"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

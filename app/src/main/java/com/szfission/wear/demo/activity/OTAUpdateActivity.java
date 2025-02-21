@@ -168,9 +168,9 @@ public class OTAUpdateActivity extends BaseActivity {
                     if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
                         otaCount++;
                         tv_tip.setText("正在发送文件 1/1,当前升级成功次数："+otaCount);
-                        ToastUtils.showLong("180s后开始自动升级");
+                        ToastUtils.showLong("210s后开始自动升级");
                         RxTimerUtil rxTimerUtil = new RxTimerUtil();
-                        rxTimerUtil.timer(180000, number -> {
+                        rxTimerUtil.timer(210000, number -> {
                             sendOtaCmd(FissionConstant.OTA_TYPE_FIRMWARE);
                         });
                     }
@@ -290,9 +290,9 @@ public class OTAUpdateActivity extends BaseActivity {
             public void onError(int i, int i1) {
                 super.onError(i, i1);
                 if (i == DfuConstants.PROGRESS_IMAGE_ACTIVE_SUCCESS && isReUpdate) {
-                    LogUtils.d("wl", "升级失败，40s后开始重复升级");
+                    LogUtils.d("wl", "升级失败，80s后开始重复升级");
                     RxTimerUtil rxTimerUtil = new RxTimerUtil();
-                    rxTimerUtil.timer(40000, number -> {
+                    rxTimerUtil.timer(80000, number -> {
                         sendOtaCmd(FissionConstant.OTA_TYPE_FIRMWARE);
                     });
                 }
@@ -303,9 +303,9 @@ public class OTAUpdateActivity extends BaseActivity {
                 super.onProcessStateChanged(i, throughput);
                 if (i == DfuConstants.PROGRESS_IMAGE_ACTIVE_SUCCESS && isReUpdate) {
                     otaCount++;
-                    LogUtils.d("wl", "升级成功，40s后开始重复升级");
+                    LogUtils.d("wl", "升级成功，80s后开始重复升级");
                     RxTimerUtil rxTimerUtil = new RxTimerUtil();
-                    rxTimerUtil.timer(40000, number -> {
+                    rxTimerUtil.timer(80000, number -> {
                         sendOtaCmd(FissionConstant.OTA_TYPE_FIRMWARE);
                     });
                 }

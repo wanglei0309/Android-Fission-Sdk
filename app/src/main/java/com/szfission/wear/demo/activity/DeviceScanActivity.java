@@ -116,8 +116,11 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WalleAction.SCAN_RESULT);
         intentFilter.addAction(WalleAction.SCAN_TIMEOUT);
-        registerReceiver(scanResultBroadcastReceiver, intentFilter);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(scanResultBroadcastReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(scanResultBroadcastReceiver, intentFilter);
+        }
 
         bluetoothDeviceEntityList.clear();
         mLeDeviceListAdapter.notifyDataSetChanged();
@@ -257,7 +260,7 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
     }
     private void validPermission() {
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.S){
-            PermissionUtils.permission(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION).callback(new PermissionUtils.FullCallback() {
+            PermissionUtils.permission(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,  Manifest.permission.MEDIA_CONTENT_CONTROL).callback(new PermissionUtils.FullCallback() {
                 @Override
                 public void onGranted(@NonNull List<String> granted) {
                     searchBleDevices();

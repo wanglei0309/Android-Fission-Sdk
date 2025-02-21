@@ -24,7 +24,7 @@
     <string name="walle_ble_ble_not_supported">不支持蓝牙</string>
     <string name="walle_ble_need_location">需要请求位置权限</string>
     <string name="walle_ble_location_warn">请允许获取位置信息，否则一些功能将无法正常工作。</string>
-    <string name="walle_ble_unknown_device">未知设备</string>
+c
     <string name="walle_ble_scan">扫描</string>
     <string name="walle_ble_bind_device">绑定设备</string>
     <string name="walle_ble_stop">停止</string>
@@ -129,6 +129,7 @@
     <string name="FUNC_GET_CALL_AUDIO_SWITCH">获取通话音频开关状态</string>
     <string name="FUNC_GET_MEDIA_AUDIO_SWITCH">获取多媒体音频开关状态</string>
     <string name="FUNC_PUSH_MORE_CUSTOM_SPORT">多运动推送</string>
+    <string name="FUNC_GPS_DATA_MONITOR">监测GPS数据流开关</string>
 
 
     <string name="at_cmd">AT指令</string>
@@ -256,5 +257,12 @@
     <string name="FUNC_GET_HS_FILE_LIST">获取海思文件列表</string>
 
     <string name="FUNC_SET_MAC">随机设置MAC地址</string>
+
+    <string name="FUNC_SET_SVM">设置音量控制模式</string>
+
+    <string name="absolute_volume_control">绝对音量控制</string>
+    <string name="relative_volume_control">相对音量控制</string>
+
+    <string name="FUNC_SET_GPS_DATA_MODE">设置GPS数据双精度模式开关</string>
 
 </resources>

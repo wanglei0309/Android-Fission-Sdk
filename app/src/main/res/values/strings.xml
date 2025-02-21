@@ -129,6 +129,7 @@
     <string name="FUNC_GET_CALL_AUDIO_SWITCH">Get call audio switch</string>
     <string name="FUNC_GET_MEDIA_AUDIO_SWITCH">Get media audio switch</string>
     <string name="FUNC_PUSH_MORE_CUSTOM_SPORT">Multi-sport push</string>
+    <string name="FUNC_GPS_DATA_MONITOR">GPS data stream monitoring switch</string>
 
     <string name="at_cmd">AT command</string>
     <string name="big_data_cmd">Big data command</string>
@@ -258,6 +259,7 @@
         <item>/user/res/BaiduMap/default_titles/</item>
         <item>/user/watchface/</item>
         <item>/user/DialBuiltin/</item>
+        <item>/user/res/BaiduMap/</item>
         <item>/user/res/BaiduMap/default_titles/</item>
     </string-array>
 
@@ -293,5 +295,11 @@
     <string name="hint_enter_a_message">Type a message…</string>
     <string name="date_header_today">Today</string>
     <string name="date_header_yesterday">Yesterday</string>
+
+    <string name="FUNC_SET_SVM">Set the volume control mode</string>
+    <string name="absolute_volume_control">Absolute volume control</string>
+    <string name="relative_volume_control">Relative volume control</string>
+
+    <string name="FUNC_SET_GPS_DATA_MODE">Set GPS data double precision mode switch</string>
 
 </resources>

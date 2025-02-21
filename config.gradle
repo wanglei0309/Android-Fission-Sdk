@@ -126,7 +126,7 @@ ext {
             "progressmanager"          : "me.jessyan:progressmanager:1.5.0",
             "retrofit-url-manager"     : "me.jessyan:retrofit-url-manager:1.4.0",
             "lifecyclemodel"           : "me.jessyan:lifecyclemodel:1.0.1",
-            "utilcodex"                : "com.blankj:utilcodex:1.30.5",
+            "utilcodex"                : "com.blankj:utilcodex:1.31.1",
             "greendao"                 : "org.greenrobot:greendao:3.3.0",
             "zxing"                    : "com.google.zxing:core:3.3.0",
             "zxing-lib"                : "com.king.zxing:zxing-lite:1.1.9-androidx",
