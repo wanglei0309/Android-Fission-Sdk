@@ -19,6 +19,8 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.jessyan.autosize.AutoSizeConfig;
+
 public class App extends Application {
 
     public static List<String> logData;
@@ -53,6 +55,10 @@ public class App extends Application {
         LogUtils.getConfig().setDir(Environment.getExternalStorageDirectory());
 
         FissionSdkBleManage.getInstance().initSppConnect(this);
+
+        AutoSizeConfig.getInstance()
+                .setBaseOnWidth(true) // 以宽度为基准进行适配
+                .setExcludeFontScale(true); // 不随系统字体缩放
 
         SDKInitializer.setAgreePrivacy(this, true);
         LocationClient.setAgreePrivacy(true);

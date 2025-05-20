@@ -169,6 +169,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_haisi_test"
                 android:text="@string/FUNC_HAISI_TEST"
                 android:padding="16dp"
@@ -179,6 +180,21 @@
             <TextView
                 android:id="@+id/tv_chatgpt"
                 android:text="Rtk ChatGpt"
+                android:padding="16dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_jsi_test"
+                android:text="JSI 协议测试"
+                android:padding="16dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+             <TextView android:visibility="gone"
+                android:id="@+id/tv_ai_test"
+                android:text="AI 接口测试"
                 android:padding="16dp"
                 android:textSize="20sp"
                 android:layout_width="wrap_content"

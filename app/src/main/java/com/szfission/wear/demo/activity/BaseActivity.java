@@ -1,26 +1,16 @@
 package com.szfission.wear.demo.activity;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
-import com.fission.wear.sdk.v2.bean.DeviceBattery;
-import com.fission.wear.sdk.v2.bean.DeviceVersion;
-import com.fission.wear.sdk.v2.bean.MusicConfig;
 import com.fission.wear.sdk.v2.callback.BaseCmdResultListener;
-import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
-import com.fission.wear.sdk.v2.utils.FissionLogUtils;
-import com.linwear.baidu.map.watch.activity.BaiduMapManageActivity;
+import com.common.baidu.map.watch.activity.BaiduMapManageActivity;
 import com.szfission.wear.demo.App;
-import com.szfission.wear.demo.C;
-import com.szfission.wear.demo.ConnectedStateEvent;
 import com.szfission.wear.demo.DataMessageEvent;
 
 import org.greenrobot.eventbus.EventBus;

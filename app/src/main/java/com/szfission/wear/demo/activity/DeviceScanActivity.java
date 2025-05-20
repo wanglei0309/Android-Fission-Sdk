@@ -3,6 +3,7 @@ package com.szfission.wear.demo.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.le.ScanCallback;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,12 +36,14 @@ import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.BleScanResultListener;
+import com.fission.wear.sdk.v2.utils.HarmonyOsUtils;
 import com.polidea.rxandroidble2.exceptions.BleScanException;
 import com.polidea.rxandroidble2.scan.ScanFilter;
 import com.polidea.rxandroidble2.scan.ScanResult;
 import com.polidea.rxandroidble2.scan.ScanSettings;
 import com.szfission.wear.demo.BluetoothDeviceEntity;
 import com.szfission.wear.demo.R;
+import com.szfission.wear.demo.util.HybridBleScanner;
 import com.szfission.wear.sdk.constant.WalleAction;
 import com.szfission.wear.sdk.util.BleUtil;
 import com.szfission.wear.sdk.util.FsLogUtil;
@@ -71,6 +74,8 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
     private String[] scanFilterName ;
 
     private String mFilter;
+
+    private HybridBleScanner mHybridBleScanner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -203,7 +208,21 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
         return ret;
     }
 
+    /**
+     * 判断当前设备是否运行在鸿蒙系统
+     */
+    private boolean isHarmonyOS() {
+        return "HarmonyOS".equalsIgnoreCase(Build.MANUFACTURER) || Build.VERSION.SDK_INT >= 30;
+    }
+
+
     private void searchBleDevices(){
+        if(HarmonyOsUtils.isHarmonyOs()){
+            mHybridBleScanner = getHybridBleScanner();
+            mHybridBleScanner.startScan();
+            LogUtils.d("wl", "鸿蒙扫描蓝牙设备");
+            return;
+        }
         FissionSdkBleManage.getInstance().scanBleDevices(new BleScanResultListener() {
                                                    @Override
                                                    public void onScanResult(ScanResult scanResult) {
@@ -243,6 +262,36 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
 //                            .setDeviceAddress("B4:99:4C:34:DC:8B")
                         // add custom filters if needed
                         .build());
+    }
+
+    private @NonNull HybridBleScanner getHybridBleScanner() {
+        HybridBleScanner bleScanner = new HybridBleScanner(this);
+        bleScanner.setScanCallback(new ScanCallback() {
+            @Override
+            public void onScanResult(int callbackType, android.bluetooth.le.ScanResult result) {
+                super.onScanResult(callbackType, result);
+                if (result != null) {
+                    String bleDeviceName = result.getDevice().getName();
+                    LogUtils.d("wl", "搜索到的蓝牙名称："+bleDeviceName+",过滤关键字："+mFilter);
+                    BluetoothDeviceEntity device = new BluetoothDeviceEntity();
+                    device.setRssi(result.getRssi());
+                    device.setName(bleDeviceName);
+                    device.setAddress(result.getDevice().getAddress());
+                    addBluetoothDeviceEntity(device);
+                }
+            }
+
+            @Override
+            public void onBatchScanResults(List<android.bluetooth.le.ScanResult> results) {
+                super.onBatchScanResults(results);
+            }
+
+            @Override
+            public void onScanFailed(int errorCode) {
+                super.onScanFailed(errorCode);
+            }
+        });
+        return bleScanner;
     }
 
     private void stopScanBleDevices(){
@@ -311,6 +360,9 @@ public class DeviceScanActivity extends Activity implements AdapterView.OnItemCl
         BleUtil.stopScan(this);
         unregisterReceiver(scanResultBroadcastReceiver);
         stopScanBleDevices();
+        if(mHybridBleScanner!=null){
+            mHybridBleScanner.stopScan();
+        }
         super.onDestroy();
     }
 

@@ -100,10 +100,15 @@ public class HomeViewModel extends ViewModel {
         childList1.add(new FuncBean(R.string.FUNC_SET_MAC, FUNC_SET_MAC));
         childList1.add(new FuncBean(R.string.FUNC_SET_SVM, FUNC_SET_SVM));
         childList1.add(new FuncBean(R.string.FUNC_SET_GPS_DATA_MODE, FUNC_SET_GPS_DATA_MODE));
+        childList1.add(new FuncBean(R.string.FUNC_SET_OFFLINE_VOICE_MODE, FUNC_SET_OFFLINE_VOICE_MODE));
+        childList1.add(new FuncBean(R.string.FUNC_GET_OFFLINE_VOICE_MODE, FUNC_GET_OFFLINE_VOICE_MODE));
+        childList1.add(new FuncBean(R.string.FUNC_DIAL_STATES_INFO, FUNC_DIAL_STATES_INFO));
+        childList1.add(new FuncBean(R.string.FUNC_SET_GAME_DATA_MODE, FUNC_GAME_DATA_MONITOR));
 
         childList2.add(new FuncBean(R.string.FUNC_SET_DATA_STREAM, FUNC_SET_DATA_STREAM));
         childList2.add(new FuncBean(R.string.FUNC_MSG_TASK, FUNC_SET_DATA_STREAM2));
         childList2.add(new FuncBean(R.string.FUNC_GPS_DATA_MONITOR, FUNC_GPS_DATA_MONITOR));
+        childList2.add(new FuncBean(R.string.FUNC_GAME_DATA_MONITOR, FUNC_GAME_DATA_MONITOR));
         childList2.add(new FuncBean(R.string.FUNC_SWITCH_HR_RATE, FUNC_SWITCH_HR_RATE));
         childList2.add(new FuncBean(R.string.FUNC_OTA, FUNC_OTA));
         childList2.add(new FuncBean(R.string.FUNC_PUSH_CUSTOM_DIAL, FUNC_PUSH_CUSTOM_DIAL));
@@ -164,6 +169,8 @@ public class HomeViewModel extends ViewModel {
         childList3.add(new FuncBean(R.string.FUNC_NOTES_REMINDERS, FUNC_NOTES_REMINDERS));
         childList3.add(new FuncBean(R.string.FUNC_GET_DISK_SPACE_INFO, FUNC_GET_DISK_SPACE_INFO));
         childList3.add(new FuncBean(R.string.FUNC_GET_HS_FILE_LIST, FUNC_GET_HS_FILE_LIST));
+        childList3.add(new FuncBean(R.string.FUNC_GET_OFFLINE_VOICE_INFO, FUNC_GET_OFFLINE_VOICE_INFO));
+        childList3.add(new FuncBean(R.string.FUNC_GET_FILE_DATA_BY_OFFSET, FUNC_GET_FILE_DATA_BY_OFFSET));
 
 //        childList4.add(new FuncBean(R.string.FUNC_GET_SEDENTARY_DRINK_PARA,FUNC_GET_SEDENTARY_DRINK_PARA));
 
