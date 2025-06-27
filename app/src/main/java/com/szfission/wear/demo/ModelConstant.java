@@ -65,6 +65,11 @@ public  class ModelConstant {
     public static final int FUNC_GPS_DATA_MONITOR = 50;
 
     public static final int FUNC_SET_GPS_DATA_MODE = 51;
+    public static final int FUNC_SET_OFFLINE_VOICE_MODE = 52;
+    public static final int FUNC_GET_OFFLINE_VOICE_MODE = 53;
+    public static final int FUNC_DIAL_STATES_INFO = 54;
+    public static final int FUNC_GAME_DATA_MONITOR = 55;
+    public static final int FUNC_SET_GAME_DATA_MODE = 56;
 
     public static final int FUNC_GET_HARDWARE_INFO = 100;
     public static final int FUNC_GET_DAYS_REPORT = 101;
@@ -123,4 +128,13 @@ public  class ModelConstant {
 
     public static final int FUNC_GET_HS_FILE_LIST = 144;
 
+    public static final int FUNC_GET_OFFLINE_VOICE_INFO = 145;
+
+    public static final int FUNC_GET_FILE_DATA_BY_OFFSET = 146;
+
+    public static final int FUNC_SET_AFLASH_PAYID = 147;
+
+    public static final int FUNC_HANBAO_MODEL = 148;
+
+    public static final int FUNC_HANBAO_SHOCK_RECORD = 149;
 }

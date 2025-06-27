@@ -130,6 +130,7 @@
     <string name="FUNC_GET_MEDIA_AUDIO_SWITCH">Get media audio switch</string>
     <string name="FUNC_PUSH_MORE_CUSTOM_SPORT">Multi-sport push</string>
     <string name="FUNC_GPS_DATA_MONITOR">GPS data stream monitoring switch</string>
+    <string name="FUNC_GAME_DATA_MONITOR">Monitor game data stream switch</string>
 
     <string name="at_cmd">AT command</string>
     <string name="big_data_cmd">Big data command</string>
@@ -261,6 +262,10 @@
         <item>/user/DialBuiltin/</item>
         <item>/user/res/BaiduMap/</item>
         <item>/user/res/BaiduMap/default_titles/</item>
+        <item>/user/mediaaudio/meeting/</item>
+        <item>/user/mediaaudio/photoalbum/</item>
+        <item>/user/stream/</item>
+        <item>/user/mediaaudio/micrecord/</item>
     </string-array>
 
     <string name="file_upload">File upload</string>
@@ -288,6 +293,9 @@
 
     <string name="FUNC_GET_HS_FILE_LIST">Get File List</string>
 
+    <string name="FUNC_GET_OFFLINE_VOICE_INFO">Get Offline Voice Info</string>
+
+
     <string name="FUNC_SET_MAC">Random Set Mac</string>
 
     <string name="action_delete">Delete</string>
@@ -301,5 +309,19 @@
     <string name="relative_volume_control">Relative volume control</string>
 
     <string name="FUNC_SET_GPS_DATA_MODE">Set GPS data double precision mode switch</string>
+
+    <string name="FUNC_SET_OFFLINE_VOICE_MODE">Set offline voice mode switch</string>
+    <string name="FUNC_GET_OFFLINE_VOICE_MODE">Get offline voice mode switch</string>
+
+    <string name="FUNC_DIAL_STATES_INFO">Default Dial State Info</string>
+    <string name="FUNC_SET_GAME_DATA_MODE">Set the motion sensing game switch</string>
+
+    <string name="FUNC_GET_FILE_DATA_BY_OFFSET">Download the specified file</string>
+
+    <string name="FUNC_SET_AFLASH_PAYID">Set the payment ID for agent service</string>
+
+    <string name="FUNC_HANBAO_MODEL">HanBao Model</string>
+
+    <string name="FUNC_HANBAO_SHOCK_RECORD">HanBao Model Shock Record</string>
 
 </resources>

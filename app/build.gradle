@@ -80,7 +80,7 @@ dependencies {
     implementation files("libs/rtk-wear-1.5.12.jar")
     implementation files("libs/rtk-media-codec-1.2.1.aar")
     implementation files("libs/rtk-audioconnect-ai-1.0.1.aar")
-    implementation files("libs/compresslib.aar")
+//    implementation files("libs/compresslib.aar")
 
     implementation('com.journeyapps:zxing-android-embedded:4.2.0') { transitive = false }
     implementation 'com.google.zxing:core:3.3.0'
@@ -96,7 +96,7 @@ dependencies {
     api rootProject.ext.dependencies["replaying"]
     api rootProject.ext.dependencies["utilcodex"]
 
-    implementation files('libs/fissionsdk_v2-release-v2.1.11.aar')
+    implementation files('libs/fissionsdk_v2-release-v2.1.25.aar')
 
     api "com.github.kongzue.DialogX:DialogX:0.0.48"
 
@@ -120,5 +120,18 @@ dependencies {
 
     implementation 'com.baidu.lbsyun:NaviTts:3.2.13'
 
+    implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
+
     implementation files('libs/AFlash_release_V4.2.0.aar')
+
+    def deps = rootProject.ext.dependencies
+
+    implementation deps['rx-java2']
+    api deps['retrofit']
+    implementation deps['retrofit-converter-gson']
+    implementation deps['retrofit-adapter-rxjava2']
+    implementation deps['okhttp3']
+    implementation deps['okhttp-sse']
+    implementation deps['okio']
+    implementation deps['logging-interceptor']
 }

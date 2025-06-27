@@ -59,6 +59,8 @@ public class NormalDialog extends Dialog {
                 case ModelConstant.FUNC_SET_CALL_AUDIO_SWITCH:
                 case ModelConstant.FUNC_SET_MEDIA_AUDIO_SWITCH:
                 case ModelConstant.FUNC_SET_GPS_DATA_MODE:
+                case ModelConstant.FUNC_SET_OFFLINE_VOICE_MODE:
+                case ModelConstant.FUNC_GAME_DATA_MONITOR:
                     array = new String[]{context.getString(R.string.disabled), context.getString(R.string.enable)};
                     break;
                 case ModelConstant.FUNC_SET_HIGH_SPEED_CONNECT:
@@ -81,6 +83,7 @@ public class NormalDialog extends Dialog {
                 case ModelConstant.FUNC_SET_DATA_STREAM:
                 case ModelConstant.FUNC_SET_DATA_STREAM2:
                 case ModelConstant.FUNC_GPS_DATA_MONITOR:
+                case ModelConstant.FUNC_GAME_DATA_MONITOR:
                     setContent(context, context.getString(R.string.stream_time), "1000");
                     break;
                 case ModelConstant.FUNC_SAFETY_CONFIRM:

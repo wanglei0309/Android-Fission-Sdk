@@ -107,6 +107,8 @@
         <activity android:name=".activity.SetAnyTimesActivity" />
         <activity android:name=".activity.FileListActivity" />
         <activity android:name=".chat.StyledMessagesActivity" />
+        <activity android:name=".activity.DefaultDialInfoActivity" />
+        <activity android:name=".activity.SetHbParaActivity" />
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -128,6 +130,8 @@
         <activity android:name=".activity.WriteFlashDataActivity" />
         <activity android:name=".activity.GetFlashDataActivity" />
         <activity android:name=".activity.NewCustomDialActivity" />
+        <activity android:name=".activity.JsiTestActivity" />
+        <activity android:name=".activity.OpenAiTestActivity" />
         <activity android:name=".map.BNaviGuideActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".map.WNaviGuideActivity"
@@ -155,6 +159,14 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="3Zags80N8pqu0kxMTDokwZhmAhMKKiaD" />
+
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="360"/>
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="640"/>
+
 
     </application>
 

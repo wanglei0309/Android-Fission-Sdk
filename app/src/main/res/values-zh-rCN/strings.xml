@@ -130,7 +130,7 @@ c
     <string name="FUNC_GET_MEDIA_AUDIO_SWITCH">获取多媒体音频开关状态</string>
     <string name="FUNC_PUSH_MORE_CUSTOM_SPORT">多运动推送</string>
     <string name="FUNC_GPS_DATA_MONITOR">监测GPS数据流开关</string>
-
+    <string name="FUNC_GAME_DATA_MONITOR">监测游戏数据流开关</string>
 
     <string name="at_cmd">AT指令</string>
     <string name="big_data_cmd">大数据指令</string>
@@ -256,6 +256,8 @@ c
 
     <string name="FUNC_GET_HS_FILE_LIST">获取海思文件列表</string>
 
+    <string name="FUNC_GET_OFFLINE_VOICE_INFO">获取离线语音信息</string>
+
     <string name="FUNC_SET_MAC">随机设置MAC地址</string>
 
     <string name="FUNC_SET_SVM">设置音量控制模式</string>
@@ -264,5 +266,19 @@ c
     <string name="relative_volume_control">相对音量控制</string>
 
     <string name="FUNC_SET_GPS_DATA_MODE">设置GPS数据双精度模式开关</string>
+
+    <string name="FUNC_SET_OFFLINE_VOICE_MODE">设置离线语音开关</string>
+    <string name="FUNC_GET_OFFLINE_VOICE_MODE">获取离线语音开关和授权状态</string>
+
+    <string name="FUNC_DIAL_STATES_INFO">内置表盘开关信息</string>
+    <string name="FUNC_SET_GAME_DATA_MODE">设置体感游戏开关</string>
+
+    <string name="FUNC_GET_FILE_DATA_BY_OFFSET">下载指定文件（断点续传）</string>
+
+    <string name="FUNC_SET_AFLASH_PAYID">设置艾闪agent服务支付id</string>
+
+    <string name="FUNC_HANBAO_MODEL">鼾宝模式</string>
+
+    <string name="FUNC_HANBAO_SHOCK_RECORD">鼾宝模式震动记录</string>
 
 </resources>

@@ -25,4 +25,26 @@
     <color name="red">#e94f4f</color>
     <color name="brown">#4e342e</color>
 
+    <color name="public_custom_dial_1">#FFFFFF</color>
+    <color name="public_custom_dial_2">#3CDD6A</color>
+    <color name="public_custom_dial_3">#F15A49</color>
+    <color name="public_custom_dial_4">#F1C849</color>
+    <color name="public_custom_dial_5">#F18A49</color>
+    <color name="public_custom_dial_6">#A37EF4</color>
+    <color name="public_custom_dial_7">#44BEFF</color>
+    <color name="public_custom_dial_8">#333333</color>
+    <color name="public_custom_dial_9">#4469FF</color>
+
+    <color name="public_custom_dial_white_big">#F0F8F0</color>
+    <color name="public_custom_dial_red_big">#E85440</color>
+    <color name="public_custom_dial_yellow_big">#E8C040</color>
+    <color name="public_custom_dial_gray_big">#282C28</color>
+    <color name="public_custom_dial_orange_big">#E88440</color>
+    <color name="public_custom_dial_green_big">#30D460</color>
+    <color name="public_custom_dial_light_blue_big">#38B8F0</color>
+    <color name="public_custom_dial_dark_blue_big">#3864F0</color>
+    <color name="public_custom_dial_sky_blue_big">#08F8F0</color>
+    <color name="public_custom_dial_purple_big">#987CE0</color>
+    <color name="public_custom_dial_72f4ef">#72F4EF</color>
+
 </resources>

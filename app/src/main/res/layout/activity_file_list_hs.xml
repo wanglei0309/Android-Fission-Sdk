@@ -150,6 +150,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="46dp"/>
 
+            <Button
+                android:id="@+id/btn_meeting_file"
+                android:text="获取会议纪要文件列表"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
+            <Button
+                android:id="@+id/btn_download_meeting_file"
+                android:text="下载会议纪要文件"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"/>
+
         </LinearLayout>
 
     </ScrollView>

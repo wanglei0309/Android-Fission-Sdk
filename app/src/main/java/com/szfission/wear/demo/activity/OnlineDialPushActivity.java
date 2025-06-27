@@ -163,7 +163,7 @@ public class OnlineDialPushActivity extends BaseActivity {
                     ToastUtils.showShort("表盘2，还未选择bin文件");
                 }else{
                     fileIndex = 1;
-                    if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK){
+                    if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK || SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK8773){
                         FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath1), FissionEnum.WRITE_REMOTE_DIAL_DATA);
                     }else if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
 //                        FissionSdkBleManage.getInstance().startDfu(OnlineDialPushActivity.this, filePath1, FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL, null);
@@ -222,7 +222,7 @@ public class OnlineDialPushActivity extends BaseActivity {
                                 if(fileIndex == 1){
                                     fileIndex = 2;
                                     FissionLogUtils.d("wl", "11111111111111111");
-                                    if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK){
+                                    if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK || SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK8773){
                                         FissionSdkBleManage.getInstance().startDial(dialData1, FissionEnum.WRITE_REMOTE_DIAL_DATA);
                                     }else if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
 //                                        FissionSdkBleManage.getInstance().startDfu(OnlineDialPushActivity.this, filePath1, FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL, null);
@@ -231,7 +231,7 @@ public class OnlineDialPushActivity extends BaseActivity {
                                 }else{
                                     fileIndex = 1;
                                     FissionLogUtils.d("wl", "2222222222222222 ");
-                                    if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK){
+                                    if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK || SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK8773){
                                         FissionSdkBleManage.getInstance().startDial(dialData2, FissionEnum.WRITE_REMOTE_DIAL_DATA);
                                     }else if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_HS){
 //                                        FissionSdkBleManage.getInstance().startDfu(OnlineDialPushActivity.this, filePath2, FissionConstant.OTA_TYPE_DEFAULT_DYNAMIC_DIAL, null);
