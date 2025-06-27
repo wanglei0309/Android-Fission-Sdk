@@ -265,6 +265,7 @@
         <item>/user/mediaaudio/meeting/</item>
         <item>/user/mediaaudio/photoalbum/</item>
         <item>/user/stream/</item>
+        <item>/user/mediaaudio/micrecord/</item>
     </string-array>
 
     <string name="file_upload">File upload</string>
@@ -316,5 +317,11 @@
     <string name="FUNC_SET_GAME_DATA_MODE">Set the motion sensing game switch</string>
 
     <string name="FUNC_GET_FILE_DATA_BY_OFFSET">Download the specified file</string>
+
+    <string name="FUNC_SET_AFLASH_PAYID">Set the payment ID for agent service</string>
+
+    <string name="FUNC_HANBAO_MODEL">HanBao Model</string>
+
+    <string name="FUNC_HANBAO_SHOCK_RECORD">HanBao Model Shock Record</string>
 
 </resources>

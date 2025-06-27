@@ -8,13 +8,14 @@ import android.widget.Button;
 import androidx.appcompat.app.ActionBar;
 
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.callback.FissionJsiDataCmdResultListener;
 import com.fission.wear.sdk.v2.constant.JsiCmd;
 import com.szfission.wear.demo.R;
 
 public class JsiTestActivity extends BaseActivity {
 
     private Button btn_question, btn_answer, btn_unauthorized_recording, btn_record_fail, btn_unauthorized_device, btn_sensitive_words, btn_network_error, btn_other_error,btn_stream_content;
-
+    private Button btn_original_content, btn_translation_content, btn_in_translate_page;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,9 @@ public class JsiTestActivity extends BaseActivity {
         btn_network_error = findViewById(R.id.btn_network_error);
         btn_other_error = findViewById(R.id.btn_other_error);
         btn_stream_content = findViewById(R.id.btn_stream_content);
-
+        btn_original_content = findViewById(R.id.btn_original_content);
+        btn_translation_content = findViewById(R.id.btn_translation_content);
+        btn_in_translate_page = findViewById(R.id.btn_in_translate_page);
 
         btn_question.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +97,55 @@ public class JsiTestActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 FissionSdkBleManage.getInstance().sendJsiCmdByChat("流式数据", JsiCmd.XIAO_DU_AI, JsiCmd.SEND_STREAM_CONTENT, false);
+            }
+        });
+
+        btn_original_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FissionSdkBleManage.getInstance().sendJsiCmdByTranslate("世界，你好", JsiCmd.AI_TRANSLATE, JsiCmd.SEND_ORIGINAL_CONTENT, true);
+            }
+        });
+
+        btn_translation_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FissionSdkBleManage.getInstance().sendJsiCmdByTranslate("Hello word", JsiCmd.AI_TRANSLATE, JsiCmd.SEND_TRANSLATION_CONTENT, true);
+            }
+        });
+
+        btn_in_translate_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FissionSdkBleManage.getInstance().sendJsiCmdByTranslate("1", JsiCmd.AI_TRANSLATE, JsiCmd.SEND_IN_TRANSLATE_PAGE, false);
+            }
+        });
+
+        FissionSdkBleManage.getInstance().addCmdResultListener(new FissionJsiDataCmdResultListener() {
+            @Override
+            public void sendSuccess(String cmdId) {
+
+            }
+
+            @Override
+            public void sendFail(String cmdId) {
+
+            }
+
+            @Override
+            public void onResultTimeout(String cmdId) {
+
+            }
+
+            @Override
+            public void onResultError(String errorMsg) {
+
+            }
+
+            @Override
+            public void getAppStates() {
+                super.getAppStates();
+                FissionSdkBleManage.getInstance().notifyAppStates(1, 0);
             }
         });
     }

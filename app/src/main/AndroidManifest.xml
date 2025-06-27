@@ -108,6 +108,7 @@
         <activity android:name=".activity.FileListActivity" />
         <activity android:name=".chat.StyledMessagesActivity" />
         <activity android:name=".activity.DefaultDialInfoActivity" />
+        <activity android:name=".activity.SetHbParaActivity" />
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

@@ -8,11 +8,8 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ThreadUtils;
-import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.constant.AiChatSpKey;
-import com.fission.wear.sdk.v2.constant.JsiCmd;
 import com.fission.wear.sdk.v2.constant.SpKey;
 import com.fission.wear.sdk.v2.session.ChatSession;
 import com.fission.wear.sdk.v2.session.ChatSessionCallback;
@@ -53,9 +50,9 @@ import java.util.Date;
 import java.util.List;
 
 public class StyledMessagesActivity extends DemoMessagesActivity
-    implements MessageInput.InputListener,
-    MessageInput.AttachmentsListener,
-    DateFormatter.Formatter {
+        implements MessageInput.InputListener,
+        MessageInput.AttachmentsListener,
+        DateFormatter.Formatter {
 
 
     private MessagesList messagesList;
@@ -79,7 +76,7 @@ public class StyledMessagesActivity extends DemoMessagesActivity
     @Override
     public boolean onSubmit(CharSequence input) {
         messagesAdapter.addToStart(
-            MessagesFixtures.getTextMessage(input.toString()), true);
+                MessagesFixtures.getTextMessage(input.toString()), true);
 
         return true;
     }
@@ -100,7 +97,7 @@ public class StyledMessagesActivity extends DemoMessagesActivity
         }
     }
 
-    private void init() {
+    private void init(){
         RtkChatGptManage.getInstance().init(this);
 
         AFlashChatGptUtils.getInstance().setGptAiVoiceListener(new AFlashChatGptUtils.GptAiVoiceListener() {
@@ -110,33 +107,27 @@ public class StyledMessagesActivity extends DemoMessagesActivity
                     @Override
                     public void run() {
                         messagesAdapter.addToStart(
-                            MessagesFixtures.getTextMessage(answer), true);
+                                MessagesFixtures.getTextMessage(question), true);
+                        messagesAdapter.addToStart(
+                                MessagesFixtures.getTextMessage(answer), true);
                     }
                 });
-                FissionSdkBleManage.getInstance().sendJsiCmdByChat(answer, JsiCmd.XIAO_DU_AI, JsiCmd.SEND_ANSWER, true);
+                if(!TextUtils.isEmpty(question)){
+                    RtkChatGptManage.getInstance().sendQuestion(question);
+                }
+                if(!TextUtils.isEmpty(answer)){
+                    RtkChatGptManage.getInstance().sendAnswer(answer);
+                }
             }
 
             @Override
             public void onCreateDial(List<String> imgPaths) {
 
-                //表盘生成完成，通知手表已完成
-                FissionSdkBleManage.getInstance().sendJsiCmdByWatchFace("\0", JsiCmd.SEND_ANSWER);
             }
 
             @Override
             public void onSpeechResult(String result, String type) {
-                if (StringUtils.equals(AFlashChatGptUtils.AI_VOICE_TYPE_DIAL, type)) {//表盘生成中..
-                    //App自己的生成loading
-                } else {
-                    ThreadUtils.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            messagesAdapter.addToStart(
-                                MessagesFixtures.getTextMessage(result), true);
-                        }
-                    });
-                    FissionSdkBleManage.getInstance().sendJsiCmdByChat(result, JsiCmd.XIAO_DU_AI, JsiCmd.SEND_QUESTION, true);
-                }
+
             }
 
             @Override

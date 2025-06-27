@@ -49,6 +49,7 @@ import com.fission.wear.sdk.v2.bean.DeviceVersion;
 import com.fission.wear.sdk.v2.bean.DiskSpaceInfo;
 import com.fission.wear.sdk.v2.bean.DownloadFileInfo;
 import com.fission.wear.sdk.v2.bean.FssStatus;
+import com.fission.wear.sdk.v2.bean.HbModelShockRecord;
 import com.fission.wear.sdk.v2.bean.HsDialInfo;
 import com.fission.wear.sdk.v2.bean.HsJsFileInfo;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
@@ -68,16 +69,11 @@ import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.constant.JsiCmd;
 import com.fission.wear.sdk.v2.constant.SpKey;
 import com.fission.wear.sdk.v2.parse.HiSiliconDataParseManage;
-import com.fission.wear.sdk.v2.utils.AFlashChatGptUtils;
 import com.fission.wear.sdk.v2.utils.BaiDuAiUtils;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.fission.wear.sdk.v2.utils.MacUtil;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.lw.lib.data.WatchInfo;
-import com.lw.lib.enums.LicenseModel;
-import com.lw.lib.enums.MemberModel;
-import com.lw.lib.enums.PaymentModel;
 import com.polidea.rxandroidble2.RxBleConnection;
 import com.szfission.wear.demo.App;
 import com.szfission.wear.demo.C;
@@ -131,7 +127,6 @@ import com.szfission.wear.sdk.ifs.OnStreamListener;
 import com.szfission.wear.sdk.ifs.ReceiveMsgListener;
 import com.szfission.wear.sdk.util.DateUtil;
 import com.szfission.wear.sdk.util.FsLogUtil;
-import com.szfission.wear.sdk.util.RxTimerUtil;
 import com.szfission.wear.sdk.util.StringUtil;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -145,7 +140,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -644,6 +638,13 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
                 ToastUtils.showShort("会议文件下载成功");
             }
         }
+
+        @Override
+        public void getHbModelShockRecords(List<HbModelShockRecord> list) {
+            super.getHbModelShockRecords(list);
+            logList.add(list.toString());
+            logAdapter.notifyDataSetChanged();
+        }
     };
 
     private FissionJsiDataCmdResultListener jsiDataCmdResultListener = new FissionJsiDataCmdResultListener() {
@@ -670,7 +671,6 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
         @Override
         public void getAppStates() {
             super.getAppStates();
-            FissionSdkBleManage.getInstance().notifyAppStates(AppUtils.isAppForeground() ? 1 : 0, 0);
             logList.add("Js 请求获取App状态");
             logAdapter.notifyDataSetChanged();
         }
@@ -1589,6 +1589,18 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
                         }
                         FissionSdkBleManage.getInstance().downloadFileByOffset(filePath, offset);
                         break;
+
+                    case FUNC_SET_AFLASH_PAYID:
+                        FissionSdkBleManage.getInstance().setAFlashPayId("d24227a1-9e58-4e51-b546-183ad663d83d");
+                        break;
+
+                    case FUNC_HANBAO_MODEL:
+                        startActivity(new Intent(context, SetHbParaActivity.class));
+                        break;
+
+                    case FUNC_HANBAO_SHOCK_RECORD:
+                        FissionSdkBleManage.getInstance().getHbModelShockRecords();
+                        break;
                 }
                 return true;
             }
@@ -1902,25 +1914,25 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
 //                SPUtils.getInstance().put(SpKey.SUPPORT_AUDIO_OPUS, true);
 
-//                BaiDuAiUtils.initDeviceId("oDKQ0Z6JvoCFd3c3O20DxEOOtDCaKCMN", "OtBdvt18HdJnSYGGGaEMn2Mg0mCTF77w");
+                BaiDuAiUtils.initDeviceId("oDKQ0Z6JvoCFd3c3O20DxEOOtDCaKCMN", "OtBdvt18HdJnSYGGGaEMn2Mg0mCTF77w");
 
 //                ChatGptUtils.getInstance().initSdk(MainActivity.this, SPUtils.getInstance().getString(SpKey.LAST_MAC));
 
                 // 获取硬件设备信息
                 FissionSdkBleManage.getInstance().getHardwareInfo();
 
-                new RxTimerUtil().timer(1500, new RxTimerUtil.RxAction() {
-                    @Override
-                    public void action(long number) {
-                        String language = "en";
-                        language = Locale.getDefault().getLanguage();
-                        FissionLogUtils.d("wl", "艾闪初始化语言，当前系统语言是："+language);
-                        WatchInfo[] watchInfos = new WatchInfo[1];
-                        WatchInfo watchInfo = new WatchInfo(PaymentModel.LICENSE_PAY, SPUtils.getInstance().getString(SpKey.LAST_MAC), LicenseModel.KNOWN_DEVICE, MemberModel.FREE, "", "", App.mHardWareInfo.getDeviceWidth()+"*"+App.mHardWareInfo.getDeviceHigh(), "367*300", language, language, 0, 0, 0, 0);
-                        watchInfos[0] = watchInfo;
-                        AFlashChatGptUtils.getInstance().initSdk(MainActivity.this, "OnWear Pro", watchInfos);
-                    }
-                });
+//                new RxTimerUtil().timer(1500, new RxTimerUtil.RxAction() {
+//                    @Override
+//                    public void action(long number) {
+//                        String language = "en";
+//                        language = Locale.getDefault().getLanguage();
+//                        FissionLogUtils.d("wl", "艾闪初始化语言，当前系统语言是："+language);
+//                        WatchInfo[] watchInfos = new WatchInfo[1];
+//                        WatchInfo watchInfo = new WatchInfo(PaymentModel.LICENSE_PAY, SPUtils.getInstance().getString(SpKey.LAST_MAC), LicenseModel.KNOWN_DEVICE, MemberModel.FREE, "", "", App.mHardWareInfo.getDeviceWidth()+"*"+App.mHardWareInfo.getDeviceHigh(), "367*300", language, language, 0, 0, 0, 0);
+//                        watchInfos[0] = watchInfo;
+//                        AFlashChatGptUtils.getInstance().initSdk(MainActivity.this, "OnWear Pro", watchInfos);
+//                    }
+//                });
 
 //                dataSynchronization();
                 FissionSdkBleManage.getInstance().setBtConnectListener(new BtConnectListener() {

@@ -275,4 +275,10 @@ c
 
     <string name="FUNC_GET_FILE_DATA_BY_OFFSET">下载指定文件（断点续传）</string>
 
+    <string name="FUNC_SET_AFLASH_PAYID">设置艾闪agent服务支付id</string>
+
+    <string name="FUNC_HANBAO_MODEL">鼾宝模式</string>
+
+    <string name="FUNC_HANBAO_SHOCK_RECORD">鼾宝模式震动记录</string>
+
 </resources>

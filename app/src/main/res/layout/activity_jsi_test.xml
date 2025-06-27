@@ -91,6 +91,35 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_original_content"
+            android:text="发送原文内容"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_translation_content"
+            android:text="发送译文内容"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_in_translate_page"
+            android:text="在翻译界面"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
 
     <ScrollView
         android:layout_marginTop="10dp"
