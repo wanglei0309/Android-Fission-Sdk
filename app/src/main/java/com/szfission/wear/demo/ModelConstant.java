@@ -132,5 +132,9 @@ public  class ModelConstant {
 
     public static final int FUNC_GET_FILE_DATA_BY_OFFSET = 146;
 
+    public static final int FUNC_SET_AFLASH_PAYID = 147;
 
+    public static final int FUNC_HANBAO_MODEL = 148;
+
+    public static final int FUNC_HANBAO_SHOCK_RECORD = 149;
 }

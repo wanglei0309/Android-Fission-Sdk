@@ -171,6 +171,9 @@ public class HomeViewModel extends ViewModel {
         childList3.add(new FuncBean(R.string.FUNC_GET_HS_FILE_LIST, FUNC_GET_HS_FILE_LIST));
         childList3.add(new FuncBean(R.string.FUNC_GET_OFFLINE_VOICE_INFO, FUNC_GET_OFFLINE_VOICE_INFO));
         childList3.add(new FuncBean(R.string.FUNC_GET_FILE_DATA_BY_OFFSET, FUNC_GET_FILE_DATA_BY_OFFSET));
+        childList3.add(new FuncBean(R.string.FUNC_SET_AFLASH_PAYID, FUNC_SET_AFLASH_PAYID));
+        childList3.add(new FuncBean(R.string.FUNC_HANBAO_MODEL, FUNC_HANBAO_MODEL));
+        childList3.add(new FuncBean(R.string.FUNC_HANBAO_SHOCK_RECORD, FUNC_HANBAO_SHOCK_RECORD));
 
 //        childList4.add(new FuncBean(R.string.FUNC_GET_SEDENTARY_DRINK_PARA,FUNC_GET_SEDENTARY_DRINK_PARA));
 

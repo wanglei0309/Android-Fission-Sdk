@@ -35,6 +35,7 @@ import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.constant.SpKey;
+import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.fission.wear.sdk.v2.utils.QuickLZUtils;
 import com.fission.wear.sdk.v2.utils.RtkDialUtil;
 import com.szfission.wear.demo.App;
@@ -82,8 +83,8 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     FissionDialUtil.DialModel dialModel;
     com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel dialModel2;
 
-    int dialWidth = 320;
-    int dialHeight = 390;
+    int dialWidth = 466;
+    int dialHeight = 466;
     int thumbnailWidth = 320;
     int thumbnailHigh = 390;
     int dialShape = 0;
@@ -250,6 +251,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
             public void onClick(View v) {
                 isRePush = false;
                 Bitmap bitmap = ((BitmapDrawable) iv_watch_face.getDrawable()).getBitmap();
+                FissionLogUtils.d("wl", "---相册表盘背景图尺寸---"+bitmap.getWidth()+","+bitmap.getHeight());
                 dialModel2 = new com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel();
                 dialModel2.setDialShape(dialShape);
                 dialModel2.setDialWidth(dialWidth);
@@ -262,6 +264,9 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
                 dialModel2.setDialStyleColor(colorValue);
                 dialModel2.setSupportAntiAliasing(isSupportAntiAliasing);
                 dialModel2.setSupportCrcChecksum(isSupportCrcChecksum);
+                if(App.mHardWareInfo!=null){
+                    dialModel2.setDialRoundedCorners(App.mHardWareInfo.getDialRoundedCorners());
+                }
                 Bitmap thumbBitmap2 = ImageScalingUtil.extractMiniThumb(dialModel2.getPreviewImage(),
                         dialModel2.getPreImageWidth(), dialModel2.getPreImageHeight());
 
@@ -441,10 +446,11 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
 //                Glide.with(this).load(data.getData()).into(iv_watch_face);
 //                saveFile(this,((BitmapDrawable)iv_watch_face.getDrawable()).getBitmap());
                 CameraPhotoHelper.cropImage(this, data.getData(), dialWidth, dialHeight, false);
+                LogUtils.d("裁剪尺寸："+dialWidth+","+dialHeight);
             }
         }else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             Uri bgUri = UCrop.getOutput(data);
-            Glide.with(this).load(bgUri).into(iv_watch_face);
+            Glide.with(this).load(bgUri).override(dialWidth, dialHeight).into(iv_watch_face);
             LogUtils.d("clx", "_-------" + bgUri);
         } else if (resultCode == UCrop.RESULT_ERROR) {
             LogUtils.e("clx", "------裁剪错误" + data);
