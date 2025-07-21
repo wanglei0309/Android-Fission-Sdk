@@ -158,3 +158,14 @@ AFlashChatGptUtils.getInstance().setGptAiVoiceListener(new AFlashChatGptUtils.Gp
         // The AI ​​watch face function requires customers to record in the App and then convert the data into a byte array. Recording format support: pcm
         AFlashChatGptUtils.getInstance().voiceDrawing(fileBytes);
 ```
+
+#### 4. Push cloud watch faces
+1. Sample code for distinguishing serial numbers and pushing cloud watch faces
+```
+  //  This is to push the cloud dial to the 1st cloud dial position
+  FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath1), FissionEnum.WRITE_REMOTE_DIAL_DATA_INDEX1);
+
+  //  This is to push the cloud dial to the 2st cloud dial position
+  FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath1), FissionEnum.WRITE_REMOTE_DIAL_DATA_INDEX2);
+
+```
