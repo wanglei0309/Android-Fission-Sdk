@@ -104,6 +104,7 @@ public class HomeViewModel extends ViewModel {
         childList1.add(new FuncBean(R.string.FUNC_GET_OFFLINE_VOICE_MODE, FUNC_GET_OFFLINE_VOICE_MODE));
         childList1.add(new FuncBean(R.string.FUNC_DIAL_STATES_INFO, FUNC_DIAL_STATES_INFO));
         childList1.add(new FuncBean(R.string.FUNC_SET_GAME_DATA_MODE, FUNC_GAME_DATA_MONITOR));
+        childList1.add(new FuncBean(R.string.FUNC_SET_LIGHT_SENSITIVITY, FUNC_SET_LIGHT_SENSITIVITY));
 
         childList2.add(new FuncBean(R.string.FUNC_SET_DATA_STREAM, FUNC_SET_DATA_STREAM));
         childList2.add(new FuncBean(R.string.FUNC_MSG_TASK, FUNC_SET_DATA_STREAM2));
@@ -174,6 +175,8 @@ public class HomeViewModel extends ViewModel {
         childList3.add(new FuncBean(R.string.FUNC_SET_AFLASH_PAYID, FUNC_SET_AFLASH_PAYID));
         childList3.add(new FuncBean(R.string.FUNC_HANBAO_MODEL, FUNC_HANBAO_MODEL));
         childList3.add(new FuncBean(R.string.FUNC_HANBAO_SHOCK_RECORD, FUNC_HANBAO_SHOCK_RECORD));
+        childList3.add(new FuncBean(R.string.FUNC_GET_AIR_PRESSURE_RECORD, FUNC_GET_AIR_PRESSURE_RECORD));
+        childList3.add(new FuncBean(R.string.FUNC_NFC_FUNCTION_MODULE, FUNC_NFC_FUNCTION_MODULE));
 
 //        childList4.add(new FuncBean(R.string.FUNC_GET_SEDENTARY_DRINK_PARA,FUNC_GET_SEDENTARY_DRINK_PARA));
 

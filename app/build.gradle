@@ -96,7 +96,7 @@ dependencies {
     api rootProject.ext.dependencies["replaying"]
     api rootProject.ext.dependencies["utilcodex"]
 
-    implementation files('libs/fissionsdk_v2-release-v2.1.25.aar')
+    implementation files('libs/fissionsdk_v2-release-v2.1.26.aar')
 
     api "com.github.kongzue.DialogX:DialogX:0.0.48"
 

@@ -281,4 +281,14 @@ c
 
     <string name="FUNC_HANBAO_SHOCK_RECORD">鼾宝模式震动记录</string>
 
+    <string name="FUNC_GET_AIR_PRESSURE_RECORD">获取气压记录</string>
+
+    <string name="FUNC_SET_LIGHT_SENSITIVITY">设置光感目标机校准值</string>
+
+    <string name="FUNC_GET_LIGHT_SENSITIVITY">获取光感金机标准值</string>
+
+    <string name="FUNC_NFC_FUNCTION_MODULE">Nfc功能模块</string>
+    <string name="get_all_card_information">获取所有卡片信息</string>
+    <string name="create_access_card">创建一张门禁卡</string>
+    <string name="send_copy_card_data">下发复制卡数据</string>
 </resources>

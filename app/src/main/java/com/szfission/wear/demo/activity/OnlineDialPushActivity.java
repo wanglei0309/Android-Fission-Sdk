@@ -61,7 +61,7 @@ public class OnlineDialPushActivity extends BaseActivity {
     TextView tvFile2;
     ProgressBar tvProgress;
     String filePath = "";
-    Button btn_re_update, btn_send;
+    Button btn_re_update, btn_send, btn_send_online1, btn_send_online2;
     TextView tv_progress_value;
     TextView tv_tip;
 
@@ -96,6 +96,8 @@ public class OnlineDialPushActivity extends BaseActivity {
         btn_re_update = findViewById(R.id.btn_re_update);
         btn_send = findViewById(R.id.btn_send);
         tv_tip = findViewById(R.id.tv_tip);
+        btn_send_online1 = findViewById(R.id.btn_send_online1);
+        btn_send_online2 = findViewById(R.id.btn_send_online2);
 
         File dir = new File(path);
         LogUtils.d("获取路径",dir.getAbsolutePath());
@@ -177,6 +179,24 @@ public class OnlineDialPushActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 send();
+            }
+        });
+
+        btn_send_online1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK || SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK8773){
+                    FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath1), FissionEnum.WRITE_REMOTE_DIAL_DATA_INDEX1);
+                }
+            }
+        });
+
+        btn_send_online2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK || SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK8773){
+                    FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath1), FissionEnum.WRITE_REMOTE_DIAL_DATA_INDEX2);
+                }
             }
         });
 
@@ -302,7 +322,7 @@ public class OnlineDialPushActivity extends BaseActivity {
           }
           FissionLogUtils.d("wl", "在线表盘有效性校验结果："+isValid);
           if(index == 0){
-              FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath1), FissionEnum.WRITE_REMOTE_DIAL_DATA);
+              FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath1), FissionEnum.WRITE_REMOTE_DIAL_DATA_INDEX1);
           }else{
               FissionSdkBleManage.getInstance().startDial(FileIOUtils.readFile2BytesByStream(filePath2), FissionEnum.WRITE_REMOTE_DIAL_DATA);
           }

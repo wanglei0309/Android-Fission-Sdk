@@ -23,6 +23,10 @@ import me.jessyan.autosize.AutoSizeConfig;
 
 public class App extends Application {
 
+    static {
+        System.loadLibrary("slm_m1_crack");
+    }
+
     public static List<String> logData;
     public static List<String> logSingleData;
 

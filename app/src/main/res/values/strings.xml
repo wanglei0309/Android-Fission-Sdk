@@ -324,4 +324,15 @@
 
     <string name="FUNC_HANBAO_SHOCK_RECORD">HanBao Model Shock Record</string>
 
+    <string name="FUNC_GET_AIR_PRESSURE_RECORD">Get air pressure records</string>
+
+    <string name="FUNC_SET_LIGHT_SENSITIVITY">Set Light Sensitivity</string>
+
+    <string name="FUNC_GET_LIGHT_SENSITIVITY">Get Light Sensitivity</string>
+
+    <string name="FUNC_NFC_FUNCTION_MODULE">Nfc function module</string>
+    <string name="get_all_card_information">Get all card information</string>
+    <string name="create_access_card">Create an access card</string>
+    <string name="send_copy_card_data">Send copy card data</string>
+
 </resources>

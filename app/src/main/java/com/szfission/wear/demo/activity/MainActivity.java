@@ -43,6 +43,8 @@ import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.example.application.SlmM1Crack;
+import com.example.application.mytoos;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.DeviceBattery;
 import com.fission.wear.sdk.v2.bean.DeviceVersion;
@@ -1419,6 +1421,11 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
                         FissionSdkBleManage.getInstance().getMentalStressRecord(startTime,endTime);
                         break;
 
+                    case FUNC_GET_AIR_PRESSURE_RECORD:
+                        //获取气压记录
+                        FissionSdkBleManage.getInstance().getAirPressureRecord(startTime,endTime);
+                        break;
+
                     case FUNC_GET_BLOODPRESSURE_RECORD:
                         //获取血压记录
 //                        FissionSdk.getInstance().getBloodPressureRecord(startTime,endTime);
@@ -1576,8 +1583,16 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
                         startActivity(new Intent(context, DefaultDialInfoActivity.class));
                         break;
 
+                    case FUNC_SET_LIGHT_SENSITIVITY:
+                        startActivity(new Intent(context, LightSensitivityiActivity.class));
+                        break;
+
                     case FUNC_GET_OFFLINE_VOICE_INFO:
                         FissionSdkBleManage.getInstance().getOfflineVoiceInfo();
+                        break;
+
+                    case FUNC_NFC_FUNCTION_MODULE:
+                        startActivity(new Intent(context, NfcActivity.class));
                         break;
 
                     case FUNC_GET_FILE_DATA_BY_OFFSET:
@@ -2534,19 +2549,24 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 //        watchInfos[0] = watchInfo;
 //        AFlashChatGptUtils.getInstance().initSdk(MainActivity.this, "OnWear Pro", watchInfos);
 
-        String brand = android.os.Build.BRAND;  // 品牌，如 "Samsung", "Huawei"
-        String model = android.os.Build.MODEL;  // 型号，如 "SM-G9880", "P40 Pro"
-        System.out.println("手机品牌: " + brand);
-        System.out.println("手机型号: " + model);
+//        String brand = android.os.Build.BRAND;  // 品牌，如 "Samsung", "Huawei"
+//        String model = android.os.Build.MODEL;  // 型号，如 "SM-G9880", "P40 Pro"
+//        System.out.println("手机品牌: " + brand);
+//        System.out.println("手机型号: " + model);
 
-
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                HiSiliconDataParseManage.getInstance().opusFile2PcmFile(MainActivity.this);
-            }
-        }.start();
+//        byte[] crack_data = mytoos.hexStrToByteArray("1D79065C0003030614000A00A4EA3DCEDDA8A5714FA2A78C25B78A296117D1D6AAC6FDEF0F31CA934EA128CDC88C24216D6596AEADDE181B35D6E7EF5163C614AE7023E8B04085B67FB1AC486F076006FA94FDA43299A32E397C43E6FCB29CF6F58537180C7C7F97B2565C3F52151E96F8E4423D90D5FF0F2E7FDC1AC0AB33A94BD3651F3A973714085B90941504579C6EF70DC12241B300A724AB43017DD3CEAA0F5D3CD26F0277F708420ACA9370E70BCF23611F040000");
+//        byte[] keys = SlmM1Crack.mf_crack_api1(crack_data, (byte) crack_data.length);
+//        String keys_string = mytoos.byteArrayToHexStr_N(keys, (byte) (keys[0]+1));
+//        FissionLogUtils.d("wl", "-----秘钥破解结果--"+keys_string);
+//
+//
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                super.run();
+//                HiSiliconDataParseManage.getInstance().opusFile2PcmFile(MainActivity.this);
+//            }
+//        }.start();
     }
 
     private void showTipDialog(){
@@ -2598,8 +2618,8 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
                 activityResultLauncher.launch(new Intent(this, DeviceScanActivity.class));
             }
         } else if (id == R.id.tvLog) {
-//            startActivity(new Intent(this, LogActivity.class));
-            test();
+            startActivity(new Intent(this, LogActivity.class));
+//            test();
         } else if (id == R.id.btnStartTime) {
             timeType = 1;
             getTimeSelect(context, 1);

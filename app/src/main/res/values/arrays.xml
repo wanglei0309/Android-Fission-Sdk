@@ -58,7 +58,14 @@
         <item>amazon</item>
         <item>flipkart</item>
         <item>smartworld</item>
-        <item>中国邮政</item>
+        <item>postal</item>
+        <item>Drive</item>
+        <item>Prime Video</item>
+        <item>Slack</item>
+        <item>Spotify</item>
+        <item>Uber</item>
+        <item>Wynk Music</item>
+        <item>Yahoo Mail</item>
     </string-array>
 
     <string-array name="index">

@@ -81,6 +81,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:text="在线表盘推送1"
+        android:id="@+id/btn_send_online1"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:text="在线表盘推送2"
+        android:id="@+id/btn_send_online2"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <ProgressBar
         android:id="@+id/tvProgress"

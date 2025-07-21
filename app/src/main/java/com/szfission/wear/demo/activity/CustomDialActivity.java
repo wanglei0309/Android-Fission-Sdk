@@ -197,7 +197,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
             }
 
             @Override
-            public void onUpdateDialProgress(int state, int progress) {
+                public void onUpdateDialProgress(int state, int progress) {
                 super.onUpdateDialProgress(state, progress);
                 LogUtils.d("wl", "自定义表盘推送："+progress);
             }

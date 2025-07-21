@@ -70,6 +70,8 @@ public  class ModelConstant {
     public static final int FUNC_DIAL_STATES_INFO = 54;
     public static final int FUNC_GAME_DATA_MONITOR = 55;
     public static final int FUNC_SET_GAME_DATA_MODE = 56;
+    public static final int FUNC_SET_LIGHT_SENSITIVITY = 57;
+    public static final int FUNC_NFC_FUNCTION_MODULE = 58;
 
     public static final int FUNC_GET_HARDWARE_INFO = 100;
     public static final int FUNC_GET_DAYS_REPORT = 101;
@@ -137,4 +139,6 @@ public  class ModelConstant {
     public static final int FUNC_HANBAO_MODEL = 148;
 
     public static final int FUNC_HANBAO_SHOCK_RECORD = 149;
+
+    public static final int FUNC_GET_AIR_PRESSURE_RECORD = 150;
 }
