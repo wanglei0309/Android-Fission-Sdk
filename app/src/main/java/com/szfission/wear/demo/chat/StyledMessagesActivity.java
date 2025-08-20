@@ -12,7 +12,7 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.fission.wear.sdk.v2.constant.AiChatSpKey;
 import com.fission.wear.sdk.v2.constant.SpKey;
 import com.fission.wear.sdk.v2.session.ChatSession;
-import com.fission.wear.sdk.v2.session.ChatSessionCallback;
+//import com.fission.wear.sdk.v2.session.ChatSessionCallback;
 import com.fission.wear.sdk.v2.utils.AFlashChatGptUtils;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.fission.wear.sdk.v2.utils.RtkChatGptManage;

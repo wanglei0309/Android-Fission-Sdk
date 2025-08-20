@@ -266,6 +266,7 @@
         <item>/user/mediaaudio/photoalbum/</item>
         <item>/user/stream/</item>
         <item>/user/mediaaudio/micrecord/</item>
+        <item>/user/wechat/voice/</item>
     </string-array>
 
     <string name="file_upload">File upload</string>

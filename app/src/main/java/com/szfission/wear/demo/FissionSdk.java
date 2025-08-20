@@ -657,7 +657,7 @@ public class FissionSdk {
     }
 
     public void connectDevice(String deviceAddress, boolean isBind, String fissionKey, BleConnectListener listener) {
-        LogUtils.d("求这个地址" + deviceAddress);
+        LogUtils.d("wl", "连接这个地址 + deviceAddress");
 //        EventBus.getDefault().post(new ConnectedStateEvent(C.CONNECT_LOADING, SharedPreferencesUtil.getInstance().getBluetoothName()));
         if(TextUtils.isEmpty(deviceAddress)){
             FissionSdkBleManage.getInstance().connectBleDevice(deviceAddress, null, false, listener);

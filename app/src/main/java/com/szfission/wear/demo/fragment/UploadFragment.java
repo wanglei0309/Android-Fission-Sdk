@@ -384,8 +384,9 @@ public class UploadFragment extends Fragment {
                 if (filePath.equals("")){
                     ToastUtils.showShort("还未选择图片文件");
                 }else{
-                    Bitmap bitmap = ConvertUtils.bytes2Bitmap(FileIOUtils.readFile2BytesByStream(filePath));
-                    String binFilePath = Environment.getExternalStorageDirectory()+"/Photo_"+System.currentTimeMillis()/1000+".bin";
+                    byte[] imageData = FileIOUtils.readFile2BytesByStream(filePath);
+                    Bitmap bitmap = ConvertUtils.bytes2Bitmap(imageData);
+                    String binFilePath = Environment.getExternalStorageDirectory()+"/Photo_"+ "L"+ imageData.length + "_" +System.currentTimeMillis()/1000+".bin";
                     HsDialUtils.getInstance().image2ImageBinFile(bitmap, binFilePath);
                     FissionSdkBleManage.getInstance().pushImageFile(binFilePath, FissionConstant.OTA_TYPE_IMAGE_FILE);
                 }

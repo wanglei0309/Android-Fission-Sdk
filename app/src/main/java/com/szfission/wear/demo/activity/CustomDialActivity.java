@@ -1,6 +1,10 @@
 package com.szfission.wear.demo.activity;
 
 
+import static com.fission.wear.sdk.v2.utils.FissionDialUtil.stylePosition_top;
+import static com.szfission.wear.sdk.util.FissionDialUtil.getPreviewImageBitmap;
+import static com.szfission.wear.sdk.util.FissionDialUtil.stylePosition_middle;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -59,10 +63,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import static com.fission.wear.sdk.v2.utils.FissionDialUtil.stylePosition_top;
-import static com.szfission.wear.sdk.util.FissionDialUtil.getPreviewImageBitmap;
-import static com.szfission.wear.sdk.util.FissionDialUtil.stylePosition_middle;
 
 public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBarChangeListener {
     ColorMatrix colorMatrix;

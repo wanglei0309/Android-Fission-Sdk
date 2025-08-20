@@ -128,6 +128,11 @@ public class BaiDuAiTestActivity extends BaseActivity {
             public void onSpeechResult(String result) {
 
             }
+
+            @Override
+            public void onSpeechResult(String result, boolean isEnd) {
+
+            }
         });
 
         AFlashChatGptUtils.getInstance().setGptAiVoiceListener(new AFlashChatGptUtils.GptAiVoiceListener() {

@@ -2399,6 +2399,22 @@ DFU upgrade mainly includes the following functions:
      FissionSdkBleManage.getInstance().pushMoreSport(outData);
    ```
 
+#### 14, push agps data
+When your device supports GPS positioning, you need to download the corresponding AGP data to assist in positioning, so that you can quickly locate successfully. When your chip type is RTK platform, you need to call the following API：
+```
+    // If you only need GPS auxiliary positioning data, you can directly call the following API, read the downloaded AGP data into a byte array, and pass it to the API.
+    FissionSdkBleManage.getInstance().pushAgpsData(resultData);
+
+   // If your GPS also supports Beidou and Galileo positioning, you can download three kinds of auxiliary positioning data of AGP, Beidou and Galileo, and then call the following API and pass the data of the corresponding file into it.
+    byte [] gpsData = readBytesFromAssets(PushAgpsDataActivity.this, "ELPO_GR3.DAT");
+    byte [] beidouData = readBytesFromAssets(PushAgpsDataActivity.this, "ELPO_BDS.DAT");
+    byte [] galileoData = readBytesFromAssets(PushAgpsDataActivity.this, "ELPO_GAL.DAT");
+    FissionSdkBleManage.getInstance().pushMultipleAgpsData(gpsData,beidouData,galileoData, System.currentTimeMillis()/1000);
+
+    ps: The currently used Loda sensors support three types of auxiliary positioning data by default. It is recommended to use the API that passes in three types of data, so that the positioning effect will be better.
+
+```
+
 * 固件UI升级（参考demo）
 
 ### Five、Description of SDK constants

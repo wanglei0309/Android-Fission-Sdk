@@ -96,7 +96,7 @@ dependencies {
     api rootProject.ext.dependencies["replaying"]
     api rootProject.ext.dependencies["utilcodex"]
 
-    implementation files('libs/fissionsdk_v2-release-v2.1.26.aar')
+    implementation files('libs/fissionsdk_v2-release-v2.1.31.aar')
 
     api "com.github.kongzue.DialogX:DialogX:0.0.48"
 
@@ -134,4 +134,17 @@ dependencies {
     implementation deps['okhttp-sse']
     implementation deps['okio']
     implementation deps['logging-interceptor']
+
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
+
+    // RxJava3 版本（如果 SDK 用的是 RxHttp3）：
+    implementation 'com.github.liujingxing.rxhttp:rxhttp:3.0.0'
+    implementation 'com.github.liujingxing.rxhttp:converter-fastjson:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.8'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+
 }

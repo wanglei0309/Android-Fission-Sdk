@@ -1,8 +1,6 @@
 package com.szfission.wear.demo.activity;
 
 
-import static com.szfission.wear.sdk.util.FissionDialUtil.stylePosition_middle;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -26,7 +24,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -47,12 +44,8 @@ import com.szfission.wear.demo.util.CameraPhotoHelper;
 import com.szfission.wear.demo.util.PhotoUtils;
 import com.szfission.wear.sdk.constant.FissionEnum;
 import com.szfission.wear.sdk.util.ImageScalingUtil;
-import com.szfission.wear.sdk.util.RxTimerUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yalantis.ucrop.UCrop;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 
@@ -74,7 +67,7 @@ public class HsCustomDialActivity extends BaseActivity implements SeekBar.OnSeek
     Button btn_push_video_dial;
 
     FissionDialUtil.DialModel dialModel;
-    com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel dialModel2;
+    FissionDialUtil.DialModel dialModel2;
 
     int dialWidth = 466;
     int dialHeight = 466;

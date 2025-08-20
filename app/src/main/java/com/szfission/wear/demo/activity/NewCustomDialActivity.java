@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -46,7 +45,6 @@ import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.utils.FissionCustomDialUtil;
 import com.fission.wear.sdk.v2.utils.QuickLZUtils;
-import com.lcw.library.stickerview.BaseSticker;
 import com.lcw.library.stickerview.Sticker;
 import com.lcw.library.stickerview.StickerLayout;
 import com.szfission.wear.demo.App;
@@ -59,12 +57,8 @@ import com.szfission.wear.demo.dialog.NormalDialog;
 import com.szfission.wear.demo.util.CameraPhotoHelper;
 import com.szfission.wear.demo.util.PhotoUtils;
 import com.szfission.wear.sdk.constant.FissionEnum;
-import com.szfission.wear.sdk.util.ImageScalingUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yalantis.ucrop.UCrop;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

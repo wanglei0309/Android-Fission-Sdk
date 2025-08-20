@@ -1,5 +1,6 @@
 package com.szfission.wear.demo.activity;
 
+import static com.fission.wear.sdk.v2.utils.WechatEmojiMapper.getMetaByEmoji;
 import static com.szfission.wear.demo.ModelConstant.*;
 
 import android.Manifest;
@@ -16,6 +17,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,13 +40,12 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.example.application.SlmM1Crack;
-import com.example.application.mytoos;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.DeviceBattery;
 import com.fission.wear.sdk.v2.bean.DeviceVersion;
@@ -55,10 +56,12 @@ import com.fission.wear.sdk.v2.bean.HbModelShockRecord;
 import com.fission.wear.sdk.v2.bean.HsDialInfo;
 import com.fission.wear.sdk.v2.bean.HsJsFileInfo;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
+import com.fission.wear.sdk.v2.bean.RtSpeechRecognitionResults;
 import com.fission.wear.sdk.v2.bean.SportListInfo;
 import com.fission.wear.sdk.v2.bean.StreamData;
 import com.fission.wear.sdk.v2.bean.SystemFunctionSwitch;
 import com.fission.wear.sdk.v2.bean.WatchGameMotionData;
+import com.fission.wear.sdk.v2.bean.WxVoiceMsgBody;
 import com.fission.wear.sdk.v2.callback.BaseCmdResultListener;
 import com.fission.wear.sdk.v2.callback.BleConnectListener;
 import com.fission.wear.sdk.v2.callback.BtConnectListener;
@@ -67,13 +70,18 @@ import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionFmDataResultListener;
 import com.fission.wear.sdk.v2.callback.FissionJsiDataCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionRawDataResultListener;
+import com.fission.wear.sdk.v2.config.ConfigCacheUtils;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.constant.JsiCmd;
 import com.fission.wear.sdk.v2.constant.SpKey;
-import com.fission.wear.sdk.v2.parse.HiSiliconDataParseManage;
+import com.fission.wear.sdk.v2.proto.WeChatPbParseUtil;
+import com.fission.wear.sdk.v2.service.BleComService;
 import com.fission.wear.sdk.v2.utils.BaiDuAiUtils;
+import com.fission.wear.sdk.v2.utils.ChatGptUtils;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.fission.wear.sdk.v2.utils.MacUtil;
+import com.fission.wear.sdk.v2.utils.WeChatManage;
+import com.fission.wear.sdk.v2.utils.WechatEmojiMapper;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.polidea.rxandroidble2.RxBleConnection;
@@ -122,6 +130,7 @@ import com.szfission.wear.sdk.bean.param.DkWaterRemind;
 import com.szfission.wear.sdk.bean.param.DndRemind;
 import com.szfission.wear.sdk.bean.param.LiftWristPara;
 import com.szfission.wear.sdk.bean.param.SportsTargetPara;
+import com.szfission.wear.sdk.constant.FissionEnum;
 import com.szfission.wear.sdk.ifs.BigDataCallBack;
 import com.szfission.wear.sdk.ifs.OnBleResultCallback;
 import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
@@ -164,7 +173,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
     TextView tv_haisi_test;
 
-    TextView tv_chatgpt, tv_jsi_test,tv_ai_test;
+    TextView tv_chatgpt, tv_jsi_test,tv_ai_test, tv_wechat;
 
     private HomeViewModel homeViewModel;
     ArrayList<ArrayList<FuncBean>> funcBeanList = new ArrayList<>();
@@ -190,6 +199,105 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
     private String downloadPath ="";
     private DownloadFileInfo mDownloadFileInfo;
+
+    private BleConnectListener mBleConnectListener = new BleConnectListener() {
+        @Override
+        public void onConnectionStateChange(RxBleConnection.RxBleConnectionState newState) {
+            LogUtils.d("wl", "FissionSdk_v2----onConnectionStateChange: "+newState.toString());
+            ThreadUtils.runOnUiThread(() -> {
+                if (newState == RxBleConnection.RxBleConnectionState.CONNECTED) {
+                    connectSuccessfully = true;
+                    tvDeviceStatus.setText(deviceName);
+                    tvActionConnect.setText(R.string.disconnect);
+                    showLog(R.string.connected,deviceName);
+                } else if (newState == RxBleConnection.RxBleConnectionState.DISCONNECTED) {
+                    FsLogUtil.d("成功断开了设备");
+                    connectSuccessfully = false;
+                    tvDeviceStatus.setText(R.string.disconnected);
+                    tvActionConnect.setText(R.string.connect);
+                    showLog(R.string.disconnected,deviceName);
+                }else if (newState == RxBleConnection.RxBleConnectionState.CONNECTING){
+                    tvDeviceStatus.setText(getString(R.string.device_connecting)+ deviceName);
+                    tvActionConnect.setText(R.string.disconnect);
+                }
+            });
+        }
+
+        @Override
+        public void isBindNewDevice() {
+
+        }
+
+        @Override
+        public void onBinding() {
+            LogUtils.d("wl", "---onBinding--");
+        }
+
+        @Override
+        public void onBindSucceeded(String address, String name) {
+            LogUtils.d("wl", "---onBindSucceeded--");
+            SharedPreferencesUtil.getInstance().setBluetoothAddress(address);
+
+//                SPUtils.getInstance().put(SpKey.SUPPORT_AUDIO_OPUS, true);
+
+            BaiDuAiUtils.initDeviceId("oDKQ0Z6JvoCFd3c3O20DxEOOtDCaKCMN", "OtBdvt18HdJnSYGGGaEMn2Mg0mCTF77w");
+
+//            ChatGptUtils.getInstance().initSdk(MainActivity.this, SPUtils.getInstance().getString(SpKey.LAST_MAC));
+
+            // 获取硬件设备信息
+            FissionSdkBleManage.getInstance().getHardwareInfo();
+
+            WeChatManage.getInstance().initWeChat(MainActivity.this,SPUtils.getInstance().getString(SpKey.LAST_MAC));
+
+//                new RxTimerUtil().timer(1500, new RxTimerUtil.RxAction() {
+//                    @Override
+//                    public void action(long number) {
+//                        String language = "en";
+//                        language = Locale.getDefault().getLanguage();
+//                        FissionLogUtils.d("wl", "艾闪初始化语言，当前系统语言是："+language);
+//                        WatchInfo[] watchInfos = new WatchInfo[1];
+//                        WatchInfo watchInfo = new WatchInfo(PaymentModel.LICENSE_PAY, SPUtils.getInstance().getString(SpKey.LAST_MAC), LicenseModel.KNOWN_DEVICE, MemberModel.FREE, "", "", App.mHardWareInfo.getDeviceWidth()+"*"+App.mHardWareInfo.getDeviceHigh(), "367*300", language, language, 0, 0, 0, 0);
+//                        watchInfos[0] = watchInfo;
+//                        AFlashChatGptUtils.getInstance().initSdk(MainActivity.this, "OnWear Pro", watchInfos);
+//                    }
+//                });
+
+//                dataSynchronization();
+            FissionSdkBleManage.getInstance().setBtConnectListener(new BtConnectListener() {
+                @Override
+                public void onConnectionStateChanged(@NonNull BluetoothDevice device, int state) {
+
+                }
+
+                @Override
+                public void onRemoveBondFail() {
+                    ToastUtils.showShort("BT配对信息移除失败， 请前往系统蓝牙手动解除配对。");
+                    FissionLogUtils.d("wl", "BT配对信息移除失败， 请前往系统蓝牙手动解除配对");
+                }
+            });
+        }
+
+        @Override
+        public void onBindFailed(int code) {
+            LogUtils.d("wl", "---onBindFailed--");
+            if(code == FissionConstant.BIND_FAIL_KEY_ERROR){ //绑定秘钥出错，重置秘钥
+                long time = System.currentTimeMillis();
+                int lastTime = (int) (time % 10000);
+                int bindKey = AnyWear.bindDevice((int) (lastTime), deviceAddress);
+                SharedPreferencesUtil.getInstance().setFissionKey(lastTime + "," + bindKey);
+            }
+        }
+
+        @Override
+        public void onConnectionFailure(Throwable throwable) {
+
+        }
+
+        @Override
+        public void onServiceDisconnected() {
+
+        }
+    };
 
     private BaseCmdResultListener mRawDataListener = new FissionRawDataResultListener() {
         @Override
@@ -343,6 +451,10 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
             }else if(fssStatus.getFssType() == 23){
                 logList.add("当前进度："+fssStatus.getFssStatus());
                 logAdapter.notifyDataSetChanged();
+            }else if(fssStatus.getFssType() == FissionEnum.SC_BAROMETRIC_ALTITUDE_CALIBRATION){
+                logList.add("请求海平面气压值校准！！");
+                logAdapter.notifyDataSetChanged();
+                FissionSdkBleManage.getInstance().setStandardAirPressureValue(99890);
             }
         }
 
@@ -783,6 +895,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
         tv_chatgpt = findViewById(R.id.tv_chatgpt);
         tv_jsi_test = findViewById(R.id.tv_jsi_test);
         tv_ai_test = findViewById(R.id.tv_ai_test);
+        tv_wechat = findViewById(R.id.tv_wechat);
 
         tvLog.setOnClickListener(this);
         tvActionConnect.setOnClickListener(this);
@@ -857,6 +970,11 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
             startActivity(intent);
         });
 
+        tv_wechat.setOnClickListener(v->{
+            Intent intent = new Intent(MainActivity.this, WeChatTestActivity.class);
+            startActivity(intent);
+        });
+
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 12);
@@ -894,6 +1012,10 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
         addCmdResultListener(mBigDataCmdListener);
         addCmdResultListener(fmDataResultListener);
         addCmdResultListener(jsiDataCmdResultListener);
+
+        if(!TextUtils.isEmpty(SPUtils.getInstance().getString(SpKey.LAST_MAC))){
+            FissionSdkBleManage.getInstance().connectBleDevice(SPUtils.getInstance().getString(SpKey.LAST_MAC), ConfigCacheUtils.getBleComConfig(), false, mBleConnectListener);
+        }
 
 
         expandView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -1889,102 +2011,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
     }
 
     private void connectDevice(){
-        FissionSdk.getInstance().connectDevice(deviceAddress, true, "", new BleConnectListener() {
-            @Override
-            public void onConnectionStateChange(RxBleConnection.RxBleConnectionState newState) {
-                LogUtils.d("wl", "FissionSdk_v2----onConnectionStateChange: "+newState.toString());
-                ThreadUtils.runOnUiThread(() -> {
-                    if (newState == RxBleConnection.RxBleConnectionState.CONNECTED) {
-                        connectSuccessfully = true;
-                        tvDeviceStatus.setText(deviceName);
-                        tvActionConnect.setText(R.string.disconnect);
-                        showLog(R.string.connected,deviceName);
-                    } else if (newState == RxBleConnection.RxBleConnectionState.DISCONNECTED) {
-                        FsLogUtil.d("成功断开了设备");
-                        connectSuccessfully = false;
-                        tvDeviceStatus.setText(R.string.disconnected);
-                        tvActionConnect.setText(R.string.connect);
-                        showLog(R.string.disconnected,deviceName);
-                    }else if (newState == RxBleConnection.RxBleConnectionState.CONNECTING){
-                        tvDeviceStatus.setText(getString(R.string.device_connecting)+ deviceName);
-                        tvActionConnect.setText(R.string.disconnect);
-                    }
-                });
-            }
-
-            @Override
-            public void isBindNewDevice() {
-
-            }
-
-            @Override
-            public void onBinding() {
-                LogUtils.d("wl", "---onBinding--");
-            }
-
-            @Override
-            public void onBindSucceeded(String address, String name) {
-                LogUtils.d("wl", "---onBindSucceeded--");
-                SharedPreferencesUtil.getInstance().setBluetoothAddress(address);
-
-//                SPUtils.getInstance().put(SpKey.SUPPORT_AUDIO_OPUS, true);
-
-                BaiDuAiUtils.initDeviceId("oDKQ0Z6JvoCFd3c3O20DxEOOtDCaKCMN", "OtBdvt18HdJnSYGGGaEMn2Mg0mCTF77w");
-
-//                ChatGptUtils.getInstance().initSdk(MainActivity.this, SPUtils.getInstance().getString(SpKey.LAST_MAC));
-
-                // 获取硬件设备信息
-                FissionSdkBleManage.getInstance().getHardwareInfo();
-
-//                new RxTimerUtil().timer(1500, new RxTimerUtil.RxAction() {
-//                    @Override
-//                    public void action(long number) {
-//                        String language = "en";
-//                        language = Locale.getDefault().getLanguage();
-//                        FissionLogUtils.d("wl", "艾闪初始化语言，当前系统语言是："+language);
-//                        WatchInfo[] watchInfos = new WatchInfo[1];
-//                        WatchInfo watchInfo = new WatchInfo(PaymentModel.LICENSE_PAY, SPUtils.getInstance().getString(SpKey.LAST_MAC), LicenseModel.KNOWN_DEVICE, MemberModel.FREE, "", "", App.mHardWareInfo.getDeviceWidth()+"*"+App.mHardWareInfo.getDeviceHigh(), "367*300", language, language, 0, 0, 0, 0);
-//                        watchInfos[0] = watchInfo;
-//                        AFlashChatGptUtils.getInstance().initSdk(MainActivity.this, "OnWear Pro", watchInfos);
-//                    }
-//                });
-
-//                dataSynchronization();
-                FissionSdkBleManage.getInstance().setBtConnectListener(new BtConnectListener() {
-                    @Override
-                    public void onConnectionStateChanged(@NonNull BluetoothDevice device, int state) {
-
-                    }
-
-                    @Override
-                    public void onRemoveBondFail() {
-                        ToastUtils.showShort("BT配对信息移除失败， 请前往系统蓝牙手动解除配对。");
-                        FissionLogUtils.d("wl", "BT配对信息移除失败， 请前往系统蓝牙手动解除配对");
-                    }
-                });
-            }
-
-            @Override
-            public void onBindFailed(int code) {
-                LogUtils.d("wl", "---onBindFailed--");
-                if(code == FissionConstant.BIND_FAIL_KEY_ERROR){ //绑定秘钥出错，重置秘钥
-                    long time = System.currentTimeMillis();
-                    int lastTime = (int) (time % 10000);
-                    int bindKey = AnyWear.bindDevice((int) (lastTime), deviceAddress);
-                    SharedPreferencesUtil.getInstance().setFissionKey(lastTime + "," + bindKey);
-                }
-            }
-
-            @Override
-            public void onConnectionFailure(Throwable throwable) {
-
-            }
-
-            @Override
-            public void onServiceDisconnected() {
-
-            }
-        });
+        FissionSdk.getInstance().connectDevice(deviceAddress, true, "", mBleConnectListener);
     }
 
     @Override
@@ -2567,6 +2594,42 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 //                HiSiliconDataParseManage.getInstance().opusFile2PcmFile(MainActivity.this);
 //            }
 //        }.start();
+
+        // 原始文本（包含中文表情标记）
+//        String inputText = "你好[微笑]，今天心情怎么样[撇嘴]？";
+//
+//        // 编码成 Unicode emoji 表情
+//        String encoded = WechatEmojiMapper.encode(inputText);
+//        System.out.println("编码后: " + encoded);
+//
+//        // 解码回中文表情标记
+//        String decoded = WechatEmojiMapper.decode(encoded);
+//        System.out.println("解码后: " + decoded);
+
+//        FissionSdkBleManage.getInstance().sendTestData();
+
+//        String filePath = Environment.getExternalStorageDirectory()+"/test_voice.mp3";
+//        WxVoiceMsgBody wxVoiceMsgBody = new WxVoiceMsgBody(filePath, "wanglei365012734");
+//        WeChatManage.getInstance().sendMsgByAudio(wxVoiceMsgBody);
+
+//        String result = "{\"code\":0,\"message\":\"success\",\"sid\":\"iat000d6f55@hu19868d7ff5e04e8802\",\"data\":{\"status\":1,\"result\":{\"sn\":18,\"ls\":false,\"bg\":0,\"ed\":0,\"pgs\":\"rpl\",\"rst\":\"rlt\",\"rg\":[1,17],\"ws\":[{\"cw\":[{\"sc\":0,\"w\":\"语音\"}],\"bg\":43},{\"bg\":75,\"cw\":[{\"sc\":0,\"w\":\"转\"}]},{\"bg\":103,\"cw\":[{\"sc\":0,\"w\":\"文字\"}]},{\"bg\":151,\"cw\":[{\"sc\":0,\"w\":\"测试\"}]},{\"bg\":223,\"cw\":[{\"sc\":0,\"w\":\"测试\"}]},{\"bg\":283,\"cw\":[{\"sc\":0,\"w\":\"测试\"}]},{\"bg\":327,\"cw\":[{\"w\":\"测试\",\"sc\":0}]},{\"bg\":419,\"cw\":[{\"sc\":0,\"w\":\"1234567\"}]}]}},\"tid\":\"MTc1NDEwNTY1MDI5MyxhbmRyb2lkLEJDOjQ0OjlDOkNGOkMyOjJELDU5NDI3OGNkYTIwYjkwODgwNw==\"}";
+//        RtSpeechRecognitionResults results = GsonUtils.fromJson(result, RtSpeechRecognitionResults.class);
+//        if("success".equals(results.getMessage())){
+//            StringBuffer stringBuffer = new StringBuffer();
+//            RtSpeechRecognitionResults.Data data = results.getData();
+//            RtSpeechRecognitionResults.RecognitionResult recognitionResult = data.result;
+//            List<RtSpeechRecognitionResults.WsResult> wsResults = recognitionResult.ws;
+//            if(data.status == 1){
+//                for(RtSpeechRecognitionResults.WsResult wsResult: wsResults){
+//                    List<RtSpeechRecognitionResults.TextResult> textResults = wsResult.cw;
+//                    for(RtSpeechRecognitionResults.TextResult textResult: textResults){
+//                        stringBuffer.append(textResult.w);
+//                    }
+//                }
+//                stringBuffer.append("。");
+//            }
+//            FissionLogUtils.d("wl", "实时语音识别结果："+stringBuffer.toString());
+//        }
     }
 
     private void showTipDialog(){
@@ -2618,8 +2681,8 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
                 activityResultLauncher.launch(new Intent(this, DeviceScanActivity.class));
             }
         } else if (id == R.id.tvLog) {
-            startActivity(new Intent(this, LogActivity.class));
-//            test();
+//            startActivity(new Intent(this, LogActivity.class));
+            test();
         } else if (id == R.id.btnStartTime) {
             timeType = 1;
             getTimeSelect(context, 1);
