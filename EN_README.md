@@ -1,4 +1,4 @@
-# Fission-SDK-Android Integration Documentation
+ # Fission-SDK-Android Integration Documentation
 ### One、Product description
 * This document is to guide Android developers to integrate Fission-SDK-Android in Android 5.0 and above systems. It mainly includes some key usage examples. For more detailed API, please refer to the JavaDoc document.
 * Fission-SDK-Android is the basic dependency library that Shenzhen Fission Smart Co., Ltd. provides for customer developers to adapt to the company's smart watches. It mainly includes the support of various functions such as Bluetooth scanning, Bluetooth connection, Bluetooth communication, health data synchronization, exercise data synchronization, call reminder, message push, music control and so on.
@@ -2400,7 +2400,12 @@ DFU upgrade mainly includes the following functions:
    ```
 
 #### 14, push agps data
-When your device supports GPS positioning, you need to download the corresponding AGP data to assist in positioning, so that you can quickly locate successfully. When your chip type is RTK platform, you need to call the following API：
+FAQ：
+1. EPO file transfer (app → watch)Exact procedure to send the four EPO files (and whether they must be zipped).
+
+It is not necessary to transfer 4 files, but two cases, one is a single apgs file, the other is agps file, Beidou file, and Galileo file. Files do not need to be compressed.
+
+2. APIs/commands to initiate, stream, and finalize upload.How to obtain upload progress (%) and completion status (success/failure), with sample callbacks.
 ```
     // If you only need GPS auxiliary positioning data, you can directly call the following API, read the downloaded AGP data into a byte array, and pass it to the API.
     FissionSdkBleManage.getInstance().pushAgpsData(resultData);
@@ -2413,7 +2418,114 @@ When your device supports GPS positioning, you need to download the correspondin
 
     ps: The currently used Loda sensors support three types of auxiliary positioning data by default. It is recommended to use the API that passes in three types of data, so that the positioning effect will be better.
 
+    // Adding this listener can get the progress and status of the ephemeris file upload.
+    FissionSdkBleManage.getInstance().addCmdResultListener(new FissionBigDataCmdResultListener() {
+            @Override
+            public void sendSuccess(String cmdId) {
+
+            }
+
+            @Override
+            public void sendFail(String cmdId) {
+
+            }
+
+            @Override
+            public void onResultTimeout(String cmdId) {
+
+            }
+
+            @Override
+            public void onResultError(String errorMsg) {
+
+            }
+
+            @Override
+            public void onUpdateDialProgress(int state, int progress) {
+                super.onUpdateDialProgress(state, progress);
+                // state == 0 is SUCCESS .   state == -1 is FAIL
+            }
+        });
+
+        ps:If you don't want to add this listener, you can also get progress from the general listener fssSuccess. You need to set a task timeout to prevent the SDK from not providing the correct callback when Bluetooth communication fails.
+
 ```
+  3. User-initiated update flow (watch → app)When the user taps the watch to “update GPS info”, which listener/event is triggered on the app?Full schema of the listener payload (fields, types, sample JSON/logs).
+  ```
+  @Override
+      public void fssSuccess(FssStatus fssStatus) {
+          super.fssSuccess(fssStatus);
+          if(fssStatus.getFssType() == 35){
+              // The watch requests the current location, and the app needs to send the current latitude and longitude, which can assist the watch GPS in positioning faster.
+              FissionSdkBleManage.getInstance().setAgpsLocation(114.027901, 22.619909);
+          }else if(fssStatus.getFssType() == 36){
+              // The watch requests an update of the ephemeris file.
+          }
+      }
+  ```
+
+  4. Failure handling during upload.Error codes and messages returned when the data upload fails.Retries/backoff recommendations and resume support (if any).Complete error code catalog. A consolidated list of all error codes (transport, validation, auth, file format, timeout, version mismatch, storage full, etc.) and their meanings.Recommended app behavior per error code.
+    ```
+    private BaseCmdResultListener mBigDataCmdListener = new FissionBigDataCmdResultListener() {
+        @Override
+        public void sendSuccess(String cmdId) {
+
+        }
+
+        @Override
+        public void sendFail(String cmdId) {
+          if(cmdId.equals(BigDataCmdID.CMD_ID_ST_AGPS_DATA)){
+            // agps cmd send fail
+          }
+        }
+
+        @Override
+        public void onResultTimeout(String cmdId) {
+          if(cmdId.equals(BigDataCmdID.CMD_ID_ST_AGPS_DATA)){
+            // agps cmd result timeout
+          }
+        }
+
+        @Override
+        public void onResultError(String errorMsg) {
+
+           //The watch returns an error in pushing the ephemeris file.
+
+
+        }
+
+    ```
+
+    ps: All abnormal situations do not need to be handled separately. It is recommended that customers add their own retry mechanism and retry 2-3 times when an abnormality occurs. If the abnormality persists, provide the relevant log files to the linwear team, who will provide quick support and solutions.
+
+  5. Edge cases & best practices. Low battery, BLE disconnects, stale/expired EPO, partial files, storage limits, concurrent uploads, firmware busy state, and rollback behavior.Any rate limits,daily.quotas, or timing constraints (e.g., do not start GNSS while ingesting EPO).Expected file sizes and typical transfer/decode times.
+
+    ps:In extreme cases where file transfers fail, the SDK handles this internally; your app doesn't need to do anything else. Your app simply needs to implement its own task timeout mechanism (for example, if no transfers succeed within one minute, the default timeout is reached). The SDK's internal queue mechanism handles concurrent operations. The standard BLE Bluetooth communication rate is approximately 20kbps. Transfer times vary depending on file size.
+
+  6. Location & Sport Data.How to obtain location details together with sport data from the watch.List of listeners/callbacks and their payload format.
+  ```
+      // Get exercise details data
+      FissionSdkBleManage.getInstance().getExerciseDetail(startTime, endTime);
+
+      // exercise details data callback
+      @Override
+      public void getExerciseDetail(List<ExerciseDetail> exerciseDetails) {
+          super.getExerciseDetail(exerciseDetails);
+
+      }
+
+    // Get GPS positioning details data
+     FissionSdkBleManage.getInstance().getExprGpsDetail(startTime, endTime);
+
+    // Get GPS positioning details data callback
+    @Override
+      public void getExprGpsDetail(List<ExerGpsDetail> gpsDetails) {
+
+      }
+
+      ps:When accessing the API, if you encounter any problems, communicate with Linwear R&D.
+  ```
+
 
 * 固件UI升级（参考demo）
 
