@@ -99,7 +99,7 @@ public class SetSnAndCmeiActivity extends BaseActivity {
                 String sn = ed_sn.getText().toString().trim();
                 String cmei= ed_cmei.getText().toString().trim();
                 try {
-                    FissionSdkBleManage.getInstance().setSnAndCmeiCode(sn, cmei);
+                    FissionSdkBleManage.getInstance().setSnAndCmeiCode("KPEP2507030001", "");
                 } catch (Exception e) {
                     ToastUtils.showLong("输入数据格式有误！");
                 }

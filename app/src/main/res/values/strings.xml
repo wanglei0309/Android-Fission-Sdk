@@ -267,6 +267,7 @@
         <item>/user/stream/</item>
         <item>/user/mediaaudio/micrecord/</item>
         <item>/user/wechat/voice/</item>
+        <item>/user/wechat/</item>
     </string-array>
 
     <string name="file_upload">File upload</string>
@@ -335,5 +336,14 @@
     <string name="get_all_card_information">Get all card information</string>
     <string name="create_access_card">Create an access card</string>
     <string name="send_copy_card_data">Send copy card data</string>
+    <string name="FUNC_SET_PRIVATE_BLOOD_PRESSURE_SET">Private blood pressure parameters</string>
+    <string name="FUNC_SET_PRIVATE_BLOOD_SET">Private blood parameters</string>
+    <string name="FUNC_SET_PRIVATE_BLOOD_SUGAR_SET">Private blood glucose parameters</string>
+    <string name="FUNC_GET_BLOOD_SUGAR_RECORD">Blood glucose record</string>
+    <string name="FUNC_GET_BLOOD_RECORD">Record of blood components</string>
+    <string name="FUNC_SET_BLOOD_PRESSURE_SWITCH">Set blood pressure detection switch</string>
+    <string name="FUNC_SET_BLOOD_SUGAR_SWITCH">Set blood sugar detection switch</string>
+    <string name="FUNC_SET_BLOOD_COMPONENT_SWITCH">Set blood component detection switch</string>
 
+    <string name="FUNC_NOTIFY_DEVICE_VIBRATES">Notify Device Vibrates</string>
 </resources>

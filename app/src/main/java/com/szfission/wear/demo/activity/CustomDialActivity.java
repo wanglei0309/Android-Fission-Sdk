@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 
+import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -91,7 +92,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     boolean isSupportAntiAliasing;
     boolean isSupportCrcChecksum;
 
-    private int colorValue ;
+    private int colorValue;
 
     private boolean isRePush = false; //是否反复推送
 
@@ -100,8 +101,9 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     private int num = 0;
 
     private long lastTime = 0; //上次升级成功的时候， 屏蔽固件重复返回进度100% 引起的逻辑问题。
+
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push_dial);
         setTitle(R.string.FUNC_PUSH_CUSTOM_DIAL);
@@ -110,7 +112,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
         colorMatrix = new ColorMatrix();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        if(App.mHardWareInfo!=null){
+        if (App.mHardWareInfo != null) {
             dialWidth = App.mHardWareInfo.getDeviceWidth();
             dialHeight = App.mHardWareInfo.getDeviceHigh();
             thumbnailWidth = App.mHardWareInfo.getThumbnailWidth();
@@ -134,7 +136,7 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
 
         colorValue = getResources().getColor(R.color.public_custom_dial_1);
 
-        FissionSdkBleManage.getInstance().addCmdResultListener(new FissionAtCmdResultListener(){
+        FissionSdkBleManage.getInstance().addCmdResultListener(new FissionAtCmdResultListener() {
 
             @Override
             public void sendSuccess(String cmdId) {
@@ -159,19 +161,19 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
             @Override
             public void fssSuccess(FssStatus fssStatus) {
                 super.fssSuccess(fssStatus);
-                if(fssStatus.getFssType() == 23 && fssStatus.getFssStatus() == 100 && isRePush && System.currentTimeMillis() - lastTime > 2000){
+                if (fssStatus.getFssType() == 23 && fssStatus.getFssStatus() == 100 && isRePush && System.currentTimeMillis() - lastTime > 2000) {
                     lastTime = System.currentTimeMillis();
                     num++;
-                    if(mRxTimerUtil!=null){
+                    if (mRxTimerUtil != null) {
                         mRxTimerUtil.cancelTimer();
                         mRxTimerUtil = null;
                     }
-                    mRxTimerUtil =  new RxTimerUtil();
+                    mRxTimerUtil = new RxTimerUtil();
                     mRxTimerUtil.timer(10000, number -> {
                         setDiaModelCompress(dialModel2);
                     });
                 }
-                tv_progress.setText("推送进度:"+fssStatus.getFssStatus()+"%"+", 推送成功次数："+num);
+                tv_progress.setText("推送进度:" + fssStatus.getFssStatus() + "%" + ", 推送成功次数：" + num);
             }
         });
 
@@ -197,9 +199,9 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
             }
 
             @Override
-                public void onUpdateDialProgress(int state, int progress) {
+            public void onUpdateDialProgress(int state, int progress) {
                 super.onUpdateDialProgress(state, progress);
-                LogUtils.d("wl", "自定义表盘推送："+progress);
+                LogUtils.d("wl", "自定义表盘推送：" + progress);
             }
         });
 
@@ -207,14 +209,14 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
         seekBarR2.setOnSeekBarChangeListener(this);
         rxPermissions = new RxPermissions(this);
         btn_get_pic1.setOnClickListener(v -> {
-            NormalDialog normalDialog = new NormalDialog(CustomDialActivity.this,2, ModelConstant.FUNC_PUSH_CUSTOM_DIAL);
+            NormalDialog normalDialog = new NormalDialog(CustomDialActivity.this, 2, ModelConstant.FUNC_PUSH_CUSTOM_DIAL);
             normalDialog.setOnConfirmClickListener(content -> {
-                if (content.equals("0")){
+                if (content.equals("0")) {
                     //打开相册
-                    PhotoUtils.getInstance().openAlbum(rxPermissions,this);
-                }else {
+                    PhotoUtils.getInstance().openAlbum(rxPermissions, this);
+                } else {
                     //打开相机
-                    PhotoUtils.getInstance().openCamera(rxPermissions,this);
+                    PhotoUtils.getInstance().openCamera(rxPermissions, this);
                 }
             });
         });
@@ -242,7 +244,6 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
                 setDiaModel(dialModel);
 
 
-
             }
         });
 
@@ -251,12 +252,17 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
             public void onClick(View v) {
                 isRePush = false;
                 Bitmap bitmap = ((BitmapDrawable) iv_watch_face.getDrawable()).getBitmap();
-                FissionLogUtils.d("wl", "---相册表盘背景图尺寸---"+bitmap.getWidth()+","+bitmap.getHeight());
+//                Bitmap bitmap = ConvertUtils.view2Bitmap(iv_watch_face);
+                FissionLogUtils.d("wl", "---相册表盘背景图尺寸---" + bitmap.getWidth() + "," + bitmap.getHeight() +
+                        "\n表盘宽度：" + dialWidth + " 表盘高度：" + dialHeight +
+                        "\n表盘缩略图宽度：" + thumbnailWidth + " 表盘缩略图高度：" + thumbnailHigh +
+                        "\n控件的宽度：" + iv_watch_face.getWidth() + " 控件的高度：" + iv_watch_face.getHeight() +
+                        "\n芯片类型：" + SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE));
                 dialModel2 = new com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel();
                 dialModel2.setDialShape(dialShape);
                 dialModel2.setDialWidth(dialWidth);
                 dialModel2.setDialHeight(dialHeight);
-                dialModel2.setPreviewImage(bitmap);
+                dialModel2.setPreviewImage(ImageUtils.scale(bitmap,thumbnailWidth,thumbnailHigh));
                 dialModel2.setBackgroundImage(bitmap);
                 dialModel2.setDialPosition(1);
                 dialModel2.setPreImageWidth(thumbnailWidth);
@@ -264,8 +270,11 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
                 dialModel2.setDialStyleColor(colorValue);
                 dialModel2.setSupportAntiAliasing(isSupportAntiAliasing);
                 dialModel2.setSupportCrcChecksum(isSupportCrcChecksum);
-                if(App.mHardWareInfo!=null){
+                if (App.mHardWareInfo != null && App.mHardWareInfo.getDialRoundedCorners() > 0) {
                     dialModel2.setDialRoundedCorners(App.mHardWareInfo.getDialRoundedCorners());
+                }
+                if (App.mHardWareInfo != null && App.mHardWareInfo.getPreviewRoundedCorners() > 0) {
+                    dialModel2.setPreviewRoundedCorners(App.mHardWareInfo.getPreviewRoundedCorners());
                 }
                 Bitmap thumbBitmap2 = ImageScalingUtil.extractMiniThumb(dialModel2.getPreviewImage(),
                         dialModel2.getPreImageWidth(), dialModel2.getPreImageHeight());
@@ -306,14 +315,13 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     }
 
 
-
     public static Bitmap drawBg4Bitmap(int color, Bitmap originBitmap) {
         Bitmap updateBitmap = Bitmap.createBitmap(originBitmap.getWidth(),
                 originBitmap.getHeight(), originBitmap.getConfig());
         Paint paint = new Paint();
         Canvas canvas = new Canvas(updateBitmap);
-         ColorMatrix colorMatrix = new ColorMatrix();
-         int R = Color.red(color);
+        ColorMatrix colorMatrix = new ColorMatrix();
+        int R = Color.red(color);
         int G = Color.green(color);
         int B = Color.blue(color);
         int A = Color.alpha(color);
@@ -323,7 +331,6 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
         canvas.drawBitmap(originBitmap, matrix, paint);
         return updateBitmap;
     }
-
 
 
     @Override
@@ -336,29 +343,29 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
         return super.onOptionsItemSelected(item);
     }
 
-    private void setDiaModel(FissionDialUtil.DialModel dialModel)  {
-        Bitmap bitmap1 = getPreviewImageBitmap(this,dialModel);
+    private void setDiaModel(FissionDialUtil.DialModel dialModel) {
+        Bitmap bitmap1 = getPreviewImageBitmap(this, dialModel);
         iv_watch_face2.setImageBitmap(bitmap1);
-        byte[] resultData =  FissionDialUtil.getDiaInfoBinData(this,dialModel);
+        byte[] resultData = FissionDialUtil.getDiaInfoBinData(this, dialModel);
 //        FissionSdk.getInstance().startDial(resultData, FissionEnum.WRITE_DIAL_DATA);
-        LogUtils.d("wl", "相册自定义表盘字节大小："+resultData.length);
+        LogUtils.d("wl", "相册自定义表盘字节大小：" + resultData.length);
         FissionSdkBleManage.getInstance().startDial(resultData, FissionEnum.WRITE_DIAL_DATA);
     }
 
-    private void setDiaModelCompress(com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel dialModel)  {
-        Bitmap bitmap1 = com.fission.wear.sdk.v2.utils.FissionDialUtil.getPreviewImageBitmap(this,dialModel);
-        if(dialModel.getDialShape() == FissionConstant.ROUND){
+    private void setDiaModelCompress(com.fission.wear.sdk.v2.utils.FissionDialUtil.DialModel dialModel) {
+        Bitmap bitmap1 = com.fission.wear.sdk.v2.utils.FissionDialUtil.getPreviewImageBitmap(this, dialModel);
+        if (dialModel.getDialShape() == FissionConstant.ROUND) {
             bitmap1 = ImageUtils.toRound(bitmap1);
         }
         iv_watch_face2.setImageBitmap(bitmap1);
         byte[] resultData = null;
-        if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK){
+        if (SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK) {
             resultData = com.fission.wear.sdk.v2.utils.FissionDialUtil.getDiaInfoBinData(this, dialModel);
-        }else if(SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK8773){
+        } else if (SPUtils.getInstance().getInt(SpKey.CHIP_CHANNEL_TYPE) == HardWareInfo.CHANNEL_TYPE_RTK8773) {
             resultData = RtkDialUtil.getInstance().getSimpleDialBinFile(this, dialModel);
         }
         byte[] outData = QuickLZUtils.compressFission(resultData);
-        LogUtils.d("wl", "相册自定义表盘字节大小(压缩前)："+resultData.length);
+        LogUtils.d("wl", "相册自定义表盘字节大小(压缩前)：" + resultData.length);
 //        String filePath = Environment.getExternalStorageDirectory()+"/custom_dial_1.bin";
 //        String filePath2 = Environment.getExternalStorageDirectory()+"/custom_dial_2.bin";
 //        FileUtils.createFileByDeleteOldFile(filePath);
@@ -390,8 +397,6 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     }
 
 
-
-
     private File saveFile(Context context, Bitmap body) {
         //把bitmap 转换为byte
         ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
@@ -399,19 +404,19 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
         byte[] bitmapByte = arrayOutputStream.toByteArray();
         File futureStudioIconFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "fission_ota.png");
 
-        InputStream inputStream  = null;
+        InputStream inputStream = null;
         OutputStream outputStream = null;
 
-        byte[] fileReader         = new byte[4096];
-        int   fileSize           = bitmapByte.length;
-        long   fileSizeDownloaded = 0;
+        byte[] fileReader = new byte[4096];
+        int fileSize = bitmapByte.length;
+        long fileSizeDownloaded = 0;
         try {
 //            inputStream = body.getRowBytes();
             int read;
             outputStream = new FileOutputStream(futureStudioIconFile);
 //            while ((read = inputStream.read(fileReader)) != -1) {
-                outputStream.write(bitmapByte, 0, fileSize);
-                //统计这个下载的数量
+            outputStream.write(bitmapByte, 0, fileSize);
+            //统计这个下载的数量
 //            }
             outputStream.flush();
             return futureStudioIconFile;
@@ -422,8 +427,8 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
     }
 
 
-
     String filePath = "";
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -439,16 +444,16 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
 
 //            CameraPhotoHelper.cropImage(UserInfoActivity.this, UriUtils.file2Uri(file), 480, 480, true);
         } else if (resultCode == RESULT_OK && requestCode == C.RC_CHOOSE) {//选择照片
-            LogUtils.d("获取getData"+data.getData());
+            LogUtils.d("获取getData" + data.getData());
             if (data.getData() != null) {
 //               File ff =  UriUtils.uri2File(data.getData());
 //                LogUtils.d("获取路径",ff.getAbsolutePath());
 //                Glide.with(this).load(data.getData()).into(iv_watch_face);
 //                saveFile(this,((BitmapDrawable)iv_watch_face.getDrawable()).getBitmap());
                 CameraPhotoHelper.cropImage(this, data.getData(), dialWidth, dialHeight, false);
-                LogUtils.d("裁剪尺寸："+dialWidth+","+dialHeight);
+                LogUtils.d("裁剪尺寸：" + dialWidth + "," + dialHeight);
             }
-        }else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+        } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             Uri bgUri = UCrop.getOutput(data);
             Glide.with(this).load(bgUri).override(dialWidth, dialHeight).into(iv_watch_face);
             LogUtils.d("clx", "_-------" + bgUri);
@@ -476,8 +481,8 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        if(seekBar.getId() == R.id.bar_R){
-            switch (progress){
+        if (seekBar.getId() == R.id.bar_R) {
+            switch (progress) {
                 case 0:
                     tv_color.setText("当前选中小字体颜色：白色");
                     colorValue = getResources().getColor(R.color.public_custom_dial_1);
@@ -523,8 +528,8 @@ public class CustomDialActivity extends BaseActivity implements SeekBar.OnSeekBa
                     colorValue = getResources().getColor(R.color.public_custom_dial_9);
                     break;
             }
-        }else{
-            switch (progress){
+        } else {
+            switch (progress) {
                 case 0:
                     tv_color2.setText("当前选中大字体颜色：白色");
                     colorValue = getResources().getColor(R.color.public_custom_dial_white_big);

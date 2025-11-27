@@ -291,4 +291,14 @@ c
     <string name="get_all_card_information">获取所有卡片信息</string>
     <string name="create_access_card">创建一张门禁卡</string>
     <string name="send_copy_card_data">下发复制卡数据</string>
+    <string name="FUNC_SET_PRIVATE_BLOOD_PRESSURE_SET">私人血压参数</string>
+    <string name="FUNC_SET_PRIVATE_BLOOD_SET">私人血液参数</string>
+    <string name="FUNC_SET_PRIVATE_BLOOD_SUGAR_SET">私人血糖参数</string>
+    <string name="FUNC_GET_BLOOD_SUGAR_RECORD">血糖记录</string>
+    <string name="FUNC_GET_BLOOD_RECORD">血液成分记录</string>
+    <string name="FUNC_SET_BLOOD_PRESSURE_SWITCH">设置血压检测开关</string>
+    <string name="FUNC_SET_BLOOD_SUGAR_SWITCH">设置血糖检测开关</string>
+    <string name="FUNC_SET_BLOOD_COMPONENT_SWITCH">设置血液检测开关</string>
+
+    <string name="FUNC_NOTIFY_DEVICE_VIBRATES">通知设备震动</string>
 </resources>

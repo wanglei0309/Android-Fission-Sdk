@@ -672,6 +672,7 @@ public class FissionSdk {
         BleComConfig bleComConfig = new BleComConfig();
         bleComConfig.setDistinguishNewDevice(true);
         bleComConfig.setBind(isBind);
+//        bleComConfig.setBindKeys("9999,999999");   //免除手表确认绑定流程
         bleComConfig.setBindKeys(SharedPreferencesUtil.getInstance().getFissionKey());
         if(SPUtils.getInstance().getBoolean(SpKey.IS_IC_TYPE_8763E)){
             bleComConfig.setNeedSppConnect(true);

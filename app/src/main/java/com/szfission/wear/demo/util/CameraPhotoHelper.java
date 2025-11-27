@@ -231,7 +231,7 @@ public class CameraPhotoHelper {
 //        options.setFreeStyleCropEnabled(true);//调整边框大小
         options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);//设置裁剪图片可操作的手势
         options.setToolbarColor(ActivityCompat.getColor(activity, R.color.colorPrimary));
-        options.setStatusBarColor(ActivityCompat.getColor(activity, R.color.colorPrimary));    //设置状态栏颜色
+//        options.setStatusBarColor(ActivityCompat.getColor(activity, R.color.colorPrimary));    //设置状态栏颜色
 
         //设置Toolbar返回按钮图片
         uCrop.withOptions(options);

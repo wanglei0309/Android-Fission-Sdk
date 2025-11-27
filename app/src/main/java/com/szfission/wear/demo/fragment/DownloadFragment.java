@@ -496,6 +496,7 @@ public class DownloadFragment extends Fragment {
         curFrames = 0;
         fileDate = "";
         fileInfo = file;
+        expectedOffset = 0;
         if(fileInfo.getFileType() == 0){
             fileSize = fileInfo.getFileSize();
             if(fileSize % (dataBlockNum * dataBlockSize)!=0){

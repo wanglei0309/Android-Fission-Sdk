@@ -12,7 +12,7 @@ import com.fission.wear.sdk.v2.utils.BaiDuAiUtils;
 import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.AnyWearConfig;
 import com.szfission.wear.sdk.bean.HardWareInfo;
-import com.tencent.bugly.crashreport.CrashReport;
+//import com.tencent.bugly.crashreport.CrashReport;
 
 import org.xutils.x;
 
@@ -47,7 +47,7 @@ public class App extends Application {
         AnyWear.init(this, config);
         logData = new ArrayList<>();
         logSingleData = new ArrayList<>();
-        CrashReport.initCrashReport(getApplicationContext(), "683183f15b", true);
+//        CrashReport.initCrashReport(getApplicationContext(), "683183f15b", true);
 
         FissionSdkBleManage.getInstance().initFissionSdk(this);
         FissionSdkBleManage.getInstance().setDebug(true);
