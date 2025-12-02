@@ -97,14 +97,21 @@
         <Button
             android:layout_margin="5dp"
             android:id="@+id/btn_set_car_mode_open"
-            android:text="设置车载模式(打开)"
+            android:text="设置车载(打开)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Button
             android:layout_margin="5dp"
             android:id="@+id/btn_set_car_mode_close"
-            android:text="设置车载模式(关闭)"
+            android:text="设置车载(关闭)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_get_car_mode"
+            android:text="获取车载模式"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

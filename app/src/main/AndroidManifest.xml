@@ -131,6 +131,7 @@
         <activity android:name=".activity.LightSensitivityiActivity" />
         <activity android:name=".activity.WeChatTestActivity" />
         <activity android:name=".activity.AiPetTestActivity" />
+        <activity android:name=".activity.QrScanActivity" />
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

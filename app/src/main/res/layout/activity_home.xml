@@ -60,16 +60,16 @@
         app:layout_constraintBottom_toBottomOf="@id/ivTop"/>
 
     <TextView
-        app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/tvQrcode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
         android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivTop"
-        app:layout_constraintTop_toTopOf="@+id/ivTop"
         android:text="@string/walle_ble_scan"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivTop"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivTop" />
 
     <TextView
         app:layout_constraintRight_toLeftOf="@+id/tvQrcode"

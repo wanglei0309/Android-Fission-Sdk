@@ -965,12 +965,15 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
             @Override
             public void onClick(View v) {
 // 创建IntentIntegrator对象
-                IntentIntegrator intentIntegrator = new IntentIntegrator(MainActivity.this);
-                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-                // 开始扫描
-                intentIntegrator.initiateScan();
+//                IntentIntegrator intentIntegrator = new IntentIntegrator(MainActivity.this);
+//                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+//                // 开始扫描
+//                intentIntegrator.initiateScan();
 //                AudioUtils.enableVoiceAssistant();
 //                AudioUtils.enableMainAudio(MainActivity.this);
+
+                Intent intent = new Intent(MainActivity.this, QrScanActivity.class);
+                startActivityForResult(intent, 1001);
             }
         });
 
@@ -2107,6 +2110,14 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1001 && resultCode == RESULT_OK) {
+            String qr = data.getStringExtra("scan_result");
+            FissionLogUtils.d("wl", "扫码结果：" + qr);
+            deviceAddress = qr;
+            connectDevice();
+            return;
+        }
+
         // 获取解析结果
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {

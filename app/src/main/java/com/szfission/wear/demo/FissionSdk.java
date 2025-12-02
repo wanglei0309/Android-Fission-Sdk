@@ -663,6 +663,11 @@ public class FissionSdk {
             FissionSdkBleManage.getInstance().connectBleDevice(deviceAddress, null, false, listener);
             return;
         }
+
+        if(!TextUtils.isEmpty(fissionKey)){
+            SharedPreferencesUtil.getInstance().setFissionKey(fissionKey);
+        }
+
         if (SharedPreferencesUtil.getInstance().getFissionKey().equals("")) {
             long time = System.currentTimeMillis();
             int lastTime = (int) (time % 10000);

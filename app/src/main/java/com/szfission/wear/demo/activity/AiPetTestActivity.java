@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -22,21 +21,18 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.aipet.bean.AnimationConfig;
 import com.fission.wear.sdk.v2.aipet.bean.DownloadFileConfig;
-import com.fission.wear.sdk.v2.aipet.bean.HolidayAnimationConfig;
 import com.fission.wear.sdk.v2.aipet.bean.PoiReward;
 import com.fission.wear.sdk.v2.aipet.bean.UploadFileConfig;
-import com.fission.wear.sdk.v2.aipet.event.AiAssistantEvent;
-import com.fission.wear.sdk.v2.aipet.event.BindUserEvent;
+import com.fission.wear.sdk.v2.aipet.bean.WeatherDetails;
 import com.fission.wear.sdk.v2.aipet.event.FileTransferEvent;
+import com.fission.wear.sdk.v2.aipet.event.GetCarModeEvent;
 import com.fission.wear.sdk.v2.aipet.event.PetInteractionEvent;
 import com.fission.wear.sdk.v2.aipet.event.PetStatusEvent;
 import com.fission.wear.sdk.v2.aipet.event.PoiCheckEvent;
 import com.fission.wear.sdk.v2.aipet.event.SetCarModeEvent;
 import com.fission.wear.sdk.v2.aipet.event.UnBindUserEvent;
-import com.fission.wear.sdk.v2.callback.FissionJsiDataCmdResultListener;
-import com.fission.wear.sdk.v2.constant.JsiCmd;
-import com.fission.wear.sdk.v2.utils.BaiDuAiUtils;
 import com.fission.wear.sdk.v2.utils.CRC32Checksum;
 import com.fission.wear.sdk.v2.utils.FileByteReader;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
@@ -47,13 +43,12 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class AiPetTestActivity extends BaseActivity {
 
     private Button btn_get_pet_state, btn_evolution, btn_set_weather, btn_binding, btn_unbind, btn_add_holiday_animation, btn_download_file, btn_ota_firmware, btn_set_car_mode_open;
-    private Button btn_set_car_mode_close, btn_upload_agps_file;
+    private Button btn_set_car_mode_close, btn_upload_agps_file, btn_get_car_mode;
     private TextView tv_log;
     String filePath = "";
     private long crc32;
@@ -95,6 +90,7 @@ public class AiPetTestActivity extends BaseActivity {
         btn_set_car_mode_open= findViewById(R.id.btn_set_car_mode_open);
         btn_set_car_mode_close= findViewById(R.id.btn_set_car_mode_close);
         btn_upload_agps_file = findViewById(R.id.btn_upload_agps_file);
+        btn_get_car_mode = findViewById(R.id.btn_get_car_mode);
 
         btn_get_pet_state.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +110,8 @@ public class AiPetTestActivity extends BaseActivity {
         btn_set_weather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FissionSdkBleManage.getInstance().setWeatherDetails();
+                WeatherDetails weatherDetails =  new WeatherDetails(15101, "aware_weather_sprinkle");
+                FissionSdkBleManage.getInstance().setWeatherDetails(weatherDetails);
             }
         });
 
@@ -237,6 +234,13 @@ public class AiPetTestActivity extends BaseActivity {
                 }
             }
         });
+
+        btn_get_car_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FissionSdkBleManage.getInstance().getCarMode();
+            }
+        });
     }
 
     @Override
@@ -274,6 +278,11 @@ public class AiPetTestActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetCarModeEvent(GetCarModeEvent event) {
+        FissionLogUtils.d("wl", "获取车载模式事件："+event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFileTransferEvent(FileTransferEvent event) {
         FissionLogUtils.d("wl", "文件传输事件："+event+", otaType:"+otaType);
         if(event.operate == 0){
@@ -299,13 +308,17 @@ public class AiPetTestActivity extends BaseActivity {
             if(event.errorCode == 0){
                 FissionLogUtils.d("wl", "file upload ok!!  otaType："+otaType);
                 if(otaType == 1){
-                    HolidayAnimationConfig animationConfig = new HolidayAnimationConfig();
+                    AnimationConfig animationConfig = new AnimationConfig();
                     animationConfig.setDate("07/07");
                     animationConfig.setNumber(20306);
                     animationConfig.setName("test_V0.1.bin");
                     animationConfig.setCount(98);
-                    animationConfig.setInterval(0);
-                    FissionSdkBleManage.getInstance().addHolidayAnimation(animationConfig);
+                    animationConfig.setPointY(0);
+                    animationConfig.setPointX(0);
+                    animationConfig.setSizeWidth(466);
+                    animationConfig.setSizeHeight(466);
+                    animationConfig.setScale(false);
+                    FissionSdkBleManage.getInstance().addAnimation(animationConfig);
                 }else if(otaType == 2){
                     FissionSdkBleManage.getInstance().notifyOtaFirmware();
                 }else if(otaType == 3){
