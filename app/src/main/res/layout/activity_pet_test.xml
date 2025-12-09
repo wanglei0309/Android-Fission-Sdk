@@ -117,6 +117,21 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_set_off_voice_key"
+            android:text="设置离线语音授权码"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
     <ScrollView
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"

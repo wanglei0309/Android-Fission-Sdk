@@ -21,6 +21,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.fission.wear.sdk.v2.aipet.AiPetManage;
 import com.fission.wear.sdk.v2.aipet.bean.AnimationConfig;
 import com.fission.wear.sdk.v2.aipet.bean.DownloadFileConfig;
 import com.fission.wear.sdk.v2.aipet.bean.PoiReward;
@@ -32,6 +33,8 @@ import com.fission.wear.sdk.v2.aipet.event.PetInteractionEvent;
 import com.fission.wear.sdk.v2.aipet.event.PetStatusEvent;
 import com.fission.wear.sdk.v2.aipet.event.PoiCheckEvent;
 import com.fission.wear.sdk.v2.aipet.event.SetCarModeEvent;
+import com.fission.wear.sdk.v2.aipet.event.SetOffVoiceKeyEvent;
+import com.fission.wear.sdk.v2.aipet.event.StartCheckInEvent;
 import com.fission.wear.sdk.v2.aipet.event.UnBindUserEvent;
 import com.fission.wear.sdk.v2.utils.CRC32Checksum;
 import com.fission.wear.sdk.v2.utils.FileByteReader;
@@ -44,11 +47,12 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 public class AiPetTestActivity extends BaseActivity {
 
     private Button btn_get_pet_state, btn_evolution, btn_set_weather, btn_binding, btn_unbind, btn_add_holiday_animation, btn_download_file, btn_ota_firmware, btn_set_car_mode_open;
-    private Button btn_set_car_mode_close, btn_upload_agps_file, btn_get_car_mode;
+    private Button btn_set_car_mode_close, btn_upload_agps_file, btn_get_car_mode, btn_set_off_voice_key;
     private TextView tv_log;
     String filePath = "";
     private long crc32;
@@ -91,6 +95,7 @@ public class AiPetTestActivity extends BaseActivity {
         btn_set_car_mode_close= findViewById(R.id.btn_set_car_mode_close);
         btn_upload_agps_file = findViewById(R.id.btn_upload_agps_file);
         btn_get_car_mode = findViewById(R.id.btn_get_car_mode);
+        btn_set_off_voice_key = findViewById(R.id.btn_set_off_voice_key);
 
         btn_get_pet_state.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +115,11 @@ public class AiPetTestActivity extends BaseActivity {
         btn_set_weather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WeatherDetails weatherDetails =  new WeatherDetails(15101, "aware_weather_sprinkle");
+                int min = 15101;
+                int max = 15106;
+                Random rand = new Random();
+                int randomNum = rand.nextInt(max - min + 1) + min;
+                WeatherDetails weatherDetails =  new WeatherDetails(randomNum, "");
                 FissionSdkBleManage.getInstance().setWeatherDetails(weatherDetails);
             }
         });
@@ -241,6 +250,13 @@ public class AiPetTestActivity extends BaseActivity {
                 FissionSdkBleManage.getInstance().getCarMode();
             }
         });
+
+        btn_set_off_voice_key.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AiPetManage.getInstance().downloadAuthCode();
+            }
+        });
     }
 
     @Override
@@ -256,6 +272,7 @@ public class AiPetTestActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPoiCheckEvent(PoiCheckEvent event) {
         FissionLogUtils.d("wl", "app接收到Poi打卡数据："+event);
+        ToastUtils.showLong("宠物POI打卡成功！！！");
         int rewardNum = (int)(Math.random() * 255) + 1;
         int currentProgress = (int)(Math.random() * 120) + 1;
         PoiReward poiReward = new PoiReward(rewardNum, 0, currentProgress, 120);
@@ -283,6 +300,18 @@ public class AiPetTestActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onStartCheckInEvent(StartCheckInEvent event) {
+        FissionLogUtils.d("wl", "设备开始打卡事件："+event);
+        int time = event.getTimeoutDuration();
+        // 获取设备侧的打卡超时时间， app需要获取定位，在超时时间内没有收到onPoiCheckEvent事件时， 使用app获取的定位去执行打卡抽奖逻辑
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSetOffVoiceKeyEvent(SetOffVoiceKeyEvent event) {
+        FissionLogUtils.d("wl", "设置离线语音授权码："+event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFileTransferEvent(FileTransferEvent event) {
         FissionLogUtils.d("wl", "文件传输事件："+event+", otaType:"+otaType);
         if(event.operate == 0){
@@ -292,6 +321,18 @@ public class AiPetTestActivity extends BaseActivity {
                 }else{
                     FissionSdkBleManage.getInstance().uploadFileStart(filePath, event.offset);
                 }
+            }else if(event.errorCode == 2 && otaType == 1){
+                AnimationConfig animationConfig = new AnimationConfig();
+                animationConfig.setDate("12/04");
+                animationConfig.setNumber(20306);
+                animationConfig.setName("test_V0.1.bin");
+                animationConfig.setCount(98);
+                animationConfig.setPointY(0);
+                animationConfig.setPointX(0);
+                animationConfig.setSizeWidth(466);
+                animationConfig.setSizeHeight(466);
+                animationConfig.setScale(false);
+                FissionSdkBleManage.getInstance().addAnimation(animationConfig);
             }else if(event.errorCode == 2 && otaType == 2){
                 FissionSdkBleManage.getInstance().notifyOtaFirmware();
             }else if(event.errorCode == 2 && otaType == 3){ //星历文件已存在
@@ -309,7 +350,7 @@ public class AiPetTestActivity extends BaseActivity {
                 FissionLogUtils.d("wl", "file upload ok!!  otaType："+otaType);
                 if(otaType == 1){
                     AnimationConfig animationConfig = new AnimationConfig();
-                    animationConfig.setDate("07/07");
+                    animationConfig.setDate("12/04");
                     animationConfig.setNumber(20306);
                     animationConfig.setName("test_V0.1.bin");
                     animationConfig.setCount(98);
