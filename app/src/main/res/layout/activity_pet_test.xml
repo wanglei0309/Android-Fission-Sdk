@@ -54,7 +54,7 @@
         <Button
             android:layout_margin="5dp"
             android:id="@+id/btn_add_holiday_animation"
-            android:text="添加节日动画"
+            android:text="添加动画资源文件"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -129,6 +129,105 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_spp_ota"
+            android:text="SPP高速OTA固件升级"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_set_anim_code"
+            android:text="添加节日前景动画资源"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_set_background_code"
+            android:text="添加节日背景动画"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_set_detail_code"
+            android:text="添加节日背景详情动画"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_set_holiday_anim"
+            android:text="设置节日动画完整配置"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_set_device_volume"
+            android:text="设置设备音量"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_get_device_volume"
+            android:text="获取设备音量"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_set_language"
+            android:text="设置系统语言"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_set_area_anim_code"
+            android:text="设置地区动画编号"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_set_ai_mood_anim_code"
+            android:text="设置Ai对话情绪动画编号"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
