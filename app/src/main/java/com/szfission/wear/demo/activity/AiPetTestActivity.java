@@ -29,6 +29,7 @@ import com.fission.wear.sdk.v2.aipet.bean.HolidayAnimConfig;
 import com.fission.wear.sdk.v2.aipet.bean.PoiReward;
 import com.fission.wear.sdk.v2.aipet.bean.UploadFileConfig;
 import com.fission.wear.sdk.v2.aipet.bean.WeatherDetails;
+import com.fission.wear.sdk.v2.aipet.event.AgpsFileDownloadEvent;
 import com.fission.wear.sdk.v2.aipet.event.AnimationAddEvent;
 import com.fission.wear.sdk.v2.aipet.event.FileTransferEvent;
 import com.fission.wear.sdk.v2.aipet.event.GetCarModeEvent;
@@ -44,6 +45,7 @@ import com.fission.wear.sdk.v2.aipet.event.StartCheckInEvent;
 import com.fission.wear.sdk.v2.aipet.event.UnBindUserEvent;
 import com.fission.wear.sdk.v2.aipet.event.VolumeEvent;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
+import com.fission.wear.sdk.v2.http.AgpsRepository;
 import com.fission.wear.sdk.v2.utils.CRC32Checksum;
 import com.fission.wear.sdk.v2.utils.FileByteReader;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
@@ -66,7 +68,7 @@ public class AiPetTestActivity extends BaseActivity {
 
     private Button btn_set_anim_code, btn_set_background_code, btn_set_detail_code, btn_set_holiday_anim;
 
-    private Button btn_set_device_volume, btn_get_device_volume, btn_set_language, btn_set_area_anim_code, btn_set_ai_mood_anim_code;
+    private Button btn_set_device_volume, btn_get_device_volume, btn_set_language, btn_set_area_anim_code, btn_set_ai_mood_anim_code, btn_start_playing_ai_voice, btn_stop_play_ai_voice;
 
     private TextView tv_log;
     String filePath = "";
@@ -129,6 +131,8 @@ public class AiPetTestActivity extends BaseActivity {
         btn_set_language = findViewById(R.id.btn_set_language);
         btn_set_area_anim_code = findViewById(R.id.btn_set_area_anim_code);
         btn_set_ai_mood_anim_code = findViewById(R.id.btn_set_ai_mood_anim_code);
+        btn_start_playing_ai_voice = findViewById(R.id.btn_start_playing_ai_voice);
+        btn_stop_play_ai_voice = findViewById(R.id.btn_stop_play_ai_voice);
 
         btn_get_pet_state.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,15 +273,17 @@ public class AiPetTestActivity extends BaseActivity {
         btn_upload_agps_file.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startTime  = System.currentTimeMillis();
                 otaType = 3;
-                FissionLogUtils.d("wl", "星历文件数量："+mFileList.size());
-                if(mFileList!= null && !mFileList.isEmpty() && !isUploadAgpsFile){
-                    isUploadAgpsFile = true;
-                    uploadAgpsFiles(mFileList.get(index));
-                }else{
-                    ToastUtils.showShort("星历文件不存在，请检查");
-                }
+                startTime  = System.currentTimeMillis();
+//                otaType = 3;
+//                FissionLogUtils.d("wl", "星历文件数量："+mFileList.size());
+//                if(mFileList!= null && !mFileList.isEmpty() && !isUploadAgpsFile){
+//                    isUploadAgpsFile = true;
+//                    uploadAgpsFiles(mFileList.get(index));
+//                }else{
+//                    ToastUtils.showShort("星历文件不存在，请检查");
+//                }
+                new AgpsRepository(AiPetTestActivity.this).fetchAgps();
             }
         });
 
@@ -451,6 +457,20 @@ public class AiPetTestActivity extends BaseActivity {
                 FissionSdkBleManage.getInstance().setAiChatMoodAnimCode(42101);
             }
         });
+
+        btn_start_playing_ai_voice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FissionSdkBleManage.getInstance().notifyStartPlayingAiVoice();
+            }
+        });
+
+        btn_stop_play_ai_voice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FissionSdkBleManage.getInstance().notifyStopPlayAiVoice();
+            }
+        });
     }
 
     @Override
@@ -572,11 +592,12 @@ public class AiPetTestActivity extends BaseActivity {
                 new RxTimerUtil().timer(1000, new RxTimerUtil.RxAction() {
                     @Override
                     public void action(long number) {
-                        if(otaType == 3){
-                            FissionSdkBleManage.getInstance().uploadFileStart(mFileList.get(index).getAbsolutePath(), event.offset);
-                        }else{
-                            FissionSdkBleManage.getInstance().uploadFileStart(filePath, event.offset);
-                        }
+//                        if(otaType == 3){
+//                            FissionSdkBleManage.getInstance().uploadFileStart(mFileList.get(index).getAbsolutePath(), event.offset);
+//                        }else{
+//                            FissionSdkBleManage.getInstance().uploadFileStart(filePath, event.offset);
+//                        }
+                        FissionSdkBleManage.getInstance().uploadFileStart(filePath, event.offset);
                     }
                 });
             }else if(event.errorCode == 2 && otaType == 1){
@@ -629,14 +650,15 @@ public class AiPetTestActivity extends BaseActivity {
                 }else if(otaType == 2){
                     FissionSdkBleManage.getInstance().notifyOtaFirmware();
                 }else if(otaType == 3){
-                    index++;
-                    if(index < mFileList.size()){
-                        uploadAgpsFiles(mFileList.get(index));
-                    }else{
-                        index = 0;
-                        isUploadAgpsFile = false;
-                        FissionLogUtils.d("wl", "星历文件上传完毕, 耗时："+(System.currentTimeMillis()-startTime)/1000+"s");
-                    }
+//                    index++;
+//                    if(index < mFileList.size()){
+//                        uploadAgpsFiles(mFileList.get(index));
+//                    }else{
+//                        index = 0;
+//                        isUploadAgpsFile = false;
+//                        FissionLogUtils.d("wl", "星历文件上传完毕, 耗时："+(System.currentTimeMillis()-startTime)/1000+"s");
+//                    }
+                    FissionLogUtils.d("wl", "星历文件上传完毕, 耗时："+(System.currentTimeMillis()-startTime)/1000+"s");
                 }else if(otaType == 5){
                     animAdd(animationCode, 149);
                 }else if(otaType == 6){
@@ -678,6 +700,15 @@ public class AiPetTestActivity extends BaseActivity {
                     FissionLogUtils.d("wl", "文件完整校验失败，下载失败");
                 }
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAgpsFileDownloadEvent(AgpsFileDownloadEvent event) {
+        FissionLogUtils.d("wl", "下载AGPS星历文件事件："+event);
+        if(event.errorCode == 0){
+            filePath = event.filePath;
+            uploadAgpsFiles(new File(event.filePath));
         }
     }
 
@@ -819,7 +850,7 @@ public class AiPetTestActivity extends BaseActivity {
         uploadFileConfig.setSize((int)file.length());
         uploadFileConfig.setFileName(FileUtils.getFileName(file.getAbsolutePath()));
         uploadFileConfig.setType(0);
-        uploadFileConfig.setOperate(0);
+        uploadFileConfig.setOperate(2);
         uploadFileConfig.setCrcCode(CRC32Checksum.crc32(0, FileIOUtils.readFile2BytesByStream(file.getAbsolutePath())));
         uploadFileConfig.setResuming(true);
         FissionSdkBleManage.getInstance().uploadFileInit(uploadFileConfig);

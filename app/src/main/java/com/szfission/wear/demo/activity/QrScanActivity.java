@@ -3,6 +3,7 @@ package com.szfission.wear.demo.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Size;
 import android.widget.Toast;
@@ -18,12 +19,12 @@ import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.blankj.utilcode.util.PermissionUtils;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
-
+import com.google.mlkit.vision.common.InputImage;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -137,5 +138,33 @@ public class QrScanActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    private void validPermission() {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.S){
+            PermissionUtils.permission(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,  Manifest.permission.MEDIA_CONTENT_CONTROL).callback(new PermissionUtils.FullCallback() {
+                @Override
+                public void onGranted(@NonNull List<String> granted) {
+                }
+
+                @Override
+                public void onDenied(@NonNull List<String> deniedForever, @NonNull List<String> denied) {
+                    Toast.makeText(QrScanActivity.this,"没有权限,请检查权限",Toast.LENGTH_SHORT).show();
+                }
+            }).request();
+        }else{
+            PermissionUtils.permission(Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN).callback(new PermissionUtils.FullCallback() {
+                @Override
+                public void onGranted(@NonNull List<String> granted) {
+                }
+
+                @Override
+                public void onDenied(@NonNull List<String> deniedForever, @NonNull List<String> denied) {
+                    Toast.makeText(QrScanActivity.this,"没有权限,请检查权限",Toast.LENGTH_SHORT).show();
+                }
+            }).request();
+        }
+
+    }
+
 }
 
