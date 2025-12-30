@@ -78,7 +78,7 @@
                 <Button
                     android:layout_margin="5dp"
                     android:id="@+id/btn_download_file"
-                    android:text="下载文件"
+                    android:text="触发升级"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -257,6 +257,76 @@
                     android:layout_margin="5dp"
                     android:id="@+id/btn_stop_play_ai_voice"
                     android:text="通知结束播放AI录音"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_upload_all_file"
+                    android:text="递归上传文件夹所有资源文件"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_query_device_info"
+                    android:text="获取设备信息"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_kws_switch_set"
+                    android:text="KWS指令开关设置"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_set_dnd_mode"
+                    android:text="设置勿扰模式"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_set_screen_brightness"
+                    android:text="设置屏幕亮度"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_get_screen_brightness"
+                    android:text="获取屏幕亮度"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_set_interaction_weather"
+                    android:text="设置主动交互天气"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

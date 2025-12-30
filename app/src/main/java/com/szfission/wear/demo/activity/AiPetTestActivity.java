@@ -24,31 +24,39 @@ import com.blankj.utilcode.util.UriUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.aipet.AiPetManage;
 import com.fission.wear.sdk.v2.aipet.bean.AnimationConfig;
-import com.fission.wear.sdk.v2.aipet.bean.DownloadFileConfig;
+import com.fission.wear.sdk.v2.aipet.bean.FileProgress;
 import com.fission.wear.sdk.v2.aipet.bean.HolidayAnimConfig;
 import com.fission.wear.sdk.v2.aipet.bean.PoiReward;
 import com.fission.wear.sdk.v2.aipet.bean.UploadFileConfig;
 import com.fission.wear.sdk.v2.aipet.bean.WeatherDetails;
 import com.fission.wear.sdk.v2.aipet.event.AgpsFileDownloadEvent;
 import com.fission.wear.sdk.v2.aipet.event.AnimationAddEvent;
+import com.fission.wear.sdk.v2.aipet.event.DeviceInfoEvent;
+import com.fission.wear.sdk.v2.aipet.event.DeviceResErrorEvent;
 import com.fission.wear.sdk.v2.aipet.event.FileTransferEvent;
 import com.fission.wear.sdk.v2.aipet.event.GetCarModeEvent;
 import com.fission.wear.sdk.v2.aipet.event.HolidayAnimationAddEvent;
 import com.fission.wear.sdk.v2.aipet.event.PetInteractionEvent;
 import com.fission.wear.sdk.v2.aipet.event.PetStatusEvent;
 import com.fission.wear.sdk.v2.aipet.event.PoiCheckEvent;
+import com.fission.wear.sdk.v2.aipet.event.ScreenBrightnessEvent;
 import com.fission.wear.sdk.v2.aipet.event.SetAiChatMoodEvent;
 import com.fission.wear.sdk.v2.aipet.event.SetAreaAnimEvent;
 import com.fission.wear.sdk.v2.aipet.event.SetCarModeEvent;
+import com.fission.wear.sdk.v2.aipet.event.SetDndModeEvent;
+import com.fission.wear.sdk.v2.aipet.event.SetInteractionCodeEvent;
+import com.fission.wear.sdk.v2.aipet.event.SetKwsSwitchEvent;
 import com.fission.wear.sdk.v2.aipet.event.SetOffVoiceKeyEvent;
 import com.fission.wear.sdk.v2.aipet.event.StartCheckInEvent;
 import com.fission.wear.sdk.v2.aipet.event.UnBindUserEvent;
 import com.fission.wear.sdk.v2.aipet.event.VolumeEvent;
+import com.fission.wear.sdk.v2.bean.UploadResult;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.http.AgpsRepository;
 import com.fission.wear.sdk.v2.utils.CRC32Checksum;
 import com.fission.wear.sdk.v2.utils.FileByteReader;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
+import com.fission.wear.sdk.v2.utils.HiSiDirectoryUploadManager;
 import com.fission.wear.sdk.v2.utils.HiSiliconFileTransferUtils;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.SharedPreferencesUtil;
@@ -64,9 +72,9 @@ import java.util.Random;
 public class AiPetTestActivity extends BaseActivity {
 
     private Button btn_get_pet_state, btn_evolution, btn_set_weather, btn_binding, btn_unbind, btn_add_holiday_animation, btn_download_file, btn_ota_firmware, btn_set_car_mode_open;
-    private Button btn_set_car_mode_close, btn_upload_agps_file, btn_get_car_mode, btn_set_off_voice_key, btn_spp_ota;
+    private Button btn_set_car_mode_close, btn_upload_agps_file, btn_get_car_mode, btn_set_off_voice_key, btn_spp_ota, btn_set_dnd_mode, btn_set_screen_brightness, btn_get_screen_brightness;
 
-    private Button btn_set_anim_code, btn_set_background_code, btn_set_detail_code, btn_set_holiday_anim;
+    private Button btn_set_anim_code, btn_set_background_code, btn_set_detail_code, btn_set_holiday_anim, btn_upload_all_file, btn_query_device_info, btn_kws_switch_set, btn_set_interaction_weather;
 
     private Button btn_set_device_volume, btn_get_device_volume, btn_set_language, btn_set_area_anim_code, btn_set_ai_mood_anim_code, btn_start_playing_ai_voice, btn_stop_play_ai_voice;
 
@@ -93,6 +101,10 @@ public class AiPetTestActivity extends BaseActivity {
     private int detailCode;
 
     private RxTimerUtil mRxTimerUtil;
+
+    private int mIndex, mTotal;
+    boolean isOpen = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +145,13 @@ public class AiPetTestActivity extends BaseActivity {
         btn_set_ai_mood_anim_code = findViewById(R.id.btn_set_ai_mood_anim_code);
         btn_start_playing_ai_voice = findViewById(R.id.btn_start_playing_ai_voice);
         btn_stop_play_ai_voice = findViewById(R.id.btn_stop_play_ai_voice);
+        btn_upload_all_file = findViewById(R.id.btn_upload_all_file);
+        btn_query_device_info = findViewById(R.id.btn_query_device_info);
+        btn_kws_switch_set = findViewById(R.id.btn_kws_switch_set);
+        btn_set_dnd_mode = findViewById(R.id.btn_set_dnd_mode);
+        btn_set_screen_brightness = findViewById(R.id.btn_set_screen_brightness);
+        btn_get_screen_brightness = findViewById(R.id.btn_get_screen_brightness);
+        btn_set_interaction_weather = findViewById(R.id.btn_set_interaction_weather);
 
         btn_get_pet_state.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,23 +255,25 @@ public class AiPetTestActivity extends BaseActivity {
         btn_download_file.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long offset = 0;
-                File file = new File(getExternalFilesDir(null)+"audio_cap.mp3");
-                FissionLogUtils.d("wl", "文件下载存储路径："+file.getAbsolutePath());
-                if(file.exists()){
-                    offset = file.length();
-                    if(!SPUtils.getInstance().getBoolean("isDownload")){
-                        DownloadFileConfig downloadFileConfig = new DownloadFileConfig("/user/", "audio_cap.mp3", offset);
-                        FissionSdkBleManage.getInstance().downloadFileInit(downloadFileConfig);
-                        FissionLogUtils.d("wl", "文件已存在断点下载， 文件信息："+downloadFileConfig);
-                    }else{
-                        FissionLogUtils.d("wl", "该文件已经下载成功！");
-                    }
-                }else{
-                    SPUtils.getInstance().put("isDownload", false);
-                    DownloadFileConfig downloadFileConfig = new DownloadFileConfig("/user/", "audio_cap.mp3", offset);
-                    FissionSdkBleManage.getInstance().downloadFileInit(downloadFileConfig);
-                }
+//                long offset = 0;
+//                File file = new File(getExternalFilesDir(null)+"audio_cap.mp3");
+//                FissionLogUtils.d("wl", "文件下载存储路径："+file.getAbsolutePath());
+//                if(file.exists()){
+//                    offset = file.length();
+//                    if(!SPUtils.getInstance().getBoolean("isDownload")){
+//                        DownloadFileConfig downloadFileConfig = new DownloadFileConfig("/user/", "audio_cap.mp3", offset);
+//                        FissionSdkBleManage.getInstance().downloadFileInit(downloadFileConfig);
+//                        FissionLogUtils.d("wl", "文件已存在断点下载， 文件信息："+downloadFileConfig);
+//                    }else{
+//                        FissionLogUtils.d("wl", "该文件已经下载成功！");
+//                    }
+//                }else{
+//                    SPUtils.getInstance().put("isDownload", false);
+//                    DownloadFileConfig downloadFileConfig = new DownloadFileConfig("/user/", "audio_cap.mp3", offset);
+//                    FissionSdkBleManage.getInstance().downloadFileInit(downloadFileConfig);
+//                }
+
+                FissionSdkBleManage.getInstance().notifyOtaFirmware();
             }
         });
 
@@ -471,6 +492,68 @@ public class AiPetTestActivity extends BaseActivity {
                 FissionSdkBleManage.getInstance().notifyStopPlayAiVoice();
             }
         });
+
+        btn_upload_all_file.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FissionSdkBleManage.getInstance().diffUploadFileInit(1024*1024*1024);
+            }
+        });
+
+        btn_query_device_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FissionSdkBleManage.getInstance().queryDeviceInfo();
+            }
+        });
+
+
+        btn_kws_switch_set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int min = 71101;
+                int max = 71104;
+                Random rand = new Random();
+                int randomNum = rand.nextInt(max - min + 1) + min;
+                isOpen = !isOpen;
+                FissionSdkBleManage.getInstance().setKwsSwitch(randomNum, isOpen) ;
+            }
+        });
+
+        btn_set_dnd_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isOpen = !isOpen;
+                FissionSdkBleManage.getInstance().setDndMode(isOpen);
+            }
+        });
+
+        btn_set_screen_brightness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Random rand = new Random();
+                int randomNum = rand.nextInt(90)+10; //10-100随机值， 亮度范围0-100
+                FissionSdkBleManage.getInstance().setDeviceScreenBrightness(randomNum);
+            }
+        });
+
+        btn_get_screen_brightness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FissionSdkBleManage.getInstance().getDeviceScreenBrightness();
+            }
+        });
+
+        btn_set_interaction_weather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int min = 22201;
+                int max = 22206;
+                Random rand = new Random();
+                int randomNum = rand.nextInt(max - min + 1) + min;
+                FissionSdkBleManage.getInstance().setInteractionWeather(randomNum);
+            }
+        });
     }
 
     @Override
@@ -526,9 +609,12 @@ public class AiPetTestActivity extends BaseActivity {
             mRxTimerUtil.timer(time, new RxTimerUtil.RxAction() {
                 @Override
                 public void action(long number) {
-                    int rewardNum = (int)(Math.random() * 255) + 1;
+                    int min = 1001;
+                    int max = 1004;
+                    Random rand = new Random();
+                    int randomNum = rand.nextInt(max - min + 1) + min;
                     int currentProgress = (int)(Math.random() * 120) + 1;
-                    PoiReward poiReward = new PoiReward(1001, 0, currentProgress, 120);
+                    PoiReward poiReward = new PoiReward(randomNum, 0, currentProgress, 120);
                     FissionSdkBleManage.getInstance().responsePoiCheckReward(poiReward);
 
                     mRxTimerUtil = null;
@@ -545,6 +631,11 @@ public class AiPetTestActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onVolumeEvent(VolumeEvent event) {
         FissionLogUtils.d("wl", "获取设备音量事件："+event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onScreenBrightnessEvent(ScreenBrightnessEvent event) {
+        FissionLogUtils.d("wl", "获取设备屏幕亮度事件："+event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -700,6 +791,12 @@ public class AiPetTestActivity extends BaseActivity {
                     FissionLogUtils.d("wl", "文件完整校验失败，下载失败");
                 }
             }
+        }else if(event.operate == 5){
+            if(event.errorCode == 0){
+                scanDiffUploadFile();
+            }else{
+                FissionLogUtils.d("wl", "存储空间不足，不能升级资源");
+            }
         }
     }
 
@@ -711,6 +808,32 @@ public class AiPetTestActivity extends BaseActivity {
             uploadAgpsFiles(new File(event.filePath));
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDeviceInfoEvent(DeviceInfoEvent event) {
+        FissionLogUtils.d("wl", "获取设备信息事件："+event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDeviceResErrorEvent(DeviceResErrorEvent event) {
+        FissionLogUtils.d("wl", "设备主动上报资源异常："+event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSetKwsSwitchEvent(SetKwsSwitchEvent event) {
+        FissionLogUtils.d("wl", "设置指令开关事件："+event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSetDndModeEvent(SetDndModeEvent event) {
+        FissionLogUtils.d("wl", "设置勿扰模式开关事件："+event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSetInteractionCodeEvent(SetInteractionCodeEvent event) {
+        FissionLogUtils.d("wl", "设置主动天气交互事件："+event);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -802,15 +925,16 @@ public class AiPetTestActivity extends BaseActivity {
         }else{
             try {
                 UploadFileConfig uploadFileConfig = new UploadFileConfig();
+                uploadFileConfig.setSize((int)new File(filePath).length());
+                uploadFileConfig.setFileName(FileUtils.getFileName(filePath));
                 if(otaType == 1){
                     uploadFileConfig.setFilePath("/user/res/");
                 }else if(otaType == 2){
                     uploadFileConfig.setFilePath("/user/");
+                    uploadFileConfig.setFileName("update.fwpkg");
                 }else if(otaType == 5 || otaType == 6 || otaType == 7){
                     uploadFileConfig.setFilePath("user/res/pet/");
                 }
-                uploadFileConfig.setSize((int)new File(filePath).length());
-                uploadFileConfig.setFileName(FileUtils.getFileName(filePath));
                 uploadFileConfig.setType(0);
                 uploadFileConfig.setOperate(0);
                 uploadFileConfig.setCrcCode(CRC32Checksum.crc32(0, FileIOUtils.readFile2BytesByStream(filePath)));
@@ -849,8 +973,8 @@ public class AiPetTestActivity extends BaseActivity {
         uploadFileConfig.setFilePath("/user/xgnss/");
         uploadFileConfig.setSize((int)file.length());
         uploadFileConfig.setFileName(FileUtils.getFileName(file.getAbsolutePath()));
-        uploadFileConfig.setType(0);
-        uploadFileConfig.setOperate(2);
+        uploadFileConfig.setType(1);
+        uploadFileConfig.setOperate(0);
         uploadFileConfig.setCrcCode(CRC32Checksum.crc32(0, FileIOUtils.readFile2BytesByStream(file.getAbsolutePath())));
         uploadFileConfig.setResuming(true);
         FissionSdkBleManage.getInstance().uploadFileInit(uploadFileConfig);
@@ -870,5 +994,75 @@ public class AiPetTestActivity extends BaseActivity {
         animationConfig.setMultiForm(false);
         animationConfig.setPlaySound(false);
         FissionSdkBleManage.getInstance().addAnimation(animationConfig);
+    }
+
+    private void scanDiffUploadFile(){
+        String localPath = getExternalFilesDir(null)+"/aipet/user/";
+        HiSiDirectoryUploadManager manager = new HiSiDirectoryUploadManager();
+
+        manager.uploadDirectory(
+                new File(localPath),
+                "/user",
+                FissionConstant.OTA_TYPE_AI_PET_RES,
+                true,   // ← 是否启用断点恢复
+                new HiSiDirectoryUploadManager.Callback() {
+
+                    @Override
+                    public void onProgress(int cur, int total) {
+                        LogUtils.d("onProgress", "进度：" + cur + "/" + total);
+                        ThreadUtils.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tv_log.setText("UPLOAD进度：" + cur + "/" + total);
+                                mIndex = cur;
+                                mTotal = total;
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onTotalProgress(int percent, long sentBytes, long totalBytes) {
+                        FissionLogUtils.d("wl", "onProgress: percent=="+percent+", sentBytes=="+sentBytes+", totalBytes=="+totalBytes);
+                        FileProgress fileProgress = new FileProgress(mIndex, mTotal, percent, sentBytes, totalBytes);
+                        FissionSdkBleManage.getInstance().diffUploadFileProgress(fileProgress);
+                    }
+
+                    @Override
+                    public void onComplete(List<UploadResult> results) {
+
+                        boolean hasFail = false;
+
+                        for (UploadResult r : results) {
+                            if (!r.success) {
+                                hasFail = true;
+                                LogUtils.e("UPLOAD",
+                                        "失败文件：" + r.devicePath
+                                                + " reason=" + r.reason);
+                            }
+                        }
+
+//                                if (hasFail) {
+//                                    LogUtils.w("UPLOAD", "开始失败文件重传");
+//                                    manager.retryFailed(
+//                                            FissionConstant.OTA_TYPE_AI_PET_RES,
+//                                            new HiSiDirectoryUploadManager.Callback() {
+//
+//                                                @Override
+//                                                public void onProgress(int cur, int total) {
+//                                                    LogUtils.d("UPLOAD-RETRY",
+//                                                            cur + "/" + total);
+//                                                }
+//
+//                                                @Override
+//                                                public void onComplete(List<UploadResult> retryResults) {
+//                                                    LogUtils.d("UPLOAD-RETRY",
+//                                                            "失败文件重传完成");
+//                                                }
+//                                            }
+//                                    );
+//                                }
+                    }
+                }
+        );
     }
 }

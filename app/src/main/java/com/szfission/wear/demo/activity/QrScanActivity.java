@@ -52,6 +52,8 @@ public class QrScanActivity extends AppCompatActivity {
                     CAMERA_PERMISSION_REQUEST
             );
         }
+
+        validPermission();
     }
 
     private void startCamera() {
