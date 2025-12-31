@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.fission.wear.sdk.v2.aipet.AiPetManage;
 import com.fission.wear.sdk.v2.aipet.bean.AnimationConfig;
 import com.fission.wear.sdk.v2.aipet.bean.FileProgress;
 import com.fission.wear.sdk.v2.aipet.bean.HolidayAnimConfig;
+import com.fission.wear.sdk.v2.aipet.bean.PoiItem;
 import com.fission.wear.sdk.v2.aipet.bean.PoiReward;
 import com.fission.wear.sdk.v2.aipet.bean.UploadFileConfig;
 import com.fission.wear.sdk.v2.aipet.bean.WeatherDetails;
@@ -39,6 +41,7 @@ import com.fission.wear.sdk.v2.aipet.event.HolidayAnimationAddEvent;
 import com.fission.wear.sdk.v2.aipet.event.PetInteractionEvent;
 import com.fission.wear.sdk.v2.aipet.event.PetStatusEvent;
 import com.fission.wear.sdk.v2.aipet.event.PoiCheckEvent;
+import com.fission.wear.sdk.v2.aipet.event.PoiItemEvent;
 import com.fission.wear.sdk.v2.aipet.event.ScreenBrightnessEvent;
 import com.fission.wear.sdk.v2.aipet.event.SetAiChatMoodEvent;
 import com.fission.wear.sdk.v2.aipet.event.SetAreaAnimEvent;
@@ -66,6 +69,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -108,6 +112,8 @@ public class AiPetTestActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         setContentView(R.layout.activity_pet_test);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
@@ -609,18 +615,95 @@ public class AiPetTestActivity extends BaseActivity {
             mRxTimerUtil.timer(time, new RxTimerUtil.RxAction() {
                 @Override
                 public void action(long number) {
-                    int min = 1001;
-                    int max = 1004;
-                    Random rand = new Random();
-                    int randomNum = rand.nextInt(max - min + 1) + min;
-                    int currentProgress = (int)(Math.random() * 120) + 1;
-                    PoiReward poiReward = new PoiReward(randomNum, 0, currentProgress, 120);
-                    FissionSdkBleManage.getInstance().responsePoiCheckReward(poiReward);
+//                    int min = 1001;
+//                    int max = 1004;
+//                    Random rand = new Random();
+//                    int randomNum = rand.nextInt(max - min + 1) + min;
+//                    int currentProgress = (int)(Math.random() * 120) + 1;
+//                    PoiReward poiReward = new PoiReward(randomNum, 0, currentProgress, 120);
+//                    FissionSdkBleManage.getInstance().responsePoiCheckReward(poiReward);
 
+                    List<PoiItem> list = new ArrayList<>();
+                    PoiItem poiItem = new PoiItem(81401, "咖啡店");
+                    PoiItem poiItem2 = new PoiItem(81402, "轻食简餐店");
+                    PoiItem poiItem3 = new PoiItem(81403, "甜品店");
+                    PoiItem poiItem4 = new PoiItem(81404, "汉堡快餐店");
+                    PoiItem poiItem5 = new PoiItem(81405, "美式早餐");
+                    PoiItem poiItem6 = new PoiItem(81406, "披萨店");
+                    PoiItem poiItem7 = new PoiItem(81407, "中餐厅");
+                    PoiItem poiItem8 = new PoiItem(81408, "亚洲面馆");
+                    PoiItem poiItem9 = new PoiItem(81409, "西餐厅");
+                    PoiItem poiItem10 = new PoiItem(81410, "日料店");
+                    list.add(poiItem);
+                    list.add(poiItem2);
+                    list.add(poiItem3);
+                    list.add(poiItem4);
+                    list.add(poiItem5);
+                    list.add(poiItem6);
+                    list.add(poiItem7);
+                    list.add(poiItem8);
+                    list.add(poiItem9);
+                    list.add(poiItem10);
+                    FissionSdkBleManage.getInstance().setPoiList(list);
                     mRxTimerUtil = null;
                 }
             });
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPoiItemEvent(PoiItemEvent event) {
+        FissionLogUtils.d("wl", "设备选中打卡地点事件："+event);
+        //打桩随机数据， app应该根据选中的类型，去处理对应的打卡奖励数据
+        int min = 1001;
+        int max = 1004;
+        Random rand = new Random();
+        int randomNum = rand.nextInt(max - min + 1) + min;
+        int currentProgress = (int)(Math.random() * 120) + 1;
+        int rewardCode = 31101;
+        switch (event.poiItem.getType()){
+            case 81401:
+                rewardCode = 31101;
+                break;
+
+            case 81402:
+                rewardCode = 31102;
+                break;
+
+            case 81403:
+                rewardCode = 31103;
+                break;
+
+            case 81404:
+                rewardCode = 31104;
+                break;
+
+            case 81405:
+                rewardCode = 31105;
+                break;
+
+            case 81406:
+                rewardCode = 31106;
+                break;
+
+            case 81407:
+                rewardCode = 31107;
+                break;
+
+            case 81408:
+                rewardCode = 31108;
+                break;
+
+            case 81409:
+                rewardCode = 31109;
+                break;
+
+            case 81410:
+                rewardCode = 31110;
+                break;
+        }
+        PoiReward poiReward = new PoiReward(randomNum, rewardCode, currentProgress, 120);
+        FissionSdkBleManage.getInstance().responsePoiCheckReward(poiReward);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -792,8 +875,54 @@ public class AiPetTestActivity extends BaseActivity {
                 }
             }
         }else if(event.operate == 5){
+            //diff 升级资源
             if(event.errorCode == 0){
                 scanDiffUploadFile();
+            }else{
+                FissionLogUtils.d("wl", "存储空间不足，不能升级资源");
+            }
+        }else if(event.operate == 6){
+            // hisi spp ota上传文件协商结果
+            FissionLogUtils.d("wl", "hisi spp ota协商："+event.errorCode);
+            if(event.errorCode == 0){
+                HiSiliconFileTransferUtils.getInstance().setHiSiliconFileTransferListener(new HiSiliconFileTransferUtils.HiSiliconFileTransferListener() {
+                    @Override
+                    public void onProgressChanged(long curFrames, long framesCount, int fileListIndex, int fileSize) {
+                        ThreadUtils.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                int progress = (int)(curFrames*100/framesCount);
+                                tv_log.setText("OTA文件传输进度："+progress+"%");
+                                FileProgress fileProgress = new FileProgress(0, 1, progress, curFrames, framesCount);
+                                FissionSdkBleManage.getInstance().diffUploadFileProgress(fileProgress);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        FileProgress fileProgress = new FileProgress(0, 1, 100, 0, 0);
+                        FissionSdkBleManage.getInstance().diffUploadFileProgress(fileProgress);
+                        FissionSdkBleManage.getInstance().notifyOtaFirmware();
+                    }
+
+                    @Override
+                    public void onTimeOut() {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+
+                    @Override
+                    public void onTransmitting() {
+
+                    }
+                });
+                HiSiliconFileTransferUtils.getInstance().init();
+                HiSiliconFileTransferUtils.getInstance().sendFile(filePath, FissionConstant.OTA_TYPE_FIRMWARE);
             }else{
                 FissionLogUtils.d("wl", "存储空间不足，不能升级资源");
             }
@@ -887,41 +1016,42 @@ public class AiPetTestActivity extends BaseActivity {
         LogUtils.d("获取文件路径getData",filePath);
         FissionLogUtils.d("wl", "otaType:"+otaType);
         if(otaType == 4){
+            FissionSdkBleManage.getInstance().hisiSppOtaUploadFileInit(new File(filePath).length());
             //spp模式 OTA
-            HiSiliconFileTransferUtils.getInstance().setHiSiliconFileTransferListener(new HiSiliconFileTransferUtils.HiSiliconFileTransferListener() {
-                @Override
-                public void onProgressChanged(long curFrames, long framesCount, int fileListIndex, int fileSize) {
-                    ThreadUtils.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            int progress = (int)(curFrames*100/framesCount);
-                            tv_log.setText("OTA文件传输进度："+progress+"%");
-                        }
-                    });
-                }
-
-                @Override
-                public void onComplete() {
-                    FissionSdkBleManage.getInstance().notifyOtaFirmware();
-                }
-
-                @Override
-                public void onTimeOut() {
-
-                }
-
-                @Override
-                public void onError(Exception e) {
-
-                }
-
-                @Override
-                public void onTransmitting() {
-
-                }
-            });
-            HiSiliconFileTransferUtils.getInstance().init();
-            HiSiliconFileTransferUtils.getInstance().sendFile(filePath, FissionConstant.OTA_TYPE_FIRMWARE);
+//            HiSiliconFileTransferUtils.getInstance().setHiSiliconFileTransferListener(new HiSiliconFileTransferUtils.HiSiliconFileTransferListener() {
+//                @Override
+//                public void onProgressChanged(long curFrames, long framesCount, int fileListIndex, int fileSize) {
+//                    ThreadUtils.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            int progress = (int)(curFrames*100/framesCount);
+//                            tv_log.setText("OTA文件传输进度："+progress+"%");
+//                        }
+//                    });
+//                }
+//
+//                @Override
+//                public void onComplete() {
+//                    FissionSdkBleManage.getInstance().notifyOtaFirmware();
+//                }
+//
+//                @Override
+//                public void onTimeOut() {
+//
+//                }
+//
+//                @Override
+//                public void onError(Exception e) {
+//
+//                }
+//
+//                @Override
+//                public void onTransmitting() {
+//
+//                }
+//            });
+//            HiSiliconFileTransferUtils.getInstance().init();
+//            HiSiliconFileTransferUtils.getInstance().sendFile(filePath, FissionConstant.OTA_TYPE_FIRMWARE);
         }else{
             try {
                 UploadFileConfig uploadFileConfig = new UploadFileConfig();
@@ -1039,6 +1169,11 @@ public class AiPetTestActivity extends BaseActivity {
                                         "失败文件：" + r.devicePath
                                                 + " reason=" + r.reason);
                             }
+                        }
+
+                        if(results.isEmpty()){
+                            FileProgress fileProgress = new FileProgress(mIndex, mTotal, 100, 0, 0);
+                            FissionSdkBleManage.getInstance().diffUploadFileProgress(fileProgress);
                         }
 
 //                                if (hasFail) {
