@@ -268,11 +268,11 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:layout_margin="5dp"
                     android:id="@+id/btn_upload_all_file"
-                    android:text="递归上传文件夹所有资源文件"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="递归上传文件夹所有资源文件" />
 
                 <Button
                     android:layout_margin="5dp"
@@ -327,6 +327,41 @@
                     android:layout_margin="5dp"
                     android:id="@+id/btn_set_interaction_weather"
                     android:text="设置主动交互天气"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_set_default_image"
+                    android:text="恢复宠物默认形象"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_connenct_a2dp"
+                    android:text="打开a2dp连接"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_disconnenct_a2dp"
+                    android:text="关闭a2dp连接"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_get_dnd"
+                    android:text="获取勿扰开关"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -31,12 +32,15 @@ import com.fission.wear.sdk.v2.aipet.bean.PoiItem;
 import com.fission.wear.sdk.v2.aipet.bean.PoiReward;
 import com.fission.wear.sdk.v2.aipet.bean.UploadFileConfig;
 import com.fission.wear.sdk.v2.aipet.bean.WeatherDetails;
+import com.fission.wear.sdk.v2.aipet.event.A2dpSwitchEvent;
+import com.fission.wear.sdk.v2.aipet.event.ActiveInteractionEvent;
 import com.fission.wear.sdk.v2.aipet.event.AgpsFileDownloadEvent;
 import com.fission.wear.sdk.v2.aipet.event.AnimationAddEvent;
 import com.fission.wear.sdk.v2.aipet.event.DeviceInfoEvent;
 import com.fission.wear.sdk.v2.aipet.event.DeviceResErrorEvent;
 import com.fission.wear.sdk.v2.aipet.event.FileTransferEvent;
 import com.fission.wear.sdk.v2.aipet.event.GetCarModeEvent;
+import com.fission.wear.sdk.v2.aipet.event.GetDndModeEvent;
 import com.fission.wear.sdk.v2.aipet.event.HolidayAnimationAddEvent;
 import com.fission.wear.sdk.v2.aipet.event.PetInteractionEvent;
 import com.fission.wear.sdk.v2.aipet.event.PetStatusEvent;
@@ -63,6 +67,7 @@ import com.fission.wear.sdk.v2.utils.HiSiDirectoryUploadManager;
 import com.fission.wear.sdk.v2.utils.HiSiliconFileTransferUtils;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.SharedPreferencesUtil;
+import com.szfission.wear.demo.util.SimpleAudioPlayer;
 import com.szfission.wear.sdk.util.RxTimerUtil;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -82,6 +87,7 @@ public class AiPetTestActivity extends BaseActivity {
 
     private Button btn_set_device_volume, btn_get_device_volume, btn_set_language, btn_set_area_anim_code, btn_set_ai_mood_anim_code, btn_start_playing_ai_voice, btn_stop_play_ai_voice;
 
+    private Button btn_connenct_a2dp, btn_disconnenct_a2dp, btn_set_default_image, btn_get_dnd;
     private TextView tv_log;
     String filePath = "";
     private long crc32;
@@ -108,6 +114,10 @@ public class AiPetTestActivity extends BaseActivity {
 
     private int mIndex, mTotal;
     boolean isOpen = false;
+
+    boolean a2dpSwitch = false;
+
+    private int interactionType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +168,10 @@ public class AiPetTestActivity extends BaseActivity {
         btn_set_screen_brightness = findViewById(R.id.btn_set_screen_brightness);
         btn_get_screen_brightness = findViewById(R.id.btn_get_screen_brightness);
         btn_set_interaction_weather = findViewById(R.id.btn_set_interaction_weather);
+        btn_connenct_a2dp = findViewById(R.id.btn_connenct_a2dp);
+        btn_disconnenct_a2dp = findViewById(R.id.btn_disconnenct_a2dp);
+        btn_set_default_image = findViewById(R.id.btn_set_default_image);
+        btn_get_dnd = findViewById(R.id.btn_get_dnd);
 
         btn_get_pet_state.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -530,6 +544,7 @@ public class AiPetTestActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 isOpen = !isOpen;
+                FissionLogUtils.d("wl", "设置勿扰模式开关："+isOpen);
                 FissionSdkBleManage.getInstance().setDndMode(isOpen);
             }
         });
@@ -560,6 +575,36 @@ public class AiPetTestActivity extends BaseActivity {
                 FissionSdkBleManage.getInstance().setInteractionWeather(randomNum);
             }
         });
+
+        btn_connenct_a2dp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                a2dpSwitch = true;
+                FissionSdkBleManage.getInstance().setA2dpSwitch(true);
+            }
+        });
+
+        btn_disconnenct_a2dp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                a2dpSwitch = false;
+                FissionSdkBleManage.getInstance().setA2dpSwitch(false);
+            }
+        });
+
+        btn_set_default_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FissionSdkBleManage.getInstance().setDebugModeCmd(0);
+            }
+        });
+
+        btn_get_dnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FissionSdkBleManage.getInstance().getDndMode();
+            }
+        });
     }
 
     @Override
@@ -576,9 +621,8 @@ public class AiPetTestActivity extends BaseActivity {
     public void onPoiCheckEvent(PoiCheckEvent event) {
         FissionLogUtils.d("wl", "app接收到Poi打卡数据："+event);
         ToastUtils.showLong("宠物POI打卡成功！！！");
-        int rewardNum = (int)(Math.random() * 255) + 1;
         int currentProgress = (int)(Math.random() * 120) + 1;
-        PoiReward poiReward = new PoiReward(1001, 0, currentProgress, 120);
+        PoiReward poiReward = new PoiReward(1001, currentProgress, 120);
         FissionSdkBleManage.getInstance().responsePoiCheckReward(poiReward);
         if(mRxTimerUtil!=null){
             mRxTimerUtil.cancelTimer();
@@ -624,16 +668,16 @@ public class AiPetTestActivity extends BaseActivity {
 //                    FissionSdkBleManage.getInstance().responsePoiCheckReward(poiReward);
 
                     List<PoiItem> list = new ArrayList<>();
-                    PoiItem poiItem = new PoiItem(81401, "咖啡店");
-                    PoiItem poiItem2 = new PoiItem(81402, "轻食简餐店");
-                    PoiItem poiItem3 = new PoiItem(81403, "甜品店");
-                    PoiItem poiItem4 = new PoiItem(81404, "汉堡快餐店");
-                    PoiItem poiItem5 = new PoiItem(81405, "美式早餐");
-                    PoiItem poiItem6 = new PoiItem(81406, "披萨店");
-                    PoiItem poiItem7 = new PoiItem(81407, "中餐厅");
-                    PoiItem poiItem8 = new PoiItem(81408, "亚洲面馆");
-                    PoiItem poiItem9 = new PoiItem(81409, "西餐厅");
-                    PoiItem poiItem10 = new PoiItem(81410, "日料店");
+                    PoiItem poiItem = new PoiItem(81401, "咖啡店", 31101, 0);
+                    PoiItem poiItem2 = new PoiItem(81402, "轻食简餐店", 31102, 1);
+                    PoiItem poiItem3 = new PoiItem(81403, "甜品店", 31103, 2);
+                    PoiItem poiItem4 = new PoiItem(81404, "汉堡快餐店", 31104, 3);
+                    PoiItem poiItem5 = new PoiItem(81405, "美式早餐", 31105, 4);
+                    PoiItem poiItem6 = new PoiItem(81406, "披萨店", 31106, 5);
+                    PoiItem poiItem7 = new PoiItem(81407, "中餐厅", 31107, 6);
+                    PoiItem poiItem8 = new PoiItem(81408, "亚洲面馆", 31108, 7);
+                    PoiItem poiItem9 = new PoiItem(81409, "西餐厅", 31109, 8);
+                    PoiItem poiItem10 = new PoiItem(81410, "日料店", 31110, 9);
                     list.add(poiItem);
                     list.add(poiItem2);
                     list.add(poiItem3);
@@ -702,7 +746,7 @@ public class AiPetTestActivity extends BaseActivity {
                 rewardCode = 31110;
                 break;
         }
-        PoiReward poiReward = new PoiReward(randomNum, rewardCode, currentProgress, 120);
+        PoiReward poiReward = new PoiReward(randomNum, currentProgress, 120);
         FissionSdkBleManage.getInstance().responsePoiCheckReward(poiReward);
     }
 
@@ -963,6 +1007,53 @@ public class AiPetTestActivity extends BaseActivity {
         FissionLogUtils.d("wl", "设置主动天气交互事件："+event);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onActiveInteractionEvent(ActiveInteractionEvent event) {
+        FissionLogUtils.d("wl", "设备通知主动交互事件："+event);
+        interactionType = event.type;
+        a2dpSwitch = true;
+        FissionSdkBleManage.getInstance().setA2dpSwitch(true);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetDndModeEvent(GetDndModeEvent event) {
+        FissionLogUtils.d("wl", "设备获取勿扰模式开关事件："+event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onA2dpSwitchEvent(A2dpSwitchEvent event) {
+        FissionLogUtils.d("wl", "a2dp开关设置响应事件："+event);
+        if(a2dpSwitch){
+            if(event.errorCode == 0){
+                //打开a2dp成功， 可以播放tts
+                switch (interactionType){
+                    case 0:
+                        FissionSdkBleManage.getInstance().responseActiveInteraction(0);
+                        String localPath = getExternalFilesDir(null)+"/aipet/time_test.mp3";
+                        SimpleAudioPlayer.getInstance().play(
+                                this,
+                                localPath,
+                                () -> Toast.makeText(this, "播放完成", Toast.LENGTH_SHORT).show()
+                        );
+                        break;
+
+                    case 1:
+//                        BaiDuAiUtils.startTTS(AiPetTestActivity.this, "今天的天气好冷啊， 你要多穿衣服哦");
+                        break;
+
+                    case 2:
+//                        BaiDuAiUtils.startTTS(AiPetTestActivity.this, "今天是除夕夜， 有联欢晚会看哦");
+                        break;
+
+                    case 3:
+//                        BaiDuAiUtils.startTTS(AiPetTestActivity.this, "这个游乐场好好玩啊，下次还要带我来呀");
+                        break;
+                }
+            }
+        }else{
+
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
