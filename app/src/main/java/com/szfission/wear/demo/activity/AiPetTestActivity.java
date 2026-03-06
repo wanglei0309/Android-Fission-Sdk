@@ -32,10 +32,13 @@ import com.fission.wear.sdk.v2.aipet.bean.PoiItem;
 import com.fission.wear.sdk.v2.aipet.bean.PoiReward;
 import com.fission.wear.sdk.v2.aipet.bean.UploadFileConfig;
 import com.fission.wear.sdk.v2.aipet.bean.WeatherDetails;
+import com.fission.wear.sdk.v2.aipet.bean.WeatherItem;
 import com.fission.wear.sdk.v2.aipet.event.A2dpSwitchEvent;
 import com.fission.wear.sdk.v2.aipet.event.ActiveInteractionEvent;
 import com.fission.wear.sdk.v2.aipet.event.AgpsFileDownloadEvent;
 import com.fission.wear.sdk.v2.aipet.event.AnimationAddEvent;
+import com.fission.wear.sdk.v2.aipet.event.AudioFileEvent;
+import com.fission.wear.sdk.v2.aipet.event.CancelAiChatEvent;
 import com.fission.wear.sdk.v2.aipet.event.DeviceInfoEvent;
 import com.fission.wear.sdk.v2.aipet.event.DeviceResErrorEvent;
 import com.fission.wear.sdk.v2.aipet.event.FileTransferEvent;
@@ -60,6 +63,7 @@ import com.fission.wear.sdk.v2.aipet.event.VolumeEvent;
 import com.fission.wear.sdk.v2.bean.UploadResult;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.http.AgpsRepository;
+import com.fission.wear.sdk.v2.proto.PbApi;
 import com.fission.wear.sdk.v2.utils.CRC32Checksum;
 import com.fission.wear.sdk.v2.utils.FileByteReader;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
@@ -68,6 +72,7 @@ import com.fission.wear.sdk.v2.utils.HiSiliconFileTransferUtils;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.SharedPreferencesUtil;
 import com.szfission.wear.demo.util.SimpleAudioPlayer;
+import com.szfission.wear.sdk.service.BleConfig;
 import com.szfission.wear.sdk.util.RxTimerUtil;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -75,6 +80,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -87,7 +93,7 @@ public class AiPetTestActivity extends BaseActivity {
 
     private Button btn_set_device_volume, btn_get_device_volume, btn_set_language, btn_set_area_anim_code, btn_set_ai_mood_anim_code, btn_start_playing_ai_voice, btn_stop_play_ai_voice;
 
-    private Button btn_connenct_a2dp, btn_disconnenct_a2dp, btn_set_default_image, btn_get_dnd;
+    private Button btn_connenct_a2dp, btn_disconnenct_a2dp, btn_set_default_image, btn_get_dnd, btn_set_order_anim, btn_set_hour_weather, btn_delete_file, btn_send_audio;
     private TextView tv_log;
     String filePath = "";
     private long crc32;
@@ -118,6 +124,68 @@ public class AiPetTestActivity extends BaseActivity {
     boolean a2dpSwitch = false;
 
     private int interactionType = 0;
+
+    boolean isSendAudio = false;
+
+    private int mStreamId;
+
+//    private final List<String> audioFiles = Arrays.asList(
+//            "/sdcard/Download/mp3/volc_tts_seg_1.mp3",
+//            "/sdcard/Download/mp3/volc_tts_seg_2.mp3",
+//            "/sdcard/Download/mp3/volc_tts_seg_3.mp3",
+//            "/sdcard/Download/mp3/volc_tts_seg_4.mp3",
+//            "/sdcard/Download/mp3/volc_tts_seg_5.mp3"
+//    );
+
+//    private final List<String> audioFiles = Arrays.asList(
+//            "/sdcard/Download/ogg/slice_00001.ogg",
+//            "/sdcard/Download/ogg/slice_00002.ogg",
+//            "/sdcard/Download/ogg/slice_00003.ogg",
+//            "/sdcard/Download/ogg/slice_00004.ogg",
+//            "/sdcard/Download/ogg/slice_00005.ogg",
+//            "/sdcard/Download/ogg/slice_00006.ogg",
+//            "/sdcard/Download/ogg/slice_00007.ogg"
+//    );
+
+//    private final List<String> audioFiles = Arrays.asList(
+//            "/sdcard/Download/ogg2/slice_00001.ogg",
+//            "/sdcard/Download/ogg2/slice_00002.ogg",
+//            "/sdcard/Download/ogg2/slice_00003.ogg",
+//            "/sdcard/Download/ogg2/slice_00004.ogg",
+//            "/sdcard/Download/ogg2/slice_00005.ogg",
+//            "/sdcard/Download/ogg2/slice_00006.ogg",
+//            "/sdcard/Download/ogg2/slice_00007.ogg",
+//            "/sdcard/Download/ogg2/slice_00008.ogg",
+//            "/sdcard/Download/ogg2/slice_00009.ogg",
+//            "/sdcard/Download/ogg2/slice_00010.ogg",
+//            "/sdcard/Download/ogg2/slice_00011.ogg",
+//            "/sdcard/Download/ogg2/slice_00012.ogg",
+//            "/sdcard/Download/ogg2/slice_00013.ogg",
+//            "/sdcard/Download/ogg2/slice_00014.ogg",
+//            "/sdcard/Download/ogg2/slice_00015.ogg",
+//            "/sdcard/Download/ogg2/slice_00016.ogg",
+//            "/sdcard/Download/ogg2/slice_00017.ogg"
+//    );
+
+    private final List<String> audioFiles = Arrays.asList(
+            "/sdcard/Download/ogg3/test_slice_00001.ogg",
+            "/sdcard/Download/ogg3/test_slice_00002.ogg",
+            "/sdcard/Download/ogg3/test_slice_00003.ogg",
+            "/sdcard/Download/ogg3/test_slice_00004.ogg",
+            "/sdcard/Download/ogg3/test_slice_00005.ogg",
+            "/sdcard/Download/ogg3/test_slice_00006.ogg",
+            "/sdcard/Download/ogg3/test_slice_00007.ogg",
+            "/sdcard/Download/ogg3/test_slice_00008.ogg",
+            "/sdcard/Download/ogg3/test_slice_00009.ogg",
+            "/sdcard/Download/ogg3/test_slice_00010.ogg",
+            "/sdcard/Download/ogg3/test_slice_00011.ogg",
+            "/sdcard/Download/ogg3/test_slice_00012.ogg",
+            "/sdcard/Download/ogg3/test_slice_00013.ogg",
+            "/sdcard/Download/ogg3/test_slice_00014.ogg"
+    );
+
+    private int currentFileIndex = 0;
+    private byte[] currentFileData = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +240,10 @@ public class AiPetTestActivity extends BaseActivity {
         btn_disconnenct_a2dp = findViewById(R.id.btn_disconnenct_a2dp);
         btn_set_default_image = findViewById(R.id.btn_set_default_image);
         btn_get_dnd = findViewById(R.id.btn_get_dnd);
+        btn_set_order_anim = findViewById(R.id.btn_set_order_anim);
+        btn_set_hour_weather = findViewById(R.id.btn_set_hour_weather);
+        btn_delete_file = findViewById(R.id.btn_delete_file);
+        btn_send_audio = findViewById(R.id.btn_send_audio);
 
         btn_get_pet_state.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -465,7 +537,7 @@ public class AiPetTestActivity extends BaseActivity {
         btn_set_device_volume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FissionSdkBleManage.getInstance().setDeviceVolume(10);
+                FissionSdkBleManage.getInstance().setDeviceVolume(8);
             }
         });
 
@@ -516,7 +588,7 @@ public class AiPetTestActivity extends BaseActivity {
         btn_upload_all_file.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FissionSdkBleManage.getInstance().diffUploadFileInit(1024*1024*1024);
+                FissionSdkBleManage.getInstance().diffUploadFileInit(100*1024*1024);
             }
         });
 
@@ -579,6 +651,7 @@ public class AiPetTestActivity extends BaseActivity {
         btn_connenct_a2dp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FissionLogUtils.d("wl", "打开a2dp连接");
                 a2dpSwitch = true;
                 FissionSdkBleManage.getInstance().setA2dpSwitch(true);
             }
@@ -595,7 +668,7 @@ public class AiPetTestActivity extends BaseActivity {
         btn_set_default_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FissionSdkBleManage.getInstance().setDebugModeCmd(0);
+                FissionSdkBleManage.getInstance().setDebugModeCmd(1);
             }
         });
 
@@ -603,6 +676,102 @@ public class AiPetTestActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 FissionSdkBleManage.getInstance().getDndMode();
+            }
+        });
+
+        btn_set_order_anim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int anim = (int)(Math.random() * 7);
+                switch (anim){
+                    case 0:
+                        FissionSdkBleManage.getInstance().setOrderAnim(PbApi.ai_pet_order_anim_key_t.AI_PET_ORDER_ANIM_SIT_DOWN);
+                        break;
+
+                    case 1:
+                        FissionSdkBleManage.getInstance().setOrderAnim(PbApi.ai_pet_order_anim_key_t.AI_PET_ORDER_ANIM_LIE_DOWN);
+                        break;
+
+                    case 2:
+                        FissionSdkBleManage.getInstance().setOrderAnim(PbApi.ai_pet_order_anim_key_t.AI_PET_ORDER_ANIM_GOOD);
+                        break;
+
+                    case 3:
+                        FissionSdkBleManage.getInstance().setOrderAnim(PbApi.ai_pet_order_anim_key_t.AI_PET_ORDER_ANIM_SHAKE_HAND);
+                        break;
+
+                    case 4:
+                        FissionSdkBleManage.getInstance().setOrderAnim(PbApi.ai_pet_order_anim_key_t.AI_PET_ORDER_ANIM_JUMP);
+                        break;
+
+                    case 5:
+                        FissionSdkBleManage.getInstance().setOrderAnim(PbApi.ai_pet_order_anim_key_t.AI_PET_ORDER_ANIM_SAY_HI);
+                        break;
+
+                    case 6:
+                        FissionSdkBleManage.getInstance().setOrderAnim(PbApi.ai_pet_order_anim_key_t.AI_PET_ORDER_ANIM_KISS);
+                        break;
+
+                    case 7:
+                        FissionSdkBleManage.getInstance().setOrderAnim(PbApi.ai_pet_order_anim_key_t.AI_PET_ORDER_ANIM_WAG_TAIL);
+                        break;
+                }
+            }
+        });
+
+        btn_set_hour_weather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<WeatherItem> itemList = new ArrayList<>();
+
+                for(int i=0; i< 24; i++){
+                    WeatherItem weatherItem = new WeatherItem(0, 15101);
+                    if(i !=0 && i<23){
+                        weatherItem.setHour(i);
+                        weatherItem.setCode(15102);
+                    }else if(i ==23){
+                        weatherItem.setHour(i);
+                        weatherItem.setCode(15106);
+                    }
+                    itemList.add(weatherItem);
+                }
+
+                FissionSdkBleManage.getInstance().setWeatherList(itemList);
+
+            }
+        });
+
+        btn_delete_file.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FissionSdkBleManage.getInstance().deleteFile("/user/test/watch001.bin");
+            }
+        });
+
+        btn_send_audio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isSendAudio = true;
+                if (Build.VERSION.SDK_INT >= 30 ){
+                    // 先判断有没有权限
+                    if (Environment.isExternalStorageManager()) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        Uri uri = Uri.parse(path);
+                        intent.setDataAndType(uri, "*/*");
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        startActivityForResult(intent, 2);
+                    } else {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                        intent.setData(Uri.parse("package:" +getApplication().getPackageName()));
+                        startActivity(intent);
+                    }
+                }else{
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    Uri uri = Uri.parse(path);
+                    intent.setDataAndType(uri, "*/*");
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(intent, 2);
+                }
             }
         });
     }
@@ -656,7 +825,7 @@ public class AiPetTestActivity extends BaseActivity {
         // 获取设备侧的打卡超时时间， app需要获取定位，在超时时间内没有收到onPoiCheckEvent事件时， 使用app获取的定位去执行打卡抽奖逻辑
         if(mRxTimerUtil == null){
             mRxTimerUtil = new RxTimerUtil();
-            mRxTimerUtil.timer(time, new RxTimerUtil.RxAction() {
+            mRxTimerUtil.timer(500, new RxTimerUtil.RxAction() {
                 @Override
                 public void action(long number) {
 //                    int min = 1001;
@@ -668,16 +837,16 @@ public class AiPetTestActivity extends BaseActivity {
 //                    FissionSdkBleManage.getInstance().responsePoiCheckReward(poiReward);
 
                     List<PoiItem> list = new ArrayList<>();
-                    PoiItem poiItem = new PoiItem(81401, "咖啡店", 31101, 0);
-                    PoiItem poiItem2 = new PoiItem(81402, "轻食简餐店", 31102, 1);
-                    PoiItem poiItem3 = new PoiItem(81403, "甜品店", 31103, 2);
-                    PoiItem poiItem4 = new PoiItem(81404, "汉堡快餐店", 31104, 3);
-                    PoiItem poiItem5 = new PoiItem(81405, "美式早餐", 31105, 4);
-                    PoiItem poiItem6 = new PoiItem(81406, "披萨店", 31106, 5);
-                    PoiItem poiItem7 = new PoiItem(81407, "中餐厅", 31107, 6);
-                    PoiItem poiItem8 = new PoiItem(81408, "亚洲面馆", 31108, 7);
-                    PoiItem poiItem9 = new PoiItem(81409, "西餐厅", 31109, 8);
-                    PoiItem poiItem10 = new PoiItem(81410, "日料店", 31110, 9);
+                    PoiItem poiItem = new PoiItem(81403, "甜品店", 31103, 0);
+                    PoiItem poiItem2 = new PoiItem(81405, "美式早餐", 31105, 1);
+                    PoiItem poiItem3 = new PoiItem(81408, "亚洲面馆", 31108, 2);
+                    PoiItem poiItem4 = new PoiItem(81409, "西餐厅", 31109, 3);
+                    PoiItem poiItem5 = new PoiItem(81413, "电影院", 31201, 4);
+                    PoiItem poiItem6 = new PoiItem(81414, "游戏厅", 31206, 5);
+                    PoiItem poiItem7 = new PoiItem(81415, "夜店", 31207, 6);
+                    PoiItem poiItem8 = new PoiItem(81416, "公园", 31208, 7);
+                    PoiItem poiItem9 = new PoiItem(81419, "机场", 31401, 8);
+                    PoiItem poiItem10 = new PoiItem(81417, "健身房", 31301, 9);
                     list.add(poiItem);
                     list.add(poiItem2);
                     list.add(poiItem3);
@@ -704,49 +873,48 @@ public class AiPetTestActivity extends BaseActivity {
         Random rand = new Random();
         int randomNum = rand.nextInt(max - min + 1) + min;
         int currentProgress = (int)(Math.random() * 120) + 1;
-        int rewardCode = 31101;
         switch (event.poiItem.getType()){
-            case 81401:
-                rewardCode = 31101;
-                break;
-
-            case 81402:
-                rewardCode = 31102;
-                break;
-
             case 81403:
-                rewardCode = 31103;
-                break;
-
-            case 81404:
-                rewardCode = 31104;
+                randomNum = 1003;
                 break;
 
             case 81405:
-                rewardCode = 31105;
-                break;
-
-            case 81406:
-                rewardCode = 31106;
-                break;
-
-            case 81407:
-                rewardCode = 31107;
+                randomNum = 1005;
                 break;
 
             case 81408:
-                rewardCode = 31108;
+                randomNum = 1008;
                 break;
 
             case 81409:
-                rewardCode = 31109;
+                randomNum = 1009;
                 break;
 
-            case 81410:
-                rewardCode = 31110;
+            case 81413:
+                randomNum = 1013;
+                break;
+
+            case 81414:
+                randomNum = 1014;
+                break;
+
+            case 81415:
+                randomNum = 1015;
+                break;
+
+            case 81416:
+                randomNum = 1016;
+                break;
+
+            case 81419:
+                randomNum = 1019;
+                break;
+
+            case 81417:
+                randomNum = 1017;
                 break;
         }
-        PoiReward poiReward = new PoiReward(randomNum, currentProgress, 120);
+        PoiReward poiReward = new PoiReward(randomNum, 120, 120);
         FissionSdkBleManage.getInstance().responsePoiCheckReward(poiReward);
     }
 
@@ -970,6 +1138,12 @@ public class AiPetTestActivity extends BaseActivity {
             }else{
                 FissionLogUtils.d("wl", "存储空间不足，不能升级资源");
             }
+        }else if(event.operate == 7){
+            if(event.errorCode == 0){
+                FissionLogUtils.d("wl", "文件删除成功");
+            }else{
+                FissionLogUtils.d("wl", "文件删除失败");
+            }
         }
     }
 
@@ -1021,6 +1195,48 @@ public class AiPetTestActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCancelAiChatEvent(CancelAiChatEvent event) {
+        FissionLogUtils.d("wl", "设备主动取消Ai聊天事件："+event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAudioFileEvent(AudioFileEvent event) {
+        FissionLogUtils.d("wl", "音频文件传输给设备返回事件："+event);
+        byte [] oggFile = FileIOUtils.readFile2BytesByStream(filePath);
+        if(event.audioCmd.equals(PbApi.AudioCmd.STREAM_START)){
+//            int chunkTotal = (oggFile.length + BleConfig.getMTU() - 1) / BleConfig.getMTU();
+//            FissionSdkBleManage.getInstance().sendOggFileMeta(mStreamId, 0, oggFile.length, 10, chunkTotal, true);
+
+            sendCurrentFileMeta();
+        }else if(event.audioCmd.equals(PbApi.AudioCmd.FILE_META)){
+//            FissionSdkBleManage.getInstance().sendOggFileData(oggFile);
+//            long crc32 = CRC32Checksum.crc32(0, oggFile);
+//            FissionSdkBleManage.getInstance().sendOggFileEnd(mStreamId, 0, crc32);
+//            FissionSdkBleManage.getInstance().sendOggStreamEnd(mStreamId, 0, 1);
+            // 收到 FILE_META ACK，发当前文件数据+END，然后立即发下一个文件 META
+            if (currentFileData == null) return;
+
+            // 发当前文件数据
+            FissionSdkBleManage.getInstance().sendOggFileData(currentFileData);
+            long crc32 = CRC32Checksum.crc32(0, currentFileData);
+            FissionSdkBleManage.getInstance().sendOggFileEnd(mStreamId, currentFileIndex, crc32);
+            FissionLogUtils.d("wl", "文件[" + currentFileIndex + "] 数据+END 已发送");
+
+        }else if(event.audioCmd.equals(PbApi.AudioCmd.FILE_END)){
+            // 立即发下一个文件 META，不等 FILE_END ACK
+            currentFileIndex++;
+            if (currentFileIndex < audioFiles.size()) {
+                sendCurrentFileMeta();
+            } else {
+                // 所有文件 META 都已触发，发 STREAM_END
+                FissionSdkBleManage.getInstance().sendOggStreamEnd(mStreamId, 0, audioFiles.size());
+                FissionLogUtils.d("wl", "STREAM_END 发送完成，共 " + audioFiles.size() + " 个文件");
+                currentFileIndex = 0;
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onA2dpSwitchEvent(A2dpSwitchEvent event) {
         FissionLogUtils.d("wl", "a2dp开关设置响应事件："+event);
         if(a2dpSwitch){
@@ -1054,6 +1270,8 @@ public class AiPetTestActivity extends BaseActivity {
 
         }
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -1106,43 +1324,14 @@ public class AiPetTestActivity extends BaseActivity {
         filePath = UriUtils.uri2File(uri).getAbsolutePath();
         LogUtils.d("获取文件路径getData",filePath);
         FissionLogUtils.d("wl", "otaType:"+otaType);
+        if(isSendAudio){
+            sendAudioPlay();
+            isSendAudio = false;
+            return;
+        }
+
         if(otaType == 4){
             FissionSdkBleManage.getInstance().hisiSppOtaUploadFileInit(new File(filePath).length());
-            //spp模式 OTA
-//            HiSiliconFileTransferUtils.getInstance().setHiSiliconFileTransferListener(new HiSiliconFileTransferUtils.HiSiliconFileTransferListener() {
-//                @Override
-//                public void onProgressChanged(long curFrames, long framesCount, int fileListIndex, int fileSize) {
-//                    ThreadUtils.runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            int progress = (int)(curFrames*100/framesCount);
-//                            tv_log.setText("OTA文件传输进度："+progress+"%");
-//                        }
-//                    });
-//                }
-//
-//                @Override
-//                public void onComplete() {
-//                    FissionSdkBleManage.getInstance().notifyOtaFirmware();
-//                }
-//
-//                @Override
-//                public void onTimeOut() {
-//
-//                }
-//
-//                @Override
-//                public void onError(Exception e) {
-//
-//                }
-//
-//                @Override
-//                public void onTransmitting() {
-//
-//                }
-//            });
-//            HiSiliconFileTransferUtils.getInstance().init();
-//            HiSiliconFileTransferUtils.getInstance().sendFile(filePath, FissionConstant.OTA_TYPE_FIRMWARE);
         }else{
             try {
                 UploadFileConfig uploadFileConfig = new UploadFileConfig();
@@ -1290,5 +1479,28 @@ public class AiPetTestActivity extends BaseActivity {
                     }
                 }
         );
+    }
+
+    private void sendAudioPlay(){
+        currentFileIndex = 0;
+        mStreamId = (int) (System.currentTimeMillis() & 0xFFFF);
+        FissionSdkBleManage.getInstance().sendOggStreamStart(mStreamId, "opus");
+    }
+
+    private void sendCurrentFileMeta() {
+        String filePath = audioFiles.get(currentFileIndex);
+        byte[] data = FileIOUtils.readFile2BytesByStream(filePath);
+        if (data == null) {
+            FissionLogUtils.e("wl", "文件读取失败: " + filePath);
+            return;
+        }
+        currentFileData = data;
+        int chunkTotal = (data.length + BleConfig.getMTU() - 1) / BleConfig.getMTU();
+        FissionSdkBleManage.getInstance().sendOggFileMeta(
+                mStreamId, currentFileIndex, data.length, 10, chunkTotal, true
+        );
+        FissionLogUtils.d("wl", "发送 FILE_META: index=" + currentFileIndex
+                + " name=" + new File(filePath).getName()
+                + " size=" + data.length);
     }
 }

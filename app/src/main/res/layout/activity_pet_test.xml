@@ -367,6 +367,49 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_set_order_anim"
+                    android:text="设置指令动画"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_set_hour_weather"
+                    android:text="设置24小时天气"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_delete_file"
+                    android:text="删除指定文件"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btn_send_audio"
+                    android:text="发送音频给设备播放"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
             <TextView
                 android:paddingLeft="20dp"
                 android:text="当前连接设备信息："
