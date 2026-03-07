@@ -37,6 +37,7 @@ import com.fission.wear.sdk.v2.aipet.event.A2dpSwitchEvent;
 import com.fission.wear.sdk.v2.aipet.event.ActiveInteractionEvent;
 import com.fission.wear.sdk.v2.aipet.event.AgpsFileDownloadEvent;
 import com.fission.wear.sdk.v2.aipet.event.AnimationAddEvent;
+import com.fission.wear.sdk.v2.aipet.event.AppStateEvent;
 import com.fission.wear.sdk.v2.aipet.event.AudioFileEvent;
 import com.fission.wear.sdk.v2.aipet.event.CancelAiChatEvent;
 import com.fission.wear.sdk.v2.aipet.event.DeviceInfoEvent;
@@ -50,6 +51,7 @@ import com.fission.wear.sdk.v2.aipet.event.PetStatusEvent;
 import com.fission.wear.sdk.v2.aipet.event.PoiCheckEvent;
 import com.fission.wear.sdk.v2.aipet.event.PoiItemEvent;
 import com.fission.wear.sdk.v2.aipet.event.ScreenBrightnessEvent;
+import com.fission.wear.sdk.v2.aipet.event.ScreenStateEvent;
 import com.fission.wear.sdk.v2.aipet.event.SetAiChatMoodEvent;
 import com.fission.wear.sdk.v2.aipet.event.SetAreaAnimEvent;
 import com.fission.wear.sdk.v2.aipet.event.SetCarModeEvent;
@@ -69,6 +71,7 @@ import com.fission.wear.sdk.v2.utils.FileByteReader;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.fission.wear.sdk.v2.utils.HiSiDirectoryUploadManager;
 import com.fission.wear.sdk.v2.utils.HiSiliconFileTransferUtils;
+import com.szfission.wear.demo.App;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.SharedPreferencesUtil;
 import com.szfission.wear.demo.util.SimpleAudioPlayer;
@@ -154,17 +157,7 @@ public class AiPetTestActivity extends BaseActivity {
 //            "/sdcard/Download/ogg2/slice_00004.ogg",
 //            "/sdcard/Download/ogg2/slice_00005.ogg",
 //            "/sdcard/Download/ogg2/slice_00006.ogg",
-//            "/sdcard/Download/ogg2/slice_00007.ogg",
-//            "/sdcard/Download/ogg2/slice_00008.ogg",
-//            "/sdcard/Download/ogg2/slice_00009.ogg",
-//            "/sdcard/Download/ogg2/slice_00010.ogg",
-//            "/sdcard/Download/ogg2/slice_00011.ogg",
-//            "/sdcard/Download/ogg2/slice_00012.ogg",
-//            "/sdcard/Download/ogg2/slice_00013.ogg",
-//            "/sdcard/Download/ogg2/slice_00014.ogg",
-//            "/sdcard/Download/ogg2/slice_00015.ogg",
-//            "/sdcard/Download/ogg2/slice_00016.ogg",
-//            "/sdcard/Download/ogg2/slice_00017.ogg"
+//            "/sdcard/Download/ogg2/slice_00007.ogg"
 //    );
 
     private final List<String> audioFiles = Arrays.asList(
@@ -1197,6 +1190,17 @@ public class AiPetTestActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCancelAiChatEvent(CancelAiChatEvent event) {
         FissionLogUtils.d("wl", "设备主动取消Ai聊天事件："+event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onScreenStateEvent(ScreenStateEvent event) {
+        FissionLogUtils.d("wl", "设备主动上报屏幕显示状态："+event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAppStateEvent(AppStateEvent event) {
+        FissionLogUtils.d("wl", "设备主动获取app状态："+event);
+        FissionSdkBleManage.getInstance().responseAppState(App.appState);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
