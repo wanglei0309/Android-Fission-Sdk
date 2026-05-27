@@ -1,9 +1,7 @@
 package com.szfission.wear.demo.activity;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,8 +9,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.ActionBar;
 
-import com.blankj.utilcode.util.FileIOUtils;
-import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -21,7 +17,6 @@ import com.fission.wear.sdk.v2.bean.JsAiJsonResult;
 import com.fission.wear.sdk.v2.bean.JsAiVoiceJsonResult;
 import com.fission.wear.sdk.v2.utils.AFlashChatGptUtils;
 import com.fission.wear.sdk.v2.utils.BaiDuAiUtils;
-import com.fission.wear.sdk.v2.utils.ChatGptUtils;
 import com.fission.wear.sdk.v2.utils.ColorUtils;
 import com.fission.wear.sdk.v2.utils.FissionDialUtil;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
@@ -32,9 +27,6 @@ import com.szfission.wear.demo.App;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.sdk.constant.FissionEnum;
 import com.szfission.wear.sdk.util.ImageScalingUtil;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 
 import java.io.File;
 import java.util.List;
@@ -97,40 +89,6 @@ public class BaiDuAiTestActivity extends BaseActivity {
 
             @Override
             public void onError(int code, String msg) {
-
-            }
-        });
-
-        ChatGptUtils.getInstance().setGptAiVoiceListener(new ChatGptUtils.GptAiVoiceListener() {
-            @Override
-            public void onChat(String question, String answer) {
-                JsAiJsonResult resultQ = new JsAiJsonResult(JsAiJsonResult.TYPE_QUESTION, question);
-
-                JsAiJsonResult resultA = new JsAiJsonResult(JsAiJsonResult.TYPE_ANSWER, answer);
-
-                FissionSdkBleManage.getInstance().sendQuestionData(GsonUtils.toJson(resultQ));
-
-                FissionSdkBleManage.getInstance().sendAnswerData(GsonUtils.toJson(resultA));
-            }
-
-            @Override
-            public void onCreateDial(List<String> imgPaths) {
-
-                FissionLogUtils.d("wl", "Ai表盘生成图片路径:"+imgPaths);
-            }
-
-            @Override
-            public void onError(int code, String msg) {
-
-            }
-
-            @Override
-            public void onSpeechResult(String result) {
-
-            }
-
-            @Override
-            public void onSpeechResult(String result, boolean isEnd) {
 
             }
         });

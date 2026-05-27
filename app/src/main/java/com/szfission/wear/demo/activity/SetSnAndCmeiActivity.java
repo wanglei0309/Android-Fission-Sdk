@@ -3,26 +3,16 @@ package com.szfission.wear.demo.activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.SnAndCmeiInfo;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.sdk.bean.AppMessageBean;
-import com.szfission.wear.sdk.util.FsLogUtil;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 public class SetSnAndCmeiActivity extends BaseActivity {
     EditText ed_sn;
@@ -99,7 +89,7 @@ public class SetSnAndCmeiActivity extends BaseActivity {
                 String sn = ed_sn.getText().toString().trim();
                 String cmei= ed_cmei.getText().toString().trim();
                 try {
-                    FissionSdkBleManage.getInstance().setSnAndCmeiCode(sn, cmei);
+                    FissionSdkBleManage.getInstance().setSnAndCmeiCode("KPEP2507030001", "");
                 } catch (Exception e) {
                     ToastUtils.showLong("输入数据格式有误！");
                 }

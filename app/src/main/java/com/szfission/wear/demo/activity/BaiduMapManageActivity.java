@@ -16,11 +16,9 @@ import androidx.appcompat.app.ActionBar;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.ISVGLicenseListener;
-import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.SVGLicenseManager;
 import com.baidu.mapapi.SVGLicenseOption;
 import com.baidu.mapapi.bikenavi.BikeNavigateHelper;
@@ -82,7 +80,6 @@ import com.baidu.mapapi.walknavi.model.WalkRoutePlanError;
 import com.baidu.mapapi.walknavi.model.WalkRouteResult;
 import com.baidu.mapapi.walknavi.params.WalkNaviLaunchParam;
 import com.baidu.mapapi.walknavi.params.WalkRouteNodeInfo;
-import com.blankj.utilcode.util.CacheDoubleUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
@@ -115,7 +112,6 @@ import com.fission.wear.sdk.v2.bean.BdWatchRouteRidingSearch;
 import com.fission.wear.sdk.v2.bean.BdWatchRouteSearch;
 import com.fission.wear.sdk.v2.bean.BdWatchRouteTransitSearch;
 import com.fission.wear.sdk.v2.bean.HiSiWatchReqTask;
-import com.fission.wear.sdk.v2.bean.JsAiJsonResult;
 import com.fission.wear.sdk.v2.bean.JsAiVoiceJsonResult;
 import com.fission.wear.sdk.v2.bean.SvgTaskInfo;
 import com.fission.wear.sdk.v2.bean.TransferNotify;
@@ -138,9 +134,6 @@ import com.szfission.wear.demo.util.ParseErrorCodeUtils;
 import com.szfission.wear.sdk.util.RxTimerUtil;
 
 import org.json.JSONException;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 import java.io.IOException;
@@ -371,7 +364,7 @@ public class BaiduMapManageActivity extends BaseActivity {
                     routeLine.distance = bikeRouteResult.getDistance();
                     routeLine.duration = bikeRouteResult.getDuration();
                     List<BdWatchMapRemainRoute.Point> points = new ArrayList<>();
-                    ArrayList<LatLng> latLngs = bikeRouteResult.getPositions();
+                    List<LatLng> latLngs = bikeRouteResult.getPositions();
                     if(latLngs!=null && latLngs.size()>0){
                         for(LatLng latLng: latLngs){
                             BdWatchMapRemainRoute.Point point = remainRoute. new Point();
@@ -2849,7 +2842,7 @@ public class BaiduMapManageActivity extends BaseActivity {
                     routeLine.distance = walkRouteResult.getDistance();
                     routeLine.duration = walkRouteResult.getDuration();
                     List<BdWatchMapRemainRoute.Point> points = new ArrayList<>();
-                    ArrayList<LatLng> latLngs = walkRouteResult.getPositions();
+                    List<LatLng> latLngs = walkRouteResult.getPositions();
                     if(latLngs!=null && latLngs.size()>0){
                         for(LatLng latLng: latLngs){
                             BdWatchMapRemainRoute.Point point = remainRoute. new Point();
@@ -2938,7 +2931,7 @@ public class BaiduMapManageActivity extends BaseActivity {
                     routeLine.distance = bikeRouteResult.getDistance();
                     routeLine.duration = bikeRouteResult.getDuration();
                     List<BdWatchMapRemainRoute.Point> points = new ArrayList<>();
-                    ArrayList<LatLng> latLngs = bikeRouteResult.getPositions();
+                    List<LatLng> latLngs = bikeRouteResult.getPositions();
                     if(latLngs!=null && latLngs.size()>0){
                         for(LatLng latLng: latLngs){
                             BdWatchMapRemainRoute.Point point = remainRoute. new Point();

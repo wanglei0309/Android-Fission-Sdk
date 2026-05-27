@@ -17,9 +17,6 @@ import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.sdk.bean.param.FemalePhysiology;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
-
 import java.util.Calendar;
 
 public class MenstrualPeriodActivity extends BaseActivity{

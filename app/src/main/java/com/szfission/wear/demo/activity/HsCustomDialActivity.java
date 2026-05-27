@@ -130,7 +130,7 @@ public class HsCustomDialActivity extends BaseActivity implements SeekBar.OnSeek
                 dialModel.setDialWidth(dialWidth);
                 dialModel.setDialHeight(dialHeight);
                 dialModel.setBackgroundImage(bitmap);
-                dialModel.setDialPosition(1);
+                dialModel.setDialPosition(HsDialUtils.stylePosition_left);
                 dialModel.setPreImageWidth(thumbnailWidth);
                 dialModel.setPreImageHeight(thumbnailHigh);
                 dialModel.setDialStyleColor(colorValue);

@@ -12,12 +12,6 @@ import androidx.appcompat.app.ActionBar;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.sdk.AnyWear;
-import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
-import com.szfission.wear.sdk.util.FsLogUtil;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 
 public class SetLcInfoActivity extends BaseActivity{
 

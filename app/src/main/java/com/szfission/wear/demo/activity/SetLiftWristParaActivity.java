@@ -14,14 +14,7 @@ import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.bean.param.LiftWristPara;
-import com.szfission.wear.sdk.ifs.BigDataCallBack;
-import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.Objects;
 

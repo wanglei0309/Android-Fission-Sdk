@@ -23,13 +23,10 @@ import com.szfission.wear.sdk.bean.ExerciseDetail;
 import com.szfission.wear.sdk.bean.ExerciseDetailRecord;
 import com.szfission.wear.sdk.bean.ExerciseList;
 import com.szfission.wear.sdk.ifs.BigDataCallBack;
-import com.szfission.wear.sdk.ifs.OnExerciseDetailCallback;
 import com.szfission.wear.sdk.util.DateUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.List;
 

@@ -11,16 +11,9 @@ import androidx.appcompat.app.ActionBar;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
-import com.fission.wear.sdk.v2.bean.MusicConfig;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.bean.param.FissionMusicInfo;
-import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 /**
  * 推送当前歌曲信息

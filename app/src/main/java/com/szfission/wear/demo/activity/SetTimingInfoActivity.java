@@ -27,22 +27,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
-import com.blankj.utilcode.util.CacheDoubleUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
-import com.fission.wear.sdk.v2.bean.FissionAlarmCache;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
-import com.fission.wear.sdk.v2.constant.CacheDoubleKey;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.bean.FissionAlarm;
-import com.szfission.wear.sdk.ifs.BigDataCallBack;
-import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
 import com.szfission.wear.sdk.util.DateUtil;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Collections;

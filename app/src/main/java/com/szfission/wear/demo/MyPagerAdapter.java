@@ -1,8 +1,10 @@
 package com.szfission.wear.demo;
 
-import androidx.viewpager.widget.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.viewpager.widget.PagerAdapter;
+
 import java.util.List;
 
 public  class MyPagerAdapter extends PagerAdapter {

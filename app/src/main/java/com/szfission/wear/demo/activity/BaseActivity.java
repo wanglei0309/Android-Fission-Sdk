@@ -7,9 +7,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.common.baidu.map.watch.activity.BaiduMapManageActivity;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.BaseCmdResultListener;
-import com.common.baidu.map.watch.activity.BaiduMapManageActivity;
 import com.szfission.wear.demo.App;
 import com.szfission.wear.demo.DataMessageEvent;
 

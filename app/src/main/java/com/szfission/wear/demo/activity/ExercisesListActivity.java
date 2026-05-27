@@ -22,19 +22,14 @@ import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.szfission.wear.demo.DataMessageEvent;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.adapter.ExercisesListAdapter;
-import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.bean.ExerciseDetail;
 import com.szfission.wear.sdk.bean.ExerciseDetailRecord;
 import com.szfission.wear.sdk.bean.ExerciseList;
 import com.szfission.wear.sdk.bean.ExerciseReport;
-import com.szfission.wear.sdk.ifs.BigDataCallBack;
-import com.szfission.wear.sdk.ifs.OnExerciseDetailCallback;
 import com.szfission.wear.sdk.util.DateUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.List;
 

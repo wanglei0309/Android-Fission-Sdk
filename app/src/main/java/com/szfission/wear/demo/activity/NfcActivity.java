@@ -8,17 +8,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 
 import com.blankj.utilcode.util.CacheDoubleUtils;
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.application.SlmM1Crack;
 import com.example.application.mytoos;
@@ -27,16 +24,10 @@ import com.fission.wear.sdk.v2.bean.FssStatus;
 import com.fission.wear.sdk.v2.bean.NfcCardInfo;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
-import com.fission.wear.sdk.v2.config.BleComConfig;
-import com.fission.wear.sdk.v2.constant.CacheDoubleKey;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.util.NfcReaderUtil;
-import com.szfission.wear.sdk.bean.AppMessageBean;
-import com.szfission.wear.sdk.util.FsLogUtil;
-import com.szfission.wear.sdk.util.RxTimerUtil;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 

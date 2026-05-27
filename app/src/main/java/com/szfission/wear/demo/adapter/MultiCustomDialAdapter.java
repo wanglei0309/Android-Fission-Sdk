@@ -5,11 +5,9 @@ import android.graphics.Bitmap;
 
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.ImageUtils;
-import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.fission.wear.sdk.v2.bean.CustomWatchFaceInfo;
-import com.fission.wear.sdk.v2.utils.FissionDialUtil;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.bean.MultiCustomDial;
 

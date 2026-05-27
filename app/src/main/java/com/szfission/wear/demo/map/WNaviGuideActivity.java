@@ -10,9 +10,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 
-import com.baidu.mapapi.bikenavi.BikeNavigateHelper;
-import com.baidu.mapapi.bikenavi.model.BikeNaviLocationResult;
-import com.baidu.mapapi.bikenavi.model.BikeRouteResult;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.walknavi.WalkNavigateHelper;
 import com.baidu.mapapi.walknavi.adapter.IWNaviStatusListener;
@@ -23,6 +20,7 @@ import com.baidu.mapapi.walknavi.model.RouteGuideKind;
 import com.baidu.mapapi.walknavi.model.WalkNaviDisplayOption;
 import com.baidu.mapapi.walknavi.model.WalkNaviLocationResult;
 import com.baidu.mapapi.walknavi.model.WalkRouteResult;
+import com.baidu.mapapi.walknavi.model.WalkSimpleMapInfo;
 import com.baidu.platform.comapi.walknavi.WalkNaviModeSwitchListener;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -265,6 +263,11 @@ public class WNaviGuideActivity extends Activity {
             }
 
             @Override
+            public void onRemainDistanceUpdate(int i) {
+
+            }
+
+            @Override
             public void onRemainTimeUpdate(CharSequence charSequence) {
                 if(System.currentTimeMillis() - lastRemainTime > CALLBACK_INTERVAL){
                     BdWatchMapRemainTime time = new BdWatchMapRemainTime();
@@ -282,6 +285,11 @@ public class WNaviGuideActivity extends Activity {
 
                     lastRemainTime = System.currentTimeMillis();
                 }
+            }
+
+            @Override
+            public void onRemainTimeUpdate(int i) {
+
             }
 
             @Override
@@ -340,7 +348,7 @@ public class WNaviGuideActivity extends Activity {
                 routeLine.distance = walkRouteResult.getDistance();
                 routeLine.duration = walkRouteResult.getDuration();
                 List<BdWatchMapRemainRoute.Point> points = new ArrayList<>();
-                ArrayList<LatLng> latLngs = walkRouteResult.getPositions();
+                List<LatLng> latLngs = walkRouteResult.getPositions();
                 if(latLngs!=null && latLngs.size()>0){
                     for(LatLng latLng: latLngs){
                         BdWatchMapRemainRoute.Point point = remainRoute. new Point();
@@ -422,6 +430,11 @@ public class WNaviGuideActivity extends Activity {
 
                     lastGpsChange = System.currentTimeMillis();
                 }
+
+            }
+
+            @Override
+            public void onSimpleMapInfoUpdate(WalkSimpleMapInfo walkSimpleMapInfo) {
 
             }
         });

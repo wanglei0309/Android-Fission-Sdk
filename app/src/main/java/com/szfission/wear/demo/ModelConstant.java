@@ -141,4 +141,17 @@ public  class ModelConstant {
     public static final int FUNC_HANBAO_SHOCK_RECORD = 149;
 
     public static final int FUNC_GET_AIR_PRESSURE_RECORD = 150;
+
+    public static final int FUNC_SET_PRIVATE_BLOOD_PRESSURE_SET = 151;
+    public static final int FUNC_SET_PRIVATE_BLOOD_SET = 152;
+    public static final int FUNC_SET_PRIVATE_BLOOD_SUGAR_SET = 153;
+
+    public static final int FUNC_GET_BLOOD_SUGAR_RECORD = 154;
+
+    public static final int FUNC_GET_BLOOD_RECORD = 155;
+
+    public static final int FUNC_SET_BLOOD_PRESSURE_SWITCH = 156;
+    public static final int FUNC_SET_BLOOD_SUGAR_SWITCH = 157;
+    public static final int FUNC_SET_BLOOD_COMPONENT_SWITCH = 158;
+    public static final int FUNC_NOTIFY_DEVICE_VIBRATES = 159;
 }

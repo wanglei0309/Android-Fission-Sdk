@@ -153,6 +153,9 @@
         <activity android:name=".activity.NewCustomDialActivity" />
         <activity android:name=".activity.JsiTestActivity" />
         <activity android:name=".activity.OpenAiTestActivity" />
+        <activity android:name=".activity.SetPrivateBloodPressureParaActivity"/>
+        <activity android:name=".activity.SetPrivateBloodParaActivity"/>
+        <activity android:name=".activity.SetPrivateBloodSugarParaActivity"/>
         <activity android:name=".map.BNaviGuideActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".map.WNaviGuideActivity"

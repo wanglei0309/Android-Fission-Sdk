@@ -11,9 +11,7 @@ import androidx.appcompat.app.ActionBar;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
-import com.fission.wear.sdk.v2.bean.SnAndCmeiInfo;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
-import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.szfission.wear.demo.R;
 
 import java.math.BigDecimal;

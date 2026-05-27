@@ -13,11 +13,9 @@ import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.demo.chat.fixtures.MessagesFixtures;
 import com.szfission.wear.demo.chat.model.Message;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 

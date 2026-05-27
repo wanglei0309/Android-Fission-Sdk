@@ -9,7 +9,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.media.session.MediaController;
 import android.media.session.MediaSessionManager;
-import android.media.session.MediaSession;
 
 import com.fission.wear.sdk.v2.service.BleComService;
 

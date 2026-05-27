@@ -1,41 +1,11 @@
 package com.szfission.wear.demo.chat;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import androidx.annotation.NonNull;
-
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ThreadUtils;
-import com.fission.wear.sdk.v2.constant.AiChatSpKey;
-import com.fission.wear.sdk.v2.constant.SpKey;
-import com.fission.wear.sdk.v2.session.ChatSession;
-//import com.fission.wear.sdk.v2.session.ChatSessionCallback;
 import com.fission.wear.sdk.v2.utils.AFlashChatGptUtils;
-import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.fission.wear.sdk.v2.utils.RtkChatGptManage;
-import com.realsil.sdk.core.bluetooth.GlobalGatt;
-import com.realsil.sdk.core.utility.DataConverter;
-import com.realtek.sdk.media.AudioCodecListener;
-import com.realtek.sdk.media.MediaDecoder;
-import com.realtek.sdk.media.RtkMediaCodec;
-import com.realtek.sdk.media.RtkMediaManager;
-import com.realtek.sdk.media.opus.OpusDecoder;
-import com.realtek.sdk.wear.WearConfigure;
-import com.realtek.sdk.wear.WearManager;
-import com.realtek.sdk.wear.applicationlayer.ai.AiConstants;
-import com.realtek.sdk.wear.applicationlayer.ai.ChatRequestVoiceDataParameters;
-import com.realtek.sdk.wear.applicationlayer.ai.ChatResponseDataTransferBufferControl;
-import com.realtek.sdk.wear.applicationlayer.ai.ChatResponseTextDataPacket;
-import com.realtek.sdk.wear.applicationlayer.ai.ChatResponseVoiceDataStartPacket;
-import com.realtek.sdk.wear.applicationlayer.ai.ChatResponseVoiceRealtimeSender;
-import com.realtek.sdk.wear.applicationlayer.ai.ChatResponseVoiceSender;
-import com.realtek.sdk.wear.applicationlayer.ai.ReplayChatResponseData;
-import com.realtek.sdk.wear.applicationlayer.ai.WhisperResponse;
-import com.realtek.sdk.wear.callback.WearAiCallback;
-import com.realtek.sdk.wear.callback.WearManagerCallback;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
@@ -44,8 +14,6 @@ import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.chat.fixtures.MessagesFixtures;
 import com.szfission.wear.demo.chat.model.Message;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 

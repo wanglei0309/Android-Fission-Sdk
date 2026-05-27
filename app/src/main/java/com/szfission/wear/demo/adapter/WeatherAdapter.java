@@ -9,10 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.szfission.wear.demo.R;
-import com.szfission.wear.demo.bean.FuncBean;
 import com.szfission.wear.sdk.bean.param.WeatherParam;
 
-import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.List;

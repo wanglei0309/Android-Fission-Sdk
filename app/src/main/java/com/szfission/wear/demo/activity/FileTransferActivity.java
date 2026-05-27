@@ -1,28 +1,16 @@
 package com.szfission.wear.demo.activity;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.UriUtils;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.fragment.DownloadFragment;
 import com.szfission.wear.demo.fragment.UploadFragment;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 /**
  * describe:

@@ -1,29 +1,22 @@
 package com.szfission.wear.demo.activity;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.fission.wear.sdk.v2.FissionSdkBleManage;
-import com.fission.wear.sdk.v2.utils.FissionLogUtils;
+import androidx.appcompat.app.ActionBar;
+
 import com.szfission.wear.demo.App;
-import com.szfission.wear.demo.C;
-import com.szfission.wear.demo.ConnectedStateEvent;
 import com.szfission.wear.demo.DataMessageEvent;
 import com.szfission.wear.demo.LogAdapter;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.demo.SharedPreferencesUtil;
-import com.szfission.wear.sdk.util.FsLogUtil;
-
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

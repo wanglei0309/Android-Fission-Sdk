@@ -3,7 +3,6 @@ package com.szfission.wear.demo.adapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.sdk.bean.param.TodayWeatherDetail;
 import com.szfission.wear.sdk.bean.param.WeatherParam;
 
 import org.jetbrains.annotations.NotNull;

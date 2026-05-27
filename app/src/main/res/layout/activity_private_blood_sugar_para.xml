@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/tv_switch"
+        style="@style/setBloodLabel"
+        android:text="血糖私人模式" />
+
+    <Switch
+        android:id="@+id/switch_open"
+        android:layout_toEndOf="@id/tv_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_switch"
+        android:layout_marginStart="10dp"
+        />
+
+
+
+
+    <TextView
+        android:id="@+id/tv_b1"
+        style="@style/setBloodLabel"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_switch"
+        android:text="早餐前" />
+
+    <EditText
+        android:id="@+id/et_value1"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b1"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b1"
+        android:inputType="numberDecimal"
+        android:maxLength="4" />
+
+    <TextView
+        android:id="@+id/tv_b1_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b1"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/et_value1"
+        android:text="mmol/L"
+        android:textColor="#989898" />
+
+
+    <EditText
+        android:id="@+id/et_time1"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b1"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b1_unit"
+        android:inputType="number"
+        android:textSize="15sp"
+        android:hint="早餐前时间"
+        android:maxLength="4" />
+
+
+
+
+    <TextView
+        android:id="@+id/tv_b2"
+        style="@style/setBloodLabel"
+        android:layout_below="@+id/tv_b1"
+        android:text="早餐后" />
+
+
+
+    <EditText
+        android:id="@+id/et_value2"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b2"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b2"
+        android:inputType="numberDecimal"
+        android:maxLength="4" />
+
+    <TextView
+        android:id="@+id/tv_b2_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b2"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/et_value2"
+        android:text="umol/L"
+        android:textColor="#989898" />
+
+    <EditText
+        android:id="@+id/et_time2"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b2"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b2_unit"
+        android:inputType="number"
+        android:textSize="15sp"
+        android:hint="早餐后时间"
+        android:maxLength="4" />
+
+
+    <TextView
+        android:id="@+id/tv_b3"
+        style="@style/setBloodLabel"
+        android:layout_below="@+id/tv_b2"
+        android:text="午餐前" />
+
+    <EditText
+        android:id="@+id/et_value3"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b3"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b3"
+        android:inputType="numberDecimal"
+        android:maxLength="4" />
+
+    <TextView
+        android:id="@+id/tv_b3_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b3"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/et_value3"
+        android:text="mmol/L"
+        android:textColor="#989898" />
+
+    <EditText
+        android:id="@+id/et_time3"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b3"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b3_unit"
+        android:inputType="number"
+        android:textSize="15sp"
+        android:hint="午餐前时间"
+        android:maxLength="4" />
+
+
+    <TextView
+        android:id="@+id/tv_b4"
+        style="@style/setBloodLabel"
+        android:layout_below="@+id/tv_b3"
+        android:text="午餐后" />
+
+    <EditText
+        android:id="@+id/et_value4"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b4"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b4"
+        android:inputType="numberDecimal"
+        android:maxLength="4" />
+
+    <TextView
+        android:id="@+id/tv_b4_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b4"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/et_value4"
+        android:text="mmol/L"
+        android:textColor="#989898" />
+    <EditText
+        android:id="@+id/et_time4"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b4"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b4_unit"
+        android:inputType="number"
+        android:textSize="15sp"
+        android:hint="午餐后时间"
+        android:maxLength="4" />
+
+
+
+    <TextView
+        android:id="@+id/tv_b5"
+        style="@style/setBloodLabel"
+        android:layout_below="@+id/tv_b4"
+        android:text="晚餐前" />
+
+    <EditText
+        android:id="@+id/et_value5"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b5"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b5"
+        android:inputType="numberDecimal"
+        android:maxLength="4" />
+
+    <TextView
+        android:id="@+id/tv_b5_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b5"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/et_value5"
+        android:text="mmol/L"
+        android:textColor="#989898" />
+
+    <EditText
+        android:id="@+id/et_time5"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b5"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b5_unit"
+        android:inputType="number"
+        android:textSize="15sp"
+        android:hint="晚餐前时间"
+        android:maxLength="4" />
+
+    <TextView
+        android:id="@+id/tv_b6"
+        style="@style/setBloodLabel"
+        android:layout_below="@+id/tv_b5"
+        android:text="晚餐后" />
+
+    <EditText
+        android:id="@+id/et_value6"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b6"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b6"
+        android:inputType="numberDecimal"
+        android:maxLength="4" />
+
+    <TextView
+        android:id="@+id/tv_b6_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b6"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/et_value6"
+        android:text="mmol/L"
+        android:textColor="#989898" />
+    <EditText
+        android:id="@+id/et_time6"
+        style="@style/BackgroundEditText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_b6"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_b6_unit"
+        android:inputType="number"
+        android:textSize="15sp"
+        android:hint="晚餐后时间"
+        android:maxLength="4" />
+
+
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_value6"
+        android:layout_marginTop="50dp"
+        android:text="@string/set"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_get"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_send"
+        android:layout_marginTop="20dp"
+        android:text="查询"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

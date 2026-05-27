@@ -13,6 +13,7 @@
 
 
     <EditText
+        android:text="KPEP2507030001"
         android:id="@+id/ed_sn"
         style="@style/BackgroundEditText"
         android:layout_marginTop="10dp"

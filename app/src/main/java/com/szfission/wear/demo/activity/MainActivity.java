@@ -1,6 +1,5 @@
 package com.szfission.wear.demo.activity;
 
-import static com.fission.wear.sdk.v2.utils.WechatEmojiMapper.getMetaByEmoji;
 import static com.szfission.wear.demo.ModelConstant.*;
 
 import android.Manifest;
@@ -40,7 +39,6 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -56,12 +54,10 @@ import com.fission.wear.sdk.v2.bean.HbModelShockRecord;
 import com.fission.wear.sdk.v2.bean.HsDialInfo;
 import com.fission.wear.sdk.v2.bean.HsJsFileInfo;
 import com.fission.wear.sdk.v2.bean.MusicConfig;
-import com.fission.wear.sdk.v2.bean.RtSpeechRecognitionResults;
 import com.fission.wear.sdk.v2.bean.SportListInfo;
 import com.fission.wear.sdk.v2.bean.StreamData;
 import com.fission.wear.sdk.v2.bean.SystemFunctionSwitch;
 import com.fission.wear.sdk.v2.bean.WatchGameMotionData;
-import com.fission.wear.sdk.v2.bean.WxVoiceMsgBody;
 import com.fission.wear.sdk.v2.callback.BaseCmdResultListener;
 import com.fission.wear.sdk.v2.callback.BleConnectListener;
 import com.fission.wear.sdk.v2.callback.BtConnectListener;
@@ -74,14 +70,9 @@ import com.fission.wear.sdk.v2.config.ConfigCacheUtils;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.constant.JsiCmd;
 import com.fission.wear.sdk.v2.constant.SpKey;
-import com.fission.wear.sdk.v2.proto.WeChatPbParseUtil;
-import com.fission.wear.sdk.v2.service.BleComService;
 import com.fission.wear.sdk.v2.utils.BaiDuAiUtils;
-import com.fission.wear.sdk.v2.utils.ChatGptUtils;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.fission.wear.sdk.v2.utils.MacUtil;
-import com.fission.wear.sdk.v2.utils.WeChatManage;
-import com.fission.wear.sdk.v2.utils.WechatEmojiMapper;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.polidea.rxandroidble2.RxBleConnection;
@@ -106,8 +97,6 @@ import com.szfission.wear.demo.util.ExternalMusicControl;
 import com.szfission.wear.demo.viewmodel.HomeViewModel;
 import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.bean.BloodPressureRecord;
-import com.szfission.wear.sdk.bean.HrDetectPara;
-import com.szfission.wear.sdk.bean.MentalStressRecord;
 import com.szfission.wear.sdk.bean.DaysReport;
 import com.szfission.wear.sdk.bean.ExerGpsDetail;
 import com.szfission.wear.sdk.bean.ExerciseDetail;
@@ -118,8 +107,10 @@ import com.szfission.wear.sdk.bean.HandMeasureInfoBean;
 import com.szfission.wear.sdk.bean.HardWareInfo;
 import com.szfission.wear.sdk.bean.HeartRateRecord;
 import com.szfission.wear.sdk.bean.HoursReport;
+import com.szfission.wear.sdk.bean.HrDetectPara;
 import com.szfission.wear.sdk.bean.HrWarnPara;
 import com.szfission.wear.sdk.bean.MeasureInfo;
+import com.szfission.wear.sdk.bean.MentalStressRecord;
 import com.szfission.wear.sdk.bean.SedentaryBean;
 import com.szfission.wear.sdk.bean.SleepRecord;
 import com.szfission.wear.sdk.bean.SleepReport;
@@ -187,6 +178,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
     Handler handler;
     public static boolean connectSuccessfully = false;
+    private boolean isDisconnecting = false;
 
 
 
@@ -206,17 +198,22 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
             LogUtils.d("wl", "FissionSdk_v2----onConnectionStateChange: "+newState.toString());
             ThreadUtils.runOnUiThread(() -> {
                 if (newState == RxBleConnection.RxBleConnectionState.CONNECTED) {
+                    isDisconnecting = false;
+                    tvActionConnect.setEnabled(true);
                     connectSuccessfully = true;
                     tvDeviceStatus.setText(deviceName);
                     tvActionConnect.setText(R.string.disconnect);
                     showLog(R.string.connected,deviceName);
                 } else if (newState == RxBleConnection.RxBleConnectionState.DISCONNECTED) {
+                    isDisconnecting = false;
+                    tvActionConnect.setEnabled(true);
                     FsLogUtil.d("成功断开了设备");
                     connectSuccessfully = false;
                     tvDeviceStatus.setText(R.string.disconnected);
                     tvActionConnect.setText(R.string.connect);
                     showLog(R.string.disconnected,deviceName);
                 }else if (newState == RxBleConnection.RxBleConnectionState.CONNECTING){
+                    tvActionConnect.setEnabled(true);
                     tvDeviceStatus.setText(getString(R.string.device_connecting)+ deviceName);
                     tvActionConnect.setText(R.string.disconnect);
                 }
@@ -242,12 +239,10 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
             BaiDuAiUtils.initDeviceId("oDKQ0Z6JvoCFd3c3O20DxEOOtDCaKCMN", "OtBdvt18HdJnSYGGGaEMn2Mg0mCTF77w");
 
-//            ChatGptUtils.getInstance().initSdk(MainActivity.this, SPUtils.getInstance().getString(SpKey.LAST_MAC));
-
             // 获取硬件设备信息
             FissionSdkBleManage.getInstance().getHardwareInfo();
 
-            WeChatManage.getInstance().initWeChat(MainActivity.this,SPUtils.getInstance().getString(SpKey.LAST_MAC));
+//            WeChatManage.getInstance().initWeChat(MainActivity.this,SPUtils.getInstance().getString(SpKey.LAST_MAC));
 
 //                new RxTimerUtil().timer(1500, new RxTimerUtil.RxAction() {
 //                    @Override
@@ -428,7 +423,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
         @Override
         public void isBindNewDevice(boolean isNewDevice, String bindKey) {
             super.isBindNewDevice(isNewDevice, bindKey);
-            logList.add("当前设备绑定秘钥："+bindKey);
+            logList.add("current bindKey："+bindKey);
             logAdapter.notifyDataSetChanged();
             if(isNewDevice){
                 showTipDialog();
@@ -894,7 +889,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
         tv_haisi_test = findViewById(R.id.tv_haisi_test);
         tv_chatgpt = findViewById(R.id.tv_chatgpt);
         tv_jsi_test = findViewById(R.id.tv_jsi_test);
-        tv_ai_test = findViewById(R.id.tv_ai_test);
+//        tv_ai_test = findViewById(R.id.tv_ai_test);
         tv_wechat = findViewById(R.id.tv_wechat);
 
         tvLog.setOnClickListener(this);
@@ -905,6 +900,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
 
         context = this;
+        BaiDuAiUtils.initDeviceId("oDKQ0Z6JvoCFd3c3O20DxEOOtDCaKCMN", "OtBdvt18HdJnSYGGGaEMn2Mg0mCTF77w");
 
         initNaviTts("b2abJxPpx3uVZJ9neKrIAJxP", "d3rcWTJBsji9OAHErPFuVLk8go8knKSc", "9bc6148c-81481509-01-06ba-0076-0878-01");
 
@@ -965,10 +961,10 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
             }
         });
 
-        tv_ai_test.setOnClickListener(v->{
-            Intent intent = new Intent(MainActivity.this, OpenAiTestActivity.class);
-            startActivity(intent);
-        });
+//        tv_ai_test.setOnClickListener(v->{
+//            Intent intent = new Intent(MainActivity.this, OpenAiTestActivity.class);
+//            startActivity(intent);
+//        });
 
         tv_wechat.setOnClickListener(v->{
             Intent intent = new Intent(MainActivity.this, WeChatTestActivity.class);
@@ -1175,6 +1171,15 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
                     case FUNC_SET_MEDIA_AUDIO_SWITCH:
                         showCheckModelDialog(FUNC_SET_MEDIA_AUDIO_SWITCH);
+                        break;
+                    case FUNC_SET_BLOOD_PRESSURE_SWITCH:
+                        showCheckModelDialog(FUNC_SET_BLOOD_PRESSURE_SWITCH);
+                        break;
+                    case FUNC_SET_BLOOD_SUGAR_SWITCH:
+                        showCheckModelDialog(FUNC_SET_BLOOD_SUGAR_SWITCH);
+                        break;
+                    case FUNC_SET_BLOOD_COMPONENT_SWITCH:
+                        showCheckModelDialog(FUNC_SET_BLOOD_COMPONENT_SWITCH);
                         break;
 
                     case ModelConstant.FUNC_CAMERA:
@@ -1738,6 +1743,27 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
                     case FUNC_HANBAO_SHOCK_RECORD:
                         FissionSdkBleManage.getInstance().getHbModelShockRecords();
                         break;
+                    case FUNC_SET_PRIVATE_BLOOD_PRESSURE_SET:
+                        startActivity(new Intent(context, SetPrivateBloodPressureParaActivity.class));
+                        break;
+                    case FUNC_SET_PRIVATE_BLOOD_SET:
+                        startActivity(new Intent(context, SetPrivateBloodParaActivity.class));
+                        break;
+                    case FUNC_SET_PRIVATE_BLOOD_SUGAR_SET:
+                        startActivity(new Intent(context, SetPrivateBloodSugarParaActivity.class));
+                        break;
+                    case FUNC_GET_BLOOD_SUGAR_RECORD:
+                        FissionSdkBleManage.getInstance().getBloodSugarRecord(startTime,endTime);
+                        break;
+                    case FUNC_GET_BLOOD_RECORD:
+                        FissionSdkBleManage.getInstance().getBloodComponentRecord(startTime,endTime);
+                        break;
+
+                    case FUNC_NOTIFY_DEVICE_VIBRATES:
+                        int vibrationIntensity = (int) (Math.random() * 6) + 1;
+                        LogUtils.d("震动强度："+vibrationIntensity);
+                        FissionSdkBleManage.getInstance().notifyDeviceVibrates(vibrationIntensity);
+                        break;
                 }
                 return true;
             }
@@ -1899,6 +1925,15 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
                     case FUNC_SET_MEDIA_AUDIO_SWITCH:
                         FissionSdkBleManage.getInstance().setMediaAudioSwitch(value);
+                        break;
+                    case FUNC_SET_BLOOD_PRESSURE_SWITCH:
+                        FissionSdkBleManage.getInstance().setBloodPressureSwitch(value);
+                        break;
+                    case FUNC_SET_BLOOD_SUGAR_SWITCH:
+                        FissionSdkBleManage.getInstance().setBloodSugarSwitch(value);
+                        break;
+                    case FUNC_SET_BLOOD_COMPONENT_SWITCH:
+                        FissionSdkBleManage.getInstance().setBloodComponentSwitch(value);
                         break;
 
                     case FUNC_SET_SVM:
@@ -2320,12 +2355,16 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
     public void onEvent(ConnectedStateEvent event) {
         FsLogUtil.d("收到了消息" + event.getState());
         if (event.getState() == C.CONNECTED) {
+            isDisconnecting = false;
+            tvActionConnect.setEnabled(true);
             connectSuccessfully = true;
             tvDeviceStatus.setText(event.getName());
             tvActionConnect.setText(R.string.disconnect);
             showLog(R.string.connected,"连接成功:连接设备------"+event.getName());
             FissionSdkBleManage.getInstance().getDeviceVersion();
         } else if (event.getState() == C.DISCONNECT) {
+            isDisconnecting = false;
+            tvActionConnect.setEnabled(true);
             FsLogUtil.d("成功断开了设备");
             connectSuccessfully = false;
             tvDeviceStatus.setText(R.string.disconnected);
@@ -2630,6 +2669,9 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 //            }
 //            FissionLogUtils.d("wl", "实时语音识别结果："+stringBuffer.toString());
 //        }
+
+
+        BaiDuAiUtils.startTTS(MainActivity.this, "今天星期几");
     }
 
     private void showTipDialog(){

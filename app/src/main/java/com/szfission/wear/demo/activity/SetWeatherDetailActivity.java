@@ -1,6 +1,5 @@
 package com.szfission.wear.demo.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,14 +17,9 @@ import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.fission.wear.sdk.v2.constant.SpKey;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.bean.HardWareInfo;
 import com.szfission.wear.sdk.bean.param.TodayWeatherDetail;
-import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
 import com.szfission.wear.sdk.util.FsLogUtil;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.Locale;
 import java.util.Random;

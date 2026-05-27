@@ -12,7 +12,6 @@ import com.fission.wear.sdk.v2.config.BleComConfig;
 import com.fission.wear.sdk.v2.constant.SpKey;
 import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.AnyWearConfig;
-import com.szfission.wear.sdk.bean.MentalStressRecord;
 import com.szfission.wear.sdk.bean.DaysReport;
 import com.szfission.wear.sdk.bean.ExerGpsDetail;
 import com.szfission.wear.sdk.bean.ExerciseReport;
@@ -22,6 +21,7 @@ import com.szfission.wear.sdk.bean.HardWareInfo;
 import com.szfission.wear.sdk.bean.HeartRateRecord;
 import com.szfission.wear.sdk.bean.HoursReport;
 import com.szfission.wear.sdk.bean.MeasureInfo;
+import com.szfission.wear.sdk.bean.MentalStressRecord;
 import com.szfission.wear.sdk.bean.SleepRecord;
 import com.szfission.wear.sdk.bean.SleepReport;
 import com.szfission.wear.sdk.bean.Spo2Record;
@@ -672,6 +672,7 @@ public class FissionSdk {
         BleComConfig bleComConfig = new BleComConfig();
         bleComConfig.setDistinguishNewDevice(true);
         bleComConfig.setBind(isBind);
+//        bleComConfig.setBindKeys("9999,999999");   //免除手表确认绑定流程
         bleComConfig.setBindKeys(SharedPreferencesUtil.getInstance().getFissionKey());
         if(SPUtils.getInstance().getBoolean(SpKey.IS_IC_TYPE_8763E)){
             bleComConfig.setNeedSppConnect(true);

@@ -1,11 +1,9 @@
 package com.szfission.wear.demo.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.szfission.wear.demo.R;
@@ -13,7 +11,6 @@ import com.szfission.wear.demo.bean.FuncBean;
 import com.szfission.wear.demo.bean.FuncGroup;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainAdapter extends BaseExpandableListAdapter {
     ArrayList<FuncGroup> mGroupList;

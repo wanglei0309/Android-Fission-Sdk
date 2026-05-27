@@ -33,20 +33,10 @@ import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.constant.SpKey;
 import com.fission.wear.sdk.v2.utils.CRC32Checksum;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
-import com.fission.wear.sdk.v2.utils.HiSiliconFileTransferUtils;
-import com.realsil.sdk.dfu.DfuConstants;
-import com.realsil.sdk.dfu.model.DfuProgressInfo;
-import com.realsil.sdk.dfu.model.OtaDeviceInfo;
-import com.realsil.sdk.dfu.model.Throughput;
-import com.realsil.sdk.dfu.utils.DfuAdapter;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.sdk.bean.HardWareInfo;
 import com.szfission.wear.sdk.constant.FissionEnum;
 import com.szfission.wear.sdk.util.RxTimerUtil;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 

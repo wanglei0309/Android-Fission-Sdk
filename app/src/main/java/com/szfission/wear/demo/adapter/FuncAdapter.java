@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.bean.FuncBean;
 
-import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.List;

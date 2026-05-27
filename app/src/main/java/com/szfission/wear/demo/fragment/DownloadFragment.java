@@ -30,24 +30,17 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.FileInfo;
-import com.fission.wear.sdk.v2.bean.HiSiWatchReqTask;
 import com.fission.wear.sdk.v2.bean.TransferNotify;
 import com.fission.wear.sdk.v2.bean.TransferParameterRequest;
 import com.fission.wear.sdk.v2.bean.TransferParameterResponse;
 import com.fission.wear.sdk.v2.bean.TransferRequest;
 import com.fission.wear.sdk.v2.bean.TransferResponse;
 import com.fission.wear.sdk.v2.callback.HiSiliconDataResultListener;
-import com.fission.wear.sdk.v2.constant.FissionConstant;
-import com.fission.wear.sdk.v2.constant.SpKey;
-import com.fission.wear.sdk.v2.parse.HiSiliconSppCmdHelper;
 import com.fission.wear.sdk.v2.parse.HiSiliconSppCmdID;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
-import com.fission.wear.sdk.v2.utils.HiSiDownloadFileUtil;
-import com.fission.wear.sdk.v2.utils.HiSiTaskManage;
 import com.kongzue.dialogx.dialogs.WaitDialog;
 import com.kongzue.dialogx.interfaces.OnBackPressedListener;
 import com.szfission.wear.demo.R;
@@ -496,6 +489,7 @@ public class DownloadFragment extends Fragment {
         curFrames = 0;
         fileDate = "";
         fileInfo = file;
+        expectedOffset = 0;
         if(fileInfo.getFileType() == 0){
             fileSize = fileInfo.getFileSize();
             if(fileSize % (dataBlockNum * dataBlockSize)!=0){

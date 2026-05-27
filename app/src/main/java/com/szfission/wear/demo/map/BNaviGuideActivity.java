@@ -3,6 +3,12 @@
  */
 package com.szfission.wear.demo.map;
 
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
 import com.baidu.mapapi.bikenavi.BikeNavigateHelper;
 import com.baidu.mapapi.bikenavi.adapter.IBNaviStatusListener;
 import com.baidu.mapapi.bikenavi.adapter.IBRouteGuidanceListener;
@@ -10,7 +16,6 @@ import com.baidu.mapapi.bikenavi.adapter.IBTTSPlayer;
 import com.baidu.mapapi.bikenavi.model.BikeNaviDisplayOption;
 import com.baidu.mapapi.bikenavi.model.BikeNaviLocationResult;
 import com.baidu.mapapi.bikenavi.model.BikeRouteDetailInfo;
-//import com.baidu.mapapi.bikenavi.model.IBRouteIconInfo;
 import com.baidu.mapapi.bikenavi.model.BikeRouteResult;
 import com.baidu.mapapi.bikenavi.model.IBRouteIconInfo;
 import com.baidu.mapapi.bikenavi.params.BikeNaviLaunchParam;
@@ -19,15 +24,9 @@ import com.baidu.mapapi.walknavi.model.RouteGuideKind;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
-import com.fission.wear.sdk.v2.bean.BdWatchGeocodeSearchReq;
-import com.fission.wear.sdk.v2.bean.BdWatchGeolocationReq;
-import com.fission.wear.sdk.v2.bean.BdWatchMapAuthLicense;
 import com.fission.wear.sdk.v2.bean.BdWatchMapGpsStatusChange;
-import com.fission.wear.sdk.v2.bean.BdWatchMapNaviInitReqInfo;
-import com.fission.wear.sdk.v2.bean.BdWatchMapPoiReq;
 import com.fission.wear.sdk.v2.bean.BdWatchMapRemainDistance;
 import com.fission.wear.sdk.v2.bean.BdWatchMapRemainRoute;
 import com.fission.wear.sdk.v2.bean.BdWatchMapRemainTime;
@@ -35,12 +34,6 @@ import com.fission.wear.sdk.v2.bean.BdWatchMapRoadGuideIcon;
 import com.fission.wear.sdk.v2.bean.BdWatchMapRoadGuideText;
 import com.fission.wear.sdk.v2.bean.BdWatchMapRoutePlanRecInfo;
 import com.fission.wear.sdk.v2.bean.BdWatchMapRouteYawReminder;
-import com.fission.wear.sdk.v2.bean.BdWatchMapSugSearchReqInfo;
-import com.fission.wear.sdk.v2.bean.BdWatchMapSvgReqInfo;
-import com.fission.wear.sdk.v2.bean.BdWatchReGeocodeSearchReq;
-import com.fission.wear.sdk.v2.bean.BdWatchRouteRidingSearch;
-import com.fission.wear.sdk.v2.bean.BdWatchRouteSearch;
-import com.fission.wear.sdk.v2.bean.BdWatchRouteTransitSearch;
 import com.fission.wear.sdk.v2.bean.HiSiWatchReqTask;
 import com.fission.wear.sdk.v2.callback.HiSiliconDataResultListener;
 import com.fission.wear.sdk.v2.constant.BdWatchMsgType;
@@ -51,12 +44,6 @@ import com.fission.wear.sdk.v2.utils.BdMapFileManage;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
 import com.fission.wear.sdk.v2.utils.HiSiTaskManage;
 import com.fission.wear.sdk.v2.utils.SvgTaskManage;
-
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -347,7 +334,7 @@ public class BNaviGuideActivity extends Activity {
                 routeLine.distance = bikeRouteResult.getDistance();
                 routeLine.duration = bikeRouteResult.getDuration();
                 List<BdWatchMapRemainRoute.Point> points = new ArrayList<>();
-                ArrayList<LatLng> latLngs = bikeRouteResult.getPositions();
+                List<LatLng> latLngs = bikeRouteResult.getPositions();
                 if(latLngs!=null && latLngs.size()>0){
                     for(LatLng latLng: latLngs){
                         BdWatchMapRemainRoute.Point point = remainRoute. new Point();

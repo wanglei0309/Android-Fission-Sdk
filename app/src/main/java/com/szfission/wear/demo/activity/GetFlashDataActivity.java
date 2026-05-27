@@ -1,7 +1,6 @@
 package com.szfission.wear.demo.activity;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -17,20 +16,14 @@ import androidx.appcompat.app.ActionBar;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.UriUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
-import com.fission.wear.sdk.v2.constant.SpKey;
 import com.szfission.wear.demo.App;
 import com.szfission.wear.demo.DataMessageEvent;
 import com.szfission.wear.demo.R;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
-
-import java.io.File;
 
 
 public class GetFlashDataActivity extends BaseActivity{

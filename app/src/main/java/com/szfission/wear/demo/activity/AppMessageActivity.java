@@ -21,10 +21,6 @@ import com.szfission.wear.sdk.bean.AppMessageBean;
 import com.szfission.wear.sdk.util.FsLogUtil;
 import com.szfission.wear.sdk.util.RxTimerUtil;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
-
 import java.util.Random;
 
 public class AppMessageActivity extends BaseActivity {

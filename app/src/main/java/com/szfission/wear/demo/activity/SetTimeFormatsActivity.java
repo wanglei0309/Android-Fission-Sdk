@@ -10,12 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+
 import com.szfission.wear.demo.ActionConstant;
 import com.szfission.wear.demo.R;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 public class SetTimeFormatsActivity extends Activity {

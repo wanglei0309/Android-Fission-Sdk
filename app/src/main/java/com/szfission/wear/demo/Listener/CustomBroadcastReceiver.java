@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.telephony.TelephonyManager;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.StringUtils;
 import com.szfission.wear.demo.FissionSdk;
 
 public class CustomBroadcastReceiver  extends BroadcastReceiver {

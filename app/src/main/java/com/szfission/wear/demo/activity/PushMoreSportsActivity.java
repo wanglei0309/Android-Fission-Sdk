@@ -3,19 +3,16 @@ package com.szfission.wear.demo.activity;
 import static com.fission.wear.sdk.v2.constant.FissionConstant.COMPRESS_EXERCISE_MORE;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 
 import com.blankj.utilcode.util.ClickUtils;
-import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -26,11 +23,7 @@ import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.utils.FissionSportsUtil;
 import com.fission.wear.sdk.v2.utils.QuickLZUtils;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.sdk.constant.FissionEnum;
 import com.szfission.wear.sdk.util.RxTimerUtil;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 import java.util.List;

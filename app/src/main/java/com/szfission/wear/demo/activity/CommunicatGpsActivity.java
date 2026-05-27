@@ -16,21 +16,9 @@ import com.fission.wear.sdk.v2.bean.ControlGpsSportInfo;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
 import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
-import com.szfission.wear.demo.DataMessageEvent;
-import com.szfission.wear.demo.FissionSdk;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.bean.param.CommunicatGps;
-import com.szfission.wear.sdk.constant.FissionEnum;
-import com.szfission.wear.sdk.ifs.BigDataCallBack;
-import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
-import com.szfission.wear.sdk.util.FissionDialUtil;
 import com.szfission.wear.sdk.util.RxTimerUtil;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 public class CommunicatGpsActivity extends BaseActivity{
     Button startSport;

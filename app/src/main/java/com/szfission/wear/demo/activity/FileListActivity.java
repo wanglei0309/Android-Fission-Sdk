@@ -3,20 +3,14 @@ package com.szfission.wear.demo.activity;
 import static com.szfission.wear.sdk.parse.BigDataCmdID.CMD_ID_ST_NOTES_REMINDERS;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 
 import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.HsDialInfo;
@@ -28,12 +22,6 @@ import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.utils.HiSiDownloadFileUtil;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.sdk.bean.AppMessageBean;
-import com.szfission.wear.sdk.util.FsLogUtil;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 import java.util.List;

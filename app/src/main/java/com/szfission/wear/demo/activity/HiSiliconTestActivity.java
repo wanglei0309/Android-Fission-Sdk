@@ -5,40 +5,27 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
-import com.fission.wear.sdk.v2.callback.FissionBigDataCmdResultListener;
 import com.fission.wear.sdk.v2.constant.FissionConstant;
 import com.fission.wear.sdk.v2.constant.SpKey;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
-import com.fission.wear.sdk.v2.utils.HiSiDownloadFileUtil;
 import com.fission.wear.sdk.v2.utils.HsDialUtils;
 import com.szfission.wear.demo.R;
 import com.szfission.wear.demo.adapter.CustomDividerItemDecoration;
 import com.szfission.wear.demo.adapter.HiSiliconFunctionAdapter;
-import com.szfission.wear.sdk.bean.AppMessageBean;
 import com.szfission.wear.sdk.bean.HardWareInfo;
-import com.szfission.wear.sdk.util.FsLogUtil;
-
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.Arrays;
 

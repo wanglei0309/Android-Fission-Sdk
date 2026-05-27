@@ -1,6 +1,5 @@
 package com.szfission.wear.demo.activity;
 
-import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,26 +18,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.bean.FssStatus;
 import com.fission.wear.sdk.v2.callback.FissionAtCmdResultListener;
-import com.fission.wear.sdk.v2.constant.FissionConstant;
-import com.realsil.sdk.core.RtkConfigure;
-import com.realsil.sdk.core.RtkCore;
-import com.realsil.sdk.dfu.RtkDfu;
-import com.realsil.sdk.dfu.utils.GattDfuAdapter;
 import com.szfission.wear.demo.DataMessageEvent;
 import com.szfission.wear.demo.ModelConstant;
 import com.szfission.wear.demo.R;
@@ -46,12 +36,8 @@ import com.szfission.wear.sdk.constant.FissionEnum;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * 推送当前歌曲信息

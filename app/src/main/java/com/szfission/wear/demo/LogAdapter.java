@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.szfission.wear.demo.R;
-
-import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.List;

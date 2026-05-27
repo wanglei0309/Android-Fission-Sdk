@@ -105,6 +105,10 @@ public class HomeViewModel extends ViewModel {
         childList1.add(new FuncBean(R.string.FUNC_DIAL_STATES_INFO, FUNC_DIAL_STATES_INFO));
         childList1.add(new FuncBean(R.string.FUNC_SET_GAME_DATA_MODE, FUNC_GAME_DATA_MONITOR));
         childList1.add(new FuncBean(R.string.FUNC_SET_LIGHT_SENSITIVITY, FUNC_SET_LIGHT_SENSITIVITY));
+        childList1.add(new FuncBean(R.string.FUNC_SET_BLOOD_PRESSURE_SWITCH,FUNC_SET_BLOOD_PRESSURE_SWITCH));
+        childList1.add(new FuncBean(R.string.FUNC_SET_BLOOD_SUGAR_SWITCH,FUNC_SET_BLOOD_SUGAR_SWITCH));
+        childList1.add(new FuncBean(R.string.FUNC_SET_BLOOD_COMPONENT_SWITCH,FUNC_SET_BLOOD_COMPONENT_SWITCH));
+        childList1.add(new FuncBean(R.string.FUNC_NOTIFY_DEVICE_VIBRATES, FUNC_NOTIFY_DEVICE_VIBRATES));
 
         childList2.add(new FuncBean(R.string.FUNC_SET_DATA_STREAM, FUNC_SET_DATA_STREAM));
         childList2.add(new FuncBean(R.string.FUNC_MSG_TASK, FUNC_SET_DATA_STREAM2));
@@ -177,7 +181,11 @@ public class HomeViewModel extends ViewModel {
         childList3.add(new FuncBean(R.string.FUNC_HANBAO_SHOCK_RECORD, FUNC_HANBAO_SHOCK_RECORD));
         childList3.add(new FuncBean(R.string.FUNC_GET_AIR_PRESSURE_RECORD, FUNC_GET_AIR_PRESSURE_RECORD));
         childList3.add(new FuncBean(R.string.FUNC_NFC_FUNCTION_MODULE, FUNC_NFC_FUNCTION_MODULE));
-
+        childList3.add(new FuncBean(R.string.FUNC_SET_PRIVATE_BLOOD_PRESSURE_SET, FUNC_SET_PRIVATE_BLOOD_PRESSURE_SET));
+        childList3.add(new FuncBean(R.string.FUNC_SET_PRIVATE_BLOOD_SET, FUNC_SET_PRIVATE_BLOOD_SET));
+        childList3.add(new FuncBean(R.string.FUNC_SET_PRIVATE_BLOOD_SUGAR_SET, FUNC_SET_PRIVATE_BLOOD_SUGAR_SET));
+        childList3.add(new FuncBean(R.string.FUNC_GET_BLOOD_SUGAR_RECORD,FUNC_GET_BLOOD_SUGAR_RECORD));
+        childList3.add(new FuncBean(R.string.FUNC_GET_BLOOD_RECORD,FUNC_GET_BLOOD_RECORD));
 //        childList4.add(new FuncBean(R.string.FUNC_GET_SEDENTARY_DRINK_PARA,FUNC_GET_SEDENTARY_DRINK_PARA));
 
         childList.add(childList1);

@@ -21,14 +21,10 @@ import com.realsil.sdk.dfu.model.OtaDeviceInfo;
 import com.realsil.sdk.dfu.model.Throughput;
 import com.realsil.sdk.dfu.utils.DfuAdapter;
 import com.realsil.sdk.dfu.utils.GattDfuAdapter;
-import com.szfission.wear.demo.DataMessageEvent;
-import com.szfission.wear.demo.ModelConstant;
 import com.szfission.wear.demo.SharedPreferencesUtil;
 import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.ifs.OnCheckOtaCallback;
 import com.szfission.wear.sdk.ifs.OnSmallDataCallback;
-
-import org.greenrobot.eventbus.EventBus;
 
 public class OtaUtils {
     private static DfuConfig mDfuConfig;

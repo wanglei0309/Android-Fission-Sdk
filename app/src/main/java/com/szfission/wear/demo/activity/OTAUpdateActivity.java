@@ -36,17 +36,12 @@ import com.realsil.sdk.dfu.model.OtaDeviceInfo;
 import com.realsil.sdk.dfu.model.Throughput;
 import com.realsil.sdk.dfu.utils.DfuAdapter;
 import com.szfission.wear.demo.DataMessageEvent;
-import com.szfission.wear.demo.ModelConstant;
 import com.szfission.wear.demo.R;
-import com.szfission.wear.demo.util.OtaUtils;
 import com.szfission.wear.sdk.bean.HardWareInfo;
 import com.szfission.wear.sdk.util.RxTimerUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 

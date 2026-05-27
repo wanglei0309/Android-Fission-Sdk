@@ -1,5 +1,7 @@
 package com.szfission.wear.demo.dialog;
 
+import static com.szfission.wear.demo.ModelConstant.FUNC_SWITCH_HR_RATE;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -15,8 +17,6 @@ import androidx.annotation.NonNull;
 
 import com.szfission.wear.demo.ModelConstant;
 import com.szfission.wear.demo.R;
-
-import static com.szfission.wear.demo.ModelConstant.FUNC_SWITCH_HR_RATE;
 
 public class NormalDialog extends Dialog {
     private OnConfirmClickListener onConfirmClickListener;
@@ -61,6 +61,9 @@ public class NormalDialog extends Dialog {
                 case ModelConstant.FUNC_SET_GPS_DATA_MODE:
                 case ModelConstant.FUNC_SET_OFFLINE_VOICE_MODE:
                 case ModelConstant.FUNC_GAME_DATA_MONITOR:
+                case ModelConstant.FUNC_SET_BLOOD_COMPONENT_SWITCH:
+                case ModelConstant.FUNC_SET_BLOOD_SUGAR_SWITCH:
+                case ModelConstant.FUNC_SET_BLOOD_PRESSURE_SWITCH:
                     array = new String[]{context.getString(R.string.disabled), context.getString(R.string.enable)};
                     break;
                 case ModelConstant.FUNC_SET_HIGH_SPEED_CONNECT:
