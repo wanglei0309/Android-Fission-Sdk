@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: strings.xml contains all the textual resources used in the SECORA™ Wallet
+  application, including app name, button labels, user prompts, and onboarding messages.
+-->
+<resources>
+    <string name="app_name">SECORA™ Wallet</string>
+    <string name="data_enable">Data connection is not enabled. Please enable data connection in settings</string>
+    <string name="no_network_error_msg">Data connection is not enabled. Please enable data connection and try again</string>
+    <string name="unable_to_reach_internet">Unable to reach server. Check your internet connection and try again.</string>
+    <string name="settings">Settings</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="add">Add</string>
+    <string name="location_enable">GPS Location in not enabled. Please enable GPS Location in settings</string>
+    <string name="password">Password</string>
+    <string name="new_password">New Password</string>
+    <string name="place_holder_new_password">Enter new password</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="hint_user_name">Enter your username</string>
+    <string name="welcome_screen1_text1">Your money, \n your control, your way </string>
+    <string name="welcome_screen2_text1">One tap to complete \n the transaction</string>
+    <string name="welcome_screen3_text1">Adding payments \n made effortlessly</string>
+    <string name="get_started">Get Started</string>
+    <string name="next">Next</string>
+    <string name="login">Login</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="register">Register</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="login_with_cognito">Click to view login options</string>
+    <string name="text_confirm_wallet_pin">Confirm PIN</string>
+    <string name="text_create_wallet">We will keep card information securely stored on your device, therefore it\'s very important to have a PIN</string>
+    <string name="text_title_enter_pin">Please enter your PIN to proceed</string>
+    <string name="error_failure">New PIN and Confirm wallet PIN does not match</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="fingerprint">Fingerprint Authentication </string>
+    <string name="enter_pin">Enter PIN</string>
+    <string name="pairing_device">Pairing Device..</string>
+    <string name="bluetooth_turn_on">Please turn on your phone bluetooth</string>
+    <string name="bluetooth_reconnecting">Reconnecting Bluetooth..</string>
+    <string name="bluetooth_reconnect_failed">Bluetooth reconnect failed…</string>
+    <string name="user_session_expired">Session Expired, Please Login again</string>
+    <string name="logout_success">Logged Out Successfully</string>
+    <string name="logout_failed">Logout Failed</string>
+
+    <!--Terms and Condition Bottom Sheet-->
+    <string name="btn_accept">Accept</string>
+    <string name="btn_cancel">Cancel</string>
+
+    <!--Card Success-->
+    <string name="text_enter_wallet_pin">Enter Wallet PIN</string>
+
+    <!--Card Options Menu-->
+
+    <!--Card Information Sheet-->
+    <string name="text_personal_card">Jim\'s Personal Card</string>
+    <string name="master_card">Mastercard</string>
+    <string name="master_card_">Master Card</string>
+    <string name="visa">Visa</string>
+    <string name="card_number">**** **** **** 5454</string>
+
+    <!--Suspend Card-->
+
+    <!--Profile-->
+    <string name="profile_email">Email</string>
+
+    <!--Strings Related to Add Card-->
+    <!--Contact Us-->
+    <string name="text_suspended">Suspended</string>
+    <string name="text_active">Active</string>
+
+    <!--Nick Name-->
+    <string name="nickname_already_assigned"> "This nickname is already assigned to another card. Please select a different one."</string>
+
+    <!--FAQ-->
+
+    <!--Request Otp-->
+    <string name="text_valid_otp">Please enter valid otp</string>
+    <string name="incorrect_wallet_pin">You entered wrong wallet pin.</string>
+    <string name="wallet_pin_mismatch">The wallet PIN you entered doesn\'t match. Please try again.</string>
+    <string name="skip">Skip</string>
+    <string name="do_you_want_connect_device">Do you want to connect with the device</string>
+    <string name="title_active_device">Add Device (Bluetooth)</string>
+    <string name="title_passive_device">Add Device (NFC)</string>
+    <string name="wants_to_add_device">Do you want to add %1$s?</string>
+    <string name="logout_confirmation">Are you sure you want to log out?</string>
+    <string name="read_more_toast">Needs to receive the Details</string>
+    <string name="bluetooth_not_supported">Bluetooth Not Supported</string>
+    <string name="de_link_device">Do you want to delete this device?</string>
+    <string name="bluetooth_is_required_to_scan_devices">Bluetooth Is Required to Scan Devices</string>
+    <string name="development_is_in_progress">Feature under development…</string>
+    <string name="text_edit">Edit</string>
+    <string name="verify_login">Login</string>
+    <string name="verify_code">Verify Code</string>
+    <string name="verify_login_code">Verify code</string>
+    <string name="create_wallet_pin">Create Wallet PIN</string>
+    <string name="confirm_wallet_pin">Confirm Wallet PIN</string>
+    <string name="create_wallet_pin_msg">You will need it to view your payment \n transaction data and manage your digital \n payment cards.</string>
+    <string name="confirm_pin">Confirm PIN</string>
+    <string name="create_pin">Create PIN</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_health">Health</string>
+    <string name="terms_conditions">Terms and Conditions description</string>
+    <string name="menu_pay">Wallet</string>
+    <string name="return_to_fission_home">Return to Demo home</string>
+    <string name="wallet">Wallet</string>
+    <string name="bank_alert_msg">Your bank has sent you an SMS. Please copy the code from the SMS here:</string>
+    <string name="text_add_new_msg">Add a new card that is not in the list above:</string>
+    <string name="text_card_number">Card Number</string>
+    <string name="text_card_holder_name_display">Cardholder name as displayed on the card</string>
+    <string name="text_valid_through">Valid Through</string>
+    <string name="text_cvv">CVV</string>
+    <string name="text_add_payment_card">Add payment card</string>
+    <string name="text_default">Default</string>
+    <string name="text_empty_wallet_pin">Please enter wallet PIN</string>
+    <string name="weak_wallet_pin_message">The passcode you entered is too weak. Please avoid using simple or common patterns and choose a stronger passcode.</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_text1">Enable/suspend payment function</string>
+    <string name="settings_text2">Make default card on this device</string>
+    <string name="settings_text3">Receive payment notifications</string>
+    <string name="remove_card">Remove card from wearable</string>
+    <string name="update_card_nickname">Update Card Nickname</string>
+    <string name="update_nickname_msg">Update your card nickname</string>
+    <string name="on">on</string>
+    <string name="off">off</string>
+    <string name="pending_status_msg1">Card digitization in pending state,</string>
+    <string name="pending_status_msg2">options viewable post card digitization activation.</string>
+    <string name="text_card_deleted_successfully">Successfully deleted card</string>
+    <string name="text_card_deleted_error">Unable to delete the card</string>
+    <string name="btn_update">Update</string>
+    <string name="confirm_make_default_card">Do you want to make this card as default?</string>
+
+    <!-- Support Screen -->
+    <string name="email"> support@curve.app</string>
+    <string name="call"> +6668881234</string>
+    <string name="visit_website">Visit Website</string>
+    <string name="open_app">Open App</string>
+    <string name="terms_condition">Terms &amp; Conditions</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="header_msg_wearable">Select a card you previously added to a wearable:</string>
+    <string name="add_your_first_wearable">Add your first wearable…</string>
+    <string name="no_cards_available">Add your card to enable payment</string>
+    <string name="wearables">Wearables</string>
+    <string name="wearable_cards">Cards on this wearable</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="msg_terms">I agree to the Terms and Conditions</string>
+    <string name="feel_good_with_wearables">Feel good with wearables</string>
+    <string name="msg_home">Your wearable helps you to remain healthy and now you can also pay with it.</string>
+    <string name="read_more">Read more</string>
+    <string name="e_mail">Email</string>
+    <string name="place_holder_e_mail">Enter your email</string>
+    <string name="place_holder_password">Enter your password</string>
+    <string name="tv_login_forgot_password">Forgot Password?</string>
+    <string name="header_forgot_password">Forgot Password</string>
+    <string name="resend_verification_code">Resend verification code</string>
+    <string name="btn_login_new_user_register">New User? Register</string>
+    <string name="btn_login_with_google">Sign in with Google</string>
+    <string name="btn_login_with_microsoft">Sign in with Microsoft</string>
+    <string name="confirm_registration">Confirm</string>
+    <string name="tv_no_account">Don\'t have an account?</string>
+    <string name="tv_register">Sign up</string>
+    <string name="scanning">Scanning…</string>
+    <string name="loading">Loading…</string>
+    <string name="scan_devices">Scanned Devices</string>
+    <string name="no_secora_device_found">No Bluetooth device found. Please try again.</string>
+    <string name="make_sure_bluetooth_is_enabled">Make sure, bluetooth is enabled.</string>
+    <string name="bluetooth_scan_failed_try_again_delayed">Bluetooth scan failed: too many recent attempts. Please wait a moment and try again.</string>
+    <string name="bluetooth_scan_already_active">Bluetooth scan is already active.</string>
+    <string name="bluetooth_scan_feature_unsupported">Bluetooth scanning is unsupported on this device.</string>
+    <string name="bluetooth_scan_internal_error">Bluetooth scan encountered an internal error.</string>
+    <string name="bluetooth_scan_failed_generic">Bluetooth scan failed due to an unexpected error.</string>
+    <string name="nearby_devices_permission_settings_message">Nearby devices permission is required to scan and connect. Please enable it in App Settings to continue.</string>
+
+
+    <string name="try_another_method">Try another method</string>
+    <string name="request_verification_code_again">Request verification code again</string>
+    <string name="bank_identification">Bank Identification</string>
+    <string name="text_add_card_msg">Give your card a nickname\n(example: \"My personal card\")</string>
+    <string name="text_add_card_hint">Nickname</string>
+    <string name="btn_add_card_name">Add Card Nickname</string>
+    <string name="tv_success_adding">Success adding</string>
+    <string name="btn_done">Done</string>
+    <string name="btn_logout">Logout</string>
+    <string name="text_submit">Submit</string>
+    <string name="login_using_fingerprint">Log in using your fingerprint</string>
+    <string name="cancel">Cancel</string>
+    <string name="duplicate_card">Card is Already Added!! Please try with different Card </string>
+    <string name="open_app_package_name">com.axis.mobile</string>
+    <string name="please_enter_card_number">Please enter card number</string>
+    <string name="enter_card_holder_name">Please enter cardholder name</string>
+    <string name="enter_expire_date">Please enter expiry date</string>
+    <string name="invalid_expire_date">Invalid expiry date</string>
+    <string name="enter_cvv">Please enter CVV</string>
+    <string name="invalid_cvv">Invalid CVV</string>
+    <string name="device_delinked_successfully">%1$s delinked successfully</string>
+    <string name="text_delete_card">Do you want to delete this card?</string>
+    <string name="deleting_default_card">Deleting the default card can interrupt payments. Continue?</string>
+    <string name="make_card_active">Do you want to activate this card?</string>
+    <string name="make_card_suspend">Do you want to suspend this card?</string>
+    <string name="disable_payment_notifications">Do you want to disable receiving payment notifications?</string>
+    <string name="enable_payment_notifications">Do you want to enable receiving payment notifications?</string>
+    <string name="text_fetching_cards">Fetching Your Cards…</string>
+    <string name="text_please_wait">Please Wait…</string>
+    <string name="text_requesting_digital_card">Requesting\n Digital Card…</string>
+    <string name="text_verifying_identity">Verifying\n Identity…</string>
+    <string name="qa">QA</string>
+    <string name="default_url">Default</string>
+    <string name="dev">Dev</string>
+    <string name="manual">Manual</string>
+    <string name="enter_nickname">Please enter a nickname before proceeding.</string>
+    <string name="invalid_nickname">Special characters not allowed except underscores and hyphens.</string>
+    <string name="email_to">Email to: %s</string>
+    <string name="text_password_requirements">
+    Your password must be at least 8 characters long and include uppercase letters, lowercase letters, numbers and special characters.
+    </string>
+    <string name="text_password_must">Password requirements</string>
+    <string name="text_got_it">Got It!</string>
+    <string name="text_welcome_health">Welcome to Health</string>
+    <string name="text_secora_wallet">SECORA™ Wallet</string>
+    <string name="text_confirm_delete">Confirm Delete</string>
+    <string name="confirm_delete_with_device">%1$s&#10;%2$s</string>
+    <string name="text_card_support">We support only MasterCard and Visa. Please enter a valid card.</string>
+    <string name="text_do_want_to_reset_password">Do you want to reset your password?</string>
+    <string name="select_otp_method">Select OTP Method</string>
+    <string name="otp_mobile">OTP on Mobile</string>
+    <string name="otp_email">OTP on Email</string>
+    <string name="text_yes">Yes</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_no">No</string>
+    <string name="user_name">Username</string>
+    <string name="profile">Profile</string>
+    <string name="notification">Notification</string>
+    <string name="save">Save</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="enter_name">Enter your Name</string>
+    <string name="notification_detach_device">Device Detach Update</string>
+    <string name="notification_detach_device_with_underscore">DEVICE_DETACH_UPDATE</string>
+    <string name="oem_details">Enter OEM Info</string>
+    <string name="oem_se_type_info">OEM &amp; SE Type Info</string>
+    <string name="text_oem_id">OEM ID</string>
+    <string name="text_se_type">SE Type Group</string>
+    <string name="enter_oem_id">Please enter oem id</string>
+    <string name="enter_set_type_info">Please enter SEType Info</string>
+    <string name="notification_detach_message">Device detached successfully.</string>
+    <string name="text_suspend_card">Do you want to suspend this card?</string>
+    <string name="text_activate_card">Do you want to activate this card?</string>
+    <string name="default_web_client_id">120395312376-o7udk0gqh213831lh9hsve3rb47mb19t.apps.googleusercontent.com</string>
+    <string name="base_url">Please enter the base url</string>
+    <string name="bluetooth_not_connected">The Bluetooth device is not connected.</string>
+    <string name="bluetooth_not_turned_on">Bluetooth is not turned On</string>
+    <string name="no_response_data_received">No response data received</string>
+    <string name="ble_missing_required_uuids_message">Unable to connect to %1$s. Required BLE UUIDs were not found.</string>
+
+    <!--  Connecting Device Fragment  -->
+    <string name="no_bluetooth_device_selected">No Bluetooth device selected</string>
+
+    <!--  Logs  -->
+    <string name="something_went_wrong">Something went wrong. Please try again later</string>
+    <string name="sign_in_cancelled">The operation couldn’t be completed.</string>
+    <string name="suspend_default"> This card is currently in suspended state. Please activate the card first to make it default. </string>
+    <!--  Add Card Fragment  -->
+    <string name="error_adding_mcm">Failed to add the card. Please try again.</string>
+    <string name="no_history_found">No Transaction Found.</string>
+    <string name="default_card_has_set">Default card has been set</string>
+    <string name="failed_to_set_default_card">Failed to set Default card</string>
+    <string name="failed_to_add_mcm">Failed to Add</string>
+    <string name="failed_to_add_card_bluetooth_connection_lost">Failed to add card: Bluetooth connection lost</string>
+    <string name="text_proceed">Proceed</string>
+    <string name="updated_successfully">Updated successfully</string>
+    <string name="token_status_is_already_updated_by_oem">Token status is already updated by OEM.</string>
+    <string name="card_suspended_please_contact_admin">Card status changed by Token-Requestor or Token Provider, please contact admin.</string>
+    <string name="card_suspended_message">Your card has been suspended by the administrator. Please contact support for further assistance.</string>
+    <string name="token_status_update_not_available">Token status update not available. Contact customer support</string>
+    <string name="unable_register">Failed to register  </string>
+    <string name="username_update_confirmation">Do you want to save the username?</string>
+    <string name="application_version">Version 1.7.1_0000_UAT</string>
+    <string name="text_base_url">Base Url</string>
+    <string name="base_url_hint">https://secorawallet-uat.infineon.com</string>
+    <string name="token_service_url">Token Service Url</string>
+    <string name="hint_card_number">1111 2222 3333 4444</string>
+    <string name="hint_enter_cardholder_name">Enter Cardholder Name</string>
+    <string name="hint_month_year">MM/YY</string>
+    <string name="hint_card_star">***</string>
+    <string name="oem_info">OEM Info</string>
+    <string name="pipe_symbol">|</string>
+    <string name="card_masked_format">%1$s **** %2$s - %3$s</string>
+    <string name="card_brand_amex">American Express</string>
+    <string name="seconds_remaining">(%1$d s remaining…)</string>
+    <string name="card_mastercard">Mastercard **** %1$s</string>
+    <string name="card_visa">Visa **** %1$s</string>
+    <string name="formatted_two_values">%1$s %2$s</string>
+    <string name="masked_card">**** %s</string>
+    <string name="verifying_identity">Verifying\nIdentity…</string>
+    <string name="text_call">Call %s</string>
+
+    <string name="bank_alert_msg_mobile"> Your bank has sent an SMS to your mobile number. Please copy the code from the SMS here:</string>
+    <string name="bank_alert_msg_email">Your bank has sent you an email. Please copy the code from the email here:</string>
+    <string name="bank_alert_msg_code">Your bank has sent you code. Please copy the code  here:</string>
+    <string name="would_you_like_to_re_connect_bluetooth">Bluetooth is disconnected. Would you like to reconnect.?</string>
+    <string name="wearable_device_disconnected_reconnect_prompt">Wearable device is disconnected. Would you like to reconnect?</string>
+
+    <string name="nfc_not_supported">NFC not supported on this device</string>
+    <string name="nfc_not_turned_on">Please enable NFC</string>
+    <string name="nfc_multiple_cards_error_msg">You can able to add only 1 card for NFC. Please delete existing one to add another card.</string>
+
+    <string name="text_try_again">Try Again</string>
+    <string name="text_transactions">Transactions</string>
+    <string name="text_settings">Settings</string>
+    <string name="text_support">Support</string>
+    <string name="text_tab">Tab %1$d</string>
+    <string name="text_login_no_id_token">Cognito session has no ID token. Try signing in again.</string>
+    <string name="text_user_session_error">AuthSession :: Unable to retrieve User Session</string>
+    <string name="text_failed_to_parse_credentials">Failed to parse Google credentials</string>
+    <string name="text_choose_image">Choose Image</string>
+    <string name="text_camera">Camera</string>
+    <string name="text_gallery">Gallery</string>
+    <string name="text_no_email_app_found">No email app found</string>
+    <string name="text_url_unavailable">Link is not available</string>
+    <string name="text_deleting_card">Deleting card... Please wait.</string>
+    <string name="text_finalizing_deletion">Finalizing deletion...</string>
+    <string name="text_unable_to_delete">Unable to delete, please clear the memory.</string>
+    <string name="text_deleting_script">Deleting script...</string>
+    <string name="text_fetching_seid">Fetching SEID...</string>
+    <string name="text_executing_ppse_script">Executing PPSE script...</string>
+    <string name="text_executing_script">Executing script...</string>
+    <string name="text_cplc_null_data">CPLC data was null</string>
+    <string name="text_delink_confirm_message">This device is linked to another user. Adding it will erase their data. Do you want to Proceed?</string>
+    <string name="text_ble_scanner_not_available">BLE scanner not available</string>
+    <string name="text_failed_to_start_BLE_scan">Failed to start BLE scan</string>
+    <string name="text_bluetooth_permission_denied">Bluetooth permission denied</string>
+    <string name="text_failed_to_connect">Failed to connect to %s</string>
+    <string name="text_failed_to_connect_after_retries">Failed to connect to %s after retries</string>
+    <string name="text_unknown">Unknown</string>
+    <string name="text_token_expiry">Token Expiry : Unable to retrieve User Session</string>
+    <string name="text_navigate_back_prohibited">You cannot go back during NFC mode</string>
+
+    <string name="text_biometric_not_available">Biometric authentication not available</string>
+    <string name="text_authentication_succeeded">Authentication Succeeded!</string>
+    <string name="text_authentication_failed">Authentication Failed</string>
+    <string name="text_authentication_error">Authentication Error: %s</string>
+    <string name="text_biometric_authentication">Biometric Authentication</string>
+    <string name="text_use_biometric">Use your fingerprint or face to authenticate</string>
+    <string name="otp_send">OTP sent successfully</string>
+    <string name="txn_notification_title">Transaction Performed</string>
+    <string name="text_ready_to_scan">Ready to Scan</string>
+    <string name="text_hold_wearable">Hold your wearable against the upper back of your phone</string>
+    <string name="text_card_info_type">%1$s</string>
+    <string name="text_card_info_value">(%1$s)</string>
+    <string name="failed_to_fetch_fcm_token">Failed to fetch FCM Token</string>
+    <string name="password_requirements">password requirements</string>
+    <string name="repeat_password">Confirm Password</string>
+    <string name="place_holder_repeat_password">Confirm password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="place_holder_confirm_new_password">Confirm new password</string>
+    <string name="lets_get_started">Create Account</string>
+    <string name="already_have_a_login">Sign in</string>
+    <string name="text_enter_password">Please Enter Password</string>
+    <string name="error_valid_email">Please enter valid email ID</string>
+    <string name="prompt_email_address">Please enter email ID</string>
+    <string name="error_empty_repeat_pass">Please enter confirm password</string>
+    <string name="error_passwords_do_not_match">Passwords do not match. Please re-enter</string>
+    <string name="error_valid_pass">Password should contain minimum 8 characters and maximum 50 characters. Should contain atleast 1 alphabet in upper case, 1 alphabet in lower case, 1 numeric and 1 special character like !@#$.</string>
+    <string name="verification_code_text">We sent you a verification code Please enter it here.</string>
+    <string name="verification_code_sent_popup_text">"Verification code has been sent to your email address."</string>
+    <string name="user_confirmed_popup_text">"Account verified successfully. Please log in to continue."</string>
+    <string name="password_reset_success_popup_text">"Password Reset Successful , Please Login again to continue"</string>
+    <string name="password_invalid_characters">"Password must be at least 8 characters"</string>
+    <string name="password_invalid_uppercase">"Password must contain an uppercase letter"</string>
+    <string name="password_invalid_lowercase">"Password must contain a lowercase letter"</string>
+    <string name="password_invalid_number">"Password must contain a number"</string>
+    <string name="password_invalid">"Invalid Password"</string>
+    <string name="invalid_operation">"Invalid Operation"</string>
+    <string name="verification_code_required">"Verification Code is required"</string>
+    <string name="verification_code_invalid">"Invalid verification code. Please try again."</string>
+    <string name="microsoft_callback_scheme">msauth</string>
+    <string name="microsoft_callback_host">com.infineon.secora.wallet</string>
+    <string name="microsoft_callback_path">/FtTn3Gu+6OdwvdNVC6ALZDm2WM0=</string>
+    <string name="suspended_message">%s is suspended. Operation not allowed</string>
+    <string name="activated_message">%s is activated.</string>
+    <string name="add_card_notification">Transaction Registration Code Received</string>
+    <string name="card_provision_update">Card Provision Update</string>
+    <string name="max_device_login_reached">Maximum device login limit is reached. Logging out.</string>
+    <string name="splash_text">by Infineon Technologies</string>
+
+    <!-- ============================================================================
+         Wearable payment passcode (CDCVM).
+         Placeholder copy: wording is expected to be replaced with the approved Figma
+         strings. Keys are stable, so only the values should need editing.
+         ============================================================================ -->
+
+    <!-- Toolbar -->
+    <string name="wearable_passcode_toolbar">Wearable passcode</string>
+
+    <!-- UC-01 Setup -->
+    <string name="wearable_passcode_setup_title">Setup wearable passcode</string>
+    <string name="wearable_passcode_setup_message">Set a 4-digit passcode to authorise payments from your wearable.</string>
+    <string name="wearable_passcode_confirm_title">Confirm wearable passcode</string>
+    <string name="wearable_passcode_confirm_message">Re-enter the passcode to confirm it.</string>
+    <string name="wearable_passcode_confirm_action">Confirm wearable passcode</string>
+
+    <!-- UC-02 Verify -->
+    <string name="wearable_passcode_verify_title">Verify wearable passcode</string>
+    <string name="wearable_passcode_verify_message">Verify the wearable passcode to unlock payment.</string>
+    <string name="wearable_passcode_verify_action">Verify wearable passcode</string>
+
+    <!-- UC-07 Change -->
+    <string name="wearable_passcode_change_current_title">Current wearable passcode</string>
+    <string name="wearable_passcode_change_current_message">Enter your current passcode to continue.</string>
+    <string name="wearable_passcode_change_new_title">New wearable passcode</string>
+    <string name="wearable_passcode_change_new_message">Set a new 4-digit passcode for your wearable.</string>
+    <string name="wearable_passcode_change_confirm_title">Confirm new passcode</string>
+    <string name="wearable_passcode_change_confirm_message">Re-enter the new passcode to confirm it.</string>
+    <string name="wearable_passcode_change_action">Change wearable passcode</string>
+
+    <!-- Shared actions -->
+    <string name="wearable_passcode_continue">Continue</string>
+
+    <!-- Validation and results -->
+    <string name="wearable_passcode_incomplete">Enter all 4 digits.</string>
+    <string name="wearable_passcode_mismatch">Passcodes do not match. Try again.</string>
+    <string name="wearable_passcode_weak">Choose a less predictable passcode.</string>
+    <string name="wearable_passcode_wrong">Incorrect passcode. %1$d attempt(s) remaining.</string>
+    <string name="wearable_passcode_wrong_generic">Incorrect passcode. Try again.</string>
+    <string name="wearable_passcode_blocked">Your wearable passcode is blocked.</string>
+    <string name="wearable_passcode_not_provisioned">No wearable passcode is set yet.</string>
+    <string name="wearable_passcode_not_connected">Connect your wearable and try again.</string>
+    <string name="wearable_passcode_setup_success">Wearable passcode set.</string>
+    <string name="wearable_passcode_verify_success">Payments unlocked.</string>
+    <string name="wearable_passcode_change_success">Wearable passcode changed.</string>
+    <string name="wearable_passcode_failed">Could not complete the request. Please try again.</string>
+    <string name="wearable_passcode_in_progress">Please wait…</string>
+
+    <!-- Entry points -->
+    <string name="wearable_passcode_setup_cta">Set up wearable passcode</string>
+    <string name="wearable_passcode_setup_banner">Set up your wearable passcode before adding your first payment card.</string>
+    <string name="wearable_configuration">Wearable configuration</string>
+    <string name="wearable_setting_title">Wearables</string>
+    <string name="wearable_passcode_change_cta">Change wearable passcode</string>
+    <string name="wearable_clear_device_cta">Clear wearable wallet</string>
+    <string name="unlock_payments">Unlock payments</string>
+    <string name="wearable_clear_device_no_passcode_set_change_passcode">Payment passcode is not set on this wearable. Set a wearable passcode before changing it.</string>
+    <string name="wearable_clear_device_no_passcode_set">No wearable passcode was set on this device</string>
+    <string name="wearable_clear_device_payment_locked">Payments are locked on this wearable. Unlock payments first, then try clearing the wearable wallet again</string>
+    <string name="wearable_clear_device_locked">Device is locked. To move forward, please reset wearable</string>
+    <string name="wearable_clear_device_confirm">Are you sure to clear wearable wallet? This action will delete all present cards from the wearable. You will need to add all your cards again.</string>
+    <string name="wearable_clear_device_success">Wearable passcode cleared.</string>
+
+    <!-- Card list header and status chips -->
+    <string name="available_payment_cards">Available payment card(s)</string>
+    <!-- Bottom CTA on the card list: morphs with the BLE + CVM state -->
+    <string name="card_list_cta_clear_wallet">Clear wearable wallet</string>
+    <string name="card_list_cta_set_passcode">Setup wearable passcode</string>
+    <string name="card_list_cta_verify_passcode">Unlock payment</string>
+    <string name="card_list_setup_passcode_message">Setup wearable passcode before adding your first payment card</string>
+    <string name="card_list_device_locked_message">Device is locked. To move forward, please reset the wearable.</string>
+    <string name="wearable_chip_bluetooth_connected">Bluetooth conn.</string>
+    <string name="wearable_chip_payment_locked">Payment locked</string>
+    <string name="wearable_chip_payment_unlocked">Payment unlocked</string>
+    <string name="wearable_chip_body_on">On body</string>
+    <string name="wearable_chip_body_off">Off body</string>
+    <string name="wearable_off_body_verify_blocked">Put the wearable on before verifying your passcode.</string>
+
+    <!-- Wearable configuration status line -->
+    <string name="wearable_passcode_state_unknown">Wearable passcode status unavailable.</string>
+    <string name="wearable_passcode_status_not_set">No wearable passcode is set.</string>
+    <string name="wearable_passcode_status_verified">Verified. Payments are unlocked.</string>
+    <string name="wearable_passcode_status_needs_verification">Verification needed. %1$d attempt(s) remaining.</string>
+    <string name="wearable_passcode_status_blocked">Blocked. The wearable passcode can no longer be verified.</string>
+    <string name="biometric_not_enrolled">Biometric authentication is not enabled on your device. Please set up biometric authentication and try logging in again.</string>
+    <string name="dialog_title">SECORA Wallet </string>
+    <string name="text_confirm">Confirm</string>
+
+</resources>

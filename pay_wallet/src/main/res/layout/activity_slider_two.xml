@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_intro_screen_2.xml defines a layout for the second
+  introduction screen. It contains a full-width ImageView with a top margin,
+  displaying the intro_2 drawable, suitable for onboarding or tutorial visuals
+  in the application.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp200"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/intro_2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

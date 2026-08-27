@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: styles.xml defines the base theme for the application,
+  setting primary, secondary, and variant colors, removing the ActionBar,
+  applying a custom background, and configuring ripple effects.
+-->
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Infineon" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/vertical_gradient_background</item>
+        <item name="rippleColor">@android:color/transparent</item>
+
+        <!-- These override the color used in ripple overlays -->
+        <item name="colorPrimaryContainer">@android:color/transparent</item>
+        <item name="colorOnPrimaryContainer">@android:color/transparent</item>
+        <item name="colorSecondaryContainer">@android:color/transparent</item>
+        <item name="colorOnSecondaryContainer">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Infineon" parent="Base.Theme.Infineon">
+
+        <item name="colorPrimary">@color/colorPrimaryFxd</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorAccent</item>
+    </style>
+
+    <style name="Theme.Infineon.Splash" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+</resources>

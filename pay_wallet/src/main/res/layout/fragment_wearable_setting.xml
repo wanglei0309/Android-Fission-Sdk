@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: fragment_wearable_setting.xml is the wearable configuration screen: the settings
+  that belong to the device itself rather than to a card. Card settings stay in
+  fragment_wallet_card_setting.xml, reached through DeviceDetailFragment.
+
+  Rows are shown or hidden by WearableSettingFragment according to the CVM state, so a device with
+  no passcode offers setup while a provisioned one offers change and clear.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/background_grey"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/device_details"
+        layout="@layout/view_devices_scanned_device" />
+
+    <include
+        android:id="@+id/status_chips"
+        layout="@layout/view_wearable_status_chips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/device_details" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_section_title"
+        style="@style/TextStyle600"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp12"
+        android:layout_marginEnd="@dimen/dp20"
+        android:text="@string/wearable_configuration"
+        android:textSize="@dimen/sp18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_chips" />
+
+    <!--
+      Shown only while no passcode is provisioned. Replaced by the change row once it is.
+    -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/setup_passcode_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp12"
+        android:layout_marginTop="@dimen/dp7"
+        android:layout_marginEnd="@dimen/dp12"
+        android:layout_marginBottom="@dimen/dp10"
+        app:cardBackgroundColor="@color/white"
+        android:visibility="gone"
+        app:cardCornerRadius="@dimen/dp1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_section_title">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/row_setup_passcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_setup_passcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_margin="@dimen/dp15"
+            android:contentDescription="@string/wearable_passcode_setup_cta"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_setup_passcode"
+            style="@style/TextStyle400"
+            android:layout_width="@dimen/dp0"
+            android:layout_marginStart="@dimen/dp40"
+            android:layout_marginEnd="@dimen/dp20"
+            android:text="@string/wearable_passcode_setup_cta"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/img_setup_passcode"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- UC-07. Shown once a passcode is provisioned. -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/change_passcode_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp12"
+        android:layout_marginTop="@dimen/dp12"
+        android:layout_marginEnd="@dimen/dp12"
+        android:layout_marginBottom="@dimen/dp10"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/dp1"
+        app:layout_constraintTop_toBottomOf="@+id/setup_passcode_card">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/row_change_passcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row_setup_passcode">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_change_passcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp15"
+            android:contentDescription="@string/wearable_passcode_change_cta"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_change_passcode"
+            style="@style/TextStyle400"
+            android:layout_width="@dimen/dp0"
+            android:layout_marginEnd="@dimen/dp20"
+            android:text="@string/wearable_passcode_change_cta"
+            android:textSize="@dimen/sp16"
+            android:layout_marginStart="@dimen/dp40"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/img_change_passcode"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+    <!-- UC-09. Destructive, so it confirms before running. -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/clear_wearable_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp12"
+        android:layout_marginTop="@dimen/dp12"
+        android:layout_marginEnd="@dimen/dp12"
+        android:layout_marginBottom="@dimen/dp10"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/dp1"
+        app:layout_constraintTop_toBottomOf="@+id/change_passcode_card">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/row_clear_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row_change_passcode">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_clear_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp15"
+            android:contentDescription="@string/wearable_clear_device_cta"
+            android:src="@drawable/ic_delete_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_clear_device"
+            style="@style/TextStyle400"
+            android:layout_width="@dimen/dp0"
+            android:layout_marginStart="@dimen/dp40"
+            android:layout_marginEnd="@dimen/dp20"
+            android:text="@string/wearable_clear_device_cta"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/img_clear_device"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Reflects the CVM state: verified, verification needed, blocked or not provisioned. -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_passcode_status"
+        style="@style/TextStyle400"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        android:textSize="@dimen/sp14"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clear_wearable_card" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

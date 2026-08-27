@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: styles.xml defines the UI styling resources used in the SECORA™ Wallet
+  application, including themes, button styles, text appearances, and other reusable
+  visual components to maintain consistent look and feel across the app.
+-->
+<resources>
+
+
+    <!-- Button Style -->
+    <style name="AppTheme.Button" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:background">@drawable/btn_application_main</item>
+        <item name="android:clickable">true</item>
+        <item name="android:padding">@dimen/bt_application_main_margin</item>
+        <item name="android:textColor">@color/bt_text_application_main</item>
+        <item name="android:gravity">center</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:textSize">@dimen/bt_application_main</item>
+        <item name="android:minWidth">@dimen/bt_application_main_min_width</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:fontFamily">?attr/fontFamily</item>
+        <item name="fontFamily">?attr/fontFamily</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
+    </style>
+
+
+    <style name="AppButton.CustomButton" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp50</item>
+        <item name="fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:background">@drawable/rounded_primary_background_small</item> <!-- your drawable -->
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp18</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+
+    <style name="BottomNavigationView.Active" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">@dimen/sp12</item>
+    </style>
+
+    <style name="BottomNavigationView.Inactive" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">@dimen/sp12</item>
+    </style>
+
+    <style name="TextStyle400">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp20</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle600">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp28</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle600Green">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/colorPrimaryFxd</item>
+        <item name="android:textSize">@dimen/sp16</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle400LightBlack">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:textSize">@dimen/sp16</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle16Black">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp16</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle14LightGrey">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle14GreenBold">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/colorPrimaryFxd</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle14LightBlackBold">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle16BlackRegular">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp16</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle18Green">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/colorPrimaryFxd</item>
+        <item name="android:textSize">@dimen/sp18</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle18GreenRegular">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/colorPrimaryFxd</item>
+        <item name="android:textSize">@dimen/sp18</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyleWhite">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sans3</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:lineSpacingExtra">@dimen/sp0</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp20</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+</resources>

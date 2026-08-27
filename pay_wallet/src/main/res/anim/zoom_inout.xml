@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: scale_pulse_animation.xml defines a scale animation that smoothly
+  grows and shrinks a view around its center. It is used to create a pulsing or
+  attention-drawing visual effect in the UI.
+-->
+<scale xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="2000"
+    android:fromXScale="0.5"
+    android:toXScale="1.0"
+    android:fromYScale="0.5"
+    android:toYScale="1.0"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:repeatCount="infinite"
+    android:repeatMode="reverse"
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator" />

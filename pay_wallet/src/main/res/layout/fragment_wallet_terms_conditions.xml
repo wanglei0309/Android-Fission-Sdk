@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_device_conditions.xml defines a ConstraintLayout that includes
+  a scanned device item and a TextView showing terms and conditions below it.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/selected_device"
+        layout="@layout/view_devices_scanned_device" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_conditions"
+        style="@style/TextStyle600"
+        android:layout_marginTop="@dimen/dp10"
+        android:text="@string/terms_and_conditions"
+        android:textSize="@dimen/sp14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selected_device" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp0"
+        android:paddingTop="@dimen/dp10"
+        android:paddingBottom="@dimen/dp15"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_conditions">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_info"
+                style="@style/TextStyle400"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp15"
+                android:layout_marginEnd="@dimen/dp15"
+                android:text="@string/terms_conditions"
+                android:textSize="@dimen/sp14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/check_box"
+                style="@style/TextStyle400"
+                android:layout_width="@dimen/dp0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp8"
+                android:text="@string/msg_terms"
+                android:textSize="@dimen/sp14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_info" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_accept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp15"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/check_box">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_accept"
+                    style="@style/AppButton.CustomButton"
+                    android:layout_width="@dimen/dp0"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/tealGreen"
+                    android:text="@string/btn_accept"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/check_box" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_cancel"
+                    style="@style/AppButton.CustomButton"
+                    android:layout_width="@dimen/dp0"
+                    android:layout_marginStart="@dimen/dp50"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/tealGreen"
+                    android:text="@string/btn_cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp16"
+                    app:layout_constraintStart_toEndOf="@+id/btn_accept"
+                    app:layout_constraintTop_toBottomOf="@+id/check_box" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/ll_nickName"
+        layout="@layout/view_wallet_add_card_nickname"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/ll_success"
+        layout="@layout/view_wallet_add_card_success"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/ll_bank"
+        layout="@layout/fragment_wallet_verify_otp"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/ll_select_otp"
+        layout="@layout/view_auth_select_otp_method"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/loader"
+        layout="@layout/view_common_progress_bar_scan" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

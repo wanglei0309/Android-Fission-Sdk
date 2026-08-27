@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description:
+  anim_rotate.xml defines a rotating animation for a drawable. It is used to
+  show loading or progress by continuously rotating the referenced graphic
+  around its center.
+-->
+<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/animation"
+    android:pivotX="50%"
+    android:pivotY="50%"/>

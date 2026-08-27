@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: checked_circle_selector.xml defines a selector drawable used to
+  represent a checked state indicator. When checked, it displays a white outer
+  circle with a smaller primary-colored inner circle, commonly used for radio
+  buttons or selection indicators.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_checked="true">
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="@android:color/white" />
+                    <size android:width="24dp" android:height="24dp" />
+                </shape>
+            </item>
+
+            <item android:bottom="6dp" android:start="6dp" android:end="6dp" android:top="6dp">
+                <shape android:shape="oval">
+                    <solid android:color="@color/colorPrimaryFxd" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:state_checked="false">
+        <shape android:shape="oval">
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="2dp" android:color="#AAAAAA" />
+            <size android:width="24dp" android:height="24dp" />
+        </shape>
+    </item>
+</selector>

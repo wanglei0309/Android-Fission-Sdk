@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: toggle_text_color_selector.xml defines a color selector that
+  switches the text color based on the checked state. It applies white when
+  checked and black when unchecked.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:color="#FFFFFF" />
+    <item android:color="@color/black" />
+</selector>
+

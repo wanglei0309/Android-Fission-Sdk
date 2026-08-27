@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_splash_screen.xml defines the splash screen layout for the
+  application. It contains a full-width AppCompatImageView centered vertically
+  and horizontally to display the Secora logo while the app initializes.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/splashRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clipChildren="false">
+
+    <!-- Hero image -->
+    <ImageView
+        android:id="@+id/splashHero"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop" />
+
+    <!-- Bottom white panel -->
+    <com.infineon.secora.wallet.utils.SplashPeakView
+        android:id="@+id/whitePanel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:id="@+id/brandingContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/dp24"
+            android:paddingEnd="@dimen/dp24"
+            android:paddingTop="@dimen/dp60"
+            android:paddingBottom="@dimen/dp24">
+
+            <ImageView
+                android:id="@+id/walletLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp56"
+                android:layout_marginBottom="@dimen/dp16"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/appTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="#3A8076"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/byline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/splash_text"
+                android:textColor="@color/colorPrimaryFxd"
+                android:textSize="@dimen/sp14"
+                android:gravity="center" />
+            <!-- Push version to bottom -->
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/application_version"
+        android:textColor="@color/tealGreen"
+        android:layout_marginBottom="@dimen/dp30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
+    </com.infineon.secora.wallet.utils.SplashPeakView>
+
+</FrameLayout>

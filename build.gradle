@@ -4,7 +4,7 @@ apply from: 'dependencies.gradle'
 apply from: 'checkstyle.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.8.0'
+    ext.kotlin_version = '2.1.0'
     repositories {
         maven {
             url "https://plugins.gradle.org/m2/"
@@ -18,8 +18,8 @@ buildscript {
         classpath 'com.android.tools.build:gradle:8.5.2'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.21.0'
         classpath 'gradle.plugin.org.codehaus.groovy:groovy-android-gradle-plugin:3.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0-Beta5"
-
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.4.2'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -34,6 +34,8 @@ allprojects {
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://dl.bintray.com/umsdk/release' }
+        // 支付模块的 MSAL 登录传递依赖 com.microsoft.device.display:display-mask
+        maven { url 'https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1' }
         flatDir{
             dirs 'libs'
         }

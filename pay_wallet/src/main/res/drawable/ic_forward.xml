@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: ic_chevron_right.xml defines a vector drawable representing
+  a right-pointing chevron arrow. It is commonly used for navigation,
+  forward actions, or indicating expandable list items in the UI.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="16dp"
+    android:height="16dp"
+    android:viewportWidth="16"
+    android:viewportHeight="16">
+  <path
+      android:pathData="M5.591,0.799L11.131,8L5.591,15.201L4.799,14.592L9.869,8L4.799,1.409L5.591,0.799Z"
+      android:fillColor="#575352"
+      android:fillType="evenOdd"/>
+</vector>

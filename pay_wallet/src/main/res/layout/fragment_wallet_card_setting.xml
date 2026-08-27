@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_pending_status.xml defines a ConstraintLayout with a
+  TextView to display a pending status message, initially hidden.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/tvPending1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:padding="10dp"
+        android:text="@string/pending_status_msg1"
+        android:textAppearance="@style/TextStyle18Green"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPending2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/pending_status_msg2"
+        android:textAppearance="@style/TextStyle18GreenRegular"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPending1" />
+
+    <ScrollView
+        android:id="@+id/cl_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPending2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp10">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/customSwitch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_toggle_container"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/onText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:background="@drawable/bg_on_selected"
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/on"
+                    android:textAppearance="@style/TextStyle14GreenBold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp14"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/offText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/offText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/off"
+                    android:textAppearance="@style/TextStyle14LightBlackBold"
+                    android:textSize="@dimen/sp14"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/onText"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_card_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/settings_text1"
+                android:textAppearance="@style/TextStyle16BlackRegular"
+                android:textSize="@dimen/sp16"
+                app:layout_constraintBottom_toBottomOf="@id/customSwitch1"
+                app:layout_constraintStart_toEndOf="@+id/customSwitch1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioButton
+                android:id="@+id/default_card_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/radio_card_background"
+                android:button="@null"
+                android:checked="true"
+                android:drawableStart="@drawable/custom_radio_indicator"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/text_default"
+                android:textColor="@color/radio_text_selector"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/customSwitch1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/settings_text2"
+                android:textAppearance="@style/TextStyle16BlackRegular"
+                android:textSize="@dimen/sp16"
+                app:layout_constraintBottom_toBottomOf="@id/default_card_btn"
+                app:layout_constraintStart_toEndOf="@+id/default_card_btn"
+                app:layout_constraintTop_toBottomOf="@id/customSwitch1" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/customSwitch3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_toggle_container"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/default_card_btn">
+
+                <TextView
+                    android:id="@+id/onText3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:background="@drawable/bg_on_selected"
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/on"
+                    android:textAppearance="@style/TextStyle14GreenBold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp14"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/offText3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/offText3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/off"
+                    android:textAppearance="@style/TextStyle14LightBlackBold"
+                    android:textSize="@dimen/sp14"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/onText3"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/settings_text3"
+                android:textAppearance="@style/TextStyle16BlackRegular"
+                android:textSize="@dimen/sp16"
+                app:layout_constraintBottom_toBottomOf="@id/customSwitch3"
+                app:layout_constraintStart_toEndOf="@+id/customSwitch3"
+                app:layout_constraintTop_toBottomOf="@id/default_card_btn" />
+
+            <TextView
+                android:id="@+id/updateNickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:drawablePadding="15dp"
+                android:text="@string/update_card_nickname"
+                android:textAppearance="@style/TextStyle18Green"
+                android:textSize="@dimen/sp18"
+                app:drawableStartCompat="@drawable/outline_edit_24"
+                app:layout_constraintStart_toStartOf="@id/customSwitch3"
+                app:layout_constraintTop_toBottomOf="@+id/customSwitch3" />
+
+            <TextView
+                android:id="@+id/removeCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:text="@string/remove_card"
+                android:textAppearance="@style/TextStyle18Green"
+                android:textSize="@dimen/sp18"
+                app:drawableStartCompat="@drawable/ic_delete"
+                app:layout_constraintStart_toStartOf="@id/customSwitch3"
+                app:layout_constraintTop_toBottomOf="@+id/updateNickname" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

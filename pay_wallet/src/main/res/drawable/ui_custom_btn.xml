@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description:
+  bg_rectangle_white_stroke.xml defines a rectangular background with a white
+  fill, thin dark-grey border, rounded corners, and internal padding. It is
+  used for input fields or content containers.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="@android:color/white" />
+
+    <stroke
+        android:width="@dimen/dp1"
+        android:color="@color/darkGrey" />
+
+    <corners android:radius="@dimen/dp4" />
+
+</shape>

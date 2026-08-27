@@ -1,0 +1,26 @@
+{
+  "auth": {
+    "plugins": {
+      "awsCognitoAuthPlugin": {
+        "UserAgent": "aws-amplify-android/2.0",
+        "Version": "1.0",
+        "IdentityManager": {
+          "Default": {}
+        },
+        "CognitoUserPool": {
+          "Default": {
+            "PoolId": "eu-central-1_XARwcKQgK",
+            "AppClientId": "1gsvi3bvto5omrggm2oa8tmakq",
+            "Region": "eu-central-1"
+          }
+        },
+        "Auth": {
+            "Default": {
+                "authenticationFlowType": "USER_SRP_AUTH"
+            }
+
+        }
+      }
+    }
+  }
+}

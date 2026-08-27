@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: progress_bar_animation.xml defines a frame-based animation list
+  used to animate a progress indicator. It cycles through drawable frames to
+  create a continuous loading animation.
+-->
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+
+    <item android:drawable="@drawable/progress_bar" android:duration="50" />
+    <item android:drawable="@drawable/progress_bar" android:duration="50" />
+    <item android:drawable="@drawable/progress_bar" android:duration="50" />
+</animation-list>

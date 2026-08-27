@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_card_item.xml defines a CardView containing a
+  ConstraintLayout with an image, NFC icon, and a TextView for the device name.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewAdapter"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        android:layout_marginBottom="@dimen/dp10"
+        android:elevation="@dimen/dp8"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/dp1"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp10"
+            android:paddingTop="@dimen/dp15"
+            android:paddingEnd="@dimen/dp10"
+            android:paddingBottom="@dimen/dp10"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/cardImageView"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_watch" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/nfcImageView"
+                android:layout_width="@dimen/dp28"
+                android:layout_height="@dimen/dp28"
+                android:contentDescription="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:srcCompat="@drawable/ic_bluetooth" />
+
+            <!--
+              On-body / off-body hand icon, left of the Bluetooth icon. Hidden by default; the
+              adapter shows it (off-body / on-body / verified) for the connected wearable only.
+            -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_hand"
+                android:layout_width="@dimen/dp28"
+                android:layout_height="@dimen/dp24"
+                android:layout_marginEnd="@dimen/dp10"
+                android:contentDescription="@null"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/nfcImageView"
+                app:layout_constraintEnd_toStartOf="@id/nfcImageView"
+                app:layout_constraintTop_toTopOf="@id/nfcImageView"
+                app:srcCompat="@drawable/ic_hand_on_body" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_device_name"
+                style="@style/TextStyle400"
+                android:layout_width="@dimen/dp0"
+                android:layout_marginStart="@dimen/dp8"
+                android:layout_marginEnd="@dimen/dp8"
+                android:ellipsize="none"
+                android:gravity="start|center_vertical"
+                android:maxLines="2"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="@string/card_number"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/img_hand"
+                app:layout_constraintStart_toEndOf="@+id/cardImageView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

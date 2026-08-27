@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description:
+  bg_card_with_shadow.xml defines a layered background with a soft shadow
+  and rounded corners. It is used to give card-like UI elements a subtle
+  elevation effect.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow Layer -->
+    <item
+        android:bottom="@dimen/dp2"
+        android:end="@dimen/dp2"
+        android:start="@dimen/dp2"
+        android:top="@dimen/dp2">
+        <shape android:shape="rectangle">
+            <solid android:color="#33000000" /> <!-- Shadow color with alpha -->
+            <corners android:radius="@dimen/dp12" />
+        </shape>
+    </item>
+
+    <!-- Main Background Layer -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white" />
+            <corners android:radius="@dimen/dp12" />
+        </shape>
+    </item>
+</layer-list>

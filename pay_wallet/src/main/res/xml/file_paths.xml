@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: paths.xml defines secure file paths for the SECORA™ Wallet application.
+  The <cache-path> entry allows access to the application's cache directory for
+  temporary file storage and sharing via FileProvider.
+-->
+<paths>
+    <cache-path
+        name="cache"
+        path="." />
+</paths>

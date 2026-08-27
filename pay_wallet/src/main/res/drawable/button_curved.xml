@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: rounded_primary_background_10dp.xml defines a rectangular shape
+  drawable with a primary color fill and moderately rounded corners. It is used
+  as a background for primary UI elements such as buttons or highlighted sections.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="10dp" />
+    <solid android:color="@color/colorPrimaryFxd" />
+</shape>

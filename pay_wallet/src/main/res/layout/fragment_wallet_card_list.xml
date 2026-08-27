@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_selected_device.xml includes item_scan_devices_common
+  and shows a title TextView below it for wearable cards.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/background_grey"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/selected_device"
+        layout="@layout/view_devices_scanned_device" />
+
+    <!--
+      Shared wearable status pills (Bluetooth / on-body / payment). CardListFragment wraps this with
+      WearableStatusChips and also uses the row as the tap-to-connect target while Bluetooth is off.
+    -->
+    <include
+        android:id="@+id/status_chips"
+        layout="@layout/view_wearable_status_chips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selected_device" />
+
+    <!--
+      Card list header. Adding a card is the "+" here rather than a bottom button, so the bottom
+      action is free for the payment unlock CTA.
+    -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        style="@style/TextStyle600"
+        android:layout_width="@dimen/dp0"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp12"
+        android:text="@string/available_payment_cards"
+        android:textSize="@dimen/sp18"
+        app:layout_constraintEnd_toStartOf="@id/img_add_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_chips" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_add_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp20"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/text_add_payment_card"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/dp12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_chips"
+        app:srcCompat="@drawable/ic_add" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp10"
+        app:layout_constraintBottom_toTopOf="@+id/btn_passcode_cta"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="-204dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginBottom="@dimen/dp50"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <!--
+      Bottom CTA. Adding a card lives in the "+" header icon, so this button is free to reflect the
+      wearable state: hidden until a device is connected, then "Set passcode" or "Verify passcode"
+      per the CVM state, or "Bluetooth off" (tap to connect) while BLE is disconnected. Label and
+      click are set by CardListFragment; it starts gone to avoid a flash of stale copy.
+    -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_passcode_cta"
+        style="@style/AppButton.CustomButton"
+        android:layout_margin="@dimen/dp20"
+        android:textSize="@dimen/sp16"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/card_list_cta_set_passcode" />
+
+    <include
+        android:id="@+id/loadingIcon"
+        layout="@layout/view_common_progress_bar" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_no_cards"
+        style="@style/TextStyle400"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_cards_available"
+        android:textSize="@dimen/sp24"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--
+      Setup-required message, shown by CardListFragment while no wearable passcode is provisioned.
+      In that state the card list and the "+" add-card control are hidden and adding a card is blocked.
+    -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_setup_passcode_message"
+        style="@style/TextStyle400"
+        android:layout_width="@dimen/dp0"
+        android:layout_marginStart="@dimen/dp40"
+        android:layout_marginEnd="@dimen/dp40"
+        android:gravity="center"
+        android:text="@string/card_list_setup_passcode_message"
+        android:textSize="@dimen/sp16"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_device_locked_message"
+        style="@style/TextStyle400"
+        android:layout_width="@dimen/dp0"
+        android:layout_marginStart="@dimen/dp40"
+        android:layout_marginEnd="@dimen/dp40"
+        android:gravity="center"
+        android:text="@string/card_list_device_locked_message"
+        android:textSize="@dimen/sp16"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,8 @@ import com.baidu.mapapi.common.BaiduMapSDKException;
 import com.blankj.utilcode.util.LogUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
 import com.fission.wear.sdk.v2.utils.BaiDuAiUtils;
+import com.infineon.secora.wallet.MyApplication;
+import com.szfission.wear.demo.pay.PayHostFssBridge;
 import com.szfission.wear.sdk.AnyWear;
 import com.szfission.wear.sdk.AnyWearConfig;
 import com.szfission.wear.sdk.bean.HardWareInfo;
@@ -30,6 +32,9 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // 支付模块依赖的全局上下文 / Amplify / MSAL 等，宿主 Application 启动时初始化一次
+        MyApplication.initialize(this);
+        PayHostFssBridge.register();
         SharedPreferencesUtil.getInstance().init(this);
 //        FissionSdk.getInstance().initSdk(this);
         x.Ext.init(this);

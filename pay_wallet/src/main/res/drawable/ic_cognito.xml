@@ -1,0 +1,6 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:width="24dp"
+        android:height="26dp"
+        android:drawable="@drawable/svg_380993" />
+</layer-list>

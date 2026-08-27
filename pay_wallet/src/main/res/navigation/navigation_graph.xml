@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: nav_graph.xml defines the main navigation graph for the app,
+  starting from the LoginFragment and including wallet-related fragments for
+  creating, entering, and confirming wallet PINs.
+-->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.LoginFragment"
+        android:label="@string/verify_login" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.RegisterFragment"
+        android:label="@string/verify_login" />
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.ForgotPasswordFragment"
+        android:label="@string/verify_login" />
+    <fragment
+        android:id="@+id/verifyCodeFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.VerifyCodeFragment"
+        android:label="@string/verify_login" />
+    <fragment
+        android:id="@+id/confirmPasswordFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.ConfirmPasswordFragment"
+        android:label="@string/verify_login" />
+    <fragment
+        android:id="@+id/enterWalletPin"
+        android:name="com.infineon.secora.wallet.ui.fragment.EnterWalletFragment"
+        android:label="@string/menu_pay" />
+    <fragment
+        android:id="@+id/createwalletpin"
+        android:name="com.infineon.secora.wallet.ui.fragment.CreateWalletFragment"
+        android:label="@string/menu_pay" />
+    <fragment
+        android:id="@+id/confirmwalletpin"
+        android:name="com.infineon.secora.wallet.ui.fragment.ConfirmWalletFragment"
+        android:label="@string/menu_pay" />
+    <fragment
+        android:id="@+id/deviceListFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.AvailableDeviceFragment"
+        android:label="@string/menu_pay" />
+    <fragment
+        android:id="@+id/cardListFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.CardListFragment"
+        android:label="@string/menu_pay" />
+    <!--
+      Single destination for every wearable passcode step. The step is passed as an argument, so
+      setup, confirm, verify and the three change screens all resolve here.
+    -->
+    <fragment
+        android:id="@+id/wearablePasscodeFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.WearablePasscodeFragment"
+        android:label="@string/wearable_passcode_toolbar" />
+    <!--
+      Wearable configuration: device-level settings, i.e. the cardholder verification method.
+      Card settings remain with detailFragment.
+    -->
+    <fragment
+        android:id="@+id/wearableSettingFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.WearableSettingFragment"
+        android:label="@string/wearable_configuration" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.DeviceDetailFragment"
+        android:label="@string/menu_pay" />
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.TermsConditionFragment"
+        android:label="@string/menu_pay" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.UserProfileFragment"
+        android:label="@string/profile" />
+    <fragment
+        android:id="@+id/oemFragment"
+        android:name="com.infineon.secora.wallet.ui.fragment.OemFragment"
+        android:label="@string/oem_details" />
+
+</navigation>

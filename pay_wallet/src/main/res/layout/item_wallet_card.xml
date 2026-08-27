@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_card_adapter.xml defines a layout containing a CardView
+  positioned below the Toolbar or parent container. The CardView has rounded
+  corners, transparent background, and left padding for content, suitable for
+  displaying items in a RecyclerView or similar adapter-driven components.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- CardView that comes below the Toolbar -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewAdapter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp20"
+        android:layout_marginBottom="@dimen/dp10"
+        app:cardBackgroundColor="@color/transparent"
+        app:cardCornerRadius="@dimen/dp1"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp8">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_card"
+                android:layout_width="@dimen/dp90"
+                android:layout_height="@dimen/dp56"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginBottom="@dimen/dp10"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@null" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="@dimen/dp0"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dp10"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/img_forward"
+                app:layout_constraintStart_toEndOf="@id/img_card"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_nickName"
+                    style="@style/TextStyle600"
+                    android:textColor="@color/colorPrimaryFxd"
+                    android:textSize="@dimen/sp18"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_card_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_nickName">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_card_info"
+                        style="@style/TextStyle400"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxEms="25"
+                        android:singleLine="true"
+                        android:textSize="@dimen/sp16"
+                        app:layout_constraintTop_toBottomOf="@id/tv_nickName" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    style="@style/TextStyle600"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_active"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimaryFxd"
+                    android:textSize="@dimen/sp14"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_card_details" />
+
+                <TextView
+                    android:id="@+id/tv_default"
+                    style="@style/TextStyle600"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp50"
+                    android:text="@string/text_default"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimaryFxd"
+                    android:textSize="@dimen/sp14"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@+id/tv_status"
+                    app:layout_constraintTop_toBottomOf="@id/ll_card_details" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginEnd="@dimen/dp5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_right_16" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

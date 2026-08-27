@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: application_main_button_selector.xml defines a state-based drawable
+  selector for the main application button. It switches between disabled, pressed,
+  and default visual states to provide appropriate user interaction feedback.
+-->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/btn_application_main_disabled" android:state_enabled="false" />
+    <item android:drawable="@drawable/btn_application_main_off" android:state_pressed="true" />
+    <item android:drawable="@drawable/btn_application_main_on" />
+</selector>

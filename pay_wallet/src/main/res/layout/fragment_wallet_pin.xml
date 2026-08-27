@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_create_wallet_pin.xml defines a ConstraintLayout that displays
+  a header and instructional message for creating a secure 4-digit wallet PIN.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        style="@style/TextStyle600"
+        android:layout_marginTop="@dimen/dp20"
+        android:text="@string/create_wallet_pin"
+        android:textSize="@dimen/sp36"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_create_wallet_pin_msg"
+        style="@style/TextStyle400"
+        android:layout_marginTop="@dimen/dp50"
+        android:text="@string/create_wallet_pin_msg"
+        android:gravity="center"
+        android:textSize="@dimen/sp18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_constraintLayout"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp80"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_create_wallet_pin_msg">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_box1"
+            android:importantForAutofill="no"
+            android:autofillHints=""
+            android:layout_width="@dimen/dp50"
+            android:layout_height="@dimen/dp50"
+            android:background="@drawable/otp_box"
+            android:inputType="numberPassword"
+            android:gravity="center"
+            android:maxLength="1"
+            android:textSize="@dimen/sp18"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/et_box2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />  <!-- Set chain style here --><!-- Box 2 -->
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_box2"
+            android:importantForAutofill="no"
+            android:autofillHints=""
+            android:layout_width="@dimen/dp50"
+            android:layout_height="@dimen/dp50"
+            android:background="@drawable/otp_box"
+            android:inputType="numberPassword"
+            android:maxLength="1"
+            android:gravity="center"
+            android:textSize="@dimen/sp18"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/et_box3"
+            app:layout_constraintStart_toEndOf="@id/et_box1"
+            app:layout_constraintTop_toTopOf="parent" /><!-- Box 3 -->
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_box3"
+            android:importantForAutofill="no"
+            android:autofillHints=""
+            android:layout_width="@dimen/dp50"
+            android:layout_height="@dimen/dp50"
+            android:background="@drawable/otp_box"
+            android:inputType="numberPassword"
+            android:gravity="center"
+            android:maxLength="1"
+            android:textSize="@dimen/sp18"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/et_box4"
+            app:layout_constraintStart_toEndOf="@id/et_box2"
+            app:layout_constraintTop_toTopOf="parent" /><!-- Box 4 -->
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_box4"
+            android:importantForAutofill="no"
+            android:autofillHints=""
+            android:layout_width="@dimen/dp50"
+            android:layout_height="@dimen/dp50"
+            android:background="@drawable/otp_box"
+            android:inputType="numberPassword"
+            android:maxLength="1"
+            android:gravity="center"
+            android:textSize="@dimen/sp18"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/et_box3"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_pin"
+        style="@style/AppButton.CustomButton"
+        android:layout_marginTop="@dimen/dp100"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        android:text="@string/create_pin"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_constraintLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

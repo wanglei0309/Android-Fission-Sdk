@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: pin_entry_error_selector.xml defines a selector drawable used to
+  indicate an error state for a PIN entry component. When the view is active and
+  in an error state, it displays a red oval with a solid fill and stroke.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Space contains text -->
+    <!-- PinEntryEditText has error set -->
+    <item android:state_active="true">
+        <shape android:shape="oval">
+            <stroke android:width="1dp" android:color="@android:color/holo_red_dark" />
+            <solid android:color="@android:color/holo_red_dark" />
+        </shape>
+    </item>
+    <!--After entering pin background color-->
+    <item android:state_checked="true" android:state_focused="true">
+        <shape android:shape="oval">
+            <stroke android:width="1dp" android:color="@color/colorPrimaryFxd" />
+            <solid android:color="@color/colorPrimaryFxd" />
+        </shape>
+    </item>
+    <!--Space is the next space for character input -->
+    <item android:state_focused="true" android:state_selected="true">
+        <shape android:shape="oval">
+            <stroke android:width="1dp" android:color="#C1C1C1" />
+            <solid android:color="#C1C1C1" />
+        </shape>
+    </item>
+    <!-- PinEntryEditText is focused -->
+    <item android:state_focused="true">
+        <shape android:shape="oval">
+            <stroke android:width="1dp" android:color="#C1C1C1" />
+            <solid android:color="#C1C1C1" />
+        </shape>
+    </item>
+    <!-- PinEntryEditText is not focused -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/colorPrimaryFxd" />
+        </shape>
+    </item>
+
+</selector>

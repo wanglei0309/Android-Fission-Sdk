@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "5343513359",
+    "project_id": "anywear-a3e6e",
+    "storage_bucket": "anywear-a3e6e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5343513359:android:6883820471a7fc5631cc7a",
+        "android_client_info": {
+          "package_name": "com.szfission.wear.demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYIOKuOCKkiCxoKG_pRLKwEtIHMyzeXKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

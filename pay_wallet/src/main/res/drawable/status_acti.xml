@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Active status pill (Bluetooth conn. / On body / Payment unlocked): white fill, teal outline.
+  Shape drawable so the pill stretches cleanly to any label width. Adjust to match the final design.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#FFFFFF" />
+    <corners android:radius="16.5dp" />
+    <stroke
+        android:width="1.8dp"
+        android:color="#0A8276" />
+</shape>

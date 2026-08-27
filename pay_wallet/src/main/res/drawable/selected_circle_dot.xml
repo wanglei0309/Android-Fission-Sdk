@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description:
+  bg_oval_primary_dot.xml defines a small oval shape filled with a solid
+  primary accent color. It is typically used as a dot indicator or
+  decorative UI element.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid android:color="#00AEEF" />
+    <size
+        android:width="@dimen/dp15"
+        android:height="@dimen/dp15" />
+</shape>

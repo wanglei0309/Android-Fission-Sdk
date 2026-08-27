@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,11 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fission.wear.sdk.v2.FissionSdkBleManage;
+import com.infineon.secora.wallet.PayExternalLaunch;
+import com.infineon.secora.wallet.ui.home.SplashActivity;
+import com.infineon.secora.wallet.utils.constants.BundleKey;
+import com.szfission.wear.demo.pay.PayLaunchHelper;
+import com.szfission.wear.demo.pay.PayWalletHostBridge;
 import com.fission.wear.sdk.v2.bean.DeviceBattery;
 import com.fission.wear.sdk.v2.bean.DeviceVersion;
 import com.fission.wear.sdk.v2.bean.DiskSpaceInfo;
@@ -162,7 +168,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
     TextView tv_haisi_test;
 
-    TextView tv_chatgpt, tv_jsi_test,tv_ai_test;
+    TextView tv_chatgpt, tv_jsi_test,tv_ai_test, tv_pay_provision;
 
     private HomeViewModel homeViewModel;
     ArrayList<ArrayList<FuncBean>> funcBeanList = new ArrayList<>();
@@ -669,8 +675,8 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
         }
 
         @Override
-        public void getAppStates() {
-            super.getAppStates();
+        public void getAppStates(String appType) {
+            super.getAppStates(appType);
             logList.add("Js 请求获取App状态");
             logAdapter.notifyDataSetChanged();
         }
@@ -781,6 +787,7 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
         tv_chatgpt = findViewById(R.id.tv_chatgpt);
         tv_jsi_test = findViewById(R.id.tv_jsi_test);
         tv_ai_test = findViewById(R.id.tv_ai_test);
+        tv_pay_provision = findViewById(R.id.tv_pay_provision);
 
         tvLog.setOnClickListener(this);
         tvActionConnect.setOnClickListener(this);
@@ -854,6 +861,8 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
             Intent intent = new Intent(MainActivity.this, OpenAiTestActivity.class);
             startActivity(intent);
         });
+
+        tv_pay_provision.setOnClickListener(v-> launchPayProvision());
 
 
         Calendar cal = Calendar.getInstance();
@@ -2157,6 +2166,35 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
 
     int timeType = 1;
 
+    /**
+     * 主页已连好手表后，在共享 GATT 上注册 SECORA 通道，再进入英飞凌钱包开卡/发卡流程。
+     */
+    private void launchPayProvision() {
+        if (!PayLaunchHelper.preparePaymentLaunch(this, connectSuccessfully)) {
+            return;
+        }
+        ToastUtils.showShort(getString(R.string.pay_secora_channel_preparing));
+        PayWalletHostBridge.prepareSharedSecoraChannel(this, new PayWalletHostBridge.PrepareCallback() {
+            @Override
+            public void onReady(com.fission.wear.sdk.v2.pay.FissionPaySession session) {
+                Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+                intent.putExtra(BundleKey.DEVICE_BLE_ADDRESS, SPUtils.getInstance().getString(SpKey.LAST_MAC));
+                if (!TextUtils.isEmpty(deviceName)) {
+                    intent.putExtra(BundleKey.DEVICE_NAME, deviceName);
+                }
+                intent.putExtra(PayExternalLaunch.EXTRA_PRECONNECTED, true);
+                intent.putExtra(PayExternalLaunch.EXTRA_FISSION_BLE_CONNECTED, true);
+                intent.putExtra(PayExternalLaunch.EXTRA_HOST_SECORA_READY, true);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                ToastUtils.showShort(getString(R.string.pay_secora_channel_failed, message));
+            }
+        });
+    }
+
     private void showMusicControlDialog() {
         String[] array = {"停止", "暂停", "播放", "上一首", "下一首", "缓冲中", "退出"};
 //
@@ -2170,7 +2208,10 @@ public class MainActivity extends BaseActivity implements OnStreamListener, View
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        FissionSdkBleManage.getInstance().disconnectBle();
+        // Host 跳入 Wallet 后 Activity 可能因配置变更 recreate；共享 GATT 不能在此断开。
+        if (!PayExternalLaunch.INSTANCE.isHostLaunch()) {
+            FissionSdkBleManage.getInstance().disconnectBle();
+        }
 
         if(mAtCmdListener!=null){
             FissionSdkBleManage.getInstance().removeCmdResultListener(mAtCmdListener);

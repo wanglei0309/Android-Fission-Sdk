@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: application_main_button_default_background.xml defines a layered
+  drawable used for the default (unpressed) state of the main application button.
+  It combines a shadow layer with a foreground layer featuring rounded corners
+  and a vertical gradient to provide depth and visual emphasis.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="3dip" />
+            <solid android:color="@color/bt_color_shadow_application_main" />
+        </shape>
+    </item>
+    <item
+        android:bottom="0.65dp"
+        android:start="0.65dp"
+        android:end="0.0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="1dip" />
+            <solid android:color="@color/bt_color_application_main_unpressed" />
+            <gradient
+                android:endColor="@color/colorPrimary"
+                android:startColor="@color/colorPrimaryDark"/>
+        </shape>
+    </item>
+
+</layer-list>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_transaction_item.xml defines a ConstraintLayout displaying a
+  transaction with its name, amount, and time in a structured layout.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvTransactionName"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginBottom="@dimen/dp5"
+        android:fontFamily="@font/sans3"
+        android:paddingStart="@dimen/dp10"
+        android:paddingEnd="@dimen/dp0"
+        android:textAppearance="@style/TextStyle400LightBlack"
+        android:textFontWeight="400"
+        app:layout_constraintEnd_toStartOf="@+id/tvAmount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp15"
+        android:gravity="center"
+        android:textAppearance="@style/TextStyle16Black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTransactionName"
+        app:layout_constraintTop_toTopOf="@id/tvTransactionName"
+        app:layout_goneMarginStart="@dimen/dp5" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp10"
+        android:fontFamily="@font/sans3"
+        android:paddingStart="@dimen/dp10"
+        android:paddingEnd="@dimen/dp10"
+        android:paddingBottom="@dimen/dp10"
+        android:textAppearance="@style/TextStyle14LightGrey"
+        android:textFontWeight="400"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTransactionName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

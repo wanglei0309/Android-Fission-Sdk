@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: Layout for user registration, including username
+    and password input fields, password visibility toggle, and
+    account registration action.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp15"
+        android:layout_marginTop="@dimen/dp15"
+        android:layout_marginEnd="@dimen/dp15"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            style="@style/TextStyle600"
+            android:text="@string/register"
+            android:textSize="@dimen/sp36"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEmail"
+            style="@style/TextStyle400"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/dp15"
+            android:textSize="@dimen/sp18"
+            android:text="@string/e_mail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etRegisterUsername"
+            style="@style/TextStyle400"
+            android:layout_height="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp10"
+            android:background="@drawable/border_grey_white_bg"
+            android:hint="@string/place_holder_e_mail"
+            android:inputType="textEmailAddress"
+            android:paddingStart="@dimen/dp10"
+            android:paddingEnd="@dimen/dp12"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEmail" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPassword"
+            style="@style/TextStyle400"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/dp10"
+            android:text="@string/password"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etRegisterUsername" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivPasswordRequirements"
+            android:layout_width="@dimen/dp24"
+            android:layout_height="@dimen/dp24"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp10"
+            app:layout_constraintStart_toEndOf="@+id/tvPassword"
+            app:layout_constraintTop_toBottomOf="@+id/etRegisterUsername"
+            app:srcCompat="@drawable/ic_info" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etRegisterPassword"
+            style="@style/TextStyle400"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp10"
+            android:background="@drawable/border_grey_white_bg"
+            android:hint="@string/place_holder_password"
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/dp10"
+            android:paddingEnd="@dimen/dp40"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPassword" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivRegisterToggleEye"
+            android:layout_width="@dimen/dp24"
+            android:layout_height="@dimen/dp24"
+            android:layout_marginEnd="@dimen/dp12"
+            app:layout_constraintBottom_toBottomOf="@id/etRegisterPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/etRegisterPassword"
+            app:srcCompat="@drawable/eye_slash" />
+
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRepeatPassword"
+            style="@style/TextStyle400"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/dp10"
+            android:text="@string/repeat_password"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etRegisterPassword" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etRepeatPassword"
+            style="@style/TextStyle400"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp10"
+            android:background="@drawable/border_grey_white_bg"
+            android:hint="@string/place_holder_repeat_password"
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/dp10"
+            android:paddingEnd="@dimen/dp40"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRepeatPassword" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivRepeatPwdToggleEye"
+            android:layout_width="@dimen/dp24"
+            android:layout_height="@dimen/dp24"
+            android:layout_marginEnd="@dimen/dp12"
+            app:layout_constraintBottom_toBottomOf="@id/etRepeatPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/etRepeatPassword"
+            app:srcCompat="@drawable/eye_slash" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btnRegister"
+            style="@style/AppButton.CustomButton"
+            android:layout_marginTop="@dimen/dp15"
+            android:text="@string/lets_get_started"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etRepeatPassword" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNavigateToLogin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp15"
+            android:fontFamily="@font/sans3_bold"
+            android:background="@drawable/bg_rectangle_primary_stroke"
+            android:gravity="center"
+            android:text="@string/already_have_a_login"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryFxd"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>

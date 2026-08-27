@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: bordered_white_background.xml defines a rectangular shape drawable
+  with a white background, thin border, rounded corners, and internal padding.
+  It is commonly used as a container background for input fields or cards.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="@android:color/white" />
+
+    <stroke
+        android:width="@dimen/dp1"
+        android:color="@color/darkGrey" />
+
+    <corners android:radius="@dimen/dp4" />
+
+</shape>

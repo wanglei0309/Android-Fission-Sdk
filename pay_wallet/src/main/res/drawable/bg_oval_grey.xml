@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description:
+  bg_oval_grey.xml defines a simple oval shape filled with a grey color.
+  It is commonly used as a background or indicator dot in the UI.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@color/colorPrimaryFxd" />
+</shape>

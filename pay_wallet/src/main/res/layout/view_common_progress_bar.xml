@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: cl_custom_progressBar.xml defines a full-screen custom progress
+  layout with a centered AppCompatTextView. It is used to show a loading state
+  or a message prompting the user to enable Bluetooth when necessary.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_custom_progressBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:visibility="gone">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_custom_bt"
+        style="@style/TextStyle400"
+        android:layout_marginTop="@dimen/dp200"
+        android:gravity="center"
+        android:text="@string/make_sure_bluetooth_is_enabled"
+        android:textSize="@dimen/sp18"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/customProgressBar"
+        android:layout_width="@dimen/dp170"
+        android:layout_height="@dimen/dp120"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/anim_rotate"
+        android:indeterminateTint="@color/colorPrimaryFxd"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@null"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_custom_process"
+        style="@style/TextStyle600"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp10"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/dp10"
+        android:text="@string/loading"
+        android:textSize="@dimen/sp28"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/customProgressBar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,11 @@
 apply plugin: 'com.android.application'
+// 支付开卡/发卡流程移植自 Infineon 的钱包 demo，那部分是 Kotlin
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     namespace 'com.szfission.wear.demo'
-    compileSdkVersion 34
+    // 移植进来的钱包 demo 依赖的 AndroidX 版本要求 compileSdk 36
+    compileSdkVersion 36
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
@@ -27,16 +30,18 @@ android {
             jniLibs.srcDirs = ['src/main/jniLibs']
         }
     }
-    lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
-        abortOnError false
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+        // 支付模块用到的 Amplify（Cognito 登录）要求开启核心库脱糖
+        coreLibraryDesugaringEnabled true
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
     }
 
     buildToolsVersion '34.0.0'
@@ -44,11 +49,29 @@ android {
     buildFeatures{
         aidl = true
     }
+
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+        // BouncyCastle 的多个 jar 都带这个文件，接入支付时必须排除
+        exclude 'META-INF/versions/9/OSGI-INF/MANIFEST.MF'
+    }
+
+    packaging {
+        jniLibs {
+            // 16KB 页大小设备要求 so 不压缩打包，便于系统直接映射
+            useLegacyPackaging = true
+        }
+    }
 }
 
 repositories {
     flatDir {
-        dirs  file('libs')
+        // 第二个目录是钱包后端 aar 所在处：:pay_wallet 以 flatDir 形式依赖它，
+        // 宿主 app 解析传递依赖时也要能看到同一个目录
+        dirs file('libs'), file('../pay_wallet/libs')
     }
 }
 
@@ -78,7 +101,7 @@ dependencies {
     implementation files('libs/rtk-core-1.5.25.jar')
     implementation files('libs/rtk-dfu-3.10.13.jar')
     implementation files("libs/rtk-wear-1.5.12.jar")
-    implementation files("libs/rtk-media-codec-1.2.1.aar")
+    implementation files("libs/rtk-media-codec-1.3.0.aar")
     implementation files("libs/rtk-audioconnect-ai-1.0.1.aar")
 //    implementation files("libs/compresslib.aar")
 
@@ -96,7 +119,16 @@ dependencies {
     api rootProject.ext.dependencies["replaying"]
     api rootProject.ext.dependencies["utilcodex"]
 
-    implementation files('libs/fissionsdk_v2-release-v2.1.25.aar')
+    implementation(name: 'fissionsdk_v2-release-v2.1.46', ext: 'aar')
+
+    // 支付链路依赖（交付 aar 不内嵌，由宿主提供）
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.83'
+    implementation 'org.bouncycastle:bcpkix-jdk18on:1.83'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.20.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.20'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1'
+    implementation 'commons-codec:commons-codec:1.20.0'
+    implementation 'androidx.security:security-crypto:1.0.0'
 
     api "com.github.kongzue.DialogX:DialogX:0.0.48"
 
@@ -114,7 +146,9 @@ dependencies {
     implementation "com.squareup.picasso:picasso:2.71828"
 
     // Microsoft SpeechService SDK
-    implementation("com.microsoft.cognitiveservices.speech:client-sdk:1.33.0")
+    // 当前代码未使用；其 so 为 4KB 对齐，不满足 16KB 页大小要求。
+    // 如需重新启用，必须升级到 1.44.0 及以上（该版本起支持 16KB）。
+//    implementation("com.microsoft.cognitiveservices.speech:client-sdk:1.33.0")
 
     api project(path: ':pickerview')
 
@@ -122,7 +156,7 @@ dependencies {
 
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
 
-    implementation files('libs/AFlash_release_V4.2.0.aar')
+    implementation files('libs/AFlash_release_V4.6.0.aar')
 
     def deps = rootProject.ext.dependencies
 
@@ -134,4 +168,26 @@ dependencies {
     implementation deps['okhttp-sse']
     implementation deps['okio']
     implementation deps['logging-interceptor']
+
+    // ============ 支付开卡/发卡流程（demo 侧，不进交付 aar） ============
+    implementation project(path: ':pay_wallet')
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 }
+
+// 与 :pay_wallet 一致：登录相关依赖会把 AndroidX 拉到要求 AGP 8.9 的版本，压回可用档位
+configurations.all {
+    resolutionStrategy {
+        force 'androidx.core:core:1.13.1'
+        force 'androidx.core:core-ktx:1.13.1'
+        force 'androidx.activity:activity:1.9.3'
+        force 'androidx.activity:activity-ktx:1.9.3'
+        force 'androidx.browser:browser:1.8.0'
+        force 'androidx.compose.ui:ui-graphics-android:1.6.8'
+        force 'androidx.lifecycle:lifecycle-runtime:2.8.7'
+        force 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.7'
+        force 'androidx.lifecycle:lifecycle-viewmodel:2.8.7'
+        force 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7'
+    }
+}
+
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  英飞凌 SECORA Wallet demo 的清单，按库模块改写：
+  - 去掉 application 上的属性与 MyApplication 声明（由宿主 app 的 Application 负责，
+    初始化改成显式调用 MyApplication.initialize）
+  - SplashActivity 去掉 LAUNCHER，改由宿主 demo 的入口显式跳转
+  - 去掉与宿主重复的 FileProvider（宿主 app 已声明同一 authority）
+  组件本身与英飞凌原工程一致。
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+        </intent>
+    </queries>
+
+    <application>
+
+        <activity
+            android:name=".ui.home.MainActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Infineon"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".ui.home.SplashActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Infineon.Splash"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".ui.home.WelcomeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Infineon" />
+
+        <service
+            android:name=".firebase.FirebaseMessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name="com.microsoft.identity.client.BrowserTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/microsoft_callback_host"
+                    android:path="@string/microsoft_callback_path"
+                    android:scheme="@string/microsoft_callback_scheme" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Shared wearable status pills: Bluetooth / on-body / payment. Included by the card list, device
+  detail and wearable settings screens. WearableStatusChips sets the labels and swaps the
+  active/inactive backgrounds (status_acti / status_inacti) and dot tint from the live state.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_marginTop="@dimen/dp15"
+    android:weightSum="3"
+    android:id="@+id/linear_status"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_chip_bluetooth"
+        style="@style/TextStyle400"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:background="@drawable/status_inacti"
+        android:drawableStart="@drawable/status_dot"
+        android:drawablePadding="@dimen/dp5"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:minWidth="83dp"
+        android:paddingStart="@dimen/dp10"
+        android:paddingEnd="@dimen/dp10"
+        android:text="@string/wearable_chip_bluetooth_connected"
+        android:textColor="@color/statusChipInactive"
+        android:textSize="@dimen/sp12" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_chip_body"
+        style="@style/TextStyle400"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginStart="@dimen/dp8"
+        android:layout_weight="1"
+        android:background="@drawable/status_inacti"
+        android:drawableStart="@drawable/status_dot"
+        android:drawablePadding="@dimen/dp5"
+        android:gravity="center"
+        android:minWidth="83dp"
+        android:paddingStart="@dimen/dp10"
+        android:paddingEnd="@dimen/dp10"
+        android:text="@string/wearable_chip_body_off"
+        android:textColor="@color/statusChipInactive"
+        android:textSize="@dimen/sp12" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_chip_payment"
+        style="@style/TextStyle400"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_weight="1"
+        android:layout_marginStart="@dimen/dp8"
+        android:background="@drawable/status_inacti"
+        android:drawableStart="@drawable/status_dot"
+        android:drawablePadding="@dimen/dp5"
+        android:gravity="center"
+        android:minWidth="83dp"
+        android:paddingStart="@dimen/dp10"
+        android:paddingEnd="@dimen/dp10"
+        android:text="@string/wearable_chip_payment_locked"
+        android:textColor="@color/statusChipInactive"
+        android:textSize="@dimen/sp12" />
+
+</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp1"
+        android:layout_marginTop="@dimen/dp15"
+        android:background="@color/bluetooth_device_select_background"
+        app:layout_constraintTop_toBottomOf="@id/linear_status" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Cleartext HTTP is disabled; all traffic must use HTTPS (system CAs).
+  Bundled cert trust is limited to the wallet backend host that serves a self-signed certificate.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+    <domain-config>
+        <domain includeSubdomains="true">secorawallet-dev.infineon.com</domain>
+        <trust-anchors>
+            <certificates src="@raw/server_self_signed"/>
+        </trust-anchors>
+    </domain-config>
+</network-security-config>

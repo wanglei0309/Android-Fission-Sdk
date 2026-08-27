@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/dp16"
+    android:paddingEnd="@dimen/dp16"
+    android:paddingTop="@dimen/dp16"
+    android:paddingBottom="@dimen/dp16">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_empty_message"
+        style="@style/TextStyle400"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/no_secora_device_found"
+        android:textSize="@dimen/sp18" />
+
+</FrameLayout>

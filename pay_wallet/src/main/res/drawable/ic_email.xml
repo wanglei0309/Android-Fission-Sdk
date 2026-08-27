@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: ic_mail_outline.xml defines a vector drawable representing
+  an email or message envelope icon. It is commonly used to indicate
+  messaging, notifications, or contact-related actions in the UI.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="19dp"
+    android:height="16dp"
+    android:viewportWidth="15"
+    android:viewportHeight="13">
+  <path
+      android:pathData="M1.833,2.25L6.16,5.517L6.161,5.518C6.641,5.871 6.882,6.047 7.145,6.115C7.378,6.175 7.622,6.175 7.855,6.115C8.118,6.047 8.359,5.87 8.841,5.517C8.841,5.517 11.616,3.388 13.167,2.25M1.125,9.192V3.808C1.125,3.015 1.125,2.618 1.279,2.315C1.415,2.048 1.632,1.832 1.898,1.696C2.201,1.542 2.598,1.542 3.392,1.542H11.608C12.402,1.542 12.798,1.542 13.101,1.696C13.368,1.832 13.585,2.048 13.721,2.315C13.875,2.618 13.875,3.014 13.875,3.806V9.194C13.875,9.986 13.875,10.382 13.721,10.685C13.585,10.951 13.368,11.168 13.101,11.304C12.798,11.458 12.402,11.458 11.611,11.458H3.389C2.598,11.458 2.201,11.458 1.898,11.304C1.632,11.168 1.415,10.951 1.279,10.685C1.125,10.382 1.125,9.985 1.125,9.192Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="2"
+      android:fillColor="#00000000"
+      android:strokeColor="#BEBEBE"
+      android:strokeLineCap="round"/>
+</vector>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_logo_header.xml defines a simple layout containing a
+  top-aligned image view used to display the Secora logo. The image spans the
+  full width of the screen and applies a top margin to maintain visual spacing
+  from the parent container.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp100"
+        android:layout_marginTop="@dimen/dp80"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/secora_logo" />
+
+    <TextView
+        android:id="@+id/txt_welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/icon_image"
+        android:layout_marginTop="@dimen/dp40"
+        android:gravity="center"
+        android:text="@string/text_confirm_wallet_pin"
+        android:textColor="@color/colorPrimaryFxd"
+        android:textSize="28sp"
+        app:layout_constraintTop_toBottomOf="@id/icon_image" />
+
+
+    <com.infineon.secora.wallet.ui.widget.PinEntryEditText
+        android:id="@+id/txt_confirm_pin_entry"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp25"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp40"
+        android:background="@null"
+        android:cursorVisible="false"
+        android:digits="1234567890"
+        app:layout_constraintTop_toBottomOf="@id/txt_welcome"
+        android:inputType="number"
+        android:maxLength="4"
+        android:layout_marginStart="@dimen/dp50"
+        android:textColor="@android:color/transparent"
+        android:textIsSelectable="false"
+        android:textSize="0px"
+        android:visibility="visible"
+        app:pinBackgroundDrawable="@drawable/bg_pin_round"
+        app:pinBackgroundIsSquare="true"
+        app:pinCharacterSpacing="8dp"
+        app:pinLineColors="@drawable/pin_line_colors" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryFxd"
+        android:layout_marginTop="@dimen/dp50"
+        app:layout_constraintTop_toBottomOf="@id/txt_confirm_pin_entry"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/dp5"
+        android:text="@string/text_create_wallet"
+        android:textSize="12sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

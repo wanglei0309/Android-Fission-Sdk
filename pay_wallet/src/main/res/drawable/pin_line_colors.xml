@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description:
+  color_tab_text_selector.xml defines a color selector used for tab or text
+  elements. It changes the text color based on selection and focus states,
+  showing an accent color when selected, a primary dark color when focused,
+  and a grey color when not focused.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/colorAccent" android:state_selected="true" />
+    <item android:color="@color/colorPrimaryDark" android:state_focused="true" />
+    <item android:color="#C1C1C1" android:state_focused="false" />
+</selector>

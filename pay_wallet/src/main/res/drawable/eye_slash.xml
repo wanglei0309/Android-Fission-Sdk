@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: ic_eye_off_outline.xml defines a vector drawable representing an
+  eye-with-slash or visibility-off icon. It is commonly used to indicate hidden
+  content or toggle password visibility off in the user interface.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="22dp"
+    android:height="18dp"
+    android:viewportWidth="22"
+    android:viewportHeight="18">
+  <path
+      android:pathData="M3,1L19,17M15.5,13.756C14.147,14.484 12.618,15 11,15C7.469,15 4.366,12.548 2.587,10.779C2.117,10.312 1.882,10.078 1.733,9.62C1.626,9.293 1.626,8.707 1.733,8.38C1.882,7.921 2.118,7.687 2.588,7.22C3.485,6.328 4.718,5.264 6.172,4.427M18.5,11.634C18.833,11.34 19.138,11.052 19.412,10.78L19.415,10.777C19.883,10.311 20.118,10.078 20.267,9.621C20.374,9.294 20.374,8.707 20.267,8.38C20.118,7.922 19.883,7.688 19.413,7.221C17.634,5.452 14.531,3 11,3C10.662,3 10.329,3.022 10,3.064M12.323,10.5C11.97,10.811 11.507,11 11,11C9.895,11 9,10.105 9,9C9,8.46 9.214,7.971 9.561,7.611"
+      android:strokeLineJoin="round"
+      android:strokeWidth="2"
+      android:fillColor="#00000000"
+      android:strokeColor="#BEBEBE"
+      android:strokeLineCap="round"/>
+</vector>

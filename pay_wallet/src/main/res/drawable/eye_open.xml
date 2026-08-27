@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: ic_eye_outline.xml defines a vector drawable representing an
+  eye or visibility icon. It is commonly used to indicate view, preview, or
+  show/hide password functionality in the user interface.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="19dp"
+    android:height="16dp"
+    android:viewportWidth="18"
+    android:viewportHeight="18">
+  <path
+      android:pathData="M11.685,9C11.685,10.485 10.485,11.685 9,11.685C7.515,11.685 6.315,10.485 6.315,9C6.315,7.515 7.515,6.315 9,6.315C10.485,6.315 11.685,7.515 11.685,9Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#BEBEBE"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M9,15.203C11.647,15.203 14.115,13.642 15.832,10.943C16.507,9.885 16.507,8.108 15.832,7.05C14.115,4.35 11.647,2.79 9,2.79C6.352,2.79 3.885,4.35 2.167,7.05C1.492,8.108 1.492,9.885 2.167,10.943C3.885,13.642 6.352,15.203 9,15.203Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#BEBEBE"
+      android:strokeLineCap="round"/>
+</vector>

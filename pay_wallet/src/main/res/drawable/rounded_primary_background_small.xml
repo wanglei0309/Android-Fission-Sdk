@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: rounded_primary_background_small.xml defines a rectangular shape
+  drawable with a primary color fill and small rounded corners. It is commonly
+  used as a background for compact UI elements such as buttons or labels.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/colorPrimaryFxd"/> <!-- Background color -->
+    <corners android:radius="@dimen/dp5"/>
+</shape>

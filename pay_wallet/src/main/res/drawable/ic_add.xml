@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description:
+  ic_add.xml defines a vector drawable representing an add (plus) icon.
+  It is tinted with the primary teal color and used as the add-a-payment-card action in the
+  wearable card list header.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:fillColor="#0A8276"
+        android:fillType="evenOdd"
+        android:pathData="M12.75,0V11.25H24V12.75H12.75V24H11.25V12.75H0V11.25H11.25V0H12.75Z" />
+
+</vector>

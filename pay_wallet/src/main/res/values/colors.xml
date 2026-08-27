@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: colors.xml defines the primary color palette for the application,
+  including main, accent, and state-specific colors, as well as basic colors like
+  white, black, dark grey, and transparent for UI elements.
+-->
+<resources>
+
+    <color name="colorPrimary">#002C4D</color>
+    <color name="colorPrimaryFxd">#0A8276</color>
+    <color name="colorPrimaryDark">#004178</color>
+    <color name="colorAccent">#005da9</color>
+    <color name="bt_color_application_main_unpressed">#005da9</color>
+    <color name="bt_color_application_main_pressed">#004178</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#3a3a3a</color>
+    <color name="darkGrey">#837E7E</color>
+    <color name="grey">#bfbebe</color>
+    <color name="lightGrey">#e9e9e9</color>
+    <color name="statusChipInactive">#8D8786</color>
+    <!-- Main application button -->
+    <color name="bt_text_application_main">#ffffff</color>
+    <color name="bt_color_application_main_disabled">#8f9599</color>
+    <color name="bt_color_shadow_application_main">#6b6b6b</color>
+    <color name="bluetooth_device_select_background">#EEEDED</color>
+    <!-- Main application button -->
+    <color name="pin_normal">#6B767E</color>
+    <!-- Progress wheel colors -->
+    <color name="tealGreen">#0A8276</color>
+    <color name="light_black">#1D1D1D</color>
+    <color name="light_grey">#575352</color>
+    <!-- Inline validation errors. Placeholder value: replace with the design token once the
+         Figma error state is specified. -->
+    <color name="error_text">#B3261E</color>
+    <color name="background_grey">#50D9D9D9</color>
+    <color name="dialog_background">#F2F2F2</color>
+
+    <!-- 来自 SecoraWearableSDK 模板色，NFC 扫描页引用了 purple_500 -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+</resources>

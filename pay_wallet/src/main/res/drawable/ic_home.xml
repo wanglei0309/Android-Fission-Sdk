@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: ic_home_outline.xml defines a vector drawable representing
+  a home or dashboard icon. It is commonly used to indicate navigation
+  to the main or home screen within the user interface.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="26dp"
+    android:height="26dp"
+    android:viewportWidth="26"
+    android:viewportHeight="26">
+  <path
+      android:strokeWidth="1"
+      android:pathData="M13,0.816L25.207,12.209L24.524,12.94L13,2.184L1.476,12.94L0.793,12.209L13,0.816ZM5.067,13.267V24H10.2V17.867H15.8V24H20.933V13.267H21.933V25H14.8V18.867H11.2V25H4.067V13.267H5.067Z"
+      android:fillColor="#1D1D1D"
+      android:fillType="evenOdd"
+      android:strokeColor="#1D1D1D"
+      android:strokeLineCap="square"/>
+</vector>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: rounded_white_background.xml defines a rectangular shape drawable
+  with a solid white fill and rounded corners. It is used as a background for UI
+  components requiring a soft, card-like appearance.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/dialog_background"/>
+    <corners android:radius="@dimen/dp20"/>
+</shape>

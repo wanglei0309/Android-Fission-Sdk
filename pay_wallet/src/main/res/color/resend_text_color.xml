@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: resend_text_color.xml defines a color selector that
+  switches the text color based on the enabled state.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false" android:color="@color/bt_color_application_main_disabled" />
+    <item android:color="@color/colorPrimaryFxd" />
+</selector>

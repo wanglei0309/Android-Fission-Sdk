@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: Layout for email verification, including display of
+    the user account, six-digit OTP entry fields, verification code
+    resend option, and account confirmation action.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:importantForAutofill="noExcludeDescendants">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp15"
+        android:layout_marginTop="@dimen/dp15"
+        android:layout_marginEnd="@dimen/dp15"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            style="@style/TextStyle600"
+            android:text="@string/verify_email"
+            android:textSize="@dimen/sp36"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvConfirmationUsername"
+            style="@style/TextStyle16Black"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_height="@dimen/dp50"
+            android:paddingStart="@dimen/dp10"
+            android:paddingEnd="@dimen/dp12"
+            android:textSize="@dimen/sp18"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNotification"
+            style="@style/TextStyle600"
+            android:fontFamily="@font/sans3"
+            android:textFontWeight="600"
+            android:gravity="center"
+            android:paddingStart="@dimen/dp20"
+            android:paddingTop="@dimen/dp20"
+            android:paddingEnd="@dimen/dp20"
+            android:text="@string/verification_code_text"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvConfirmationUsername" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sans3"
+            android:textFontWeight="600"
+            android:gravity="center"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNotification" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutVerificationCode"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp30"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTimer">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etVerificationBox1"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                android:hint="X"
+                android:textColorHint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/etVerificationBox2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />  <!-- Set chain style here --><!-- Box 2 -->
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etVerificationBox2"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                android:hint="X"
+                android:textColorHint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/etVerificationBox3"
+                app:layout_constraintStart_toEndOf="@id/etVerificationBox1"
+                app:layout_constraintTop_toTopOf="parent" /><!-- Box 3 -->
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etVerificationBox3"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                android:hint="X"
+                android:textColorHint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/etVerificationBox4"
+                app:layout_constraintStart_toEndOf="@id/etVerificationBox2"
+                app:layout_constraintTop_toTopOf="parent" /><!-- Box 4 -->
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etVerificationBox4"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                android:hint="X"
+                android:textColorHint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/etVerificationBox5"
+                app:layout_constraintStart_toEndOf="@id/etVerificationBox3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etVerificationBox5"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                android:hint="X"
+                android:textColorHint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/etVerificationBox6"
+                app:layout_constraintStart_toEndOf="@id/etVerificationBox4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etVerificationBox6"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                android:hint="X"
+                android:textColorHint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/etVerificationBox5"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvResendVerificationCode"
+            style="@style/TextStyle400"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp20"
+            android:text="@string/resend_verification_code"
+            android:textColor="@color/resend_text_color"
+            android:enabled="false"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutVerificationCode" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btnConfirm"
+            style="@style/AppButton.CustomButton"
+            android:layout_marginTop="@dimen/dp20"
+            android:text="@string/verify_login_code"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvResendVerificationCode" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

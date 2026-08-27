@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description:
+  bg_primary_rounded.xml defines a rectangular background with rounded
+  corners and a solid primary color. It is used for buttons or highlighted
+  UI elements.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="15dp" />
+    <solid android:color="@color/colorPrimaryFxd" />
+</shape>

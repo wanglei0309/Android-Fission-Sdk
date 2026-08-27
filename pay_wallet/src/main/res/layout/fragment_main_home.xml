@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_header_wearables.xml defines a ConstraintLayout header
+  with a TextView showing the "Wearables" title at the top.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp16">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            style="@style/TextStyle600"
+            android:text="@string/wearables"
+            android:textSize="@dimen/sp28"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_settings"
+            android:layout_width="@dimen/dp33"
+            android:layout_height="@dimen/dp25"
+            android:contentDescription="@string/text_settings"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_notification"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_settings_new" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="@dimen/dp25"
+            android:layout_height="@dimen/dp25"
+            android:background="@drawable/bg_oval_grey"
+            android:contentDescription="@string/profile"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_user_avatar" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_notification"
+            android:layout_width="@dimen/dp33"
+            android:layout_height="@dimen/dp25"
+            android:contentDescription="@string/notification"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_profile"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_notification" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp1"
+        android:layout_marginTop="@dimen/dp20"
+        android:background="@color/bluetooth_device_select_background"
+        app:layout_constraintTop_toBottomOf="@id/cl_header" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_ocean_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp250"
+        android:layout_marginTop="@dimen/dp20"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_header"
+        app:srcCompat="@drawable/wearable" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_feel_good_with_wearables"
+        style="@style/TextStyle600"
+        android:layout_margin="@dimen/dp20"
+        android:text="@string/feel_good_with_wearables"
+        android:textSize="@dimen/sp28"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_ocean_image" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_wearable_helps"
+        style="@style/TextStyle400"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/dp20"
+        android:text="@string/msg_home"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_feel_good_with_wearables" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_read_more"
+        style="@style/TextStyle600"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp40"
+        android:background="@drawable/bg_rectangle_primary_stroke"
+        android:padding="@dimen/dp15"
+        android:text="@string/read_more"
+        android:textAllCaps="false"
+        android:textColor="@color/tealGreen"
+        android:textSize="@dimen/sp16"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_wearable_helps" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

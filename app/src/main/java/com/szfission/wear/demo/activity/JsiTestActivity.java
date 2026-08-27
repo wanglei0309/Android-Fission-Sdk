@@ -143,8 +143,8 @@ public class JsiTestActivity extends BaseActivity {
             }
 
             @Override
-            public void getAppStates() {
-                super.getAppStates();
+            public void getAppStates(String appType) {
+                super.getAppStates(appType);
                 FissionSdkBleManage.getInstance().notifyAppStates(1, 0);
             }
         });

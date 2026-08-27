@@ -281,4 +281,13 @@ c
 
     <string name="FUNC_HANBAO_SHOCK_RECORD">鼾宝模式震动记录</string>
 
+    <!-- 支付模块（pay_wallet） -->
+    <string name="FUNC_PAY_PROVISION">支付开卡/发卡</string>
+    <string name="pay_connect_first">请先在主页点击「连接」，扫描并连接手表</string>
+    <string name="pay_ble_not_connected">Fission 主 BLE 未连接，请先在主页连接手表</string>
+    <string name="pay_mac_not_found">未获取到手表 MAC，请先在主页连接设备</string>
+    <string name="pay_requires_android_13">支付能力需要 Android 13 及以上系统</string>
+    <string name="pay_secora_channel_preparing">正在建立 SECORA 通道…</string>
+    <string name="pay_secora_channel_failed">SECORA 通道建立失败: %1$s</string>
+
 </resources>

@@ -371,7 +371,7 @@ public class BaiduMapManageActivity extends BaseActivity {
                     routeLine.distance = bikeRouteResult.getDistance();
                     routeLine.duration = bikeRouteResult.getDuration();
                     List<BdWatchMapRemainRoute.Point> points = new ArrayList<>();
-                    ArrayList<LatLng> latLngs = bikeRouteResult.getPositions();
+                    List<LatLng> latLngs = bikeRouteResult.getPositions();
                     if(latLngs!=null && latLngs.size()>0){
                         for(LatLng latLng: latLngs){
                             BdWatchMapRemainRoute.Point point = remainRoute. new Point();
@@ -2849,7 +2849,7 @@ public class BaiduMapManageActivity extends BaseActivity {
                     routeLine.distance = walkRouteResult.getDistance();
                     routeLine.duration = walkRouteResult.getDuration();
                     List<BdWatchMapRemainRoute.Point> points = new ArrayList<>();
-                    ArrayList<LatLng> latLngs = walkRouteResult.getPositions();
+                    List<LatLng> latLngs = walkRouteResult.getPositions();
                     if(latLngs!=null && latLngs.size()>0){
                         for(LatLng latLng: latLngs){
                             BdWatchMapRemainRoute.Point point = remainRoute. new Point();
@@ -2938,7 +2938,7 @@ public class BaiduMapManageActivity extends BaseActivity {
                     routeLine.distance = bikeRouteResult.getDistance();
                     routeLine.duration = bikeRouteResult.getDuration();
                     List<BdWatchMapRemainRoute.Point> points = new ArrayList<>();
-                    ArrayList<LatLng> latLngs = bikeRouteResult.getPositions();
+                    List<LatLng> latLngs = bikeRouteResult.getPositions();
                     if(latLngs!=null && latLngs.size()>0){
                         for(LatLng latLng: latLngs){
                             BdWatchMapRemainRoute.Point point = remainRoute. new Point();

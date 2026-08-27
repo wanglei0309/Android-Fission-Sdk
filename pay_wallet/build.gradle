@@ -1,0 +1,139 @@
+// 英飞凌 SECORA Wallet demo 的界面与业务逻辑，原样移植为库模块。
+//
+// 保持原包名 com.infineon.secora.wallet，源码、资源、导航图都不改，
+// 这样它内部的 R、databinding、viewBinding 引用全部照旧可用。
+// 设备侧走本工程的 :secora_wearable（与交付 aar 同一份代码），
+// 发卡后端仍走英飞凌只提供二进制的 wallet aar。
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    namespace 'com.infineon.secora.wallet'
+    // 钱包 demo 依赖的 AndroidX 版本要求 compileSdk 36
+    compileSdk 36
+
+    defaultConfig {
+        // 钱包侧用到的 BLE / 生物识别 API 与英飞凌原工程一致，最低 33
+        minSdk 33
+        targetSdk 36
+
+        // 与英飞凌原工程的 buildConfigField 一一对应，取值按调试场景选：
+        // 打开日志、关闭防截屏，便于联调时取证。
+        buildConfigField 'boolean', 'ENABLE_BIOMETRIC', 'true'
+        buildConfigField 'boolean', 'ENABLE_APP_LOGS', 'true'
+        buildConfigField 'boolean', 'ENABLE_AUTO_PROMOTE_REMAINING_DEFAULT_CARD', 'true'
+        buildConfigField 'boolean', 'PREVENT_SCREEN_CAPTURE', 'false'
+        buildConfigField 'boolean', 'ADD_DUMMY_CARD', 'false'
+        buildConfigField 'boolean', 'ENABLE_FUNDING_ACCOUNT_INFO', 'true'
+        buildConfigField 'boolean', 'ENABLE_NFC', 'true'
+    }
+
+    buildFeatures {
+        buildConfig true
+        viewBinding true
+        dataBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+        // 移植代码用了 when guards（英飞凌工程是 Kotlin 2.2，本工程是 2.1，该特性仍需显式开启）
+        freeCompilerArgs += ['-Xwhen-guards']
+    }
+
+    packagingOptions {
+        // BouncyCastle 是多版本 jar，多个 jar 里都带这个文件
+        resources {
+            excludes += 'META-INF/versions/9/OSGI-INF/MANIFEST.MF'
+        }
+    }
+
+    lint {
+        // 移植代码按 minSdk 33 写的，宿主 app 的 minSdk 是 23，NewApi 由运行期门禁保证
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
+repositories {
+    // 钱包 aar 走 flatDir 而不是 files()：库模块里 files() 形式的 aar 不会传递给宿主 app
+    // Doc 工程无 :secora_wearable 源码模块，fissionsdk 从 app/libs 以 compileOnly 引用
+    flatDir { dirs 'libs', '../app/libs' }
+}
+
+// 登录相关依赖（credentials / MSAL / Amplify）会把 AndroidX 拉到要求 AGP 8.9 的版本，
+// 本工程是 AGP 8.5.2，统一压回可用档位。宿主 app 侧也有同样的一份。
+configurations.all {
+    resolutionStrategy {
+        force 'androidx.core:core:1.13.1'
+        force 'androidx.core:core-ktx:1.13.1'
+        force 'androidx.activity:activity:1.9.3'
+        force 'androidx.activity:activity-ktx:1.9.3'
+        force 'androidx.browser:browser:1.8.0'
+        force 'androidx.compose.ui:ui-graphics-android:1.6.8'
+        force 'androidx.lifecycle:lifecycle-runtime:2.8.7'
+        force 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.7'
+        force 'androidx.lifecycle:lifecycle-viewmodel:2.8.7'
+        force 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7'
+    }
+}
+
+dependencies {
+    // 发卡后端中间件，英飞凌只提供 aar（含卡号录入界面等资源，必须完整打包）
+    api(name: 'secora-wallet-sdk1.7.1', ext: 'aar')
+    // Doc 交付工程：设备侧 SDK 由宿主 app 提供 aar，此处仅 compileOnly 供编译
+    compileOnly(name: 'fissionsdk_v2-release-v2.1.46', ext: 'aar')
+
+    // 版本比英飞凌原工程略低：他们用 AGP 8.13，本工程是 8.5.2，
+    // 更高版本的 AndroidX 构件带有 minAgpVersion 元数据，会直接拒绝构建。
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.activity:activity:1.9.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.compose.ui:ui-graphics-android:1.6.8'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.8.9'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.8.9'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0'
+    implementation 'androidx.biometric:biometric:1.1.0'
+    implementation 'androidx.security:security-crypto:1.0.0'
+    implementation 'androidx.webkit:webkit:1.11.0'
+
+    implementation 'androidx.room:room-runtime:2.6.1'
+    implementation 'androidx.room:room-ktx:2.6.1'
+    kapt 'androidx.room:room-compiler:2.6.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:3.0.0'
+    implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
+    implementation 'com.google.code.gson:gson:2.13.2'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.20.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.20'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0'
+    implementation 'commons-codec:commons-codec:1.20.0'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.83'
+    implementation 'org.bouncycastle:bcpkix-jdk18on:1.83'
+    implementation 'com.nulab-inc:zxcvbn:1.9.0'
+
+    implementation 'com.github.bumptech.glide:glide:5.0.5'
+    implementation 'jp.wasabeef:blurry:4.0.1'
+    implementation 'com.github.Commit451:NativeStackBlur:1.0.7'
+    implementation 'com.github.benjaminwan.SwipeMenuLayout:SwipeMenuLayout-Core:1.1.1'
+
+    // 账号登录：Google 凭据管理 + Cognito Hosted UI + Microsoft MSAL，与英飞凌 demo 一致
+    implementation 'com.google.firebase:firebase-messaging-ktx:24.1.2'
+    implementation 'androidx.credentials:credentials:1.3.0'
+    implementation 'androidx.credentials:credentials-play-services-auth:1.3.0'
+    implementation 'com.google.android.gms:play-services-auth:21.4.0'
+    implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.1'
+    implementation 'com.amplifyframework:core:2.31.0'
+    implementation 'com.amplifyframework:aws-auth-cognito:2.31.0'
+    implementation 'com.microsoft.identity.client:msal:8.3.3'
+}

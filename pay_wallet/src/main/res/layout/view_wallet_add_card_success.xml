@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_add_card_success.xml defines a ConstraintLayout that optionally
+  shows a selected device and displays a success image when a card is successfully added.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp70">
+
+    <include
+        android:id="@+id/selected_device"
+        layout="@layout/view_devices_scanned_device"
+        android:visibility="gone" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_adding_card"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp0"
+        app:layout_constraintBottom_toTopOf="@+id/btn_done"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selected_device">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_add_card_success_logo"
+            android:layout_width="@dimen/dp120"
+            android:layout_height="@dimen/dp120"
+            android:background="@drawable/ic_card_success"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_success_adding"
+            style="@style/TextStyle400"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/dp20"
+            android:text="@string/tv_success_adding"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_add_card_success_logo" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_card"
+            style="@style/TextStyle400"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_success_adding" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_done"
+        style="@style/AppButton.CustomButton"
+        android:layout_margin="@dimen/dp20"
+        android:text="@string/btn_done"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

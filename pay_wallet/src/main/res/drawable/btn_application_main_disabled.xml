@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: application_main_button_disabled_background.xml defines a layered
+  drawable used for the disabled state of the main application button. It combines
+  a shadow layer and a foreground layer with rounded corners to create a subtle
+  depth effect.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="3dip" />
+            <solid android:color="@color/bt_color_shadow_application_main" />
+        </shape>
+    </item>
+    <item
+        android:bottom="0.65dp"
+        android:start="0.65dp"
+        android:right="0.0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="3dip" />
+            <solid android:color="@color/bt_color_application_main_disabled" />
+        </shape>
+    </item>
+
+</layer-list>

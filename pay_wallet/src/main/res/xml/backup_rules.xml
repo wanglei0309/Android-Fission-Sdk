@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: full-backup-content.xml defines the structure for full application data backup.
+  It specifies which files and directories should be included when performing a full backup of
+  the SECORA™ Wallet application data.
+-->
+<full-backup-content />

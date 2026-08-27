@@ -105,9 +105,9 @@ public class SetWeatherDetailActivity extends BaseActivity {
                     }else{
                         city = "shenzhen";
                     }
-                    FissionSdkBleManage.getInstance().setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition(), city);
+                    FissionSdkBleManage.getInstance().setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition(), city, 996);
                 }else{
-                    FissionSdkBleManage.getInstance().setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition(), "");
+                    FissionSdkBleManage.getInstance().setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition(), "", 996);
                 }
 
 //                AnyWear.setSingleWeather(curTmp, highTmp, lowTmp, spinnerTime.getSelectedItemPosition(), "", new OnSmallDataCallback() {

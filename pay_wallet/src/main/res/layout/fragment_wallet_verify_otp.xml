@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_bank_identification.xml defines a layout for displaying
+  bank identification information. It uses a nested ConstraintLayout with a
+  centered AppCompatTextView to show the heading "Bank Identification" at the
+  top of the screen with consistent text styling.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp70">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/dp0"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_identity"
+            style="@style/TextStyle600"
+            android:text="@string/bank_identification"
+            android:textSize="@dimen/sp36"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bank_notification"
+            style="@style/TextStyle600"
+            android:fontFamily="@font/sans3"
+            android:textFontWeight="600"
+            android:gravity="center"
+            android:paddingStart="@dimen/dp20"
+            android:paddingTop="@dimen/dp20"
+            android:paddingEnd="@dimen/dp20"
+            android:text="@string/bank_alert_msg"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_identity" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sans3"
+            android:textFontWeight="600"
+            android:gravity="center"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bank_notification" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_try_other_method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp30"
+            android:text="@string/try_another_method"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryFxd"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_timer" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_constraintLayout"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp30"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_try_other_method">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_box1"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/et_box2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />  <!-- Set chain style here --><!-- Box 2 -->
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_box2"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/et_box3"
+                app:layout_constraintStart_toEndOf="@id/et_box1"
+                app:layout_constraintTop_toTopOf="parent" /><!-- Box 3 -->
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_box3"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/et_box4"
+                app:layout_constraintStart_toEndOf="@id/et_box2"
+                app:layout_constraintTop_toTopOf="parent" /><!-- Box 4 -->
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_box4"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/et_box5"
+                app:layout_constraintStart_toEndOf="@id/et_box3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_box5"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/et_box6"
+                app:layout_constraintStart_toEndOf="@id/et_box4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_box6"
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp50"
+                android:background="@drawable/otp_box"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/et_box5"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_request_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp40"
+            android:text="@string/request_verification_code_again"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryFxd"
+            android:textSize="@dimen/sp16"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_constraintLayout" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_verify_code"
+            style="@style/AppButton.CustomButton"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/dp20"
+            android:layout_marginTop="@dimen/dp30"
+            android:layout_marginEnd="@dimen/dp20"
+            android:text="@string/verify_code"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_request_code" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: ic_camera_outline.xml defines a vector drawable representing a
+  camera or capture icon. It is commonly used to indicate photo capture,
+  image upload, or camera-related actions within the user interface.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="25dp"
+    android:viewportWidth="24"
+    android:viewportHeight="25">
+  <path
+      android:pathData="M9.441,2.5H17.059L18.559,5.5H21.25C22.013,5.5 22.538,5.829 22.856,6.27C23.155,6.686 23.25,7.17 23.25,7.5V20.581L23.224,20.658C22.733,22.134 21.379,22.5 20.75,22.5H2.75C1.987,22.5 1.462,22.171 1.144,21.73C0.845,21.314 0.75,20.83 0.75,20.5V7.5C0.75,6.737 1.079,6.212 1.52,5.894C1.936,5.595 2.42,5.5 2.75,5.5H7.941L9.441,2.5ZM10.059,3.5L8.559,6.5H2.75C2.58,6.5 2.314,6.555 2.105,6.706C1.921,6.838 1.75,7.063 1.75,7.5V20.5C1.75,20.67 1.805,20.936 1.956,21.145C2.088,21.329 2.313,21.5 2.75,21.5H20.75C21.111,21.5 21.923,21.279 22.25,20.414V7.5C22.25,7.33 22.195,7.064 22.044,6.855C21.912,6.671 21.687,6.5 21.25,6.5H17.941L16.441,3.5H10.059ZM5.75,9.5H3.25V8.5H5.75V9.5Z"
+      android:fillColor="#138376"
+      android:fillType="evenOdd"/>
+  <path
+      android:pathData="M13.25,9C10.489,9 8.25,11.239 8.25,14C8.25,16.761 10.489,19 13.25,19C16.011,19 18.25,16.761 18.25,14C18.25,11.239 16.011,9 13.25,9ZM7.25,14C7.25,10.686 9.936,8 13.25,8C16.564,8 19.25,10.686 19.25,14C19.25,17.314 16.564,20 13.25,20C9.936,20 7.25,17.314 7.25,14Z"
+      android:fillColor="#138376"
+      android:fillType="evenOdd"/>
+</vector>

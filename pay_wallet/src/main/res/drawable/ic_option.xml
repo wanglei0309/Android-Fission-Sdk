@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+  SPDX-License-Identifier: MIT
+
+  Description: ic_more_options.xml defines a vector drawable representing a
+  horizontal three-dot (more options) icon. It is commonly used to indicate
+  additional actions, overflow menus, or contextual options within the UI.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="24dp" android:viewportHeight="512" android:viewportWidth="512" android:width="24dp">
+
+    <path android:fillColor="#000000" android:pathData="M281.75,220.56C290.77,227.6 296.86,236.7 299,248C300.33,261.79 298,273.34 289.32,284.46C280.88,293.69 270.6,298.89 258.07,299.47C245.08,299.67 234.63,295.8 225,287C216.2,277.37 212.33,266.92 212.53,253.93C213.11,241.4 218.31,231.12 227.54,222.68C243.75,210.02 264.63,209.12 281.75,220.56Z"/>
+
+    <path android:fillColor="#000000" android:pathData="M451.62,220.29C461.28,227.24 467.69,236.95 469.75,248.8C471.3,262.6 467.84,274.22 459.32,285.15C452.11,293.2 441.4,298.47 430.65,299.24C417.06,299.51 405.96,296.39 395.84,287C385.69,276.39 383.42,264.97 383.66,250.86C384.19,239.34 390.55,230.1 398.63,222.31C413.74,209.56 435.53,209.97 451.62,220.29Z"/>
+
+    <path android:fillColor="#000000" android:pathData="M111.91,221.25C120.11,228.11 125.69,236.47 128,247C128.88,261.54 127.55,273.35 118,285C110.65,293.08 100.71,298.53 89.68,299.2C75.42,299.38 64.48,296.19 53.75,286.38C45.36,277.49 41.44,265.74 41.75,253.67C42.87,241.53 47.68,231.31 56.52,222.89C73.01,210.32 94.83,208.88 111.91,221.25Z"/>
+
+</vector>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_custom_progress.xml defines a full-screen ConstraintLayout
+  showing a centered ProgressBar with an optional Bluetooth status message.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_progressBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E6FFFFFF"
+    android:clickable="true"
+    android:focusable="true"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:id="@+id/loader_content_container"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp16"
+        android:layout_marginEnd="@dimen/dp16"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bt"
+            style="@style/TextStyle400"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/make_sure_bluetooth_is_enabled"
+            android:textSize="@dimen/sp18"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="@dimen/dp100"
+            android:layout_height="@dimen/dp100"
+            android:layout_marginTop="@dimen/dp70"
+            android:contentDescription="@null"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/anim_rotate"
+            android:indeterminateTint="@color/colorPrimaryFxd" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_process"
+            style="@style/TextStyle400"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp40"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/dp10"
+            android:text="@string/scanning"
+            android:textSize="@dimen/sp18" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

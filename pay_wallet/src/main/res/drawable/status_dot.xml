@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Status pill dot. Used as a compound drawableStart on the status pills; CardListFragment tints it
+  teal (active) or grey (inactive). Sized so it renders as an 8dp dot inside the pill.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#FFFFFF" />
+    <size
+        android:width="8dp"
+        android:height="8dp" />
+</shape>

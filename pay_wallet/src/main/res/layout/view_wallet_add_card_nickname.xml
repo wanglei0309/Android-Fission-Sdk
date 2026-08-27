@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_add_card_message.xml defines a ConstraintLayout that optionally
+  shows a selected device and displays a message prompting the user to add a card.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp70">
+
+    <include
+        android:id="@+id/selected_device"
+        layout="@layout/view_devices_scanned_device"
+        android:visibility="gone" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selected_device">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_card_name_msg"
+            style="@style/TextStyle400"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp20"
+            android:layout_marginEnd="@dimen/dp20"
+            android:text="@string/text_add_card_msg"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_card_holder_name"
+            style="@style/TextStyle400"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp50"
+            android:layout_marginStart="@dimen/dp20"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginEnd="@dimen/dp20"
+            android:autofillHints=""
+            android:background="@drawable/ui_custom_btn"
+            android:hint="@string/text_add_card_hint"
+            android:importantForAutofill="no"
+            android:inputType="text|textNoSuggestions"
+            android:longClickable="false"
+            android:paddingStart="@dimen/dp12"
+            android:paddingTop="@dimen/dp8"
+            android:paddingEnd="@dimen/dp12"
+            android:paddingBottom="@dimen/dp8"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_card_name_msg" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/add_card_btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginEnd="@dimen/dp20"
+            android:backgroundTint="#0A8276"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/btn_add_name"
+            app:layout_constraintTop_toBottomOf="@+id/et_card_holder_name" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_add_name"
+            style="@style/AppButton.CustomButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginEnd="@dimen/dp20"
+            android:backgroundTint="#0A8276"
+            android:text="@string/btn_add_card_name"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp16"
+            android:padding="@dimen/dp7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_card_holder_name" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

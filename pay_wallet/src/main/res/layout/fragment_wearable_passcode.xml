@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: fragment_wearable_passcode.xml is the single layout behind every step of the
+  wearable payment passcode flows: setup, confirm, verify and change. All of those screens share
+  the same structure - heading, explanation, four digit boxes and one primary action - so the
+  heading, message and button label are set per step by WearablePasscodeFragment rather than
+  duplicated across layouts.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_grey">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        style="@style/TextStyle600"
+        android:layout_marginTop="@dimen/dp120"
+        android:gravity="center"
+        android:text="@string/wearable_passcode_setup_title"
+        android:textSize="@dimen/sp36"
+        android:layout_marginStart="@dimen/dp25"
+        android:layout_marginEnd="@dimen/dp25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_message"
+        style="@style/TextStyle400"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp25"
+        android:layout_marginEnd="@dimen/dp25"
+        android:gravity="center"
+        android:text="@string/wearable_passcode_setup_message"
+        android:textSize="@dimen/sp18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_passcode_boxes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_message">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_box1"
+            android:layout_width="@dimen/dp40"
+            android:layout_height="@dimen/dp50"
+            android:autofillHints=""
+            android:background="@drawable/otp_box"
+            android:gravity="center"
+            android:importantForAutofill="no"
+            android:inputType="numberPassword"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/et_box2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_box2"
+            android:layout_width="@dimen/dp40"
+            android:layout_height="@dimen/dp50"
+            android:autofillHints=""
+            android:layout_marginStart="@dimen/dp15"
+            android:background="@drawable/otp_box"
+            android:gravity="center"
+            android:importantForAutofill="no"
+            android:inputType="numberPassword"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/et_box3"
+            app:layout_constraintStart_toEndOf="@id/et_box1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_box3"
+            android:layout_width="@dimen/dp40"
+            android:layout_height="@dimen/dp50"
+            android:autofillHints=""
+            android:background="@drawable/otp_box"
+            android:gravity="center"
+            android:importantForAutofill="no"
+            android:layout_marginStart="@dimen/dp15"
+            android:inputType="numberPassword"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/et_box4"
+            app:layout_constraintStart_toEndOf="@id/et_box2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_box4"
+            android:layout_width="@dimen/dp40"
+            android:layout_height="@dimen/dp50"
+            android:autofillHints=""
+            android:background="@drawable/otp_box"
+            android:gravity="center"
+            android:importantForAutofill="no"
+            android:inputType="numberPassword"
+            android:maxLength="1"
+            android:layout_marginStart="@dimen/dp15"
+            android:textAlignment="center"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/et_box3"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--
+      Inline error, used for a wrong passcode with its remaining attempt count and for a mismatch
+      on the confirm step. Kept in the layout so the message appears without shifting the boxes.
+    -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_error"
+        style="@style/TextStyle400"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        android:gravity="center"
+        android:textColor="@color/error_text"
+        android:textSize="@dimen/sp14"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_passcode_boxes"
+        tools:text="Incorrect passcode. 4 attempts remaining." />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_passcode"
+        style="@style/AppButton.CustomButton"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp40"
+        android:layout_marginEnd="@dimen/dp20"
+        android:text="@string/wearable_passcode_continue"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_error" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,14 @@
+{
+    "apdu_list": [
+        {
+            "apdu": "00 A4 04 00 08 A0 00 00 00 03 00 00 00 00",
+            "apdu_seq_num": 1,
+            "command_description": "Select ISD"
+        },
+        {
+            "apdu": "80 CA 00 C1 00",
+            "apdu_seq_num": 2,
+            "command_description": "Select Application"
+        }
+    ]
+}

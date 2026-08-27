@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_welcome_screen.xml defines the layout for the WelcomeActivity.
+  It contains a ViewPager to display introductory or onboarding screens. The ViewPager
+  is centered vertically with a top margin to maintain spacing from the parent layout.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.WelcomeActivity">
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp80"
+        android:layout_marginEnd="@dimen/dp15"
+        android:background="@drawable/skip_drawable"
+        android:minWidth="60dp"
+        android:minHeight="40dp"
+        android:text="@string/skip"
+        android:textAllCaps="false"
+        android:textColor="@color/bt_text_application_main"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/welcome_screen1_text1"
+        android:textColor="@color/colorPrimaryFxd"
+        android:textSize="@dimen/sp28"
+        app:layout_constraintTop_toBottomOf="@id/guideline" />
+
+    <LinearLayout
+        android:id="@+id/dot_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp50"
+        android:layout_marginTop="@dimen/dp40"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/tv_intro" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/next"
+        android:layout_width="@dimen/dp150"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp40"
+        android:background="@drawable/button_curved"
+        android:text="@string/get_started"
+        android:textAllCaps="false"
+        android:textColor="@color/bt_text_application_main"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dot_layout" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.60" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

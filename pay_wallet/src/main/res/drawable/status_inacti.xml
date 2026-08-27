@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Inactive status pill (Bluetooth off / Off body / Payment locked): white fill, grey outline.
+  Shape drawable so the pill stretches cleanly to any label width. Adjust to match the final design.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#FFFFFF" />
+    <corners android:radius="16.5dp" />
+    <stroke
+        android:width="1.8dp"
+        android:color="#50BFBBBB" />
+</shape>

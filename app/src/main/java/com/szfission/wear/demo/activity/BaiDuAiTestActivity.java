@@ -21,7 +21,6 @@ import com.fission.wear.sdk.v2.bean.JsAiJsonResult;
 import com.fission.wear.sdk.v2.bean.JsAiVoiceJsonResult;
 import com.fission.wear.sdk.v2.utils.AFlashChatGptUtils;
 import com.fission.wear.sdk.v2.utils.BaiDuAiUtils;
-import com.fission.wear.sdk.v2.utils.ChatGptUtils;
 import com.fission.wear.sdk.v2.utils.ColorUtils;
 import com.fission.wear.sdk.v2.utils.FissionDialUtil;
 import com.fission.wear.sdk.v2.utils.FissionLogUtils;
@@ -101,35 +100,6 @@ public class BaiDuAiTestActivity extends BaseActivity {
             }
         });
 
-        ChatGptUtils.getInstance().setGptAiVoiceListener(new ChatGptUtils.GptAiVoiceListener() {
-            @Override
-            public void onChat(String question, String answer) {
-                JsAiJsonResult resultQ = new JsAiJsonResult(JsAiJsonResult.TYPE_QUESTION, question);
-
-                JsAiJsonResult resultA = new JsAiJsonResult(JsAiJsonResult.TYPE_ANSWER, answer);
-
-                FissionSdkBleManage.getInstance().sendQuestionData(GsonUtils.toJson(resultQ));
-
-                FissionSdkBleManage.getInstance().sendAnswerData(GsonUtils.toJson(resultA));
-            }
-
-            @Override
-            public void onCreateDial(List<String> imgPaths) {
-
-                FissionLogUtils.d("wl", "Ai表盘生成图片路径:"+imgPaths);
-            }
-
-            @Override
-            public void onError(int code, String msg) {
-
-            }
-
-            @Override
-            public void onSpeechResult(String result) {
-
-            }
-        });
-
         AFlashChatGptUtils.getInstance().setGptAiVoiceListener(new AFlashChatGptUtils.GptAiVoiceListener() {
             @Override
             public void onChat(String question, String answer) {
@@ -189,7 +159,7 @@ public class BaiDuAiTestActivity extends BaseActivity {
             }
 
             @Override
-            public void onError(int code, String msg) {
+            public void onError(String appType, int code, String msg) {
 
             }
         });

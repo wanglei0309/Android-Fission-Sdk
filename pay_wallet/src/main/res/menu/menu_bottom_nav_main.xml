@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: menu_bottom_navigation.xml defines a bottom navigation menu
+  with three items: Home, Health, and Wallet, each with an icon and title.
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/menu_home" />
+    <item
+        android:id="@+id/menu_health"
+        android:icon="@drawable/ic_health"
+        android:title="@string/menu_health" />
+    <item
+        android:id="@+id/menu_pay"
+        android:icon="@drawable/ic_coins"
+        android:title="@string/wallet" />
+</menu>

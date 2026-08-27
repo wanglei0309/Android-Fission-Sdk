@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-FileCopyrightText: 2025 Infineon Technologies AG
+
+  SPDX-License-Identifier: MIT
+
+  Description: layout_profile.xml defines a ConstraintLayout with a centered
+  AppCompatImageView to display the user profile icon with a circular background.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clProfile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp70">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/profile_icon"
+        android:layout_width="@dimen/dp120"
+        android:layout_height="@dimen/dp120"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp40"
+        android:layout_marginEnd="@dimen/dp20"
+        android:layout_marginBottom="@dimen/dp10"
+        android:background="@drawable/bg_oval_grey"
+        android:contentDescription="@string/profile"
+        android:outlineProvider="background"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_user_avatar" />
+
+    <TextView
+        android:id="@+id/tv_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp10"
+        android:text="@string/text_edit"
+        android:textAppearance="@style/TextStyle18GreenRegular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_icon" />
+
+    <TextView
+        android:id="@+id/text_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp40"
+        android:layout_marginTop="@dimen/dp50"
+        android:layout_marginEnd="@dimen/dp40"
+        android:paddingStart="@dimen/dp10"
+        android:paddingEnd="@dimen/dp0"
+        android:text="@string/user_name"
+        android:textAppearance="@style/TextStyle16BlackRegular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileIcon"
+        app:layout_constraintTop_toBottomOf="@+id/tv_edit" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp40"
+        android:layout_marginEnd="@dimen/dp40"
+        android:autofillHints=""
+        android:cursorVisible="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:hint="@string/user_name"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName"
+        android:maxLength="50"
+        android:maxLines="1"
+        android:paddingStart="@dimen/dp10"
+        android:paddingEnd="0dp"
+        android:singleLine="true"
+        android:textAppearance="@style/TextStyle14LightGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileIcon"
+        app:layout_constraintTop_toBottomOf="@+id/text_username" />
+
+    <ImageView
+        android:id="@+id/ivEditUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp40"
+        android:contentDescription="@null"
+        android:textAppearance="@style/TextStyle14GreenBold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_username"
+        app:srcCompat="@drawable/ic_edit_disabled" />
+
+    <TextView
+        android:id="@+id/tvEditUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp40"
+        android:text="@string/save"
+        android:textAppearance="@style/TextStyle14GreenBold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_username" />
+
+    <ImageView
+        android:id="@+id/ivUserIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_username"
+        app:srcCompat="@drawable/baseline_person_outline_24" />
+
+    <TextView
+        android:id="@+id/text_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp40"
+        android:layout_marginTop="@dimen/dp40"
+        android:layout_marginEnd="@dimen/dp40"
+        android:paddingStart="@dimen/dp10"
+        android:paddingEnd="0dp"
+        android:text="@string/profile_email"
+        android:textAppearance="@style/TextStyle16BlackRegular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileIcon"
+        app:layout_constraintTop_toBottomOf="@+id/ivUserIcon" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp40"
+        android:layout_marginEnd="@dimen/dp40"
+        android:paddingStart="@dimen/dp10"
+        android:paddingEnd="0dp"
+        android:textAppearance="@style/TextStyle14LightGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileIcon"
+        app:layout_constraintTop_toBottomOf="@+id/text_email" />
+
+    <ImageView
+        android:id="@+id/ivProfileIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_email"
+        app:srcCompat="@drawable/ic_mail_grey" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp50"
+        android:layout_margin="@dimen/dp20"
+        android:background="@drawable/rounded_primary_background_small"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="@dimen/dp12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Icon -->
+        <ImageView
+            android:id="@+id/img_logout"
+            android:layout_width="@dimen/dp20"
+            android:layout_height="@dimen/dp20"
+            android:src="@drawable/ic_logout"
+            android:contentDescription="@string/btn_logout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/txt_logout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
+
+        <!-- Text -->
+        <TextView
+            android:id="@+id/txt_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_logout"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp18"
+            android:fontFamily="@font/sans3"
+            android:textFontWeight="700"
+            android:layout_marginStart="@dimen/dp7"
+            app:layout_constraintStart_toEndOf="@id/img_logout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

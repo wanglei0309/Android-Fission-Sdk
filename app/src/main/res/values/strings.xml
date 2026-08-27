@@ -324,4 +324,13 @@
 
     <string name="FUNC_HANBAO_SHOCK_RECORD">HanBao Model Shock Record</string>
 
+    <!-- Payment module (pay_wallet) -->
+    <string name="FUNC_PAY_PROVISION">Payment card provisioning</string>
+    <string name="pay_connect_first">Connect the watch on the home screen first (tap Connect, then scan and pair)</string>
+    <string name="pay_ble_not_connected">Fission main BLE is not connected. Connect the watch on the home screen first</string>
+    <string name="pay_mac_not_found">Watch MAC not found. Connect the device on the home screen first</string>
+    <string name="pay_requires_android_13">Payment requires Android 13 or later</string>
+    <string name="pay_secora_channel_preparing">Establishing SECORA channel…</string>
+    <string name="pay_secora_channel_failed">Failed to establish SECORA channel: %1$s</string>
+
 </resources>
